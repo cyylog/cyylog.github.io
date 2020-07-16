@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Cyylog">
+<meta property="og:url" content="https://github.com/cyylog/page/40/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyylog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-找出Java中CPU使用率最高的线程，并打印这些线程的堆栈。" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/28/%E6%89%BE%E5%87%BAJava%E4%B8%ADCPU%E4%BD%BF%E7%94%A8%E7%8E%87%E6%9C%80%E9%AB%98%E7%9A%84%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%B9%B6%E6%89%93%E5%8D%B0%E8%BF%99%E4%BA%9B%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%A0%86%E6%A0%88%E3%80%82/" class="article-date">
+  <time datetime="2018-09-28T15:54:25.000Z" itemprop="datePublished">2018-09-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/28/%E6%89%BE%E5%87%BAJava%E4%B8%ADCPU%E4%BD%BF%E7%94%A8%E7%8E%87%E6%9C%80%E9%AB%98%E7%9A%84%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%B9%B6%E6%89%93%E5%8D%B0%E8%BF%99%E4%BA%9B%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%A0%86%E6%A0%88%E3%80%82/">找出Java中CPU使用率最高的线程，并打印这些线程的堆栈。</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @Function</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Find out the highest cpu consumed threads of java, and <span class="built_in">print</span> the stack of these threads.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @Usage</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   $ ./show-busy-java-threads.sh</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @author Jerry Lee</span></span><br><span class="line"></span><br><span class="line">readonly PROG=`basename $0`</span><br><span class="line">readonly -a COMMAND_LINE=("$0" "$@")</span><br><span class="line"></span><br><span class="line">usage() &#123;</span><br><span class="line">    cat &lt;&lt;EOF</span><br><span class="line">Usage: $&#123;PROG&#125; [OPTION]...</span><br><span class="line">Find out the highest cpu consumed threads of java, and print the stack of these threads.</span><br><span class="line">Example: $&#123;PROG&#125; -c 10</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">    -p, --pid       find out the highest cpu consumed threads from the specifed java process,</span><br><span class="line">                    default from all java process.</span><br><span class="line">    -c, --count     set the thread count to show, default is 5</span><br><span class="line">    -h, --help      display this help and exit</span><br><span class="line">EOF</span><br><span class="line">    exit $1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly ARGS=`getopt -n "$PROG" -a -o c:p:h -l count:,pid:,help -- "$@"`</span><br><span class="line">[ $? -ne 0 ] &amp;&amp; usage 1</span><br><span class="line">eval set -- "$&#123;ARGS&#125;"</span><br><span class="line"></span><br><span class="line">while true; do</span><br><span class="line">    case "$1" in</span><br><span class="line">    -c|--count)</span><br><span class="line">        count="$2"</span><br><span class="line">        shift 2</span><br><span class="line">        ;;</span><br><span class="line">    -p|--pid)</span><br><span class="line">        pid="$2"</span><br><span class="line">        shift 2</span><br><span class="line">        ;;</span><br><span class="line">    -h|--help)</span><br><span class="line">        usage</span><br><span class="line">        ;;</span><br><span class="line">    --)</span><br><span class="line">        shift</span><br><span class="line">        break</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line">count=$&#123;count:-5&#125;</span><br><span class="line"></span><br><span class="line">redEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;31m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">yellowEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;33m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">blueEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;36m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Check the existence of jstack <span class="built_in">command</span>!</span></span><br><span class="line">if ! which jstack &amp;&gt; /dev/null; then</span><br><span class="line">    [ -z "$JAVA_HOME" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    ! [ -f "$JAVA_HOME/bin/jstack" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack file does NOT exists!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    ! [ -x "$JAVA_HOME/bin/jstack" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack is NOT executalbe!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    export PATH="$JAVA_HOME/bin:$PATH"</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">readonly uuid=`date +%s`_$&#123;RANDOM&#125;_$$</span><br><span class="line"></span><br><span class="line">cleanupWhenExit() &#123;</span><br><span class="line">    rm /tmp/$&#123;uuid&#125;_* &amp;&gt; /dev/null</span><br><span class="line">&#125;</span><br><span class="line">trap "cleanupWhenExit" EXIT</span><br><span class="line"></span><br><span class="line">printStackOfThread() &#123;</span><br><span class="line">    local line</span><br><span class="line">    local count=1</span><br><span class="line">    while IFS=" " read -a line ; do</span><br><span class="line">        local pid=$&#123;line[0]&#125;</span><br><span class="line">        local threadId=$&#123;line[1]&#125;</span><br><span class="line">        local threadId0x=`printf %x $&#123;threadId&#125;`</span><br><span class="line">        local user=$&#123;line[2]&#125;</span><br><span class="line">        local pcpu=$&#123;line[4]&#125;</span><br><span class="line"></span><br><span class="line">        local jstackFile=/tmp/$&#123;uuid&#125;_$&#123;pid&#125;</span><br><span class="line"></span><br><span class="line">        [ ! -f "$&#123;jstackFile&#125;" ] &amp;&amp; &#123;</span><br><span class="line">            &#123;</span><br><span class="line">                if [ "$&#123;user&#125;" == "$&#123;USER&#125;" ]; then</span><br><span class="line">                    jstack $&#123;pid&#125; &gt; $&#123;jstackFile&#125;</span><br><span class="line">                else</span><br><span class="line">                    if [ $UID == 0 ]; then</span><br><span class="line">                        sudo -u $&#123;user&#125; jstack $&#123;pid&#125; &gt; $&#123;jstackFile&#125;</span><br><span class="line">                    else</span><br><span class="line">                        redEcho "[$((count++))] Fail to jstack Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;)."</span><br><span class="line">                        redEcho "User of java process($user) is not current user($USER), need sudo to run again:"</span><br><span class="line">                        yellowEcho "    sudo $&#123;COMMAND_LINE[@]&#125;"</span><br><span class="line">                        echo</span><br><span class="line">                        continue</span><br><span class="line">                    fi</span><br><span class="line">                fi</span><br><span class="line">            &#125; || &#123;</span><br><span class="line">                redEcho "[$((count++))] Fail to jstack Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;)."</span><br><span class="line">                echo</span><br><span class="line">                rm $&#123;jstackFile&#125;</span><br><span class="line">                continue</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        blueEcho "[$((count++))] Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;):"</span><br><span class="line">        sed "/nid=0x$&#123;threadId0x&#125; /,/^$/p" -n $&#123;jstackFile&#125;</span><br><span class="line">    done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ps -Leo pid,lwp,user,comm,pcpu --no-headers | &#123;</span><br><span class="line">    [ -z "$&#123;pid&#125;" ] &amp;&amp;</span><br><span class="line">    awk '$4=="java"&#123;print $0&#125;' ||</span><br><span class="line">    awk -v "pid=$&#123;pid&#125;" '$1==pid,$4=="java"&#123;print $0&#125;'</span><br><span class="line">&#125; | sort -k5 -r -n | head --lines "$&#123;count&#125;" | printStackOfThread</span><br></pre></td></tr></table></figure>
+
+<p>原文地址：<a href="https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2018/09/28/%E6%89%BE%E5%87%BAJava%E4%B8%ADCPU%E4%BD%BF%E7%94%A8%E7%8E%87%E6%9C%80%E9%AB%98%E7%9A%84%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%B9%B6%E6%89%93%E5%8D%B0%E8%BF%99%E4%BA%9B%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%A0%86%E6%A0%88%E3%80%82/" data-id="ckco9ormf0032pkuvgn4o1t8q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/39/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/41/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

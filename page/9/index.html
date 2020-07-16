@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Cyylog">
+<meta property="og:url" content="https://github.com/cyylog/page/9/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyylog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Tomcat-04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/30/Tomcat-04/" class="article-date">
+  <time datetime="2020-03-29T16:36:31.000Z" itemprop="datePublished">2020-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/30/Tomcat-04/">Tomcat_04_安全优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+
+<h4 id="10、Tomcat安全优化"><a href="#10、Tomcat安全优化" class="headerlink" title="10、Tomcat安全优化"></a>10、Tomcat安全优化</h4><h5 id="1、telnet管理端口保护（强制）"><a href="#1、telnet管理端口保护（强制）" class="headerlink" title="1、telnet管理端口保护（强制）"></a>1、telnet管理端口保护（强制）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>telnet管理端口保护</td>
+<td>1.修改默认的8005管理端口为不易猜测的端口（大于1024）；2.修改SHUTDOWN指令为其他字符串；</td>
+<td><Server port="**8527**" shutdown="**dangerous**"></td>
+<td>1.以上配置项的配置内容只是建议配置，可以按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；</td>
+</tr>
+</tbody></table>
+<h5 id="2、-ajp连接端口保护（推荐）"><a href="#2、-ajp连接端口保护（推荐）" class="headerlink" title="2、 ajp连接端口保护（推荐）"></a>2、 ajp连接端口保护（推荐）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ajp 连接端口保护</td>
+<td>1.修改默认的ajp 8009端口为不易冲突的大于1024端口；2.通过iptables规则限制ajp端口访问的权限仅为线上机器；</td>
+<td>&lt;Connector port=”<strong>8528</strong>“protocol=”AJP/1.3” /&gt;</td>
+<td>以上配置项的配置内容仅为建议配置，请按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；；保护此端口的目的在于防止线下的测试流量被mod_jk转发至线上tomcat服务器；</td>
+</tr>
+</tbody></table>
+<h5 id="3、禁用管理端（强制）"><a href="#3、禁用管理端（强制）" class="headerlink" title="3、禁用管理端（强制）"></a>3、禁用管理端（强制）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>禁用管理端</td>
+<td>1. 删除默认的{Tomcat安装目录}/conf/tomcat-users.xml文件，重启tomcat后将会自动生成新的文件；2. 删除{Tomcat安装目录}/webapps下默认的所有目录和文件；3.将tomcat 应用根目录配置为tomcat安装目录以外的目录；</td>
+<td>&lt;Context path=”” docBase=”<strong>/home/work/local/tomcat**</strong>_webapps**”debug=”0”reloadable=”false”crossContext=”true”/&gt;</td>
+<td>对于前段web模块，Tomcat管理端属于tomcat的高危安全隐患，一旦被攻破，黑客通过上传web shell的方式将会直接取得服务器的控制权，后果极其严重；</td>
+</tr>
+</tbody></table>
+<h5 id="4、降权启动（强制）"><a href="#4、降权启动（强制）" class="headerlink" title="4、降权启动（强制）"></a>4、降权启动（强制）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>降权启动</td>
+<td>1.tomcat启动用户权限必须为非root权限，尽量降低tomcat启动用户的目录访问权限；2.如需直接对外使用80端口，可通过普通账号启动后，配置iptables规则进行转发；</td>
+<td></td>
+<td>避免一旦tomcat 服务被入侵，黑客直接获取高级用户权限危害整个server的安全；</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# useradd tomcat</span><br><span class="line">[root@web03 ~]# cp -a &#x2F;application&#x2F;tools&#x2F;tomcat8_1 &#x2F;home&#x2F;tomcat&#x2F;</span><br><span class="line">[root@web03 ~]# chown -R tomcat.tomcat &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;</span><br><span class="line">[root@web03 ~]# su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br><span class="line">Using CATALINA_BASE:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_HOME:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_TMPDIR: &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;temp</span><br><span class="line">Using JRE_HOME:        &#x2F;application&#x2F;jdk</span><br><span class="line">Using CLASSPATH:       &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;bootstrap.jar:&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;tomcat-juli.jar</span><br><span class="line">Tomcat started.</span><br><span class="line">[root@web03 ~]# ps -ef|grep tomcat</span><br></pre></td></tr></table></figure>
+
+<h5 id="5、文件列表访问控制（强制）"><a href="#5、文件列表访问控制（强制）" class="headerlink" title="5、文件列表访问控制（强制）"></a>5、文件列表访问控制（强制）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件列表访问控制</td>
+<td>1.conf/web.xml文件中default部分listings的配置必须为false；</td>
+<td><init-param><param-name><strong>listings</strong></param-name><param-value><strong>false</strong></param-value></init-param></td>
+<td>false为不列出目录文件，true为允许列出，默认为false；</td>
+</tr>
+</tbody></table>
+<h5 id="6、版本信息隐藏（强制）"><a href="#6、版本信息隐藏（强制）" class="headerlink" title="6、版本信息隐藏（强制）"></a>6、版本信息隐藏（强制）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>版本信息隐藏</td>
+<td>1.修改conf/web.xml，重定向403、404以及500等错误到指定的错误页面；2.也可以通过修改应用程序目录下的WEB-INF/web.xml下的配置进行错误页面的重定向；</td>
+<td><error-page><error-code><strong>403</strong></error-code><location><strong>/forbidden.jsp</strong></location></error-page><error-page><error-code><strong>404</strong></error-code><location><strong>/notfound.jsp</strong></location></error-page><error-page><error-code><strong>500</strong></error-code><location><strong>/systembusy.jsp</strong></location></error-page></td>
+<td>在配置中对一些常见错误进行重定向，避免当出现错误时tomcat默认显示的错误页面暴露服务器和版本信息；必须确保程序根目录下的错误页面已经存在；</td>
+</tr>
+</tbody></table>
+<h5 id="7、Server-header重写（推荐）"><a href="#7、Server-header重写（推荐）" class="headerlink" title="7、Server header重写（推荐）"></a>7、Server header重写（推荐）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Server header重写</td>
+<td>在HTTP Connector配置中加入server的配置；</td>
+<td>server=”<strong>webserver</strong>“</td>
+<td>当tomcat HTTP端口直接提供web服务时此配置生效，加入此配置，将会替换http 响应Server header部分的默认配置，默认是<code>Apache-Coyote/1.1</code></td>
+</tr>
+</tbody></table>
+<h5 id="8、访问限制（可选）"><a href="#8、访问限制（可选）" class="headerlink" title="8、访问限制（可选）"></a>8、访问限制（可选）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置或操作</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问限制</td>
+<td>通过配置，限定访问的ip来源</td>
+<td><Context path="" docBase="/home/work/tomcat" debug="0" reloadable="false" crossContext="true">&lt;Valve className=”org.apache.catalina.valves.RemoteAddrValve” <strong>allow=”61.148.18.138,61.135.165.*“ deny=”*.*.*.*“</strong>/&gt;</Context></td>
+<td>通过配置信任ip的白名单，拒绝非白名单ip的访问，此配置主要是针对高保密级别的系统，一般产品线不需要；</td>
+</tr>
+</tbody></table>
+<h5 id="9、起停脚本权限回收（推荐）"><a href="#9、起停脚本权限回收（推荐）" class="headerlink" title="9、起停脚本权限回收（推荐）"></a>9、起停脚本权限回收（推荐）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置或操作</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>起停脚本权限回收</td>
+<td>去除其他用户对Tomcat的bin目录下shutdown.sh、startup.sh、catalina.sh的可执行权限；</td>
+<td>chmod -R 744 tomcat/bin/*</td>
+<td>防止其他用户有起停线上Tomcat的权限；</td>
+</tr>
+</tbody></table>
+<h5 id="10、-访问日志格式规范（推荐）"><a href="#10、-访问日志格式规范（推荐）" class="headerlink" title="10、 访问日志格式规范（推荐）"></a>10、 访问日志格式规范（推荐）</h5><table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>配置内容及说明</strong></th>
+<th><strong>标准配置或操作</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问日志格式规范</td>
+<td>开启Tomcat默认访问日志中的Referer和User-Agent记录</td>
+<td><Valve className="org.apache.catalina.valves.AccessLogValve"                 directory="logs"  prefix="localhost_access_log." suffix=".txt"                 pattern="%h %l %u %t %r %s %b %{Referer}i %{User-Agent}i %D" resolveHosts="false"/></td>
+<td>开启Referer和User-Agent是为了一旦出现安全问题能够更好的根据日志进行问题排查；</td>
+</tr>
+</tbody></table>
+<h5 id="11、-附录：建议配置及标准执行方案"><a href="#11、-附录：建议配置及标准执行方案" class="headerlink" title="11、 附录：建议配置及标准执行方案"></a>11、 附录：建议配置及标准执行方案</h5><p><strong>1.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/server.xml<strong>**）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server port&#x3D;&quot;8527&quot; shutdown&#x3D;&quot; dangerous&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Define a non-SSL HTTP&#x2F;1.1 Connector on port 8080 --&gt;</span><br><span class="line">&lt;Connector port&#x3D;&quot;8080&quot; server&#x3D;&quot;webserver&quot;&#x2F;&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- Define an AJP 1.3 Connector on port 8528 --&gt;</span><br><span class="line">&lt;!--Define an accesslog --&gt; </span><br><span class="line">&lt;Valve className&#x3D;&quot;org.apache.catalina.valves.AccessLogValve&quot;</span><br><span class="line">                 directory&#x3D;&quot;logs&quot;  prefix&#x3D;&quot;localhost_access_log.&quot; suffix&#x3D;&quot;.txt&quot;</span><br><span class="line">                 pattern&#x3D;&quot;%h %l %u %t %r %s %b %&#123;Referer&#125;i %&#123;User-Agent&#125;i %D&quot; resolveHosts&#x3D;&quot;false&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Connector port&#x3D;&quot;8528&quot; protocol&#x3D;&quot;AJP&#x2F;1.3&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;Context path&#x3D;&quot;&quot; docBase&#x3D;&quot;&#x2F;home&#x2F;work&#x2F;local&#x2F;tomcat_webapps&quot; debug&#x3D;&quot;0&quot; reloadable&#x3D;&quot;false&quot; crossContext&#x3D;&quot;true&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/web.xml<strong><strong>或者</strong></strong>WEB-INF/web.xml<strong>**）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;init-param&gt;</span><br><span class="line">    &lt;param-name&gt;listings&lt;&#x2F;param-name&gt;</span><br><span class="line">    &lt;param-value&gt;false&lt;&#x2F;param-value&gt;</span><br><span class="line">&lt;&#x2F;init-param&gt;</span><br><span class="line"></span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;403&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;forbidden.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;404&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;notfound.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;500&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;systembusy.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.</strong>       <strong>删除如下**</strong>tomcat<strong>**的默认目录和默认文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tomcat&#x2F;webapps&#x2F;*</span><br><span class="line">tomcat&#x2F;conf&#x2F;tomcat-user.xml</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.</strong>       <strong>去除其他用户对**</strong>tomcat** <strong>起停脚本的执行权限</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 744 –R tomcat&#x2F;bin&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<h4 id="11、Tomcat性能优化"><a href="#11、Tomcat性能优化" class="headerlink" title="11、Tomcat性能优化"></a>11、Tomcat性能优化</h4><p>tomcat性能取决于 内存大小</p>
+<p><strong>上策：优化代码</strong></p>
+<p>   该项需要开发经验足够丰富，对开发人员要求较高</p>
+<p><strong>中策：jvm**</strong>优化机制** <strong>垃圾回收机制</strong> <strong>把不需要的内存回收</strong></p>
+<p>​                  优化jvm–优化垃圾回收策略</p>
+<p>优化catalina.sh配置文件。在catalina.sh配置文件中添加以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># tomcat分配1G内存模板</span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize&#x3D;512m -XX:MaxNewSize&#x3D;512m -XX:PermSize&#x3D;512m -XX:MaxPermSize&#x3D;512m&quot;        </span><br><span class="line"></span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms800m -Xmx800m -XX:NewSize&#x3D;400m -XX:MaxNewSize&#x3D;400m -XX:PermSize&#x3D;400m -XX:MaxPermSize&#x3D;400m&quot;    </span><br><span class="line"># 重启服务</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;shutdown.sh&#39; tomcat</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br></pre></td></tr></table></figure>
+
+<p>​         <strong>修改之前</strong></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHitTf.png" alt="YHitTf.png"></p>
+<p>​         <strong>修改之后</strong></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHiUk8.png" alt="YHiUk8.png"></p>
+<p><strong>下策：加足够大的内存</strong></p>
+<p>该项的资金投入较大</p>
+<p><strong>下下策：每天0**</strong>点定时重启tomcat**</p>
+<p>使用较为广泛</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2020/03/30/Tomcat-04/" data-id="ckco9orld001tpkuv383ahwie" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

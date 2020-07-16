@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Prometheus学习笔记_01 | Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Prometheus 监控一、介绍本文介绍Prometheus 监控及在k8s集群中使用node-exporter、prometheus、grafana对集群进行监控。实现原理类似ELK、EFK组合。node-exporter组件负责收集节点上的metrics监控数据，并将数据推送给prometheus, prometheus负责存储这些数据，grafana将这些数据通过网页以图形的形式展现给用户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prometheus学习笔记_01">
+<meta property="og:url" content="https://github.com/cyylog/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:description" content="Prometheus 监控一、介绍本文介绍Prometheus 监控及在k8s集群中使用node-exporter、prometheus、grafana对集群进行监控。实现原理类似ELK、EFK组合。node-exporter组件负责收集节点上的metrics监控数据，并将数据推送给prometheus, prometheus负责存储这些数据，grafana将这些数据通过网页以图形的形式展现给用户">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/18/NZwhWt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/18/NZwjWq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/18/NZwzlV.png">
+<meta property="article:published_time" content="2020-06-17T16:48:56.000Z">
+<meta property="article:modified_time" content="2020-06-17T16:53:18.893Z">
+<meta property="article:author" content="Cyylog">
+<meta property="article:tag" content="Prometheus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/18/NZwhWt.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Prometheus学习笔记（1）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" class="article-date">
+  <time datetime="2020-06-17T16:48:56.000Z" itemprop="datePublished">2020-06-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Prometheus学习笔记_01
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Prometheus-监控"><a href="#Prometheus-监控" class="headerlink" title="Prometheus 监控"></a>Prometheus 监控</h1><h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>本文介绍Prometheus 监控及在k8s集群中使用node-exporter、prometheus、grafana对集群进行监控。实现原理类似ELK、EFK组合。node-exporter组件负责收集节点上的metrics监控数据，并将数据推送给prometheus, prometheus负责存储这些数据，grafana将这些数据通过网页以图形的形式展现给用户。</p>
+<p>在开始之前有必要了解下Prometheus是什么?<br>        Prometheus （中文名：普罗米修斯）是由 SoundCloud 开发的开源监控报警系统和时间序列数据库(TSDB).自2012年起,许多公司及组织已经采用 Prometheus,并且该项目有着非常活跃的开发者和用户社区.现在已经成为一个独立的开源项目。Prometheus 在2016加入 CNCF ( Cloud Native Computing Foundation 云原生计算基金会 ), 作为在 kubernetes 之后的第二个由基金会主持的项目。 Prometheus 的实现参考了Google内部的监控实现，与源自Google的Kubernetes结合起来非常合适。另外相比influxdb的方案，性能更加突出，而且还内置了报警功能。它针对大规模的集群环境设计了拉取式的数据采集方式，只需要在应用里面实现一个metrics接口，然后把这个接口告诉Prometheus就可以完成数据采集了，下图为prometheus的架构图。</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwhWt.png" alt="NZwhWt.png"></p>
+<p>​        promethues是一套开源的系统监控报警框架。Prometheus 所有采集的监控数据均以指标（metric）的形式保存在内置的<a href="https://www.wikiwand.com/zh/時間序列" target="_blank" rel="noopener">时间序列</a>数据库当中（TSDB）：属于同一指标名称，同一标签集合的、有时间戳标记的数据流。除了存储的时间序列，Prometheus 还可以根据查询请求产生临时的、衍生的时间序列作为返回结果。包含了以下组件</p>
+<ul>
+<li>prometheus server: 主要负责数据采集和存储，提供promQL查询语言支持。prometheus是一个时序数据库，将采集到的监控数据按照时间序列的方式存储到本地磁盘。</li>
+<li>Push Gateway: 支持临时性job主动推送指标的中间网关。</li>
+<li>PromDash： 使用rails开发的dashboard，用于可视化指标数据。</li>
+<li>Exporters: 负责监控机器运行状态，提供被监控组件信息的 HTTP 接口被叫做 exporter。<ul>
+<li>直接采集： exporter内置了prometheus支持，直接向prometheus暴露数据端点。</li>
+<li>间接采集：原不支持prometheus。通过prometheus提供的clien library编写的目标监控采集程序。</li>
+</ul>
+</li>
+<li>Altermanager: 从 Prometheus server 端接收到 alerts 后，会进行去除重复数据，分组，并路由到对收的接受方式，发出报警。常见的接收方式有：电子邮件，企业微信，钉钉 ,  webhook </li>
+<li>WebUI: Prometheus内置一个简单的Web控制台，可以查询指标，查看配置信息或者Service Discovery等，实际工作中，查看指标或者创建仪表盘通常使用Grafana，Prometheus作为Grafana的数据源；9090提供图形化界面功能。</li>
+</ul>
+<p>promethues 的各个组件基本都是用 golang 编写,对编译和部署十分友好.并且没有特殊依赖.基本都是独立工作。</p>
+<h2 id="二、基本工作原理"><a href="#二、基本工作原理" class="headerlink" title="二、基本工作原理"></a><strong>二、基本工作原理</strong></h2><ul>
+<li>Prometheus server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Pushgateway 发过来的 metrics，或者从其他的 Prometheus server 中拉 metrics。</li>
+<li>Prometheus server 在本地存储收集到的 metrics，并运行已定义好的 alert.rules，记录新的时间序列或者向 Alertmanager 推送警报。</li>
+<li>Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。</li>
+<li>在图形界面中，可视化采集数据。</li>
+</ul>
+<h2 id="三、Prometheus-的优势和不足"><a href="#三、Prometheus-的优势和不足" class="headerlink" title="三、Prometheus 的优势和不足"></a>三、Prometheus 的优势和不足</h2><h3 id="1、prometheus-的优势"><a href="#1、prometheus-的优势" class="headerlink" title="1、prometheus 的优势"></a>1、prometheus 的优势</h3><ol>
+<li>强大的多维度数据模型：<br>时间序列数据通过 metric 名和键值对来区分。<br>所有的 metrics 都可以设置任意的多维标签。<br>数据模型更随意，不需要刻意设置为以点分隔的字符串。<br>可以对数据模型进行聚合，切割和切片操作。<br>支持双精度浮点类型，标签可以设为全 unicode。</li>
+<li>灵活而强大的查询语句（PromQL）：<br>在同一个查询语句，可以对多个 metrics 进行乘法、加法、连接、取分数位等操作。</li>
+<li>易于管理：<br>Prometheus server 是一个单独的二进制文件，可直接在本地工作，不依赖于分布式存储。</li>
+<li>高效：<br>平均每个采样点仅占 3.5 bytes，且一个 Prometheus server 可以处理数百万的 metrics。<br>使用 pull 模式采集时间序列数据，这样不仅有利于本机测试而且可以避免有问题的服务器推送坏的 metrics。</li>
+<li>可以采用 push gateway 的方式把时间序列数据推送至 Prometheus server 端。</li>
+<li>可以通过服务发现或者静态配置去获取监控的 targets。</li>
+<li>有多种可视化图形界面。</li>
+<li>易于伸缩。</li>
+</ol>
+<h3 id="2、prometheus-的不足-有待于改进"><a href="#2、prometheus-的不足-有待于改进" class="headerlink" title="2、prometheus 的不足 有待于改进"></a>2、prometheus 的不足 有待于改进</h3><ol>
+<li>不支持集群化 (这个是当前最迫切的需求)</li>
+<li>被监控集群过大后 本身性能有一定瓶颈(如果有集群 就可以解决这个问题)</li>
+<li>偶尔发生数据丢失(这个问题 在2.0之前 会偶尔发生几次， 2.0之后貌似已经彻底解决 )</li>
+<li>中文支持不好 中文资料也很少(这个问题 也是老生常谈了 往往新的 很牛的国外工具都不太支持中文)</li>
+</ol>
+<p>注：<br>    由于数据采集可能会有丢失，所以 Prometheus 不适用对采集数据要 100% 准确的情形。但如果用于记录时间序列数据，Prometheus 具有很大的查询优势，此外，Prometheus 适用于微服务的体系架构。</p>
+<h2 id="四、prometheus-的基本概念"><a href="#四、prometheus-的基本概念" class="headerlink" title="四、prometheus 的基本概念"></a><strong>四、prometheus 的基本概念</strong></h2><h3 id="1、数据模型"><a href="#1、数据模型" class="headerlink" title="1、数据模型"></a><strong>1、数据模型</strong></h3><p>  prometheus中存储的数据为时间序列，是由Metric的名字和一系列的标签（键值对）唯一标识的，不同的标签代表不同的时间序列。</p>
+<p> 样本：实际时间序列，每个序列包括一个float64的值和一个毫秒级的时间戳。（指标+时间戳+样本值）</p>
+<p> metric名字： 具有语义，表示功能：例如：http_requeststotal, 表示 http 请求的总数。其中，metric 名字由 ASCII 字符，数字，下划线，以及冒号组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
+<p> 标签：使一个时间序列有不同未读的识别。例如 http_requeststotal{method=”Get”} 表示所有 http 请求中的 Get 请求。当 method=”post” 时，则为新的一个 metric。标签中的键由 ASCII 字符，数字，以及下划线组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
+<p> 格式：<metric name>{<label name>=<label value>, …}，例如：http_requests_total{method=”POST”,endpoint=”/api/tracks”}。</p>
+<h3 id="2、Metric类型"><a href="#2、Metric类型" class="headerlink" title="2、Metric类型"></a><strong>2、Metric类型</strong></h3><p>Prometheus 客户端库主要提供四种主要的 metric 类型：</p>
+<h4 id="1、Counter（累加性metirc）"><a href="#1、Counter（累加性metirc）" class="headerlink" title="1、Counter（累加性metirc）"></a>1、Counter（累加性metirc）</h4><p>一种累加的 metric，典型的应用如：<br>    请求的个数<br>    结束的任务数<br>    出现的错误数<br>    。。。</p>
+<p>例如：<br>    查询 promhttp_metric_handler_requests_total{code=”200”,instance=”localhost:9090”,job=”prometheus”}<br>    返回 8，10 秒后再次查询，则返回 14。</p>
+<h4 id="2、Gauge（可增减性metric）"><a href="#2、Gauge（可增减性metric）" class="headerlink" title="2、Gauge（可增减性metric）"></a>2、Gauge（可增减性metric）</h4><p>一种常规的 metric，典型的应用如：<br>    温度<br>    运行的 go routines 的个数<br>可以任意加减。</p>
+<p>例如：<br>    go_goroutines{instance=”localhost:9090”,job=”prometheus”}<br>    返回值 147，10 秒后返回 124。</p>
+<p>注：<br>    routines: go的日常工作？</p>
+<h4 id="3、Histogram（树状图）"><a href="#3、Histogram（树状图）" class="headerlink" title="3、Histogram（树状图）"></a>3、Histogram（树状图）</h4><p>注：<br> histogram    英[ˈhɪstəɡræm] 美[ˈhɪstəɡræm]   直方图；矩形图</p>
+<p> 可以理解为柱状图，典型的应用如：<br>     请求持续时间<br>     响应大小<br> 可以对观察结果采样，分组及统计。</p>
+<p> 例如：<br>     查询 go_gc_duration_seconds_sum{instance=”localhost:9090”,job=”prometheus”}时<br>      返回结果如下：Histogram metric 返回结果图</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwjWq.png" alt="NZwjWq.png"></p>
+<h4 id="4、Summary（汇总）"><a href="#4、Summary（汇总）" class="headerlink" title="4、Summary（汇总）"></a>4、Summary（汇总）</h4><p>类似于 Histogram，典型的应用如：<br>    请求持续时间<br>    响应大小<br>提供观测值的 count 和 sum 功能。<br>提供百分位的功能，即可以按百分比划分跟踪结果。</p>
+<p>instance 和 jobs<br>instance:<br>    一个单独 scrape(抓取) 的目标， 一般对应于一个进程。</p>
+<p>jobs:<br>    一组同种类型的 instances（主要用于保证可扩展性和可靠性），例如：<br>注：<br>    scrape    英[skreɪp] 美[skreɪp] 刮掉; 削去; 擦坏; 擦伤; 刮坏; 蹭破; (使) 发出刺耳的刮擦声</p>
+<p>当 scrape 目标时，Prometheus 会自动给这个 scrape 的时间序列附加一些标签以便更好的分别<br>例如： instance，job。</p>
+<p>下面以实际的 metric 为例，对上述概念进行说明：<br>Metrics 示例</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwzlV.png" alt="NZwzlV.png"></p>
+<p>如图所示，这三个 metric 的名字都一样，他们仅凭 handler 不同而被标识为不同的 metrics。<br>这类 metrics 只会向上累加，是属于 Counter 类型的 metric，且 metrics 中都含有 instance 和 job 这两个标签。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" data-id="ckco9orme002zpkuv3wla4j1w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mysql 游标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python之fabric模块</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

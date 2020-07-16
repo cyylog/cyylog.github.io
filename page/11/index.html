@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Cyylog">
+<meta property="og:url" content="https://github.com/cyylog/page/11/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyylog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Tomcat-03" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/03/27/Tomcat-03/" class="article-date">
+  <time datetime="2020-03-26T16:36:10.000Z" itemprop="datePublished">2020-03-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/27/Tomcat-03/">Tomcat_03_监控</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+
+<h4 id="9、监控tomcat集群状态"><a href="#9、监控tomcat集群状态" class="headerlink" title="9、监控tomcat集群状态"></a>9、监控tomcat集群状态</h4><h5 id="1、方法一：开发java监控页面"><a href="#1、方法一：开发java监控页面" class="headerlink" title="1、方法一：开发java监控页面"></a>1、方法一：开发java监控页面</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 tomcat8_1]# cat &#x2F;application&#x2F;tomcat&#x2F;webapps&#x2F;memtest&#x2F;meminfo.jsp </span><br><span class="line">&lt;%</span><br><span class="line">Runtime rtm &#x3D; Runtime.getRuntime();</span><br><span class="line">long mm &#x3D; rtm.maxMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line">long tm &#x3D; rtm.totalMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line">long fm &#x3D; rtm.freeMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line"></span><br><span class="line">out.println(&quot;JVM memory detail info :&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Max memory:&quot;+mm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Total memory:&quot;+tm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Free memory:&quot;+fm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Available memory can be used is :&quot;+(mm+fm-tm)+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、方法二：使用jps命令进行监控"><a href="#2、方法二：使用jps命令进行监控" class="headerlink" title="2、方法二：使用jps命令进行监控"></a>2、方法二：使用jps命令进行监控</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# jps -lvm</span><br><span class="line"></span><br><span class="line">31906 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat8_1 -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat8_1 -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;temp</span><br><span class="line"></span><br><span class="line">31812 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat&#x2F;temp</span><br><span class="line"></span><br><span class="line">31932 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat8_2 -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat8_2 -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;temp</span><br><span class="line"></span><br><span class="line">32079 sun.tools.jps.Jps -lvm -Denv.class.path&#x3D;.:&#x2F;application&#x2F;jdk&#x2F;lib:&#x2F;application&#x2F;jdk&#x2F;jre&#x2F;lib:&#x2F;application&#x2F;jdk&#x2F;lib&#x2F;tools.jar -Dapplication.home&#x3D;&#x2F;application&#x2F;jdk1.8.0_60 -Xms8m</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、Tomcat远程监控功能"><a href="#3、Tomcat远程监控功能" class="headerlink" title="3、Tomcat远程监控功能"></a>3、Tomcat远程监控功能</h5><p>修改配置文件，开启远程监控</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;catalina.sh +97</span><br><span class="line"></span><br><span class="line">CATALINA_OPTS&#x3D;&quot;$CATALINA_OPTS</span><br><span class="line">-Dcom.sun.management.jmxremote </span><br><span class="line">-Dcom.sun.management.jmxremote.port&#x3D;12345  </span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate&#x3D;false </span><br><span class="line">-Dcom.sun.management.jmxremote.ssl&#x3D;false </span><br><span class="line">-Djava.rmi.server.hostname&#x3D;10.0.0.17&quot;</span><br></pre></td></tr></table></figure>
+
+<p>​         重启服务，检查12345端口是否开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;shutdown.sh </span><br><span class="line">&#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh </span><br><span class="line">netstat -tunlp|grep 12345</span><br></pre></td></tr></table></figure>
+
+<p>​         检查端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# netstat -tunlp|grep 12345</span><br><span class="line">tcp6       0      0 :::12345           :::*          LISTEN      33158&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p><strong>在windows**</strong>上监控tomcat**</p>
+<p><strong>注意：windwos**</strong>需要安装jdk<strong>**环境！</strong></p>
+<p>查考：<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+<h5 id="4、zabbix监控tomcat程序"><a href="#4、zabbix监控tomcat程序" class="headerlink" title="4、zabbix监控tomcat程序"></a>4、zabbix监控tomcat程序</h5><p>zabbix搭建详情参考：<em><a href="https://www.toutiao.com/i6808897883299906059/" target="_blank" rel="noopener">https://www.toutiao.com/i6808897883299906059/</a></em></p>
+<p>若是有问题，请移步官网 ： <em><a href="https://www.zabbix.com/documentation/4.0/zh/manual/installation" target="_blank" rel="noopener">https://www.zabbix.com/documentation/4.0/zh/manual/installation</a></em></p>
+<p><strong>服务端安装配置java**</strong>监控服务**</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# yum install zabbix-java-gateway -y</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看配置文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">配置文件路径：&#x2F;etc&#x2F;zabbix&#x2F;zabbix_java_gateway.conf</span><br><span class="line">sed -i -e &#39;220a JavaGateway&#x3D;127.0.0.1&#39; -e &#39;236a StartJavaPollers&#x3D;5&#39;  &#x2F;etc&#x2F;zabbix&#x2F;zabbix_server.conf</span><br></pre></td></tr></table></figure>
+
+<p>启动zabbix-java-gateway服务，与zabbix服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start zabbix-java-gateway.service</span><br><span class="line">systemctl restart zabbix-server.service</span><br></pre></td></tr></table></figure>
+
+<p>检查java端口是否开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# netstat -lntup |grep java</span><br><span class="line">tcp6       0      0 :::10052   :::*    LISTEN      72971&#x2F;java</span><br></pre></td></tr></table></figure>
+
+<p>​         检查java进程是否存在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# ps -ef |grep [j]ava</span><br><span class="line">zabbix    72971      1  0 11:29 ?        00:00:00 java -server -Dlogback.configurationFile&#x3D;&#x2F;etc&#x2F;zabbix&#x2F;zabbix_java_gateway_logback.xml -classpath lib:lib&#x2F;android-json-4.3_r3.1.jar:lib&#x2F;logback-classic-0.9.27.jar:lib&#x2F;logback-core-0.9.27.jar:lib&#x2F;slf4j-api-1.6.1.jar:bin&#x2F;zabbix-java-gateway-3.0.13.jar -Dzabbix.pidFile&#x3D;&#x2F;var&#x2F;run&#x2F;zabbix&#x2F;zabbix_java.pid -Dzabbix.timeout&#x3D;3 -Dsun.rmi.transport.tcp.responseTimeout&#x3D;3000 com.zabbix.gateway.JavaGateway</span><br><span class="line">zabbix    73255  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #1 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73256  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #2 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73257  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #3 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73258  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #4 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73259  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #5 [got 0 values in 0.000004 sec, idle 5 sec]</span><br></pre></td></tr></table></figure>
+
+<p><strong>web**</strong>界面添加**</p>
+<p>​         添加主机</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHilSH.png" alt="YHilSH.png"> </p>
+<p>​         主机管理模板，注意是JMX模板</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHi36A.png" alt="YHi36A.png">         监控完成</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHi8OI.png" alt="YHi8OI.png"> </p>
+<h5 id="5、排除tomcat故障步骤"><a href="#5、排除tomcat故障步骤" class="headerlink" title="5、排除tomcat故障步骤"></a>5、排除tomcat故障步骤</h5><p>a. 查看catalina.out</p>
+<p>b. 使用sh show-busy-java-threads.sh脚本进行检测</p>
+<p>脚本下载地址</p>
+<p><em><a href="https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2020/03/27/Tomcat-03/" data-id="ckco9orlb001ppkuv2bax98s7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

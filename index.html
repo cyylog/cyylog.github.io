@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Cyylog">
+<meta property="og:url" content="https://github.com/cyylog/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyylog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Mysql游标" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/" class="article-date">
+  <time datetime="2020-07-16T03:54:04.000Z" itemprop="datePublished">2020-07-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/SQL/">SQL</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mysql游标的用法及作用"><a href="#mysql游标的用法及作用" class="headerlink" title="[mysql游标的用法及作用]"></a>[mysql游标的用法及作用]</h1><p>例子：</p>
+<p>当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；<br>常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据，<br>难道要执行2000多次？显然是不现实的；最终找到写一个存储过程然后通过循环来更新C表，<br>然而存储过程中的写法用的就是游标的形式。</p>
+<h1 id="【简介】"><a href="#【简介】" class="headerlink" title="【简介】"></a>【简介】</h1><p>​    游标实际上是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。</p>
+<p>​    游标充当指针的作用。</p>
+<p>​    尽管游标能遍历结果中的所有行，但他一次只指向一行。</p>
+<p>​    游标的作用就是用于对查询数据库所返回的记录进行遍历，以便进行相应的操作。</p>
+<h1 id="【用法】"><a href="#【用法】" class="headerlink" title="【用法】"></a>【用法】</h1><p>​    一、声明一个游标: declare 游标名称 CURSOR for table;(这里的table可以是你查询出来的任意集合)<br>​    二、打开定义的游标:open 游标名称;<br>​    三、获得下一行数据:FETCH  游标名称 into testrangeid,versionid;<br>​    四、需要执行的语句(增删改查):这里视具体情况而定<br>​    五、释放游标:CLOSE 游标名称;<br>  注:mysql存储过程每一句后面必须用;结尾，使用的临时字段需要在定义游标之前进行声明。</p>
+<h1 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a>【实例】</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-  </span><br><span class="line">BEGIN  </span><br><span class="line">  </span><br><span class="line">--定义变量  </span><br><span class="line">declare testrangeid BIGINT;  </span><br><span class="line">declare versionid BIGINT;   </span><br><span class="line">declare done int;  </span><br><span class="line">--创建游标，并存储数据  </span><br><span class="line">declare cur_test CURSOR for   </span><br><span class="line">   select id as testrangeid,version_id as versionid from tp_testrange;  </span><br><span class="line">--游标中的内容执行完后将done设置为1  </span><br><span class="line"> DECLARE CONTINUE HANDLER FOR NOT FOUND SET done&#x3D;1;   </span><br><span class="line">--打开游标  </span><br><span class="line">open cur_test;  </span><br><span class="line">--执行循环  </span><br><span class="line">  posLoop:LOOP  </span><br><span class="line">--判断是否结束循环  </span><br><span class="line">        IF done&#x3D;1 THEN    </span><br><span class="line">      LEAVE posLoop;  </span><br><span class="line">    END IF;   </span><br><span class="line">--取游标中的值  </span><br><span class="line">    FETCH  cur_test into testrangeid,versionid;  </span><br><span class="line">--执行更新操作  </span><br><span class="line">    update tp_data_execute set version_id&#x3D;versionid where testrange_id &#x3D; testrangeid;  </span><br><span class="line">  END LOOP posLoop;  </span><br><span class="line">--释放游标  </span><br><span class="line">CLOSE cur_test;  </span><br><span class="line">  </span><br><span class="line">END  </span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+
+<p> 例子2：</p>
+<p>我们现在要用存储过程做一个功能，统计iphone的总库存是多少，并把总数输出到控制台。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">--在windows系统中写存储过程时，如果需要使用declare声明变量，需要添加这个关键字，否则会报错。  </span><br><span class="line">delimiter &#x2F;&#x2F;  </span><br><span class="line">drop procedure if exists StatisticStore;  </span><br><span class="line">CREATE PROCEDURE StatisticStore()  </span><br><span class="line">BEGIN  </span><br><span class="line">    --创建接收游标数据的变量  </span><br><span class="line">    declare c int;  </span><br><span class="line">    declare n varchar(20);  </span><br><span class="line">    --创建总数变量  </span><br><span class="line">    declare total int default 0;  </span><br><span class="line">    --创建结束标志变量  </span><br><span class="line">    declare done int default false;  </span><br><span class="line">    --创建游标  </span><br><span class="line">    declare cur cursor for select name,count from store where name &#x3D; &#39;iphone&#39;;  </span><br><span class="line">    --指定游标循环结束时的返回值  </span><br><span class="line">    declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">    --设置初始值  </span><br><span class="line">    set total &#x3D; 0;  </span><br><span class="line">    --打开游标  </span><br><span class="line">    open cur;  </span><br><span class="line">    --开始循环游标里的数据  </span><br><span class="line">    read_loop:loop  </span><br><span class="line">    --根据游标当前指向的一条数据  </span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    --判断游标的循环是否结束  </span><br><span class="line">    if done then  </span><br><span class="line">        leave read_loop;    --跳出游标循环  </span><br><span class="line">    end if;  </span><br><span class="line">    --获取一条数据时，将count值进行累加操作，这里可以做任意你想做的操作，  </span><br><span class="line">    set total &#x3D; total + c;  </span><br><span class="line">    --结束游标循环  </span><br><span class="line">    end loop;  </span><br><span class="line">    --关闭游标  </span><br><span class="line">    close cur;  </span><br><span class="line">  </span><br><span class="line">    --输出结果  </span><br><span class="line">    select total;  </span><br><span class="line">END;  </span><br><span class="line">--调用存储过程  </span><br><span class="line">call StatisticStore();</span><br></pre></td></tr></table></figure>
+
+<p> fetch是获取游标当前指向的数据行，并将指针指向下一行，当游标已经指向最后一行时继续执行会造成游标溢出。<br>使用loop循环游标时，他本身是不会监控是否到最后一条数据了，像下面代码这种写法，就会造成死循环；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">read_loop:loop  </span><br><span class="line">fetch cur into n,c;  </span><br><span class="line">set total &#x3D; total+c;  </span><br><span class="line">end loop;</span><br></pre></td></tr></table></figure>
+
+<p>在MySql中，造成游标溢出时会引发mysql预定义的NOT FOUND错误，所以在上面使用下面的代码指定了当引发not found错误时定义一个continue 的事件，指定这个事件发生时修改done变量的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">declare continue HANDLER for not found set done &#x3D; true;</span><br></pre></td></tr></table></figure>
+
+<p>所以在循环时加上了下面这句代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--判断游标的循环是否结束  </span><br><span class="line">if done then  </span><br><span class="line">    leave read_loop;    --跳出游标循环  </span><br><span class="line">end if;</span><br></pre></td></tr></table></figure>
+
+<p>如果done的值是true，就结束循环。继续执行下面的代码</p>
+<p>使用方式</p>
+<p>游标有三种使用方式：<br>第一种就是上面的实现，使用loop循环；<br>第二种方式如下，使用while循环：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">drop procedure if exists StatisticStore1;  </span><br><span class="line">CREATE PROCEDURE StatisticStore1()  </span><br><span class="line">BEGIN  </span><br><span class="line">    declare c int;  </span><br><span class="line">    declare n varchar(20);  </span><br><span class="line">    declare total int default 0;  </span><br><span class="line">    declare done int default false;  </span><br><span class="line">    declare cur cursor for select name,count from store where name &#x3D; &#39;iphone&#39;;  </span><br><span class="line">    declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">    set total &#x3D; 0;  </span><br><span class="line">    open cur;  </span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    while(not done) do  </span><br><span class="line">        set total &#x3D; total + c;  </span><br><span class="line">        fetch cur into n,c;  </span><br><span class="line">    end while;  </span><br><span class="line">      </span><br><span class="line">    close cur;  </span><br><span class="line">    select total;  </span><br><span class="line">END;  </span><br><span class="line">  </span><br><span class="line">call StatisticStore1();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>第三种方式是使用repeat执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">drop procedure if exists StatisticStore2;  </span><br><span class="line">CREATE PROCEDURE StatisticStore2()  </span><br><span class="line">BEGIN  </span><br><span class="line">    declare c int;  </span><br><span class="line">    declare n varchar(20);  </span><br><span class="line">    declare total int default 0;  </span><br><span class="line">    declare done int default false;  </span><br><span class="line">    declare cur cursor for select name,count from store where name &#x3D; &#39;iphone&#39;;  </span><br><span class="line">    declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">    set total &#x3D; 0;  </span><br><span class="line">    open cur;  </span><br><span class="line">    repeat  </span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    if not done then  </span><br><span class="line">        set total &#x3D; total + c;  </span><br><span class="line">    end if;  </span><br><span class="line">    until done end repeat;  </span><br><span class="line">    close cur;  </span><br><span class="line">    select total;  </span><br><span class="line">END;  </span><br><span class="line">  </span><br><span class="line">call StatisticStore2();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="游标嵌套"><a href="#游标嵌套" class="headerlink" title="游标嵌套"></a>游标嵌套</h3><p>在mysql中，每个begin end 块都是一个独立的scope区域，由于MySql中同一个error的事件只能定义一次，如果多定义的话在编译时会提示Duplicate handler declared in the same block。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">drop procedure if exists StatisticStore3;  </span><br><span class="line">CREATE PROCEDURE StatisticStore3()  </span><br><span class="line">BEGIN  </span><br><span class="line">    declare _n varchar(20);  </span><br><span class="line">    declare done int default false;  </span><br><span class="line">    declare cur cursor for select name from store group by name;  </span><br><span class="line">    declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">    open cur;  </span><br><span class="line">    read_loop:loop  </span><br><span class="line">    fetch cur into _n;  </span><br><span class="line">    if done then  </span><br><span class="line">        leave read_loop;  </span><br><span class="line">    end if;  </span><br><span class="line">    begin  </span><br><span class="line">        declare c int;  </span><br><span class="line">        declare n varchar(20);  </span><br><span class="line">        declare total int default 0;  </span><br><span class="line">        declare done int default false;  </span><br><span class="line">        declare cur cursor for select name,count from store where name &#x3D; &#39;iphone&#39;;  </span><br><span class="line">        declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">        set total &#x3D; 0;  </span><br><span class="line">        open cur;  </span><br><span class="line">        iphone_loop:loop  </span><br><span class="line">        fetch cur into n,c;  </span><br><span class="line">        if done then  </span><br><span class="line">            leave iphone_loop;  </span><br><span class="line">        end if;  </span><br><span class="line">        set total &#x3D; total + c;  </span><br><span class="line">        end loop;  </span><br><span class="line">        close cur;  </span><br><span class="line">        select _n,n,total;  </span><br><span class="line">    end;  </span><br><span class="line">    begin  </span><br><span class="line">            declare c int;  </span><br><span class="line">            declare n varchar(20);  </span><br><span class="line">            declare total int default 0;  </span><br><span class="line">            declare done int default false;  </span><br><span class="line">            declare cur cursor for select name,count from store where name &#x3D; &#39;android&#39;;  </span><br><span class="line">            declare continue HANDLER for not found set done &#x3D; true;  </span><br><span class="line">            set total &#x3D; 0;  </span><br><span class="line">            open cur;  </span><br><span class="line">            android_loop:loop  </span><br><span class="line">            fetch cur into n,c;  </span><br><span class="line">            if done then  </span><br><span class="line">                leave android_loop;  </span><br><span class="line">            end if;  </span><br><span class="line">            set total &#x3D; total + c;  </span><br><span class="line">            end loop;  </span><br><span class="line">            close cur;  </span><br><span class="line">        select _n,n,total;  </span><br><span class="line">    end;  </span><br><span class="line">    begin  </span><br><span class="line">      </span><br><span class="line">    end;  </span><br><span class="line">    end loop;  </span><br><span class="line">    close cur;  </span><br><span class="line">END;  </span><br><span class="line">  </span><br><span class="line">call StatisticStore3();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>上面就是实现一个嵌套循环，当然这个例子比较牵强。凑合看看就行。</p>
+<h3 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h3><p>Mysql 支持动态SQL的功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">set @sqlStr&#x3D;&#39;select * from table where condition1 &#x3D; ?&#39;;  </span><br><span class="line">prepare s1 for @sqlStr;  </span><br><span class="line">--如果有多个参数用逗号分隔  </span><br><span class="line">execute s1 using @condition1;  </span><br><span class="line">--手工释放，或者是 connection 关闭时， server 自动回收  </span><br><span class="line">deallocate prepare s1;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/" data-id="ckco9orkw000tpkuvehizbyf5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

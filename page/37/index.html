@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Cyylog">
+<meta property="og:url" content="https://github.com/cyylog/page/37/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Cyylog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Nginx编译安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/27/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" class="article-date">
+  <time datetime="2019-03-27T15:14:08.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/27/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">Nginx编译安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+
+<h4 id="nginx-编译安装与配置使用"><a href="#nginx-编译安装与配置使用" class="headerlink" title="nginx 编译安装与配置使用"></a>nginx 编译安装与配置使用</h4><h5 id="1、安装编译环境"><a href="#1、安装编译环境" class="headerlink" title="1、安装编译环境"></a>1、安装编译环境</h5><p>yum -y install gcc gcc-c++</p>
+<h5 id="2、安装pcre软件包（使nginx支持http-rewrite模块）"><a href="#2、安装pcre软件包（使nginx支持http-rewrite模块）" class="headerlink" title="2、安装pcre软件包（使nginx支持http rewrite模块）"></a>2、安装pcre软件包（使nginx支持http rewrite模块）</h5><p>yum install -y pcre pcre-devel</p>
+<h5 id="3、安装openssl-devel（使nginx支持ssl）"><a href="#3、安装openssl-devel（使nginx支持ssl）" class="headerlink" title="3、安装openssl-devel（使nginx支持ssl）"></a>3、安装openssl-devel（使nginx支持ssl）</h5><p>yum install -y openssl openssl-devel </p>
+<h5 id="4、安装zlib"><a href="#4、安装zlib" class="headerlink" title="4、安装zlib"></a>4、安装zlib</h5><p>yum install -y zlib zlib-devel</p>
+<h5 id="5、创建用户nginx"><a href="#5、创建用户nginx" class="headerlink" title="5、创建用户nginx"></a>5、创建用户nginx</h5><p>useradd nginx </p>
+<p>passwd nginx</p>
+<h5 id="6、安装nginx"><a href="#6、安装nginx" class="headerlink" title="6、安装nginx"></a>6、安装nginx</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#wget http://192.168.233.100/nginx.org/download/nginx-1.14.2.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#tar -vzxf nginx-1.14.2.tar.gz -C /usr/local</span><br><span class="line">[root@localhost ～]#cd nginx-1.14.2/ </span><br><span class="line">[root@localhost nginx-1.14.2]# ./configure \ </span><br><span class="line">--group=nginx \ </span><br><span class="line">--user=nginx \ </span><br><span class="line">--prefix=/usr/local/nginx \ </span><br><span class="line">--sbin-path=/usr/sbin/nginx \ </span><br><span class="line">--conf-path=/etc/nginx/nginx.conf \ </span><br><span class="line">--error-log-path=/var/log/nginx/error.log \ </span><br><span class="line">--http-log-path=/var/log/nginx/access.log \ </span><br><span class="line">--http-client-body-temp-path=/tmp/nginx/client_body \ </span><br><span class="line">--http-proxy-temp-path=/tmp/nginx/proxy \ </span><br><span class="line">--http-fastcgi-temp-path=/tmp/nginx/fastcgi \ </span><br><span class="line">--pid-path=/var/run/nginx.pid \ </span><br><span class="line">--lock-path=/var/lock/nginx \ </span><br><span class="line">--with-http_stub_status_module \ </span><br><span class="line">--with-http_ssl_module \ </span><br><span class="line">--with-http_gzip_static_module \ </span><br><span class="line">--with-pcre </span><br><span class="line">[root@localhost nginx-1.11.3]# make &amp;&amp;make install</span><br></pre></td></tr></table></figure>
+
+<h5 id="7、Nginx-编译参数"><a href="#7、Nginx-编译参数" class="headerlink" title="7、Nginx 编译参数"></a>7、Nginx 编译参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 nginx 安装的模块</span></span><br><span class="line">[root@tianyun ~]# nginx -V</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 模块参数具体功能 </span></span><br><span class="line">--with-cc-opt='-g -O2 -fPIE -fstack-protector    //设置额外的参数将被添加到CFLAGS变量。（FreeBSD或者ubuntu使用）</span><br><span class="line">--param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2' </span><br><span class="line">--with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' </span><br><span class="line"></span><br><span class="line">--prefix=/usr/share/nginx                        //指向安装目录</span><br><span class="line">--conf-path=/etc/nginx/nginx.conf                //指定配置文件</span><br><span class="line">--http-log-path=/var/log/nginx/access.log        //指定访问日志</span><br><span class="line">--error-log-path=/var/log/nginx/error.log        //指定错误日志</span><br><span class="line">--lock-path=/var/lock/nginx.lock                 //指定lock文件</span><br><span class="line">--pid-path=/run/nginx.pid                        //指定pid文件</span><br><span class="line"></span><br><span class="line">--http-client-body-temp-path=/var/lib/nginx/body    //设定http客户端请求临时文件路径</span><br><span class="line">--http-fastcgi-temp-path=/var/lib/nginx/fastcgi     //设定http fastcgi临时文件路径</span><br><span class="line">--http-proxy-temp-path=/var/lib/nginx/proxy         //设定http代理临时文件路径</span><br><span class="line">--http-scgi-temp-path=/var/lib/nginx/scgi           //设定http scgi临时文件路径</span><br><span class="line">--http-uwsgi-temp-path=/var/lib/nginx/uwsgi         //设定http uwsgi临时文件路径</span><br><span class="line"></span><br><span class="line">--with-debug                                        //启用debug日志</span><br><span class="line">--with-pcre-jit                                     //编译PCRE包含“just-in-time compilation”</span><br><span class="line">--with-ipv6                                         //启用ipv6支持</span><br><span class="line">--with-http_ssl_module                              //启用ssl支持</span><br><span class="line">--with-http_stub_status_module                      //获取nginx自上次启动以来的状态</span><br><span class="line">--with-http_realip_module                 //允许从请求标头更改客户端的IP地址值，默认为关</span><br><span class="line">--with-http_auth_request_module           //实现基于一个子请求的结果的客户端授权。如果该子请求返回的2xx响应代码，所述接入是允许的。如果它返回401或403中，访问被拒绝与相应的错误代码。由子请求返回的任何其他响应代码被认为是一个错误。</span><br><span class="line">--with-http_addition_module               //作为一个输出过滤器，支持不完全缓冲，分部分响应请求</span><br><span class="line">--with-http_dav_module                    //增加PUT,DELETE,MKCOL：创建集合,COPY和MOVE方法 默认关闭，需编译开启</span><br><span class="line">--with-http_geoip_module                  //使用预编译的MaxMind数据库解析客户端IP地址，得到变量值</span><br><span class="line">--with-http_gunzip_module                 //它为不支持“gzip”编码方法的客户端解压具有“Content-Encoding: gzip”头的响应。</span><br><span class="line">--with-http_gzip_static_module            //在线实时压缩输出数据流</span><br><span class="line">--with-http_image_filter_module           //传输JPEG/GIF/PNG 图片的一个过滤器）（默认为不启用。gd库要用到）</span><br><span class="line">--with-http_spdy_module                   //SPDY可以缩短网页的加载时间</span><br><span class="line">--with-http_sub_module                    //允许用一些其他文本替换nginx响应中的一些文本</span><br><span class="line">--with-http_xslt_module                   //过滤转换XML请求</span><br><span class="line">--with-mail                               //启用POP3/IMAP4/SMTP代理模块支持</span><br><span class="line">--with-mail_ssl_module                    //启用ngx_mail_ssl_module支持启用外部模块支持</span><br></pre></td></tr></table></figure>
+
+<h5 id="8、修改配置文件-etc-nginx-nginx-conf"><a href="#8、修改配置文件-etc-nginx-nginx-conf" class="headerlink" title="8、修改配置文件/etc/nginx/nginx.conf"></a>8、修改配置文件/etc/nginx/nginx.conf</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 全局参数设置 </span></span><br><span class="line">worker_processes  1;          #设置nginx启动进程的数量，一般设置成与逻辑cpu数量相同 </span><br><span class="line">error_log  logs/error.log;    #指定错误日志 </span><br><span class="line">worker_rlimit_nofile 102400;  #设置一个nginx进程能打开的最大文件数 </span><br><span class="line">pid        /var/run/nginx.pid; </span><br><span class="line">events &#123; </span><br><span class="line">    worker_connections  1024; #设置一个进程的最大并发连接数 </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">#</span><span class="bash"> http 服务相关设置 </span></span><br><span class="line">http &#123; </span><br><span class="line">    include      mime.types; </span><br><span class="line">    default_type  application/octet-stream; </span><br><span class="line">    log_format  main  'remote_addr - remote_user [time_local] "request" '</span><br><span class="line">                      'status body_bytes_sent "$http_referer" '</span><br><span class="line">                      '"http_user_agent" "http_x_forwarded_for"'; </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;    #设置访问日志的位置和格式 </span><br><span class="line">    sendfile          on; #是否调用sendfile函数输出文件，一般设置为on，若nginx是用来进行磁盘IO负载应用时，可以设置为off，降低系统负载 </span><br><span class="line">    gzip              on;      #是否开启gzip压缩 </span><br><span class="line">    keepalive_timeout  65;     #设置长连接的超时时间 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 虚拟服务器的相关设置 </span></span><br><span class="line">    server &#123; </span><br><span class="line">        listen      80;        #设置监听的端口 </span><br><span class="line">        server_name  localhost;        #设置绑定的主机名、域名或ip地址 </span><br><span class="line">        charset koi8-r;        # 设置编码字符 </span><br><span class="line">        location / &#123; </span><br><span class="line">            root  /var/www/nginx;           #设置服务器默认网站的根目录位置 </span><br><span class="line">            index  index.html index.htm;    #设置默认打开的文档 </span><br><span class="line">            &#125; </span><br><span class="line">        error_page  500 502 503 504  /50x.html; #设置错误信息返回页面 </span><br><span class="line">        location = /50x.html &#123; </span><br><span class="line">            root  html;        #这里的绝对位置是/var/www/nginx/html </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="9、检测-nginx-配置文件是否正确"><a href="#9、检测-nginx-配置文件是否正确" class="headerlink" title="9、检测 nginx 配置文件是否正确"></a>9、检测 nginx 配置文件是否正确</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+
+<h5 id="10、启动nginx服务"><a href="#10、启动nginx服务" class="headerlink" title="10、启动nginx服务"></a>10、启动nginx服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="11、通过-nginx-命令控制-nginx-服务"><a href="#11、通过-nginx-命令控制-nginx-服务" class="headerlink" title="11、通过 nginx 命令控制 nginx 服务"></a>11、通过 nginx 命令控制 nginx 服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /path/to/nginx.conf  	 # 以特定目录下的配置文件启动nginx:</span><br><span class="line">nginx -s reload            	 	 # 修改配置后重新加载生效</span><br><span class="line">nginx -s reopen   			 	 # 重新打开日志文件</span><br><span class="line">nginx -s stop  				 	 # 快速停止nginx</span><br><span class="line">nginx -s quit  				  	 # 完整有序的停止nginx</span><br><span class="line">nginx -t    					 # 测试当前配置文件是否正确</span><br><span class="line">nginx -t -c /path/to/nginx.conf  # 测试特定的nginx配置文件是否正确</span><br></pre></td></tr></table></figure>
+
+<h5 id="12、实现nginx开机自启"><a href="#12、实现nginx开机自启" class="headerlink" title="12、实现nginx开机自启"></a>12、实现nginx开机自启</h5><p> a、添加启动脚本  vim /etc/init.d/nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> nginx - this script starts and stops the nginx daemon </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chkconfig:  - 85 15  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> description:  Nginx is an HTTP(S) server, HTTP(S) reverse \ </span></span><br><span class="line"><span class="meta">#</span><span class="bash">              proxy and IMAP/POP3 proxy server </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> processname: nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/nginx/nginx.conf </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/sysconfig/nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pidfile:    /var/run/nginx.pid </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source <span class="keyword">function</span> library. </span></span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source networking configuration. </span></span><br><span class="line">. /etc/sysconfig/network</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Check that networking is up. </span></span><br><span class="line">[ "$NETWORKING" = "no" ] &amp;&amp; exit 0 </span><br><span class="line">  </span><br><span class="line">nginx="/usr/sbin/nginx"</span><br><span class="line">prog=$(basename $nginx) </span><br><span class="line">  </span><br><span class="line">NGINX_CONF_FILE="/etc/nginx/nginx.conf"</span><br><span class="line">  </span><br><span class="line">[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx</span><br><span class="line">  </span><br><span class="line">lockfile=/var/lock/subsys/nginx</span><br><span class="line">  </span><br><span class="line">make_dirs() &#123; </span><br><span class="line"><span class="meta">  #</span><span class="bash"> make required directories </span></span><br><span class="line">  user=`nginx -V 2&gt;&amp;1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -` </span><br><span class="line">  options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'` </span><br><span class="line">  for opt in $options; do</span><br><span class="line">      if [ `echo $opt | grep '.*-temp-path'` ]; then</span><br><span class="line">          value=`echo $opt | cut -d "=" -f 2` </span><br><span class="line">          if [ ! -d "$value" ]; then</span><br><span class="line">              # echo "creating" $value </span><br><span class="line">              mkdir -p $value &amp;&amp; chown -R $user $value </span><br><span class="line">          fi</span><br><span class="line">      fi</span><br><span class="line">  done</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">start() &#123; </span><br><span class="line">    [ -x $nginx ] || exit 5 </span><br><span class="line">    [ -f $NGINX_CONF_FILE ] || exit 6 </span><br><span class="line">    make_dirs </span><br><span class="line">    echo -n $"Starting $prog: "</span><br><span class="line">    daemon $nginx -c $NGINX_CONF_FILE </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">stop() &#123; </span><br><span class="line">    echo -n $"Stopping $prog: "</span><br><span class="line">    killproc $prog -QUIT </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">restart() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    stop </span><br><span class="line">    sleep 1 </span><br><span class="line">    start </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">reload() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    echo -n $"Reloading $prog: "</span><br><span class="line">    killproc $nginx -HUP </span><br><span class="line">    RETVAL=$? </span><br><span class="line">    echo</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">force_reload() &#123; </span><br><span class="line">    restart </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">configtest() &#123; </span><br><span class="line"><span class="meta">  $</span><span class="bash">nginx -t -c <span class="variable">$NGINX_CONF_FILE</span> </span></span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status() &#123; </span><br><span class="line">    status $prog </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status_q() &#123; </span><br><span class="line">    rh_status &gt;/dev/null 2&gt;&amp;1 </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">case "$1" in</span><br><span class="line">    start) </span><br><span class="line">        rh_status_q &amp;&amp; exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    stop) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    restart|configtest) </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    reload) </span><br><span class="line">        rh_status_q || exit 7 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    force-reload) </span><br><span class="line">        force_reload </span><br><span class="line">        ;; </span><br><span class="line">    status) </span><br><span class="line">        rh_status </span><br><span class="line">        ;; </span><br><span class="line">    condrestart|try-restart) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">            ;; </span><br><span class="line">    *) </span><br><span class="line">        echo $"Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest&#125;"</span><br><span class="line">        exit 2 </span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p>b、添加权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/nginx</span><br></pre></td></tr></table></figure>
+
+<p>c、重载系统启动文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>d、设置开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p>10、nginx 日志文件详解</p>
+<p>​    nginx 日志文件分为 <strong>log_format</strong> 和 <strong>access_log</strong> 两部分</p>
+<p>​    log_format 定义记录的格式，其语法格式为</p>
+<p>​    log_format        样式名称        样式详情</p>
+<p>​    配置文件中默认有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &#39;remote_addr - remote_user [time_local] &quot;request&quot; &#39;</span><br><span class="line">                  &#39;status body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                  &#39;&quot;http_user_agent&quot; &quot;http_x_forwarded_for&quot;&#39;;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>点击这里</th>
+<th>点击这里</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>变量</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>$remote_addr和$http_x_forwarded_for</td>
+<td>客户端的ip</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端的名称</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>访问时的本地时间</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的URL和http协议</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>访问的状态码</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端的主体内容大小</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>记录客户端是从哪个页面链接访问过来的，若没有链接，则访问‘-’</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>记录客户端使用的浏览器的相关信息</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2019/03/27/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" data-id="ckco9orl30017pkuvcmdw80sk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/36/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><a class="page-number" href="/page/39/">39</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/38/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
+          </li>
+        
+          <li>
+            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
