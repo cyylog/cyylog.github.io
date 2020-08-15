@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Tomcat-04" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Jenkins-流水线语法-002" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/03/30/Tomcat-04/" class="article-date">
-  <time datetime="2020-03-29T16:36:31.000Z" itemprop="datePublished">2020-03-30</time>
+    <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/" class="article-date">
+  <time datetime="2020-05-30T04:43:37.000Z" itemprop="datePublished">2020-05-30</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/Tomcat-04/">Tomcat_04_安全优化</a>
+      <a class="article-title" href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
     </h1>
   
 
@@ -94,208 +94,261 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p><code>parameters</code> 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过 <code>params</code> 对象提供给流水线步骤, 了解更多请参考<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#parameters-example" target="_blank" rel="noopener">示例</a>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Only once, inside the <code>pipeline</code> block.</td>
+</tr>
+</tbody></table>
+<h5 id="可用参数"><a href="#可用参数" class="headerlink" title="可用参数"></a>可用参数</h5><ul>
+<li><p>string</p>
+<p>字符串类型的参数, 例如: <code>parameters { string(name: &#39;DEPLOY_ENV&#39;, defaultValue: &#39;staging&#39;, description: &#39;&#39;) }</code></p>
+</li>
+<li><p>booleanParam</p>
+<p>布尔参数, 例如: <code>parameters { booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: true, description: &#39;&#39;) }</code></p>
+</li>
+</ul>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    parameters &#123;</span><br><span class="line">        string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello $&#123;params.PERSON&#125;"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="10、Tomcat安全优化"><a href="#10、Tomcat安全优化" class="headerlink" title="10、Tomcat安全优化"></a>10、Tomcat安全优化</h4><h5 id="1、telnet管理端口保护（强制）"><a href="#1、telnet管理端口保护（强制）" class="headerlink" title="1、telnet管理端口保护（强制）"></a>1、telnet管理端口保护（强制）</h5><table>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<th></th>
+<th>一份完整的可用参数列表正在等待 <a href="https://issues.jenkins-ci.org/browse/INFRA-1053" target="_blank" rel="noopener">INFRA-1503</a>的完成。</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>telnet管理端口保护</td>
-<td>1.修改默认的8005管理端口为不易猜测的端口（大于1024）；2.修改SHUTDOWN指令为其他字符串；</td>
-<td><Server port="**8527**" shutdown="**dangerous**"></td>
-<td>1.以上配置项的配置内容只是建议配置，可以按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；</td>
-</tr>
-</tbody></table>
-<h5 id="2、-ajp连接端口保护（推荐）"><a href="#2、-ajp连接端口保护（推荐）" class="headerlink" title="2、 ajp连接端口保护（推荐）"></a>2、 ajp连接端口保护（推荐）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Ajp 连接端口保护</td>
-<td>1.修改默认的ajp 8009端口为不易冲突的大于1024端口；2.通过iptables规则限制ajp端口访问的权限仅为线上机器；</td>
-<td>&lt;Connector port=”<strong>8528</strong>“protocol=”AJP/1.3” /&gt;</td>
-<td>以上配置项的配置内容仅为建议配置，请按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；；保护此端口的目的在于防止线下的测试流量被mod_jk转发至线上tomcat服务器；</td>
-</tr>
-</tbody></table>
-<h5 id="3、禁用管理端（强制）"><a href="#3、禁用管理端（强制）" class="headerlink" title="3、禁用管理端（强制）"></a>3、禁用管理端（强制）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>禁用管理端</td>
-<td>1. 删除默认的{Tomcat安装目录}/conf/tomcat-users.xml文件，重启tomcat后将会自动生成新的文件；2. 删除{Tomcat安装目录}/webapps下默认的所有目录和文件；3.将tomcat 应用根目录配置为tomcat安装目录以外的目录；</td>
-<td>&lt;Context path=”” docBase=”<strong>/home/work/local/tomcat**</strong>_webapps**”debug=”0”reloadable=”false”crossContext=”true”/&gt;</td>
-<td>对于前段web模块，Tomcat管理端属于tomcat的高危安全隐患，一旦被攻破，黑客通过上传web shell的方式将会直接取得服务器的控制权，后果极其严重；</td>
-</tr>
-</tbody></table>
-<h5 id="4、降权启动（强制）"><a href="#4、降权启动（强制）" class="headerlink" title="4、降权启动（强制）"></a>4、降权启动（强制）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>降权启动</td>
-<td>1.tomcat启动用户权限必须为非root权限，尽量降低tomcat启动用户的目录访问权限；2.如需直接对外使用80端口，可通过普通账号启动后，配置iptables规则进行转发；</td>
 <td></td>
-<td>避免一旦tomcat 服务被入侵，黑客直接获取高级用户权限危害整个server的安全；</td>
+<td></td>
 </tr>
 </tbody></table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# useradd tomcat</span><br><span class="line">[root@web03 ~]# cp -a &#x2F;application&#x2F;tools&#x2F;tomcat8_1 &#x2F;home&#x2F;tomcat&#x2F;</span><br><span class="line">[root@web03 ~]# chown -R tomcat.tomcat &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;</span><br><span class="line">[root@web03 ~]# su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br><span class="line">Using CATALINA_BASE:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_HOME:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_TMPDIR: &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;temp</span><br><span class="line">Using JRE_HOME:        &#x2F;application&#x2F;jdk</span><br><span class="line">Using CLASSPATH:       &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;bootstrap.jar:&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;tomcat-juli.jar</span><br><span class="line">Tomcat started.</span><br><span class="line">[root@web03 ~]# ps -ef|grep tomcat</span><br></pre></td></tr></table></figure>
-
-<h5 id="5、文件列表访问控制（强制）"><a href="#5、文件列表访问控制（强制）" class="headerlink" title="5、文件列表访问控制（强制）"></a>5、文件列表访问控制（强制）</h5><table>
+<h4 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h4><p><code>triggers</code> 指令定义了流水线被重新触发的自动化方法。对于集成了源（ 比如 GitHub 或 BitBucket）的流水线, 可能不需要 <code>triggers</code> ，因为基于 web 的集成很肯能已经存在。 当前可用的触发器是 <code>cron</code>, <code>pollSCM</code> 和 <code>upstream</code>。</p>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<th align="left">Required</th>
+<th>No</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>文件列表访问控制</td>
-<td>1.conf/web.xml文件中default部分listings的配置必须为false；</td>
-<td><init-param><param-name><strong>listings</strong></param-name><param-value><strong>false</strong></param-value></init-param></td>
-<td>false为不列出目录文件，true为允许列出，默认为false；</td>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Only once, inside the <code>pipeline</code> block.</td>
 </tr>
 </tbody></table>
-<h5 id="6、版本信息隐藏（强制）"><a href="#6、版本信息隐藏（强制）" class="headerlink" title="6、版本信息隐藏（强制）"></a>6、版本信息隐藏（强制）</h5><table>
+<ul>
+<li><p>cron</p>
+<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron(&#39;H */4 * * 1-5&#39;) }</code></p>
+</li>
+<li><p>pollSCM</p>
+<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM(&#39;H */4 * * 1-5&#39;) }</code></p>
+</li>
+<li><p>upstream</p>
+<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: &#39;job1,job2&#39;, threshold: hudson.model.Result.SUCCESS) }</code></p>
+</li>
+</ul>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<th></th>
+<th><code>pollSCM</code> 只在Jenkins 2.22 及以上版本中可用。</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>版本信息隐藏</td>
-<td>1.修改conf/web.xml，重定向403、404以及500等错误到指定的错误页面；2.也可以通过修改应用程序目录下的WEB-INF/web.xml下的配置进行错误页面的重定向；</td>
-<td><error-page><error-code><strong>403</strong></error-code><location><strong>/forbidden.jsp</strong></location></error-page><error-page><error-code><strong>404</strong></error-code><location><strong>/notfound.jsp</strong></location></error-page><error-page><error-code><strong>500</strong></error-code><location><strong>/systembusy.jsp</strong></location></error-page></td>
-<td>在配置中对一些常见错误进行重定向，避免当出现错误时tomcat默认显示的错误页面暴露服务器和版本信息；必须确保程序根目录下的错误页面已经存在；</td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>
-<h5 id="7、Server-header重写（推荐）"><a href="#7、Server-header重写（推荐）" class="headerlink" title="7、Server header重写（推荐）"></a>7、Server header重写（推荐）</h5><table>
+<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    triggers &#123;</span><br><span class="line">        cron(<span class="string">'H */4 * * 1-5'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="stage"><a href="#stage" class="headerlink" title="stage"></a>stage</h4><p><code>stage</code> 指令在 <code>stages</code> 部分进行，应该包含一个 实际上, 流水巷所做的所有实际工作都将封装进一个或多个 <code>stage</code> 指令中。</p>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<th align="left">Required</th>
+<th>At least one</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Server header重写</td>
-<td>在HTTP Connector配置中加入server的配置；</td>
-<td>server=”<strong>webserver</strong>“</td>
-<td>当tomcat HTTP端口直接提供web服务时此配置生效，加入此配置，将会替换http 响应Server header部分的默认配置，默认是<code>Apache-Coyote/1.1</code></td>
+<td align="left">Parameters</td>
+<td>One mandatory parameter, a string for the name of the stage.</td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside the <code>stages</code> section.</td>
 </tr>
 </tbody></table>
-<h5 id="8、访问限制（可选）"><a href="#8、访问限制（可选）" class="headerlink" title="8、访问限制（可选）"></a>8、访问限制（可选）</h5><table>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><p>定义自动安装和放置 <code>PATH</code> 的工具的一部分。如果 <code>agent none</code> 指定，则忽略该操作。</p>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<th align="left">Required</th>
+<th>No</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>访问限制</td>
-<td>通过配置，限定访问的ip来源</td>
-<td><Context path="" docBase="/home/work/tomcat" debug="0" reloadable="false" crossContext="true">&lt;Valve className=”org.apache.catalina.valves.RemoteAddrValve” <strong>allow=”61.148.18.138,61.135.165.*“ deny=”*.*.*.*“</strong>/&gt;</Context></td>
-<td>通过配置信任ip的白名单，拒绝非白名单ip的访问，此配置主要是针对高保密级别的系统，一般产品线不需要；</td>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside the <code>pipeline</code> block or a <code>stage</code> block.</td>
 </tr>
 </tbody></table>
-<h5 id="9、起停脚本权限回收（推荐）"><a href="#9、起停脚本权限回收（推荐）" class="headerlink" title="9、起停脚本权限回收（推荐）"></a>9、起停脚本权限回收（推荐）</h5><table>
+<h5 id="支持工具"><a href="#支持工具" class="headerlink" title="支持工具"></a>支持工具</h5><ul>
+<li>maven</li>
+<li>jdk</li>
+<li>gradle</li>
+</ul>
+<h5 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    tools &#123;</span><br><span class="line">        maven <span class="string">'apache-maven-3.0.1'</span> </span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">'mvn --version'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<th></th>
+<th>The tool name must be pre-configured in Jenkins under <strong>Manage Jenkins</strong> → <strong>Global Tool Configuration</strong>.</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>起停脚本权限回收</td>
-<td>去除其他用户对Tomcat的bin目录下shutdown.sh、startup.sh、catalina.sh的可执行权限；</td>
-<td>chmod -R 744 tomcat/bin/*</td>
-<td>防止其他用户有起停线上Tomcat的权限；</td>
+<td></td>
+<td>工具名称必须在Jenkins中的Manage Jenkins→全局工具配置下预先配置。</td>
 </tr>
 </tbody></table>
-<h5 id="10、-访问日志格式规范（推荐）"><a href="#10、-访问日志格式规范（推荐）" class="headerlink" title="10、 访问日志格式规范（推荐）"></a>10、 访问日志格式规范（推荐）</h5><table>
+<h4 id="input"><a href="#input" class="headerlink" title="input"></a>input</h4><p><code>stage</code> 的 <code>input</code> 指令允许你使用 <a href="https://jenkins.io/doc/pipeline/steps/pipeline-input-step/#input-wait-for-interactive-input" target="_blank" rel="noopener"><code>input</code> step</a>提示输入。 在应用了 <code>options</code> 后，进入 <code>stage</code> 的 <code>agent</code> 或评估 <code>when</code> 条件前， <code>stage</code> 将暂停。 如果 <code>input</code> 被批准, <code>stage</code> 将会继续。 作为 <code>input</code> 提交的一部分的任何参数都将在环境中用于其他 <code>stage</code>。</p>
+<h5 id="配置项"><a href="#配置项" class="headerlink" title="配置项"></a>配置项</h5><ul>
+<li><p>message</p>
+<p>必需的。 这将在用户提交 <code>input</code> 时呈现给用户。</p>
+</li>
+<li><p>id</p>
+<p><code>input</code> 的可选标识符， 默认为 <code>stage</code> 名称。</p>
+</li>
+<li><p>ok</p>
+<p><code>input</code>表单上的”ok” 按钮的可选文本。</p>
+</li>
+<li><p>submitter</p>
+<p>可选的以逗号分隔的用户列表或允许提交 <code>input</code> 的外部组名。默认允许任何用户。</p>
+</li>
+<li><p>submitterParameter</p>
+<p>环境变量的可选名称。如果存在，用 <code>submitter</code> 名称设置。</p>
+</li>
+<li><p>parameters</p>
+<p>提示提交者提供的一个可选的参数列表。 更多信息参见 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#parameters" target="_blank" rel="noopener">[parameters]</a>。</p>
+</li>
+</ul>
+<h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            input &#123;</span><br><span class="line">                message <span class="string">"Should we continue?"</span></span><br><span class="line">                ok <span class="string">"Yes, we should."</span></span><br><span class="line">                submitter <span class="string">"alice,bob"</span></span><br><span class="line">                parameters &#123;</span><br><span class="line">                    string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello, $&#123;PERSON&#125;, nice to meet you."</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="when"><a href="#when" class="headerlink" title="when"></a>when</h4><p><code>when</code> 指令允许流水线根据给定的条件决定是否应该执行阶段。 <code>when</code> 指令必须包含至少一个条件。 如果 <code>when</code> 指令包含多个条件, 所有的子条件必须返回True，阶段才能执行。 这与子条件在 <code>allOf</code> 条件下嵌套的情况相同 (参见下面的<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#when-example" target="_blank" rel="noopener">示例</a>)。</p>
+<p>使用诸如 <code>not</code>, <code>allOf</code>, 或 <code>anyOf</code> 的嵌套条件可以构建更复杂的条件结构 can be built 嵌套条件刻意潜逃到任意深度。</p>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<th align="left">Required</th>
+<th>No</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>访问日志格式规范</td>
-<td>开启Tomcat默认访问日志中的Referer和User-Agent记录</td>
-<td><Valve className="org.apache.catalina.valves.AccessLogValve"                 directory="logs"  prefix="localhost_access_log." suffix=".txt"                 pattern="%h %l %u %t %r %s %b %{Referer}i %{User-Agent}i %D" resolveHosts="false"/></td>
-<td>开启Referer和User-Agent是为了一旦出现安全问题能够更好的根据日志进行问题排查；</td>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside a <code>stage</code> directive</td>
 </tr>
 </tbody></table>
-<h5 id="11、-附录：建议配置及标准执行方案"><a href="#11、-附录：建议配置及标准执行方案" class="headerlink" title="11、 附录：建议配置及标准执行方案"></a>11、 附录：建议配置及标准执行方案</h5><p><strong>1.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/server.xml<strong>**）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server port&#x3D;&quot;8527&quot; shutdown&#x3D;&quot; dangerous&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Define a non-SSL HTTP&#x2F;1.1 Connector on port 8080 --&gt;</span><br><span class="line">&lt;Connector port&#x3D;&quot;8080&quot; server&#x3D;&quot;webserver&quot;&#x2F;&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- Define an AJP 1.3 Connector on port 8528 --&gt;</span><br><span class="line">&lt;!--Define an accesslog --&gt; </span><br><span class="line">&lt;Valve className&#x3D;&quot;org.apache.catalina.valves.AccessLogValve&quot;</span><br><span class="line">                 directory&#x3D;&quot;logs&quot;  prefix&#x3D;&quot;localhost_access_log.&quot; suffix&#x3D;&quot;.txt&quot;</span><br><span class="line">                 pattern&#x3D;&quot;%h %l %u %t %r %s %b %&#123;Referer&#125;i %&#123;User-Agent&#125;i %D&quot; resolveHosts&#x3D;&quot;false&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Connector port&#x3D;&quot;8528&quot; protocol&#x3D;&quot;AJP&#x2F;1.3&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;Context path&#x3D;&quot;&quot; docBase&#x3D;&quot;&#x2F;home&#x2F;work&#x2F;local&#x2F;tomcat_webapps&quot; debug&#x3D;&quot;0&quot; reloadable&#x3D;&quot;false&quot; crossContext&#x3D;&quot;true&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="内置条件"><a href="#内置条件" class="headerlink" title="内置条件"></a>内置条件</h5><ul>
+<li><p>branch</p>
+<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch &#39;master&#39; }</code>。注意，这只适用于多分支流水线。</p>
+</li>
+<li><p>environment</p>
+<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; }</code></p>
+</li>
+<li><p>expression</p>
+<p>当指定的Groovy表达式评估为true时，执行这个阶段, 例如: <code>when { expression { return params.DEBUG_BUILD } }</code></p>
+</li>
+<li><p>not</p>
+<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch &#39;master&#39; } }</code></p>
+</li>
+<li><p>allOf</p>
+<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch &#39;master&#39;; environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; } }</code></p>
+</li>
+<li><p>anyOf</p>
+<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch &#39;master&#39;; branch &#39;staging&#39; } }</code></p>
+</li>
+</ul>
+<h5 id="在进入-stage-的-agent-前评估-when"><a href="#在进入-stage-的-agent-前评估-when" class="headerlink" title="在进入 stage 的 agent 前评估 when"></a>在进入 <code>stage</code> 的 <code>agent</code> 前评估 <code>when</code></h5><p>默认情况下, 如果定义了某个阶段的代理，在进入该<code>stage</code> 的 <code>agent</code> 后该 <code>stage</code> 的 <code>when</code> 条件将会被评估。但是, 可以通过在 <code>when</code> 块中指定 <code>beforeAgent</code> 选项来更改此选项。 如果 <code>beforeAgent</code> 被设置为 <code>true</code>, 那么就会首先对 <code>when</code> 条件进行评估 , 并且只有在 <code>when</code> 条件验证为真时才会进入 <code>agent</code> 。</p>
+<h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                allOf &#123;</span><br><span class="line">                    branch <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>2.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/web.xml<strong><strong>或者</strong></strong>WEB-INF/web.xml<strong>**）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;init-param&gt;</span><br><span class="line">    &lt;param-name&gt;listings&lt;&#x2F;param-name&gt;</span><br><span class="line">    &lt;param-value&gt;false&lt;&#x2F;param-value&gt;</span><br><span class="line">&lt;&#x2F;init-param&gt;</span><br><span class="line"></span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;403&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;forbidden.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;404&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;notfound.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;500&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;systembusy.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br></pre></td></tr></table></figure>
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>3.</strong>       <strong>删除如下**</strong>tomcat<strong>**的默认目录和默认文件</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tomcat&#x2F;webapps&#x2F;*</span><br><span class="line">tomcat&#x2F;conf&#x2F;tomcat-user.xml</span><br></pre></td></tr></table></figure>
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                expression &#123; BRANCH_NAME ==~ <span class="regexp">/(production|staging)/</span> &#125;</span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>4.</strong>       <strong>去除其他用户对**</strong>tomcat** <strong>起停脚本的执行权限</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 744 –R tomcat&#x2F;bin&#x2F;*</span><br></pre></td></tr></table></figure>
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent none</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            agent &#123;</span><br><span class="line">                label <span class="string">"some-label"</span></span><br><span class="line">            &#125;</span><br><span class="line">            when &#123;</span><br><span class="line">                beforeAgent <span class="literal">true</span></span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="11、Tomcat性能优化"><a href="#11、Tomcat性能优化" class="headerlink" title="11、Tomcat性能优化"></a>11、Tomcat性能优化</h4><p>tomcat性能取决于 内存大小</p>
-<p><strong>上策：优化代码</strong></p>
-<p>   该项需要开发经验足够丰富，对开发人员要求较高</p>
-<p><strong>中策：jvm**</strong>优化机制** <strong>垃圾回收机制</strong> <strong>把不需要的内存回收</strong></p>
-<p>​                  优化jvm–优化垃圾回收策略</p>
-<p>优化catalina.sh配置文件。在catalina.sh配置文件中添加以下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># tomcat分配1G内存模板</span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize&#x3D;512m -XX:MaxNewSize&#x3D;512m -XX:PermSize&#x3D;512m -XX:MaxPermSize&#x3D;512m&quot;        </span><br><span class="line"></span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms800m -Xmx800m -XX:NewSize&#x3D;400m -XX:MaxNewSize&#x3D;400m -XX:PermSize&#x3D;400m -XX:MaxPermSize&#x3D;400m&quot;    </span><br><span class="line"># 重启服务</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;shutdown.sh&#39; tomcat</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br></pre></td></tr></table></figure>
+<h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><p>声明式流水线的阶段可以在他们内部声明多隔嵌套阶段, 它们将并行执行。 注意，一个阶段必须只有一个 <code>steps</code> 或 <code>parallel</code> 的阶段。 嵌套阶段本身不能包含进一步的 <code>parallel</code> 阶段, 但是其他的阶段的行为与任何其他 <code>stage</code> 相同。任何包含 <code>parallel</code> 的阶段不能包含 <code>agent</code> 或 <code>tools</code> 阶段, 因为他们没有相关 <code>steps</code>。</p>
+<p>另外, 通过添加 <code>failFast true</code> 到包含 <code>parallel</code>的 <code>stage</code> 中， 当其中一个进程失败时，你可以强制所有的 <code>parallel</code> 阶段都被终止。</p>
+<h4 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h4><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Non-Parallel Stage'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'This stage will be executed first.'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Parallel Stage'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'master'</span></span><br><span class="line">            &#125;</span><br><span class="line">            failFast <span class="literal">true</span></span><br><span class="line">            parallel &#123;</span><br><span class="line">                stage(<span class="string">'Branch A'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-a"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch A"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                stage(<span class="string">'Branch B'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-b"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch B"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>​         <strong>修改之前</strong></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHitTf.png" alt="YHitTf.png"></p>
-<p>​         <strong>修改之后</strong></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHiUk8.png" alt="YHiUk8.png"></p>
-<p><strong>下策：加足够大的内存</strong></p>
-<p>该项的资金投入较大</p>
-<p><strong>下下策：每天0**</strong>点定时重启tomcat**</p>
-<p>使用较为广泛</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>声明式流水线可能使用在 <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a>中记录的所有可用的步骤, 它包含一个完整的步骤列表, 其中添加了下面列出的步骤，这些步骤只在声明式流水线中 <strong>only supported</strong> 。</p>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p><code>script</code> 步骤需要 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-pipeline" target="_blank" rel="noopener">[scripted-pipeline]</a>块并在声明式流水线中执行。 对于大多数用例来说,应该声明式流水线中的“脚本”步骤是不必要的， 但是它可以提供一个有用的”逃生出口”。 非平凡的规模和/或复杂性的 <code>script</code> 块应该被转移到 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a> 。</p>
+<h5 id="示例-7"><a href="#示例-7" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line"></span><br><span class="line">                script &#123;</span><br><span class="line">                    <span class="keyword">def</span> browsers = [<span class="string">'chrome'</span>, <span class="string">'firefox'</span>]</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; browsers.size(); ++i) &#123;</span><br><span class="line">                        echo <span class="string">"Testing the $&#123;browsers[i]&#125; browser"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="脚本化流水线"><a href="#脚本化流水线" class="headerlink" title="脚本化流水线"></a>脚本化流水线</h2><p>脚本化流水线, 与<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#declarative-pipeline" target="_blank" rel="noopener">[declarative-pipeline]</a>一样的是, 是建立在底层流水线的子系统上的。与声明式不同的是, 脚本化流水线实际上是由 <a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">Groovy</a>构建的通用 DSL [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_2" target="_blank" rel="noopener">2</a>]。 Groovy 语言提供的大部分功能都可以用于脚本化流水线的用户。这意味着它是一个非常有表现力和灵活的工具，可以通过它编写持续交付流水线。</p>
+<h3 id="流控制"><a href="#流控制" class="headerlink" title="流控制"></a>流控制</h3><p>脚本化流水线从 <code>Jenkinsfile</code> 的顶部开始向下串行执行, 就像 Groovy 或其他语言中的大多数传统脚本一样。 因此，提供流控制取决于 Groovy 表达式, 比如 <code>if/else</code> 条件, 例如:</p>
+<p>Jenkinsfile (Scripted Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">'master'</span>) &#123;</span><br><span class="line">            echo <span class="string">'I only execute on the master branch'</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            echo <span class="string">'I execute elsewhere'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一种方法是使用Groovy的异常处理支持来管理脚本化流水线流控制。当 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-steps" target="_blank" rel="noopener">步骤</a> 失败 ，无论什么原因，它们都会抛出一个异常。处理错误的行为必须使用Groovy中的 <code>try/catch/finally</code> 块 , 例如:</p>
+<p>Jenkinsfile (Scripted Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sh <span class="string">'exit 1'</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (exc) &#123;</span><br><span class="line">            echo <span class="string">'Something failed, I should sound the klaxons!'</span></span><br><span class="line">            <span class="keyword">throw</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><p>正如 <a href="https://www.jenkins.io/zh/doc/book/pipeline/" target="_blank" rel="noopener">本章开始</a>所讨论的, 流水线最基础的部分是”步骤”。从根本上说, 步骤告诉 Jenkins要做 <em>what</em> ，并作为声明式和脚本化流水线已发的基本构建块。</p>
+<p>脚本化流水线 <strong>not</strong> 不引入任何特定于其语法的步骤; <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a> 包括流水线和插件提供的步骤的完整列表。</p>
+<h3 id="区别普通-Groovy"><a href="#区别普通-Groovy" class="headerlink" title="区别普通 Groovy"></a>区别普通 Groovy</h3><p>为了提供 <em>durability</em>, 这意味着运行流水线可以在Jenkins <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#../glossary#master" target="_blank" rel="noopener">master</a> 重启后继续运行，脚本化的流水线序列化数据到主服务器。由于这个设计需求, 一些Groovy 习惯用语，比如 <code>collection.each { item -&gt; /* perform operation */ }</code> 都不完全支持。详情参见 <a href="https://issues.jenkins-ci.org/browse/JENKINS-27421" target="_blank" rel="noopener">JENKINS-27421</a> 和 <a href="https://issues.jenkins-ci.org/browse/JENKINS-26481" target="_blank" rel="noopener">JENKINS-26481</a>。</p>
+<h2 id="语法比较"><a href="#语法比较" class="headerlink" title="语法比较"></a>语法比较</h2><p>当Jenkins 流水线第一次构建时, Groovy 被选为基础。 Jenkins长期使用嵌入式 Groovy引擎来为管理员和用户提供 高级脚本功能。另外, Jenkins流水线的实现者发现 Groovy是 构建现在成为 “脚本化流水线” DSL的坚实基础 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_2" target="_blank" rel="noopener">2</a>]。</p>
+<p>由于它是一个功能齐全的编程环境, 脚本化流水线为Jenkins用户提供了 大量的灵活性性和可扩展性。 Groovy学习曲线通常不适合给定团队的所有成员, 因此创造了声明式流水线来为编写Jenkins流水线提供一种更简单、更有主见的语法。</p>
+<p>两者本质上是相同的流水线子系统。 underneath. 他们都是 “流水线即代码” 的持久实现。它们都能够使用构建到流水线中或插件提供的步骤。它们都能够使用 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a></p>
+<p>但是它们的区别在于语法和灵活性。 声明式限制了用户使用更严格和预定义的结构， 使其成为更简单的持续交付流水线的理想选择。 脚本化提供了很少的限制, 以至于对脚本和语法的唯一限制往往是由Groovy子集本身定义的，而不是任何特定于流水线的系统, 这使他成为权利用户和那些有更复杂需求的人的理想选择。 顾名思义, 声明式流水线鼓励 声明式编程模型。 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_3" target="_blank" rel="noopener">3</a>] 而脚本化流水线遵循一个更命令式的编程模型 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_4" target="_blank" rel="noopener">4</a>]</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/03/30/Tomcat-04/" data-id="ckco9xsbq001xbwuv0cj13ibp" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/" data-id="ckco9xsay000cbwuv3wmeanxz" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li></ul>
 
     </footer>
   </div>
@@ -308,7 +361,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -319,7 +372,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Interview/">Interview</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
     </div>
   </div>
 
@@ -329,7 +382,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
     </div>
   </div>
 
@@ -339,7 +392,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -348,7 +401,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -361,23 +414,23 @@
       <ul>
         
           <li>
+            <a href="/9999/11/01/Interview_MySQL_001/">Interview MySQL_001</a>
+          </li>
+        
+          <li>
+            <a href="/9999/10/01/Interview_Network_001/">Interview Network_001</a>
+          </li>
+        
+          <li>
+            <a href="/9999/09/01/Interview_System_001/">Interview System_001</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/05/Interview_Go_001/">Interview Go_001</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
           </li>
         
       </ul>

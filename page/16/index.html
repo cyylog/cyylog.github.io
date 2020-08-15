@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Docker数据共享与持久化" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Tomcat-02" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/01/19/Docker%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" class="article-date">
-  <time datetime="2020-01-19T10:11:44.000Z" itemprop="datePublished">2020-01-19</time>
+    <a href="/2020/03/25/Tomcat-02/" class="article-date">
+  <time datetime="2020-03-24T16:36:05.000Z" itemprop="datePublished">2020-03-25</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/19/Docker%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/">Docker数据共享与持久化</a>
+      <a class="article-title" href="/2020/03/25/Tomcat-02/">Tomcat_02_应用部署</a>
     </h1>
   
 
@@ -94,70 +94,113 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>本文介绍如何在 Docker 内部以及容器之间管理数据，在容器中管理数据主要有两种方式：
+        <a id="more"></a>
 
-<ul>
-<li>数据卷（Data Volumes）</li>
-<li>挂载主机目录 (Bind mounts)</li>
-</ul>
-<h2 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h2><p><code>数据卷</code>是一个可供一个或多个容器使用的特殊目录，它绕过<code>UFS</code>，可以提供很多有用的特性：</p>
-<ul>
-<li>数据卷 可以在容器之间共享和重用</li>
-<li>对 数据卷 的修改会立马生效</li>
-<li>对 数据卷 的更新，不会影响镜像</li>
-<li>数据卷 默认会一直存在，即使容器被删除</li>
-</ul>
-<blockquote>
-<p>注意：数据卷 的使用，类似于 Linux 下对目录或文件进行 mount，镜像中的被指定为挂载点的目录中的文件会隐藏掉，能显示看的是挂载的 数据卷。</p>
-</blockquote>
-<p>选择 -v 还是 -–mount 参数： Docker 新用户应该选择<code>--mount</code>参数，经验丰富的 Docker 使用者对<code>-v</code>或者 <code>--volume</code>已经很熟悉了，但是推荐使用<code>--mount</code>参数。</p>
-<p>创建一个数据卷：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker volume create my-vol</span></span><br></pre></td></tr></table></figure>
+<h4 id="6、WEB站点部署"><a href="#6、WEB站点部署" class="headerlink" title="6、WEB站点部署"></a>6、WEB站点部署</h4><p>上线的代码有两种方式：</p>
+<p>第一种方式是直接将程序目录放在webapps目录下面，这种方式大家已经明白了，就不多说了。</p>
+<p>第二种方式是使用开发工具将程序打包成war包，然后上传到webapps目录下面。</p>
+<h5 id="1、使用war包部署web站点"><a href="#1、使用war包部署web站点" class="headerlink" title="1、使用war包部署web站点"></a>1、使用war包部署web站点</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 webapps]# pwd</span><br><span class="line">&#x2F;application&#x2F;tomcat&#x2F;webapps</span><br><span class="line">[root@web03 webapps]# wget http:&#x2F;&#x2F;10.0.0.1&#x2F;apache&#x2F;tomcat&#x2F;memtest.war</span><br></pre></td></tr></table></figure>
 
-<p>查看所有的 数据卷：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker volume ls</span></span><br><span class="line">local               my-vol</span><br></pre></td></tr></table></figure>
+<p>站点主动解压部署</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 webapps]# ls</span><br><span class="line">docs  examples  host-manager  logs  manager  memtest  memtest.war  ROOT</span><br></pre></td></tr></table></figure>
 
-<p>在主机里使用以下命令可以查看指定 数据卷 的信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker volume inspect my-vol</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "Driver": "local",</span><br><span class="line">        "Labels": &#123;&#125;,</span><br><span class="line">        "Mountpoint": "/var/lib/docker/volumes/my-vol/_data",</span><br><span class="line">        "Name": "my-vol",</span><br><span class="line">        "Options": &#123;&#125;,</span><br><span class="line">        "Scope": "local"</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>浏览器访问：</p>
+<p><em><a href="http://10.0.0.17:8080//memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.17:8080//memtest/meminfo.jsp</a></em></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPrdK.png" alt="YHPrdK.png"></p>
+<h5 id="2、自定义默认网站目录"><a href="#2、自定义默认网站目录" class="headerlink" title="2、自定义默认网站目录"></a>2、自定义默认网站目录</h5><p>上面访问的网址为 <em><a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a></em></p>
+<p>现在想访问格式为<em><a href="http://10.0.0.3:8080/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/meminfo.jsp</a></em></p>
+<p><strong>方法一</strong></p>
+<p>将meminfo.jsp或其他程序放在tomcat/webapps/ROOT目录下即可。因为默认网站根目录为tomcat/webapps/ROOT</p>
+<p><strong>方法二</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# vim &#x2F;application&#x2F;tomcat&#x2F;conf&#x2F;server.xml +125</span><br><span class="line">…… #添加上这两行</span><br><span class="line">        &lt;Context path&#x3D;&quot;&quot; docBase&#x3D;&quot;&#x2F;application&#x2F;tomcat&#x2F;webapps&#x2F;memtest&quot; debug&#x3D;&quot;0&quot; reloadable&#x3D;&quot;false&quot; crossContext&#x3D;&quot;true&quot;&#x2F;&gt;</span><br><span class="line">        &lt;Context path&#x3D;&quot;&#x2F;40team&quot; docBase&#x3D;&quot;&#x2F;application&#x2F;tomcat&#x2F;webapps&#x2F;memtest&quot; debug&#x3D;&quot;0&quot; reloadable&#x3D;&quot;false&quot; crossContext&#x3D;&quot;true&quot;&#x2F;&gt;</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
 
-<p>启动一个挂载数据卷的容器：在用<code>docker run</code>命令的时候，使用<code>--mount</code>标记来将 数据卷 挂载到容器里。在一次<code>docker run</code>中可以挂载多个 数据卷。下面创建一个名为 web 的容器，并加载一个 数据卷 到容器的 /webapp 目录。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d -P \</span></span><br><span class="line">    --name web \</span><br><span class="line">    # -v my-vol:/wepapp \</span><br><span class="line">    --mount source=my-vol,target=/webapp \</span><br><span class="line">    training/webapp \</span><br><span class="line">    python app.py</span><br></pre></td></tr></table></figure>
+<p>修改配置文件后，要重启服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# &#x2F;application&#x2F;tomcat&#x2F;bin&#x2F;shutdown.sh </span><br><span class="line">[root@web03 ~]# &#x2F;application&#x2F;tomcat&#x2F;bin&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
 
-<p>查看数据卷的具体信息：在主机里使用以下命令可以查看 web 容器的信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker inspect web</span></span><br><span class="line">...</span><br><span class="line">"Mounts": [</span><br><span class="line">    &#123;</span><br><span class="line">        "Type": "volume",</span><br><span class="line">        "Name": "my-vol",</span><br><span class="line">        "Source": "/var/lib/docker/volumes/my-vol/_data",</span><br><span class="line">        "Destination": "/app",</span><br><span class="line">        "Driver": "local",</span><br><span class="line">        "Mode": "",</span><br><span class="line">        "RW": true,</span><br><span class="line">        "Propagation": ""</span><br><span class="line">    &#125;</span><br><span class="line">],</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h5 id="3、部署开源站点（jpress）"><a href="#3、部署开源站点（jpress）" class="headerlink" title="3、部署开源站点（jpress）"></a>3、部署开源站点（jpress）</h5><p>jpress官网：<a href="http://jpress.io" target="_blank" rel="noopener">http://jpress.io</a></p>
+<p>下载地址：<a href="https://github.com/JpressProjects/jpress">https://github.com/JpressProjects/jpress</a></p>
+<p>​         第一个里程碑：安装配置数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mariadb-server</span><br><span class="line">systemctl start mariadb.service</span><br></pre></td></tr></table></figure>
 
-<p>删除数据卷：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker volume rm my-vol</span><br></pre></td></tr></table></figure>
+<p>​         #配置数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql</span><br><span class="line">create database jpress DEFAULT CHARACTER SET utf8;</span><br><span class="line">grant all on jpress.* to jpress@&#39;localhost&#39; identified by &#39;123456&#39;;</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
 
-<p>数据卷 是被设计用来持久化数据的，它的生命周期独立于容器，Docker 不会在容器被删除后自动删除 数据卷，并且也不存在垃圾回收这样的机制来处理没有任何容器引用的 数据卷。如果需要在删除容器的同时移除数据卷。可以在删除容器的时候使用<code>docker rm -v</code>这个命令。 无主的数据卷可能会占据很多空间，要清理请使用以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker volume prune</span><br></pre></td></tr></table></figure>
+<p>​         第二个里程碑：jpress站点上线</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 webapps]# pwd</span><br><span class="line">&#x2F;application&#x2F;tomcat&#x2F;webapps</span><br><span class="line">[root@web03 webapps]# wget http:&#x2F;&#x2F;10.0.0.1&#x2F;apache&#x2F;tomcat&#x2F;jpress-web-newest.war</span><br></pre></td></tr></table></figure>
 
-<h2 id="挂载主机目录"><a href="#挂载主机目录" class="headerlink" title="挂载主机目录"></a>挂载主机目录</h2><p>选择 -v 还是 -–mount 参数： Docker 新用户应该选择 –mount 参数，经验丰富的 Docker 使用者对 -v 或者 –volume 已经很熟悉了，但是推荐使用 –mount 参数。</p>
-<p>挂载一个主机目录作为数据卷：使用 <code>--mount</code> 标记可以指定挂载一个本地主机的目录到容器中去。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d -P \</span></span><br><span class="line">    --name web \</span><br><span class="line">    # -v /src/webapp:/opt/webapp \</span><br><span class="line">    --mount type=bind,source=/src/webapp,target=/opt/webapp \</span><br><span class="line">    training/webapp \</span><br><span class="line">    python app.py</span><br></pre></td></tr></table></figure>
+<p>​         第三个里程碑：浏览器访问</p>
+<p>浏览器访问： <a href="http://10.0.0.17:8080/jpress-web-newest/install" target="_blank" rel="noopener">http://10.0.0.17:8080/jpress-web-newest/install</a></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPsIO.png" alt="YHPsIO.png"></p>
+<p>填写数据库信息</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPWQA.png" alt="YHPWQA.png"></p>
+<p>设置站点名称等</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPIdf.png" alt="YHPIdf.png"></p>
+<p>安装完成</p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHP7FS.png" alt="YHP7FS.png"></p>
+<p>重启tomcat服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# &#x2F;application&#x2F;tomcat&#x2F;bin&#x2F;shutdown.sh </span><br><span class="line">[root@web03 ~]# &#x2F;application&#x2F;tomcat&#x2F;bin&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
 
-<p>上面的命令加载主机的 /src/webapp 目录到容器的 /opt/webapp目录。这个功能在进行测试的时候十分方便，比如用户可以放置一些程序到本地目录中，来查看容器是否正常工作。本地目录的路径必须是绝对路径，以前使用 -v 参数时如果本地目录不存在 Docker 会自动为你创建一个文件夹，现在使用 –mount 参数时如果本地目录不存在，Docker 会报错。</p>
-<p>Docker 挂载主机目录的默认权限是 读写，用户也可以通过增加<code>readonly</code>指定为 只读。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d -P \</span></span><br><span class="line">    --name web \</span><br><span class="line">    # -v /src/webapp:/opt/webapp:ro \</span><br><span class="line">    --mount type=bind,source=/src/webapp,target=/opt/webapp,readonly \</span><br><span class="line">    training/webapp \</span><br><span class="line">    python app.py</span><br></pre></td></tr></table></figure>
+<h4 id="7、Tomcat多实例配置"><a href="#7、Tomcat多实例配置" class="headerlink" title="7、Tomcat多实例配置"></a>7、Tomcat多实例配置</h4><p><strong>多虚拟主机</strong>：nginx 多个Server标签（域名，ip，端口） 进程数量固定 master+worker</p>
+<p><strong>多实例（多进程）</strong>：同一个程序启动多次，分为两种情况:</p>
+<p>第一种：一台机器跑多个站点； </p>
+<p>第二种：一个机器跑一个站点多个实例，配合负载均衡</p>
+<h5 id="1、复制程序文件"><a href="#1、复制程序文件" class="headerlink" title="1、复制程序文件"></a>1、复制程序文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;application&#x2F;tools&#x2F;</span><br><span class="line">tar xf apache-tomcat-8.0.27.tar.gz</span><br><span class="line">cp -a apache-tomqcat-8.0.27 tomcat8_1</span><br><span class="line">cp -a apache-tomcat-8.0.27 tomcat8_2</span><br></pre></td></tr></table></figure>
 
-<p>加了<code>readonly</code>之后，就挂载为 只读 了。如果你在容器内 /opt/webapp 目录新建文件，会显示如下错误:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/opt/webapp # touch new.txt</span><br><span class="line">touch: new.txt: Read-only file system</span><br></pre></td></tr></table></figure>
+<p>修改端口，以启动多实例。多实例之间端口不能一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#39;s#8005#8011#;s#8080#8081#&#39; tomcat8_1&#x2F;conf&#x2F;server.xml</span><br><span class="line">sed -i &#39;s#8005#8012#;s#8080#8082#&#39; tomcat8_2&#x2F;conf&#x2F;server.xml</span><br><span class="line">[root@web03 application]# diff tomcat8_1&#x2F;conf&#x2F;server.xml tomcat8_2&#x2F;conf&#x2F;server.xml</span><br><span class="line">22c22</span><br><span class="line">&lt; &lt;Server port&#x3D;&quot;8011&quot; shutdown&#x3D;&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">---</span><br><span class="line">&gt; &lt;Server port&#x3D;&quot;8012&quot; shutdown&#x3D;&quot;SHUTDOWN&quot;&gt;</span><br><span class="line">67c67</span><br><span class="line">&lt;          Define a non-SSL&#x2F;TLS HTTP&#x2F;1.1 Connector on port 8081</span><br><span class="line">---</span><br><span class="line">&gt;          Define a non-SSL&#x2F;TLS HTTP&#x2F;1.1 Connector on port 8082</span><br><span class="line">69c69</span><br><span class="line">&lt;     &lt;Connector port&#x3D;&quot;8081&quot; protocol&#x3D;&quot;HTTP&#x2F;1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;     &lt;Connector port&#x3D;&quot;8082&quot; protocol&#x3D;&quot;HTTP&#x2F;1.1&quot;</span><br><span class="line">75c75</span><br><span class="line">&lt;                port&#x3D;&quot;8081&quot; protocol&#x3D;&quot;HTTP&#x2F;1.1&quot;</span><br><span class="line">---</span><br><span class="line">&gt;                port&#x3D;&quot;8082&quot; protocol&#x3D;&quot;HTTP&#x2F;1.1&quot;</span><br></pre></td></tr></table></figure>
 
-<p>查看数据卷的具体信息：在主机里使用以下命令可以查看 web 容器的信息</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker inspect web</span></span><br><span class="line">...</span><br><span class="line">"Mounts": [</span><br><span class="line">    &#123;</span><br><span class="line">        "Type": "bind",</span><br><span class="line">        "Source": "/src/webapp",</span><br><span class="line">        "Destination": "/opt/webapp",</span><br><span class="line">        "Mode": "",</span><br><span class="line">        "RW": true,</span><br><span class="line">        "Propagation": "rprivate"</span><br><span class="line">    &#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+<p>　　 将配置好的tomcat程序打包，以备之后使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zcf muti_tomcat8.tar.gz .&#x2F;tomcat8_1 .&#x2F;tomcat8_2</span><br></pre></td></tr></table></figure>
 
-<p>挂载一个本地主机文件作为数据卷：<code>--mount</code>标记也可以从主机挂载单个文件到容器中</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run --rm -it \</span></span><br><span class="line"><span class="meta">   #</span><span class="bash"> -v <span class="variable">$HOME</span>/.bash_history:/root/.bash_history \</span></span><br><span class="line">   --mount type=bind,source=$HOME/.bash_history,target=/root/.bash_history \</span><br><span class="line">   ubuntu:17.10 \</span><br><span class="line">   bash</span><br><span class="line"></span><br><span class="line">root@2affd44b4667:/# history</span><br><span class="line">1  ls</span><br><span class="line">2  diskutil list</span><br></pre></td></tr></table></figure>
+<p>启动tomcat多实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh </span><br><span class="line">&#x2F;application&#x2F;tomcat8_2&#x2F;bin&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
 
-<p>这样就可以记录在容器输入过的命令了。</p>
+<p>检查端口是否启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 tomcat8_1]# netstat -lntup |grep java</span><br><span class="line">tcp6   0   0 127.0.0.1:8011    :::*    LISTEN   31906&#x2F;java</span><br><span class="line">tcp6   0   0 127.0.0.1:8012    :::*    LISTEN   31932&#x2F;java</span><br><span class="line">tcp6   0   0 :::8080           :::*    LISTEN   31812&#x2F;java</span><br><span class="line">tcp6   0   0 :::8081           :::*    LISTEN   31906&#x2F;java</span><br><span class="line">tcp6   0   0 :::8082           :::*    LISTEN   31932&#x2F;java</span><br><span class="line">tcp6   0   0 127.0.0.1:8005    :::*    LISTEN   31812&#x2F;java</span><br><span class="line">tcp6   0   0 :::8009           :::*    LISTEN   31812&#x2F;java</span><br></pre></td></tr></table></figure>
 
+<p>将每个实例的网页进行区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 8081 &gt;&gt;&#x2F;application&#x2F;tomcat8_1&#x2F;webapps&#x2F;ROOT&#x2F;index.jsp </span><br><span class="line">echo 8082 &gt;&gt;&#x2F;application&#x2F;tomcat8_2&#x2F;webapps&#x2F;ROOT&#x2F;index.jsp</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、在浏览器访问，进行测试"><a href="#2、在浏览器访问，进行测试" class="headerlink" title="2、在浏览器访问，进行测试"></a>2、在浏览器访问，进行测试</h5><p>检查多实例的启动</p>
+<p>​                  <a href="http://10.0.0.17:8082" target="_blank" rel="noopener">http://10.0.0.17:8082</a></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPbWQ.png" alt="YHPbWQ.png"></p>
+<p><a href="http://10.0.0.17:8081" target="_blank" rel="noopener">http://10.0.0.17:8081</a></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPXyn.png" alt="YHPXyn.png"></p>
+<h4 id="8、tomcat反向代理集群"><a href="#8、tomcat反向代理集群" class="headerlink" title="8、tomcat反向代理集群"></a>8、tomcat反向代理集群</h4><h5 id="1、负载均衡器说明"><a href="#1、负载均衡器说明" class="headerlink" title="1、负载均衡器说明"></a>1、负载均衡器说明</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@lb01 ~]# cat &#x2F;etc&#x2F;redhat-release </span><br><span class="line">CentOS release 6.9 (Final)</span><br><span class="line">[root@lb01 ~]# uname -a</span><br><span class="line">Linux lb01 2.6.32-696.el6.x86_64 #1 SMP Tue Mar 21 19:29:05 UTC 2017 x86_64 x86_64 x86_64 GNU&#x2F;Linux</span><br><span class="line">[root@lb01 ~]# getenforce </span><br><span class="line">Disabled</span><br><span class="line">[root@lb01 ~]# &#x2F;etc&#x2F;init.d&#x2F;iptables status</span><br><span class="line">iptables: Firewall is not running.</span><br></pre></td></tr></table></figure>
+
+<p>负载均衡软件使用nginx，详情参照</p>
+<p><a href="http://www.cnblogs.com/clsn/p/7750615.html" target="_blank" rel="noopener">http://www.cnblogs.com/clsn/p/7750615.html</a></p>
+<h5 id="2、配置负载均衡器"><a href="#2、配置负载均衡器" class="headerlink" title="2、配置负载均衡器"></a>2、配置负载均衡器</h5><p>备份原配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv  &#x2F;application&#x2F;nginx&#x2F;conf&#x2F;nginx.conf&#123;,.20171127&#125;</span><br><span class="line">    egrep -v &#39;#|^$&#39; &#x2F;application&#x2F;nginx&#x2F;conf&#x2F;nginx.conf.default  &gt; &#x2F;application&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>​         配置文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@lb01 ~]# cat &#x2F;application&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br><span class="line">worker_processes  1;</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">    upstream web_pools &#123;</span><br><span class="line">        server 10.0.0.17:8081;</span><br><span class="line">        server 10.0.0.17:8082;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.jsp index.htm;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;web_pools;</span><br><span class="line">        &#125;</span><br><span class="line">        error_page   500 502 503 504  &#x2F;50x.html;</span><br><span class="line">        location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​         配置完成后重启nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;application&#x2F;nginx&#x2F;sbin&#x2F;nginx  -s stop </span><br><span class="line">&#x2F;application&#x2F;nginx&#x2F;sbin&#x2F;nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、使用命令进行访问测试"><a href="#3、使用命令进行访问测试" class="headerlink" title="3、使用命令进行访问测试"></a>3、使用命令进行访问测试</h5><p>使用curl 命令进行测试，tail进行关键字提取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|tail -1</span><br><span class="line">8081</span><br><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|tail -1</span><br><span class="line">8082</span><br></pre></td></tr></table></figure>
+
+<p>使用curl 命令进行测试，awk进行关键字提取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END&#123;print&#125;&#39;</span><br><span class="line">8082</span><br><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END&#123;print&#125;&#39;</span><br><span class="line">8081</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 使用curl 命令进行测试，sed进行关键字提取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;</span><br><span class="line">8082</span><br><span class="line">[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;</span><br><span class="line">8081</span><br></pre></td></tr></table></figure>
+
+<h5 id="4、在浏览器上进行访问测试"><a href="#4、在浏览器上进行访问测试" class="headerlink" title="4、在浏览器上进行访问测试"></a>4、在浏览器上进行访问测试</h5><p><img src="https://s1.ax1x.com/2020/05/21/YHPjLq.png" alt="YHPjLq.png"></p>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHPxe0.png" alt="YHPxe0.png"></p>
+<p>​         建议使用google浏览器chrome 的隐身模式进行访问，使用ctrl+f5 进行强制刷新</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/01/19/Docker%E6%95%B0%E6%8D%AE%E5%85%B1%E4%BA%AB%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" data-id="ckco9xsas0005bwuvg471d382" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/03/25/Tomcat-02/" data-id="ckco9xsbi001jbwuvbbxe3ehq" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
 
     </footer>
   </div>
@@ -170,7 +213,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/42/">42</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/15/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/17/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -181,7 +224,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Interview/">Interview</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
     </div>
   </div>
 
@@ -191,7 +234,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
     </div>
   </div>
 
@@ -201,7 +244,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 12.5px;">MySQL</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -210,7 +253,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -223,23 +266,23 @@
       <ul>
         
           <li>
+            <a href="/9999/11/01/Interview_MySQL_001/">Interview MySQL_001</a>
+          </li>
+        
+          <li>
+            <a href="/9999/10/01/Interview_Network_001/">Interview Network_001</a>
+          </li>
+        
+          <li>
+            <a href="/9999/09/01/Interview_System_001/">Interview System_001</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/05/Interview_Go_001/">Interview Go_001</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/18/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/31/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/30/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%8F%8A%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/">计划任务及日志管理</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/30/Jenkins-%E6%B5%81%E6%B0%B4%E7%BA%BF%E8%AF%AD%E6%B3%95-002/">Jenkins_流水线语法_002</a>
           </li>
         
       </ul>
