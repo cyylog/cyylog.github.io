@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Tomcat-05" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Kubernetes组件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/04/02/Tomcat-05/" class="article-date">
-  <time datetime="2020-04-01T16:36:51.000Z" itemprop="datePublished">2020-04-02</time>
+    <a href="/2020/04/04/Kubernetes%E7%BB%84%E4%BB%B6/" class="article-date">
+  <time datetime="2020-04-04T11:57:00.000Z" itemprop="datePublished">2020-04-04</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/02/Tomcat-05/">Tomcat__05_JVM_排障工具</a>
+      <a class="article-title" href="/2020/04/04/Kubernetes%E7%BB%84%E4%BB%B6/">Kubernetes组件</a>
     </h1>
   
 
@@ -96,117 +96,98 @@
       
         <a id="more"></a>
 
-<h3 id="JVM-运维实用排障工具"><a href="#JVM-运维实用排障工具" class="headerlink" title="JVM 运维实用排障工具"></a>JVM 运维实用排障工具</h3><h4 id="1、jps"><a href="#1、jps" class="headerlink" title="1、jps"></a>1、jps</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用来查看Java进程的具体状态, 包括进程ID，进程启动的路径及启动参数等等，与unix上的ps类似，只不过jps是用来显示java进程，可以把jps理解为ps的一个子集。</span><br><span class="line">常用参数如下:</span><br><span class="line">-q：忽略输出的类名、Jar名以及传递给main方法的参数，只输出pid</span><br><span class="line">-m：输出传递给main方法的参数，如果是内嵌的JVM则输出为null</span><br><span class="line">-l：输出完全的包名，应用主类名，jar的完全路径名</span><br><span class="line">-v：输出传给jvm的参数</span><br><span class="line"></span><br><span class="line">注意: 使用jps 时的运行账户要和JVM 虚拟机启动的账户一致。若启动JVM虚拟机是运行的账户为www，那使用jps指令时，也要使用www 用户去指定。 sudo -u www jps</span><br></pre></td></tr></table></figure>
 
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 查看已经运行的JVM 进程的实际启动参数</span><br><span class="line">[root@mouse03 bin]# jps  -v</span><br><span class="line">38372 Jps -Dapplication.home=/usr/local/jdk -Xms8m</span><br><span class="line">38360 Bootstrap -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、jstack"><a href="#2、jstack" class="headerlink" title="2、jstack"></a>2、jstack</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息。如果现在运行的java程序呈现hung的状态，jstack是非常有用的。此信息通常在运维的过程中被保存起来(保存故障现场)，以供RD们去分析故障。</span><br><span class="line">常用参数如下:</span><br><span class="line">jstack &lt;pid&gt;</span><br><span class="line">jstack [-l] &lt;pid&gt; &#x2F;&#x2F;长列表. 打印关于锁的附加信息</span><br><span class="line">jstack [-F] &lt;pid&gt; &#x2F;&#x2F;当’jstack [-l] pid’没有响应的时候强制打印栈信息</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 打印JVM 的堆栈信息，以供问题排查</span><br><span class="line">[root@mouse03 ~]# jstack -F 38360 &gt; /tmp/jstack.log</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、jinfo"><a href="#3、jinfo" class="headerlink" title="3、jinfo"></a>3、jinfo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">可以查看或修改运行时的JVM进程的参数。</span><br><span class="line">常用参数:</span><br><span class="line">jinfo [option] pid</span><br><span class="line">    </span><br><span class="line">where &lt;option&gt; is one of:</span><br><span class="line">    -flag &lt;name&gt;         to print the value of the named VM flag</span><br><span class="line">    -flag [+|-]&lt;name&gt;    to enable or disable the named VM flag</span><br><span class="line">    -flag &lt;name&gt;&#x3D;&lt;value&gt; to set the named VM flag to the given value</span><br><span class="line">    -flags               to print VM flags</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// 根据 PID 查看目前分配的最大堆栈</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize 38360</span><br><span class="line">-XX:MaxHeapSize=4294967296</span><br><span class="line">// 动态更改 JVM 的最大堆栈值</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize=4294967296  38360</span><br><span class="line">Exception in thread "main" com.sun.tools.attach.AttachOperationFailedException: flag 'MaxHeapSize' cannot be changed</span><br><span class="line"></span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:229)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.setFlag(HotSpotVirtualMachine.java:234)</span><br><span class="line">	at sun.tools.jinfo.JInfo.flag(JInfo.java:134)</span><br><span class="line">	at sun.tools.jinfo.JInfo.main(JInfo.java:81)</span><br><span class="line"></span><br><span class="line">// jinfo 并不能动态的改变所有的JVM 参数。 那到底有哪些参数能够被动态的改变呢?</span><br><span class="line">// java -XX:+PrintFlagsFinal -version 答应JVM 的所有参数</span><br><span class="line">// java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line"></span><br><span class="line">[root@mouse03 ~]# java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line">     intx CMSAbortablePrecleanWaitMillis            = 100                                 &#123;manageable&#125;</span><br><span class="line">     intx CMSTriggerInterval                        = -1                                  &#123;manageable&#125;</span><br><span class="line">     intx CMSWaitDuration                           = 2000                                &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpAfterFullGC                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpBeforeFullGC                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpOnOutOfMemoryError                = false                               &#123;manageable&#125;</span><br><span class="line">    ccstr HeapDumpPath                              =                                     &#123;manageable&#125;</span><br><span class="line">    uintx MaxHeapFreeRatio                          = 70                                  &#123;manageable&#125;</span><br><span class="line">    uintx MinHeapFreeRatio                          = 40                                  &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogram                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramAfterFullGC            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramBeforeFullGC           = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintConcurrentLocks                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGC                                   = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDateStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDetails                            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCID                                 = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCTimeStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     </span><br><span class="line">// 也只有以上这些值才能够动态的被改变</span><br><span class="line">[root@mouse03 ~]# jinfo -flag CMSWaitDuration=1900  38360</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看， jinfo -flags 查看 JVM 的 flags </span></span><br><span class="line">[root@mouse03 ~]# jinfo -flags 38360</span><br><span class="line">Attaching to process ID 38360, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.91-b14</span><br><span class="line">Non-default VM flags: -XX:CICompilerCount=2 -XX:CMSWaitDuration=1900 -XX:InitialHeapSize=4294967296 -XX:MaxHeapSize=4294967296 -XX:MaxNewSize=1431633920 -XX:MinHeapDeltaBytes=196608 -XX:NewSize=1431633920 -XX:OldSize=2863333376 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps</span><br><span class="line">Command line:  -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
-
-<h4 id="4、jstat"><a href="#4、jstat" class="headerlink" title="4、jstat"></a>4、jstat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 监控JVM 的状态，常用指令:</span><br><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10 // 打印PID 为 113059 JVM 状态，一共打印10次，每次间隔时间为1s(1000ms)</span></span><br><span class="line">// 注 jstat 的用法超级强大， 我们这里只是列举出列其中一个简单的应用。</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">195904.0 195904.0  0.0   21610.3 1567680.0 1516721.9 8526272.0  3557507.8  1048576.0 163148.4   2577   92.033   0      0.000   92.033</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 142541.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 266338.1 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 413941.8 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 642390.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 813957.3 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 984223.2 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1155472.7 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1399228.5 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0  0.0   23866.6 1567680.0 38005.6  8526272.0  3559196.7  1048576.0 163148.4   2579   92.092   0      0.000   92.092</span><br></pre></td></tr></table></figure>
-
-<p><strong>字段意义如下</strong></p>
-<table>
-<thead>
-<tr>
-<th>列名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>S0C</td>
-<td>新生代中Survivor space中S0当前容量的大小（KB）</td>
-</tr>
-<tr>
-<td>S1C</td>
-<td>新生代中Survivor space中S1当前容量的大小（KB）</td>
-</tr>
-<tr>
-<td>S0U</td>
-<td>新生代中Survivor space中S0容量使用的大小（KB）</td>
-</tr>
-<tr>
-<td>S1U</td>
-<td>新生代中Survivor space中S1容量使用的大小（KB）</td>
-</tr>
-<tr>
-<td>EC</td>
-<td>Eden space当前容量的大小（KB）</td>
-</tr>
-<tr>
-<td>EU</td>
-<td>Eden space容量使用的大小（KB）</td>
-</tr>
-<tr>
-<td>OC</td>
-<td>Old space当前容量的大小（KB）</td>
-</tr>
-<tr>
-<td>OU</td>
-<td>Old space使用容量的大小（KB）</td>
-</tr>
-<tr>
-<td>PC</td>
-<td>Permanent space当前容量的大小（KB）</td>
-</tr>
-<tr>
-<td>PU</td>
-<td>Permanent space使用容量的大小（KB）</td>
-</tr>
-<tr>
-<td>YGC</td>
-<td>从应用程序启动到采样时发生 Young GC 的次数</td>
-</tr>
-<tr>
-<td>YGCT</td>
-<td>从应用程序启动到采样时 Young GC 所用的时间(秒)</td>
-</tr>
-<tr>
-<td>FGC</td>
-<td>从应用程序启动到采样时发生 Full GC 的次数</td>
-</tr>
-<tr>
-<td>FGCT</td>
-<td>从应用程序启动到采样时 Full GC 所用的时间(秒)</td>
-</tr>
-<tr>
-<td>GCT</td>
-<td>T从应用程序启动到采样时用于垃圾回收的总时间(单位秒)，它的值等于YGC+FGC</td>
-</tr>
-</tbody></table>
-<h4 id="5、jvmtop"><a href="#5、jvmtop" class="headerlink" title="5、jvmtop"></a>5、jvmtop</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">以上介绍的jps、jstack、jinfo等都是安装JDK 时自带的系统分析工具，而jvmtop是一款开源的JVM工具。</span><br><span class="line">它的下载地址如下: https:&#x2F;&#x2F;github.com&#x2F;patric-r&#x2F;jvmtop</span><br><span class="line">顾名思义，它是一个只针对JVM的工具，展示的方式和unix的top命令相似.</span><br><span class="line">jvmtop 提供了两个视图，一个是概览视图，可以展示出当前机器的所有的 JVM 的情况. 还有一个视图是详情视图，展示一个 JVM 的详细情况.</span><br></pre></td></tr></table></figure>
-
-<p><strong>概览视图</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/05/21/YHC9BV.png" alt="YHC9BV.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义分别如下：</span><br><span class="line">PID：进程 ID</span><br><span class="line">MAIN-CLASS：main 类的名字</span><br><span class="line">HPCUR：当前被使用的 heap 的大小</span><br><span class="line">HPMAX：最大可用的 heap 的大小</span><br><span class="line">NHCUR：当前被使用的非 heap 大小（比如：perm gen）</span><br><span class="line">NHMAX：最大可用的非 heap 大小</span><br><span class="line">CPU：CPU 的使用情况</span><br><span class="line">GC：消耗在 GC 上的时间比例</span><br><span class="line">VM：JVM 的提供者，大版本号，小版本号，图中的意思是 Apple 提供的 JDK 6U51 版本。</span><br><span class="line">USERNAME：当前的用户名</span><br><span class="line">#T：线程数量</span><br><span class="line">DL：是否有现成发生死锁</span><br></pre></td></tr></table></figure>
-
-<p><strong>详情视图</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh &lt;pid&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/05/21/YHCiAU.png" alt="YHCiAU.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义如下：</span><br><span class="line">TID：线程 ID</span><br><span class="line">NAME：线程名</span><br><span class="line">STATE：线程状态</span><br><span class="line">CPU：线程当前的 CPU 占用情况</span><br><span class="line">TOTALCPU：从线程被创建开始总体的 CPU 占用情况</span><br><span class="line">BLOCKBY：阻塞这个线程的线程 ID</span><br></pre></td></tr></table></figure>
-
+<p>本文档描述了 Kubernetes 的主要组件。</p>
+<h2 id="Master组件"><a href="#Master组件" class="headerlink" title="Master组件"></a>Master组件</h2><p>Master组件是集群的控制平台（control plane）：</p>
+<ul>
+<li>master 组件负责集群中的全局决策（例如，调度）</li>
+<li>master 组件探测并响应集群事件（例如，当 Deployment 的实际 Pod 副本数未达到 <code>replicas</code> 字段的规定时，启动一个新的 Pod）</li>
+</ul>
+<p>Master组件可以运行于集群中的任何机器上。但是，为了简洁性，通常在同一台机器上运行所有的 master 组件，且不在此机器上运行用户的容器。参考 <a href="https://www.kuboard.cn/install/install-kubernetes.html" target="_blank" rel="noopener">安装Kubernetes高可用</a>。</p>
+<h3 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h3><p>此 master 组件提供 Kubernetes API。这是Kubernetes控制平台的前端（front-end），可以水平扩展（通过部署更多的实例以达到性能要求）。kubectl / kubernetes dashboard / kuboard 等Kubernetes管理工具就是通过 kubernetes API 实现对 Kubernetes 集群的管理。</p>
+<h3 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h3><p>支持一致性和高可用的名值对存储组件，Kubernetes集群的所有配置信息都存储在 etcd 中。请确保您 <a href="https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster" target="_blank" rel="noopener">备份</a> 了 etcd 的数据。关于 etcd 的更多信息，可参考 <a href="https://etcd.io/docs/" target="_blank" rel="noopener">etcd 官方文档</a></p>
+<h3 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h3><p>此 master 组件监控所有新创建尚未分配到节点上的 Pod，并且自动选择为 Pod 选择一个合适的节点去运行。</p>
+<p>影响调度的因素有：</p>
+<ul>
+<li>单个或多个 Pod 的资源需求</li>
+<li>硬件、软件、策略的限制</li>
+<li>亲和与反亲和（affinity and anti-affinity）的约定</li>
+<li>数据本地化要求</li>
+<li>工作负载间的相互作用</li>
+</ul>
+<h3 id="kube-controller-manager"><a href="#kube-controller-manager" class="headerlink" title="kube-controller-manager"></a>kube-controller-manager</h3><p>此 master 组件运行了所有的控制器</p>
+<p>逻辑上来说，每一个控制器是一个独立的进程，但是为了降低复杂度，这些控制器都被合并运行在一个进程里。</p>
+<p>kube-controller-manager 中包含的控制器有：</p>
+<ul>
+<li>节点控制器： 负责监听节点停机的事件并作出对应响应</li>
+<li>副本控制器： 负责为集群中每一个 副本控制器对象（Replication Controller Object）维护期望的 Pod 副本数</li>
+<li>端点（Endpoints）控制器：负责为端点对象（Endpoints Object，连接 Service 和 Pod）赋值</li>
+<li>Service Account &amp; Token控制器： 负责为新的名称空间创建 default Service Account 以及 API Access Token</li>
+</ul>
+<h3 id="cloud-controller-manager"><a href="#cloud-controller-manager" class="headerlink" title="cloud-controller-manager"></a>cloud-controller-manager</h3><p>cloud-controller-manager 中运行了与具体云基础设施供应商互动的控制器。这是 Kubernetes 1.6 版本中引入的特性，尚处在 alpha 阶段。</p>
+<p>cloud-controller-manager 只运行特定于云基础设施供应商的控制器。如果您参考 <a href="http://www.kuboard.cn" target="_blank" rel="noopener">www.kuboard.cn</a> 上提供的文档安装 Kubernetes 集群，默认不安装 cloud-controller-manager。</p>
+<p>cloud-controller-manager 使得云供应商的代码和 Kubernetes 的代码可以各自独立的演化。在此之前的版本中，Kubernetes的核心代码是依赖于云供应商的代码的。在后续的版本中，特定于云供应商的代码将由云供应商自行维护，并在运行Kubernetes时链接到 cloud-controller-manager。</p>
+<p>以下控制器中包含与云供应商相关的依赖：</p>
+<ul>
+<li><p>节点控制器：当某一个节点停止响应时，调用云供应商的接口，以检查该节点的虚拟机是否已经被云供应商删除</p>
+<blockquote>
+<p>译者注：私有化部署Kubernetes时，我们不知道节点的操作系统是否删除，所以在移除节点后，要自行通过 <code>kubectl delete node</code> 将节点对象从 Kubernetes 中删除</p>
+</blockquote>
+</li>
+<li><p>路由控制器：在云供应商的基础设施中设定网络路由</p>
+<blockquote>
+<p>译者注：私有化部署Kubernetes时，需要自行规划Kubernetes的拓扑结构，并做好路由配置，例如 <a href="https://www.kuboard.cn/install/install-k8s.html" target="_blank" rel="noopener">安装Kubernetes单Master节点</a> 中所作的</p>
+</blockquote>
+</li>
+<li><p>服务（Service）控制器：创建、更新、删除云供应商提供的负载均衡器</p>
+<blockquote>
+<p>译者注：私有化部署Kubernetes时，不支持 LoadBalancer 类型的 Service，如需要此特性，需要创建 NodePort 类型的 Service，并自行配置负载均衡器</p>
+</blockquote>
+</li>
+<li><p>数据卷（Volume）控制器：创建、绑定、挂载数据卷，并协调云供应商编排数据卷</p>
+<blockquote>
+<p>译者注：私有化部署Kubernetes时，需要自行创建和管理存储资源，并通过Kubernetes的<a href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/storage-class.html" target="_blank" rel="noopener">存储类</a>、<a href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/pv.html" target="_blank" rel="noopener">存储卷</a>、<a href="https://www.kuboard.cn/learning/k8s-intermediate/persistent/volume.html" target="_blank" rel="noopener">数据卷</a>等与之关联</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>译者注：通过 cloud-controller-manager，Kubernetes可以更好地与云供应商结合，例如，在阿里云的 Kubernetes 服务里，您可以在云控制台界面上轻松点击鼠标，即可完成 Kubernetes 集群的创建和管理。在私有化部署环境时，您必须自行处理更多的内容。幸运的是，通过合适的教程指引，这些任务的达成并不困难。</p>
+</blockquote>
+<h2 id="Node-组件"><a href="#Node-组件" class="headerlink" title="Node 组件"></a>Node 组件</h2><p>Node 组件运行在每一个节点上（包括 master 节点和 worker 节点），负责维护运行中的 Pod 并提供 Kubernetes 运行时环境。</p>
+<h3 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h3><p>此组件是运行在每一个集群节点上的代理程序。它确保 Pod 中的容器处于运行状态。Kubelet 通过多种途径获得 PodSpec 定义，并确保 PodSpec 定义中所描述的容器处于运行和健康的状态。Kubelet不管理不是通过 Kubernetes 创建的容器。</p>
+<h3 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h3><p><a href="https://www.kuboard.cn/learning/k8s-intermediate/service/service-details.html#虚拟-ip-和服务代理" target="_blank" rel="noopener">kube-proxy</a> 是一个网络代理程序，运行在集群中的每一个节点上，是实现 Kubernetes Service 概念的重要部分。</p>
+<p>kube-proxy 在节点上维护网络规则。这些网络规则使得您可以在集群内、集群外正确地与 Pod 进行网络通信。如果操作系统中存在 packet filtering layer，kube-proxy 将使用这一特性（<a href="https://www.kuboard.cn/learning/k8s-intermediate/service/service-details.html#iptables-代理模式" target="_blank" rel="noopener">iptables代理模式</a>），否则，kube-proxy将自行转发网络请求（<a href="https://www.kuboard.cn/learning/k8s-intermediate/service/service-details.html#user-space-代理模式" target="_blank" rel="noopener">User space代理模式</a>）</p>
+<h3 id="容器引擎"><a href="#容器引擎" class="headerlink" title="容器引擎"></a>容器引擎</h3><p>容器引擎负责运行容器。Kubernetes支持多种容器引擎：<a href="http://www.docker.com/" target="_blank" rel="noopener">Docker</a>、<a href="https://containerd.io/" target="_blank" rel="noopener">containerd</a>、<a href="https://cri-o.io/" target="_blank" rel="noopener">cri-o</a>、<a href="https://github.com/kubernetes-incubator/rktlet">rktlet</a> 以及任何实现了 <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md">Kubernetes容器引擎接口</a> 的容器引擎</p>
+<h2 id="Addons"><a href="#Addons" class="headerlink" title="Addons"></a>Addons</h2><p>Addons 使用 Kubernetes 资源（DaemonSet、Deployment等）实现集群的功能特性。由于他们提供集群级别的功能特性，addons使用到的Kubernetes资源都放置在 <code>kube-system</code> 名称空间下。</p>
+<p>下面描述了一些经常用到的 addons，参考 <a href="https://kubernetes.io/docs/concepts/cluster-administration/addons/" target="_blank" rel="noopener">Addons</a> 查看更多列表。</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>除了 DNS Addon 以外，其他的 addon 都不是必须的，所有 Kubernetes 集群都应该有 <a href="https://www.kuboard.cn/learning/k8s-intermediate/service/dns.html" target="_blank" rel="noopener">Cluster DNS</a></p>
+<p>Cluster DNS 是一个 DNS 服务器，是对您已有环境中其他 DNS 服务器的一个补充，存放了 Kubernetes Service 的 DNS 记录。</p>
+<p>Kubernetes 启动容器时，自动将该 DNS 服务器加入到容器的 DNS 搜索列表中。</p>
+<blockquote>
+<p>如果您参考 <a href="http://www.kuboard.cn" target="_blank" rel="noopener">www.kuboard.cn</a> 上提供的文档安装 Kubernetes，默认已经安装了 <a href="https://coredns.io/" target="_blank" rel="noopener">Core DNS</a></p>
+</blockquote>
+<h3 id="Web-UI（Dashboard）"><a href="#Web-UI（Dashboard）" class="headerlink" title="Web UI（Dashboard）"></a>Web UI（Dashboard）</h3><p><a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/" target="_blank" rel="noopener">Dashboard</a> 是一个Kubernetes集群的 Web 管理界面。用户可以通过该界面管理集群。</p>
+<h3 id="Kuboard"><a href="#Kuboard" class="headerlink" title="Kuboard"></a>Kuboard</h3><p><a href="https://www.kuboard.cn/install/install-dashboard.html" target="_blank" rel="noopener">Kuboard</a> 是一款基于Kubernetes的微服务管理界面，相较于 Dashboard，Kuboard 强调：</p>
+<ul>
+<li>无需手工编写 YAML 文件</li>
+<li>微服务参考架构</li>
+<li>上下文相关的监控</li>
+<li>场景化的设计<ul>
+<li>导出配置</li>
+<li>导入配置</li>
+</ul>
+</li>
+</ul>
+<h3 id="ContainerResource-Monitoring"><a href="#ContainerResource-Monitoring" class="headerlink" title="ContainerResource Monitoring"></a>ContainerResource Monitoring</h3><p><a href="https://kubernetes.io/docs/tasks/debug-application-cluster/resource-usage-monitoring/" target="_blank" rel="noopener">Container Resource Monitoring</a> 将容器的度量指标（metrics）记录在时间序列数据库中，并提供了 UI 界面查看这些数据</p>
+<h3 id="Cluster-level-Logging"><a href="#Cluster-level-Logging" class="headerlink" title="Cluster-level Logging"></a>Cluster-level Logging</h3><p><a href="https://kubernetes.io/docs/concepts/cluster-administration/logging/" target="_blank" rel="noopener">Cluster-level logging</a> 机制负责将容器的日志存储到一个统一存储中，并提供搜索浏览的界面</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/04/02/Tomcat-05/" data-id="ckco9xsbp001tbwuv499kecmo" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/04/04/Kubernetes%E7%BB%84%E4%BB%B6/" data-id="ckco9xsb3000pbwuv2y842yqh" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
 
     </footer>
   </div>
@@ -219,7 +200,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/46/">46</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -250,7 +231,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -259,7 +240,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -270,6 +251,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/9999/12/01/Interview_Go_001/">Interview Go_001</a>
+          </li>
         
           <li>
             <a href="/9999/11/01/Interview_MySQL_001/">Interview MySQL_001</a>
@@ -284,11 +269,7 @@
           </li>
         
           <li>
-            <a href="/2020/08/05/Interview_Go_001/">Interview Go_001</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/16/Mysql%E6%B8%B8%E6%A0%87/">Mysql 游标</a>
+            <a href="/2020/08/22/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解</a>
           </li>
         
       </ul>
