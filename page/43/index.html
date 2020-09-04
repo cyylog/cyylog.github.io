@@ -68,10 +68,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Linux/iptables笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux/Nginx/Nginx编译安装" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/02/28/Linux/iptables%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time datetime="2019-02-27T16:12:16.000Z" itemprop="datePublished">2019-02-28</time>
+    <a href="/2019/03/27/Linux/Nginx/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" class="article-date">
+  <time datetime="2019-03-27T15:14:08.000Z" itemprop="datePublished">2019-03-27</time>
 </a>
     
   <div class="article-category">
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/28/Linux/iptables%E7%AC%94%E8%AE%B0/">iptables笔记</a>
+      <a class="article-title" href="/2019/03/27/Linux/Nginx/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/">Nginx编译安装</a>
     </h1>
   
 
@@ -96,1161 +96,97 @@
       
         <a id="more"></a>
 
-<h3 id="防火墙之-iptables"><a href="#防火墙之-iptables" class="headerlink" title="防火墙之 iptables"></a>防火墙之 iptables</h3><h2 id="1-1-安全优化配置原则"><a href="#1-1-安全优化配置原则" class="headerlink" title="1.1 安全优化配置原则"></a>1.1 安全优化配置原则</h2><p>尽可能不给服务器配置外网ip ,可以通过代理转发或者通过防火墙映射.并发不是特别大情况有外网ip,可以开启防火墙服务.</p>
-<p>大并发的情况，不能开iptables,影响性能，利用硬件防火墙提升架构安全</p>
-<h3 id="1-1-1-生产中-iptables-的实际应用"><a href="#1-1-1-生产中-iptables-的实际应用" class="headerlink" title="1.1.1 生产中 iptables 的实际应用"></a>1.1.1 生产中 iptables 的实际应用</h3><p>主要应用方向</p>
-<p>1、主机防火墙（filter表的INPUT链）。</p>
-<p>2、局域网共享上网(nat 表的 POSTROUTING 链)。半个路由器，NAT功能。</p>
-<p>3、端口及IP映射(nat 表的 PREROUTING 链)，硬防的NAT功能。</p>
-<p>4、IP一对一映射。</p>
-<p><strong>其他说明：</strong></p>
-<blockquote>
-<p> ①iptables是基于内核的防火墙，功能非常强大，基于数据包的过滤！特别是可以在一台非常低的硬件配置下跑的非常好。</p>
-<p> 　　<strong>注：</strong>iptables主要工作在OSI七层的2.3.4层。七层的控制可以使用squid代理+iptables。</p>
-<p> ②iptabes：生产中根据具体情况，一般，内网关闭，外网打开。大并发的情况不能开iptables，影响性能，iptables是要消耗CPU的，所以大并发的情况下，我们使用硬件防火墙的各方面做的很仔细。selinux：生产中也是关闭的。可以做ids的入侵检测。</p>
-<p> ③实际生产中尽可能不给服务器配置外网IP。可以通过代理转发。比如，nagios就不需要外网。</p>
-<p> ④并发不是很大的情况下，再外网的IP环境，开防火墙。</p>
-<p> ⑤第一次直接默认规则生成配置文件，以后就在配置文件中进行修改（编辑添加删除）。</p>
-<p> ⑥封掉IP：根据IP地址和网络连接数进行封杀。（定时任务，定时封掉，判断，存在就不再进行二次封杀）</p>
-</blockquote>
-<h3 id="1-1-2-常用案例功能小结："><a href="#1-1-2-常用案例功能小结：" class="headerlink" title="1.1.2 常用案例功能小结："></a>1.1.2 常用案例功能小结：</h3><p>1）linux主机防火墙，单机作为防火墙（表filter）。</p>
-<p>2）局域网共享上网（表nat postrouting）。</p>
-<p>3）外部地址映射为内部地址和端口（表nat prerouting）</p>
-<h2 id="1-2-iptables-防火墙简介"><a href="#1-2-iptables-防火墙简介" class="headerlink" title="1.2 iptables 防火墙简介"></a>1.2 iptables 防火墙简介</h2><p>Netfilter/Iptables(以下简称Iptables)是unix/linux自带的一款优秀且开放源代码的完全自由的基于包过滤的防火墙工具，它的功能十分强大，使用非常灵活，可以对流入和流出服务器的数据包进行很精细的控制.特别是它可以在一台非常低的硬件配置服务器上跑的非常好（赛扬500HZ cpu 64M 内存的惲况下部署网关防火墙），提供近400人的上网服务丝毫不逊色专业路由器防火墙。 iptables + zebra + squid (常用网络开源产品）。</p>
-<p>   iptables是linux2.4及2.6内核中集成的服务，其功能与安全性比其老一蜚ipfwadm，ipchains 强大的多，iptables主要工作在0SI七层的二、三、四层，如果重新编译内核，iptables也可以支持 7 层控制（squid代理+iptables）。</p>
-<h3 id="1-2-1-iptables名词和术语"><a href="#1-2-1-iptables名词和术语" class="headerlink" title="1.2.1 iptables名词和术语"></a>1.2.1 iptables名词和术语</h3><p>不少刚接触到iptables的朋友可能会对iptables防火墙的相关名词搞的很晕，不知道其所云的具体意思，而是就最基本的能让大家容易快速理解和掌握的思路来描述：</p>
-<p>容器：包含或者说属于的关系</p>
-<h3 id="1-2-2-什么是容器"><a href="#1-2-2-什么是容器" class="headerlink" title="1.2.2 什么是容器"></a>1.2.2 什么是容器</h3><p>谁不知道啊，容器就是装东西的，如（箱、包、坛）。没错，恭喜你答对了.词典里解释说，容器就是用来包装或装载物品的贮存器（如箱、罐、坛）或者成形或柔软不成形的包覆材料.</p>
-<p>在iptables里的呢，就是用来描述这种包含或者说属于的关系。</p>
-<h3 id="1-2-3-什么是-Netfilter-iptables"><a href="#1-2-3-什么是-Netfilter-iptables" class="headerlink" title="1.2.3 什么是 Netfilter/iptables ?"></a>1.2.3 什么是 Netfilter/iptables ?</h3><p>Netfilter是表（tables）的容器，这样解释大家肯定还是晕。举个例子，如果把Netfilter看成是某个小区的一栋楼。那么表（tables)就是楼里的其中的一套房子。这套房子”表（tables)”属于这栋“Netfilter”。</p>
-<h3 id="1-2-4-什么是表（tables）？"><a href="#1-2-4-什么是表（tables）？" class="headerlink" title="1.2.4 什么是表（tables）？"></a>1.2.4 什么是表（tables）？</h3><p>表（tables）是链的容器，即所有的链（chains）都属于其对应的表（tables）.如上，如果把Netfilter看成是某个小区的一栋楼.那么表（tables）就是楼里的其中的一套房子。</p>
-<h3 id="1-2-5-什么是链（chains）？"><a href="#1-2-5-什么是链（chains）？" class="headerlink" title="1.2.5 什么是链（chains）？"></a>1.2.5 什么是链（chains）？</h3><p>链（chains）是规则（Policys）的容器。接上，如果把表（tables）当作有一套房子，那么链（chains）就可以说是房子里的家具（柜子等）。</p>
-<h3 id="1-2-6-什么是规则（Policy）？"><a href="#1-2-6-什么是规则（Policy）？" class="headerlink" title="1.2.6 什么是规则（Policy）？"></a>1.2.6 什么是规则（Policy）？</h3><p>规则（Policy）就比较容易理解了，就是iptables系列过滤信息的规范和具体方法条款了.可以理解为柜子如何增加并摆放柜子东西等。</p>
-<p>基本术语如下表格所示：</p>
+<h4 id="nginx-编译安装与配置使用"><a href="#nginx-编译安装与配置使用" class="headerlink" title="nginx 编译安装与配置使用"></a>nginx 编译安装与配置使用</h4><h5 id="1、安装编译环境"><a href="#1、安装编译环境" class="headerlink" title="1、安装编译环境"></a>1、安装编译环境</h5><p>yum -y install gcc gcc-c++</p>
+<h5 id="2、安装pcre软件包（使nginx支持http-rewrite模块）"><a href="#2、安装pcre软件包（使nginx支持http-rewrite模块）" class="headerlink" title="2、安装pcre软件包（使nginx支持http rewrite模块）"></a>2、安装pcre软件包（使nginx支持http rewrite模块）</h5><p>yum install -y pcre pcre-devel</p>
+<h5 id="3、安装openssl-devel（使nginx支持ssl）"><a href="#3、安装openssl-devel（使nginx支持ssl）" class="headerlink" title="3、安装openssl-devel（使nginx支持ssl）"></a>3、安装openssl-devel（使nginx支持ssl）</h5><p>yum install -y openssl openssl-devel </p>
+<h5 id="4、安装zlib"><a href="#4、安装zlib" class="headerlink" title="4、安装zlib"></a>4、安装zlib</h5><p>yum install -y zlib zlib-devel</p>
+<h5 id="5、创建用户nginx"><a href="#5、创建用户nginx" class="headerlink" title="5、创建用户nginx"></a>5、创建用户nginx</h5><p>useradd nginx </p>
+<p>passwd nginx</p>
+<h5 id="6、安装nginx"><a href="#6、安装nginx" class="headerlink" title="6、安装nginx"></a>6、安装nginx</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#wget http://192.168.233.100/nginx.org/download/nginx-1.14.2.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#tar -vzxf nginx-1.14.2.tar.gz -C /usr/local</span><br><span class="line">[root@localhost ～]#cd nginx-1.14.2/ </span><br><span class="line">[root@localhost nginx-1.14.2]# ./configure \ </span><br><span class="line">--group=nginx \ </span><br><span class="line">--user=nginx \ </span><br><span class="line">--prefix=/usr/local/nginx \ </span><br><span class="line">--sbin-path=/usr/sbin/nginx \ </span><br><span class="line">--conf-path=/etc/nginx/nginx.conf \ </span><br><span class="line">--error-log-path=/var/log/nginx/error.log \ </span><br><span class="line">--http-log-path=/var/log/nginx/access.log \ </span><br><span class="line">--http-client-body-temp-path=/tmp/nginx/client_body \ </span><br><span class="line">--http-proxy-temp-path=/tmp/nginx/proxy \ </span><br><span class="line">--http-fastcgi-temp-path=/tmp/nginx/fastcgi \ </span><br><span class="line">--pid-path=/var/run/nginx.pid \ </span><br><span class="line">--lock-path=/var/lock/nginx \ </span><br><span class="line">--with-http_stub_status_module \ </span><br><span class="line">--with-http_ssl_module \ </span><br><span class="line">--with-http_gzip_static_module \ </span><br><span class="line">--with-pcre </span><br><span class="line">[root@localhost nginx-1.11.3]# make &amp;&amp;make install</span><br></pre></td></tr></table></figure>
+
+<h5 id="7、Nginx-编译参数"><a href="#7、Nginx-编译参数" class="headerlink" title="7、Nginx 编译参数"></a>7、Nginx 编译参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 nginx 安装的模块</span></span><br><span class="line">[root@tianyun ~]# nginx -V</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 模块参数具体功能 </span></span><br><span class="line">--with-cc-opt='-g -O2 -fPIE -fstack-protector    //设置额外的参数将被添加到CFLAGS变量。（FreeBSD或者ubuntu使用）</span><br><span class="line">--param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2' </span><br><span class="line">--with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' </span><br><span class="line"></span><br><span class="line">--prefix=/usr/share/nginx                        //指向安装目录</span><br><span class="line">--conf-path=/etc/nginx/nginx.conf                //指定配置文件</span><br><span class="line">--http-log-path=/var/log/nginx/access.log        //指定访问日志</span><br><span class="line">--error-log-path=/var/log/nginx/error.log        //指定错误日志</span><br><span class="line">--lock-path=/var/lock/nginx.lock                 //指定lock文件</span><br><span class="line">--pid-path=/run/nginx.pid                        //指定pid文件</span><br><span class="line"></span><br><span class="line">--http-client-body-temp-path=/var/lib/nginx/body    //设定http客户端请求临时文件路径</span><br><span class="line">--http-fastcgi-temp-path=/var/lib/nginx/fastcgi     //设定http fastcgi临时文件路径</span><br><span class="line">--http-proxy-temp-path=/var/lib/nginx/proxy         //设定http代理临时文件路径</span><br><span class="line">--http-scgi-temp-path=/var/lib/nginx/scgi           //设定http scgi临时文件路径</span><br><span class="line">--http-uwsgi-temp-path=/var/lib/nginx/uwsgi         //设定http uwsgi临时文件路径</span><br><span class="line"></span><br><span class="line">--with-debug                                        //启用debug日志</span><br><span class="line">--with-pcre-jit                                     //编译PCRE包含“just-in-time compilation”</span><br><span class="line">--with-ipv6                                         //启用ipv6支持</span><br><span class="line">--with-http_ssl_module                              //启用ssl支持</span><br><span class="line">--with-http_stub_status_module                      //获取nginx自上次启动以来的状态</span><br><span class="line">--with-http_realip_module                 //允许从请求标头更改客户端的IP地址值，默认为关</span><br><span class="line">--with-http_auth_request_module           //实现基于一个子请求的结果的客户端授权。如果该子请求返回的2xx响应代码，所述接入是允许的。如果它返回401或403中，访问被拒绝与相应的错误代码。由子请求返回的任何其他响应代码被认为是一个错误。</span><br><span class="line">--with-http_addition_module               //作为一个输出过滤器，支持不完全缓冲，分部分响应请求</span><br><span class="line">--with-http_dav_module                    //增加PUT,DELETE,MKCOL：创建集合,COPY和MOVE方法 默认关闭，需编译开启</span><br><span class="line">--with-http_geoip_module                  //使用预编译的MaxMind数据库解析客户端IP地址，得到变量值</span><br><span class="line">--with-http_gunzip_module                 //它为不支持“gzip”编码方法的客户端解压具有“Content-Encoding: gzip”头的响应。</span><br><span class="line">--with-http_gzip_static_module            //在线实时压缩输出数据流</span><br><span class="line">--with-http_image_filter_module           //传输JPEG/GIF/PNG 图片的一个过滤器）（默认为不启用。gd库要用到）</span><br><span class="line">--with-http_spdy_module                   //SPDY可以缩短网页的加载时间</span><br><span class="line">--with-http_sub_module                    //允许用一些其他文本替换nginx响应中的一些文本</span><br><span class="line">--with-http_xslt_module                   //过滤转换XML请求</span><br><span class="line">--with-mail                               //启用POP3/IMAP4/SMTP代理模块支持</span><br><span class="line">--with-mail_ssl_module                    //启用ngx_mail_ssl_module支持启用外部模块支持</span><br></pre></td></tr></table></figure>
+
+<h5 id="8、修改配置文件-etc-nginx-nginx-conf"><a href="#8、修改配置文件-etc-nginx-nginx-conf" class="headerlink" title="8、修改配置文件/etc/nginx/nginx.conf"></a>8、修改配置文件/etc/nginx/nginx.conf</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 全局参数设置 </span></span><br><span class="line">worker_processes  1;          #设置nginx启动进程的数量，一般设置成与逻辑cpu数量相同 </span><br><span class="line">error_log  logs/error.log;    #指定错误日志 </span><br><span class="line">worker_rlimit_nofile 102400;  #设置一个nginx进程能打开的最大文件数 </span><br><span class="line">pid        /var/run/nginx.pid; </span><br><span class="line">events &#123; </span><br><span class="line">    worker_connections  1024; #设置一个进程的最大并发连接数 </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">#</span><span class="bash"> http 服务相关设置 </span></span><br><span class="line">http &#123; </span><br><span class="line">    include      mime.types; </span><br><span class="line">    default_type  application/octet-stream; </span><br><span class="line">    log_format  main  'remote_addr - remote_user [time_local] "request" '</span><br><span class="line">                      'status body_bytes_sent "$http_referer" '</span><br><span class="line">                      '"http_user_agent" "http_x_forwarded_for"'; </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;    #设置访问日志的位置和格式 </span><br><span class="line">    sendfile          on; #是否调用sendfile函数输出文件，一般设置为on，若nginx是用来进行磁盘IO负载应用时，可以设置为off，降低系统负载 </span><br><span class="line">    gzip              on;      #是否开启gzip压缩 </span><br><span class="line">    keepalive_timeout  65;     #设置长连接的超时时间 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 虚拟服务器的相关设置 </span></span><br><span class="line">    server &#123; </span><br><span class="line">        listen      80;        #设置监听的端口 </span><br><span class="line">        server_name  localhost;        #设置绑定的主机名、域名或ip地址 </span><br><span class="line">        charset koi8-r;        # 设置编码字符 </span><br><span class="line">        location / &#123; </span><br><span class="line">            root  /var/www/nginx;           #设置服务器默认网站的根目录位置 </span><br><span class="line">            index  index.html index.htm;    #设置默认打开的文档 </span><br><span class="line">            &#125; </span><br><span class="line">        error_page  500 502 503 504  /50x.html; #设置错误信息返回页面 </span><br><span class="line">        location = /50x.html &#123; </span><br><span class="line">            root  html;        #这里的绝对位置是/var/www/nginx/html </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="9、检测-nginx-配置文件是否正确"><a href="#9、检测-nginx-配置文件是否正确" class="headerlink" title="9、检测 nginx 配置文件是否正确"></a>9、检测 nginx 配置文件是否正确</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+
+<h5 id="10、启动nginx服务"><a href="#10、启动nginx服务" class="headerlink" title="10、启动nginx服务"></a>10、启动nginx服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="11、通过-nginx-命令控制-nginx-服务"><a href="#11、通过-nginx-命令控制-nginx-服务" class="headerlink" title="11、通过 nginx 命令控制 nginx 服务"></a>11、通过 nginx 命令控制 nginx 服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /path/to/nginx.conf  	 # 以特定目录下的配置文件启动nginx:</span><br><span class="line">nginx -s reload            	 	 # 修改配置后重新加载生效</span><br><span class="line">nginx -s reopen   			 	 # 重新打开日志文件</span><br><span class="line">nginx -s stop  				 	 # 快速停止nginx</span><br><span class="line">nginx -s quit  				  	 # 完整有序的停止nginx</span><br><span class="line">nginx -t    					 # 测试当前配置文件是否正确</span><br><span class="line">nginx -t -c /path/to/nginx.conf  # 测试特定的nginx配置文件是否正确</span><br></pre></td></tr></table></figure>
+
+<h5 id="12、实现nginx开机自启"><a href="#12、实现nginx开机自启" class="headerlink" title="12、实现nginx开机自启"></a>12、实现nginx开机自启</h5><p> a、添加启动脚本  vim /etc/init.d/nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> nginx - this script starts and stops the nginx daemon </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chkconfig:  - 85 15  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> description:  Nginx is an HTTP(S) server, HTTP(S) reverse \ </span></span><br><span class="line"><span class="meta">#</span><span class="bash">              proxy and IMAP/POP3 proxy server </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> processname: nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/nginx/nginx.conf </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/sysconfig/nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pidfile:    /var/run/nginx.pid </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source <span class="keyword">function</span> library. </span></span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source networking configuration. </span></span><br><span class="line">. /etc/sysconfig/network</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Check that networking is up. </span></span><br><span class="line">[ "$NETWORKING" = "no" ] &amp;&amp; exit 0 </span><br><span class="line">  </span><br><span class="line">nginx="/usr/sbin/nginx"</span><br><span class="line">prog=$(basename $nginx) </span><br><span class="line">  </span><br><span class="line">NGINX_CONF_FILE="/etc/nginx/nginx.conf"</span><br><span class="line">  </span><br><span class="line">[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx</span><br><span class="line">  </span><br><span class="line">lockfile=/var/lock/subsys/nginx</span><br><span class="line">  </span><br><span class="line">make_dirs() &#123; </span><br><span class="line"><span class="meta">  #</span><span class="bash"> make required directories </span></span><br><span class="line">  user=`nginx -V 2&gt;&amp;1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -` </span><br><span class="line">  options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'` </span><br><span class="line">  for opt in $options; do</span><br><span class="line">      if [ `echo $opt | grep '.*-temp-path'` ]; then</span><br><span class="line">          value=`echo $opt | cut -d "=" -f 2` </span><br><span class="line">          if [ ! -d "$value" ]; then</span><br><span class="line">              # echo "creating" $value </span><br><span class="line">              mkdir -p $value &amp;&amp; chown -R $user $value </span><br><span class="line">          fi</span><br><span class="line">      fi</span><br><span class="line">  done</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">start() &#123; </span><br><span class="line">    [ -x $nginx ] || exit 5 </span><br><span class="line">    [ -f $NGINX_CONF_FILE ] || exit 6 </span><br><span class="line">    make_dirs </span><br><span class="line">    echo -n $"Starting $prog: "</span><br><span class="line">    daemon $nginx -c $NGINX_CONF_FILE </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">stop() &#123; </span><br><span class="line">    echo -n $"Stopping $prog: "</span><br><span class="line">    killproc $prog -QUIT </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">restart() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    stop </span><br><span class="line">    sleep 1 </span><br><span class="line">    start </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">reload() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    echo -n $"Reloading $prog: "</span><br><span class="line">    killproc $nginx -HUP </span><br><span class="line">    RETVAL=$? </span><br><span class="line">    echo</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">force_reload() &#123; </span><br><span class="line">    restart </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">configtest() &#123; </span><br><span class="line"><span class="meta">  $</span><span class="bash">nginx -t -c <span class="variable">$NGINX_CONF_FILE</span> </span></span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status() &#123; </span><br><span class="line">    status $prog </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status_q() &#123; </span><br><span class="line">    rh_status &gt;/dev/null 2&gt;&amp;1 </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">case "$1" in</span><br><span class="line">    start) </span><br><span class="line">        rh_status_q &amp;&amp; exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    stop) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    restart|configtest) </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    reload) </span><br><span class="line">        rh_status_q || exit 7 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    force-reload) </span><br><span class="line">        force_reload </span><br><span class="line">        ;; </span><br><span class="line">    status) </span><br><span class="line">        rh_status </span><br><span class="line">        ;; </span><br><span class="line">    condrestart|try-restart) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">            ;; </span><br><span class="line">    *) </span><br><span class="line">        echo $"Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest&#125;"</span><br><span class="line">        exit 2 </span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p>b、添加权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/nginx</span><br></pre></td></tr></table></figure>
+
+<p>c、重载系统启动文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>d、设置开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p>10、nginx 日志文件详解</p>
+<p>​    nginx 日志文件分为 <strong>log_format</strong> 和 <strong>access_log</strong> 两部分</p>
+<p>​    log_format 定义记录的格式，其语法格式为</p>
+<p>​    log_format        样式名称        样式详情</p>
+<p>​    配置文件中默认有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &#39;remote_addr - remote_user [time_local] &quot;request&quot; &#39;</span><br><span class="line">                  &#39;status body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                  &#39;&quot;http_user_agent&quot; &quot;http_x_forwarded_for&quot;&#39;;</span><br></pre></td></tr></table></figure>
+
 <table>
 <thead>
 <tr>
-<th><strong>Netfilter</strong></th>
-<th><strong>表（tables**</strong>）**</th>
-<th><strong>链（chains**</strong>）**</th>
-<th><strong>规则（Policy**</strong>）**</th>
+<th>点击这里</th>
+<th>点击这里</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>一栋楼</strong></td>
-<td>楼里的房子</td>
-<td>房子里的柜子</td>
-<td>柜子里衣服，摆放规则</td>
+<td>变量</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>$remote_addr和$http_x_forwarded_for</td>
+<td>客户端的ip</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端的名称</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>访问时的本地时间</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的URL和http协议</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>访问的状态码</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端的主体内容大小</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>记录客户端是从哪个页面链接访问过来的，若没有链接，则访问‘-’</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>记录客户端使用的浏览器的相关信息</td>
 </tr>
 </tbody></table>
-<h2 id="1-3-iptables-表和链"><a href="#1-3-iptables-表和链" class="headerlink" title="1.3 iptables 表和链"></a>1.3 iptables 表和链</h2><p>描述完iptables术语后，相信大家对iptables的表和链有了初步的了解了，默认情况下，iptables根据功能和表的定义划分包含三个表，filter,nat,mangle,其每个表又包含不同的操作链（chains )。 实际iptables包含4张表和五个链,巧主要记住两张表即可filter和nat表即可。</p>
-<p>下面表格展示了表和链的对应关系。</p>
-<p><strong>四个表：</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>表（tables**</strong>）**</th>
-<th><strong>链（chains**</strong>）**</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Filter</strong> 1</td>
-<td>这是默认表，实现防火墙数据过滤功能。</td>
-</tr>
-<tr>
-<td>1-<strong>INPUT</strong></td>
-<td>对于指定到本地套接字的包，即到达本地防火墙服务器的数据包。</td>
-</tr>
-<tr>
-<td>1-<strong>FORWARD</strong></td>
-<td>路由穿过的数据包，即经过本地防火墙服务器的数据包。</td>
-</tr>
-<tr>
-<td>1-<strong>OUTPUT</strong></td>
-<td>本地创建的数据包</td>
-</tr>
-<tr>
-<td><strong>NAT</strong>2</td>
-<td>当遇到新创建的数据包连接时将参考这个表</td>
-</tr>
-<tr>
-<td>2-<strong>FREROUTING</strong></td>
-<td>一进来就对数据包进行改变</td>
-</tr>
-<tr>
-<td>2-<strong>OUTPUT</strong></td>
-<td>本地创建的数据包在路由前进行改变</td>
-</tr>
-<tr>
-<td>2-<strong>POSTROUTING</strong></td>
-<td>在数据包即将出去时改变数据包信息</td>
-</tr>
-<tr>
-<td><strong>Mangle</strong>3</td>
-<td>这个表专门用于改变数据包</td>
-</tr>
-<tr>
-<td>3-<strong>INPUT</strong></td>
-<td>进入到设备本身的包</td>
-</tr>
-<tr>
-<td>3-<strong>FORWARD</strong></td>
-<td>对路由后的数据包信息进行修改</td>
-</tr>
-<tr>
-<td>3-<strong>FREROUTING</strong></td>
-<td>在路由之前更改传入的包</td>
-</tr>
-<tr>
-<td>3-<strong>OUTPUT</strong></td>
-<td>本地创建的数据包在路由之前改变</td>
-</tr>
-<tr>
-<td>3-<strong>POSTROUTING</strong></td>
-<td>在数据包即将离开时更改数据包信息</td>
-</tr>
-<tr>
-<td><strong>raw</strong>4</td>
-<td><strong>此表用处较少，可以忽略不计。</strong>This  table is used mainly for configuring exemptions from connection tracking in combination with the  NOTRACK  target.</td>
-</tr>
-<tr>
-<td>4-<strong>PREROUTING</strong></td>
-<td>for packets arriving via any network interface</td>
-</tr>
-<tr>
-<td>4-<strong>OUTPUT</strong></td>
-<td>for packets  generated by local processes</td>
-</tr>
-</tbody></table>
-<p><strong>五个链</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>表（tables**</strong>）**</th>
-<th><strong>链（chains**</strong>）**</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>INPUT</td>
-<td>FORWARD</td>
-<td>OUTPUT</td>
-<td>PREROUTING</td>
-<td>POSTROUTING</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Filter</strong></td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td><strong>NAT</strong></td>
-<td><strong>×</strong></td>
-<td>×</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-</tr>
-<tr>
-<td><strong>Managle</strong></td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-</tr>
-<tr>
-<td><strong>raw</strong></td>
-<td>×</td>
-<td>×</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-</tr>
-<tr>
-<td>说明：√ 表示有，× 表示无。</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p><img src="https://s1.ax1x.com/2020/04/26/JRnutO.png" alt="JRnutO.png"></p>
-<p>图 - iptables中的表与链的结构关系</p>
-<h3 id="1-3-1-filter表的详细介绍"><a href="#1-3-1-filter表的详细介绍" class="headerlink" title="1.3.1 filter表的详细介绍"></a>1.3.1 filter表的详细介绍</h3><table>
-<thead>
-<tr>
-<th><strong>filter**</strong>表**</th>
-<th>主要和主机自身相关，真正负责主机防火墙功能的（过滤流入流出主机的数据包）filter表是iptables默认使用的表，这个表定义了三个链（chains）<strong>工作场景:**</strong>主机防火墙**</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>INPUT</strong></td>
-<td>负责过滤所有目标是本机地址的数据包通俗来说：就是过滤进入主机的数据包</td>
-</tr>
-<tr>
-<td><strong>FORWARD</strong></td>
-<td>负责转发流经主机的数据包。起到转发的作用，和NAT关系很大。LVS NAT 模式，net.ipv4.ip_forward=0</td>
-</tr>
-<tr>
-<td><strong>OUTPUT</strong></td>
-<td>处理所有源地址是本机地址的数据包通俗的讲：就是处理从主机发出的数据包</td>
-</tr>
-</tbody></table>
-<p>   对于filter表的控制是我们实现本机防火墙功能的重要手段，特别是INPUT链的控制。</p>
-<h3 id="1-3-2-NAT表信息详细介绍"><a href="#1-3-2-NAT表信息详细介绍" class="headerlink" title="1.3.2 NAT表信息详细介绍"></a>1.3.2 NAT表信息详细介绍</h3><table>
-<thead>
-<tr>
-<th>NAT表</th>
-<th>负责网络地址转换的，即来源与目的的IP地址和port的转换。应用：和主机本身无关，一般用于局域网共享上网或者特殊的端口转换相关.<strong>工作场景：</strong>1、用于路由(zebra)或网关(iptables),共享上网(POSTROUTING)2、做内部外部IP地址一对一映射(dmz),硬件防火墙映射IP到内部服务器，FTP服务(PREROUTING)3、WEB,单个端口的映射，直接映射80端口(PREROUTING)这个表定义了3个链，nat功能相当于网络的acl控制。和网络交换机acl类似。</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>OUTPUT</strong></td>
-<td>和主机放出去的数据包有关，改变主机发出数据包的目的地址。</td>
-</tr>
-<tr>
-<td><strong>PREROUTING</strong></td>
-<td>在数据包到达防火墙时，进行路由判断之前执行的规则，作用是改变数据包的目的地址、目的端口等就是收信时，根据规则重写收件人的地址例如：把公网IP： xxx.xxx.xxx.xxx 映射到局域网的 x.x.x.x 服务器如果是web服务，可以把80转换为局域网的服务器9000端口上。</td>
-</tr>
-<tr>
-<td><strong>POSTROUTING</strong></td>
-<td>在数据包离开防火墙时进行路由判断之后执行的规则，作用改变数据包的源地址，源端口等。写好收件人的地址，要让家人回信时能够有地址可回。例如。默认笔记本和虚拟机都是局域网地址，在出网的时候被路由器将源地址改为公网地址。<strong>生产应用：</strong>局域网共享上网。</td>
-</tr>
-</tbody></table>
-<h3 id="1-3-3-Mangle表信息详细介绍"><a href="#1-3-3-Mangle表信息详细介绍" class="headerlink" title="1.3.3 Mangle表信息详细介绍"></a>1.3.3 Mangle表信息详细介绍</h3><table>
-<thead>
-<tr>
-<th>Mangle表</th>
-<th>主要负责修改数据包中特殊的路由标记，如TTL,TOS,MARK等，这个表定义了5个链(chains).</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>由于这个表与特殊标记相关，一般倩况下，我们用不到这个mangle表。</p>
-<p>这里就不做详细介绍了。</p>
-<h2 id="1-4-iptables工作流程"><a href="#1-4-iptables工作流程" class="headerlink" title="1.4 iptables工作流程"></a>1.4 iptables工作流程</h2><h3 id="1-4-1-工作流程说明"><a href="#1-4-1-工作流程说明" class="headerlink" title="1.4.1 工作流程说明"></a>1.4.1 工作流程说明</h3><p>前面介绍已经提到，iptables是采用数据包过滤机制工作的，所以它会对请求的数据包的包头数据进行分析，并根据我们预先设定的规则进行匹配来决定是否可以进入主机。</p>
-<p>iptables是采用数据包过滤机制工作的，所以它会对请求的数据包的包头数据进行分析，并根据我们预先设定的规则进行匹配来决定是否可以进入主机。</p>
-<p>数据包的流向是从左向右的。</p>
-<p><img src="https://s1.ax1x.com/2020/04/26/JRnXCD.png" alt="JRnXCD.png">图 - iptables包处理流程图</p>
-<p> <img src="https://s1.ax1x.com/2020/04/26/JRupDI.png" alt="JRupDI.png"></p>
-<p>图 - iptables包处理流程图(简化)</p>
-<p><strong>抽象说明：</strong>上图可以用北京地铁1,2号线来描述：</p>
-<p>1号线：主要是NAT功能</p>
-<blockquote>
-<p> 案例：</p>
-<p> 　　1)局域网上网共享（路由和网关），使用NAT的POSTROUTING链。</p>
-<p> 　　2)外部IP和端口映射为内部IP和端口（DMZ功能），使用NAT的PREROUTING链</p>
-</blockquote>
-<p>2号线：主要是FILTER功能，即防火墙功能FILTER INPUT FORWARD</p>
-<blockquote>
-<p>案例：</p>
-<p>　　主要应用就是主机服务器防火墙，使用FILTER的INPUT链</p>
-</blockquote>
-<p> <img src="https://s1.ax1x.com/2020/04/26/JRuPVP.png" alt="JRuPVP.png"></p>
-<p>图 - iptables数据包转发流程图</p>
-<h3 id="1-4-2-iptables工作流程小结"><a href="#1-4-2-iptables工作流程小结" class="headerlink" title="1.4.2 iptables工作流程小结"></a>1.4.2 iptables工作流程小结</h3><blockquote>
-<p>1、防火墙是一层层过滤的。实际是按照配置规则的顺序从上到下，从前到后进行过滤的。</p>
-<p>2、如果匹配上了规则，即明确表明是阻止还是通过，此时数据包就不在向下匹配新规则了。</p>
-<p>3、如果所有规则中没有明确表明是阻止还是通过这个数据包，也就是没有匹配上规则，向下进行匹配，直到匹配默认规则得到明确的阻止还是通过。</p>
-<p>4、防火墙的默认规则是对应链的所有的规则执行完以后才会执行的（最后执行的规则）。</p>
-</blockquote>
-<h2 id="1-5-iptables操作"><a href="#1-5-iptables操作" class="headerlink" title="1.5 iptables操作"></a>1.5 iptables操作</h2><p>系统环境说明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# cat &#x2F;etc&#x2F;redhat-release </span><br><span class="line">CentOS release 6.9 (Final)</span><br><span class="line">[root@clsn ~]# hostname -I</span><br><span class="line">10.0.0.188 172.16.1.188</span><br></pre></td></tr></table></figure>
-
-<p>软件版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -V</span><br><span class="line">iptables v1.4.7</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-5-1-iptables参数说明"><a href="#1-5-1-iptables参数说明" class="headerlink" title="1.5.1 iptables参数说明"></a>1.5.1 iptables参数说明</h3><table>
-<thead>
-<tr>
-<th><strong>参数</strong></th>
-<th><strong>参数说明</strong></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>显示相关参数</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-n/–numeric</strong></td>
-<td>以数字的方式显示地址或端口信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-L/ –list</strong></td>
-<td>列出一个链或所有链中的规则信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–list-rules/-S</strong></td>
-<td>Print the rules in a chain or all chains</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–line-number</strong></td>
-<td>当列出规则信息时，打印规则行号</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-v</strong></td>
-<td>显示详细信息，可以叠加</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-h</strong></td>
-<td>显示帮助信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>初始化相关参数</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>iptables -F</strong></td>
-<td>清除所有规则，不会处理默认的规则</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>iptables -X</strong></td>
-<td>删除用户自定义的链</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>iptables -Z</strong></td>
-<td>链的计数器清零（数据包计数器与数据包字节计数器）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>配置常用参数</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-t</strong> <strong>表名称</strong></td>
-<td>指定配置哪个表，指定配置表名称。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–append/-A</strong> <strong>链名称</strong></td>
-<td>附加或追加上相应规则策略，到指定链(链名称必须大写)，默认将配置的规则插入到最后一条。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–check/-C</strong></td>
-<td>Check for the existence of a rule</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–insert/-I</strong> <strong>链名称</strong></td>
-<td>插入相应规则策略，到指定链上，默认将配置的规则插入到第一条（可以根据规则序号插入到指定位置）–封IP地址使用。</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–delete/-D</strong> <strong>链名称</strong></td>
-<td>删除指定的规则(可以根据规则序号进行删除)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–replace/-R</strong></td>
-<td>Replace rule rulenum (1 = first) in chain</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-P(**</strong>大写)<strong>**链名称</strong></td>
-<td>改变链上的最终默认规则策略</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–new/-N</strong></td>
-<td>创建新的用户定义链</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-p</strong> <strong>协议名称**</strong>[!] –proto**</td>
-<td>指定规则的协议名称 all tcp udp icmp</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–dport</strong></td>
-<td>指定匹配的目标端口信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–sport</strong></td>
-<td>指定匹配的源端口信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-j</strong> <strong>动作</strong></td>
-<td>匹配数据包后的动作</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>ACCEPT</strong></td>
-<td>允许</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>DROP</strong></td>
-<td>丢弃(没有响应)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>REJECT</strong></td>
-<td>拒绝(回应请求者明确的拒绝)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>MASQUERADE</strong></td>
-<td>伪装上网时使用</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>SNAT</strong></td>
-<td>共享地址上网</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>DNAT</strong></td>
-<td>目的地址改写</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-i**</strong>[!] –in-interface**</td>
-<td>在INPUT链配置规则中，指定从哪一个网卡接口进入的流量（只能配置在INPUT链上）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-o**</strong>[!] –out-interface**</td>
-<td>在OUTPUT链配置规则中，指定从哪一个网接口出去的流量（只能配置在OUTPUT链上）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-s</strong> <strong>[!] –source</strong></td>
-<td>指定源IP地址或源网段信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-d**</strong>[!] –destination**</td>
-<td>指定目标IP地址或目标网段信息</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>扩展参数</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>-m</strong> <strong>模块</strong></td>
-<td>表示增加扩展，匹配功能扩展匹配（可以加载扩展参数）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>multiport</strong></td>
-<td>实现不连续多端口扩展匹配</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>icmp</strong></td>
-<td>使用icmp的扩展</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>state</strong></td>
-<td>状态模块扩展</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–icmp-type</strong></td>
-<td>只有类型8是真正会影响ping，或者也可以采用any；了解很多icmp类型<em>iptables -p icmp -h</em></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–limit n/{second/minute/hour}</strong></td>
-<td>指定时间内的请求速率”n”为速率，后面为时间分别为：秒分 时</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–limit-burst [n]</strong></td>
-<td>在同一时间内允许通过的请求”n”为数字，不指定默认为5</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>–exact/-x</strong></td>
-<td>扩展数字（显示精确数值）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p><strong>!**</strong>的使用实例**</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables ! -V</span><br><span class="line">Not 1.4.7 ;-)</span><br><span class="line">[root@clsn ~]# iptables  -V</span><br><span class="line">iptables v1.4.7</span><br></pre></td></tr></table></figure>
-
-<p>注意：在iptables中所有链名必须大写，表明必须小写，动作必须大写，匹配必须小写。</p>
-<h3 id="1-5-2-配置前准备"><a href="#1-5-2-配置前准备" class="headerlink" title="1.5.2 配置前准备"></a>1.5.2 配置前准备</h3><p>在配置防火墙首先要其中防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# &#x2F;etc&#x2F;init.d&#x2F;iptables start </span><br><span class="line">iptables: Applying firewall rules:                         [  OK  ]</span><br></pre></td></tr></table></figure>
-
-<p>清除iptables所有规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -Z</span><br><span class="line">[root@clsn ~]# iptables -X</span><br><span class="line">[root@clsn ~]# iptables -F</span><br></pre></td></tr></table></figure>
-
-<p>查看iptables的规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination</span><br></pre></td></tr></table></figure>
-
-<p>查看其他的表配置（-t 参数）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nL -t raw</span><br><span class="line">Chain PREROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br></pre></td></tr></table></figure>
-
-<p>查看配置规则的顺序号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nvL -line-number</span><br><span class="line">--line-number #  显示规则的序号</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-6-iptables-filter表配置实例"><a href="#1-6-iptables-filter表配置实例" class="headerlink" title="1.6 iptables filter表配置实例"></a>1.6 iptables filter表配置实例</h2><h3 id="1-6-1-基础配置"><a href="#1-6-1-基础配置" class="headerlink" title="1.6.1 基础配置"></a>1.6.1 基础配置</h3><p><strong>配置实例一：</strong>配置22/ssh端口访问控制规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dprot 22 -j DROP     # 禁止所有人访问22端口</span><br><span class="line">iptables -I INPUT -p tcp --dprot 22 -j ACCEPT   # 恢复连接方法</span><br><span class="line">iptables -I INPUT 2 -p tcp --dprot 22 -j ACCEPT # 通过插入指定行号信息，指定将规则插入到第几行</span><br><span class="line">iptables -D INPUT -p tcp --dport 22 -j ACCEPT   # 删除指定规则</span><br><span class="line">iptables -D INPUT 2                             # 根据规则行号，删除相应的规则</span><br></pre></td></tr></table></figure>
-
-<p>只允许10.0.0.1的ip通过ssh连接这台服务器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -s 10.0.0.1 -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>配置实例二：禁止网段连入（禁止172.16.1.0网段访问172.16.1.188）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT  -s 172.16.1.0&#x2F;24 -d 172.16.1.188  -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>配置实例三：禁止某个172.16.1.0网段访问服务器主机的22端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s 172.16.1.0&#x2F;24 -d 172.16.1.188  -p tcp --dport 22 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>方向说明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在入方向控制</span><br><span class="line">iptables -I INPUT -i eth0  -p tcp --dport 22 -j ACCEPT</span><br><span class="line"># 在出方向控制</span><br><span class="line">iptables -I OUTPUT -o eth0  -p tcp --sport 22 -j DROP</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止"><a href="#1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止" class="headerlink" title="1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止"></a>1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止</h3><p>  <em>第一种方式：</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s 10.0.0.0&#x2F;24 -d 172.16.1.8  -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>   修改默认规则，将默认规则改为拒绝</p>
-<p><em>第二种方式：</em></p>
-<p>   ！  — 表示对规则信息进行取反</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT ! -s 10.0.0.0&#x2F;24 -d 172.16.1.8  -j DROP   --- centos6用法</span><br><span class="line">iptables -A INPUT -s ! 10.0.0.0&#x2F;24 -d 172.16.1.8  -j DROP   --- centos5用法</span><br></pre></td></tr></table></figure>
-
-<p>说明：只有iptables帮助手册中指定的参数可以用取反符号（iptables –help）</p>
-<h3 id="1-6-3-配置实例五：测试匹配列举端口范围。"><a href="#1-6-3-配置实例五：测试匹配列举端口范围。" class="headerlink" title="1.6.3 配置实例五：测试匹配列举端口范围。"></a>1.6.3 配置实例五：测试匹配列举端口范围。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22:80 -j DROP                 # 设置连续多端口控制策略</span><br><span class="line">iptables -A INPUT -p tcp -m multiport  --dport 22,80 -j DROP   # 设置不连续多端口控制策略</span><br></pre></td></tr></table></figure>
-
-<p>   -m 参数表示增加扩展匹配功能，multiport 实现不连续多端口扩展匹配</p>
-<h3 id="1-6-4-配置实例六：匹配ICMP类型"><a href="#1-6-4-配置实例六：匹配ICMP类型" class="headerlink" title="1.6.4 配置实例六：匹配ICMP类型"></a>1.6.4 配置实例六：匹配ICMP类型</h3><p>   禁止ping策略原则</p>
-<p>   iptables服务器是ping命令发起者或是接受者</p>
-<p><strong>发起者：</strong></p>
-<p>input链： 禁止icmp-type 0        0 Echo Reply——回显应答（Ping应答)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp --icmp-type 0 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>output链： 禁止icmp-type 8     8 Echo request——回显请求（Ping请求）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>   <strong>接受者：</strong></p>
-<p>input链： 禁止icmp-type 8      8 Echo request——回显请求（Ping请求）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>output链： 禁止icmp-type 0     0 Echo Reply——回显应答（Ping应答)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p icmp --icmp-type 0 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>简化配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp -m icmp --icmp-type any -j DROP  #禁止所有类型的icmp</span><br></pre></td></tr></table></figure>
-
-<p>   指定类型禁止icmp</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p icmp --icmp-type 8</span><br><span class="line">iptables -A INPUT -p icmp --icmp-type 8 -j DROP</span><br><span class="line">iptables -A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT</span><br><span class="line">iptables -A FORWARD -s 192.168.1.0&#x2F;24 -p icmp -m icmp --icmp-type any -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>   说明：只有类型8是真正会影响ping，或者也可以采用any；了解很多icmp类型iptables -p icmp -h</p>
-<p><strong>ICMP**</strong>类型的说明**</p>
-<table>
-<thead>
-<tr>
-<th>TYPE</th>
-<th>CODE</th>
-<th>Description</th>
-<th>Query</th>
-<th>Error</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>0</strong></td>
-<td>0</td>
-<td>Echo Reply——回显应答（Ping应答）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>0</td>
-<td>Network Unreachable——网络不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>1</td>
-<td>Host Unreachable——主机不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>2</td>
-<td>Protocol Unreachable——协议不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>3</td>
-<td>Port Unreachable——端口不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>4</td>
-<td>Fragmentation needed but no frag. bit set——需要进行分片但设置不分片比特</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>5</td>
-<td>Source routing failed——源站选路失败</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>6</td>
-<td>Destination network unknown——目的网络未知</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>7</td>
-<td>Destination host unknown——目的主机未知</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>8</td>
-<td>Source host isolated (obsolete)——源主机被隔离（作废不用）</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>9</td>
-<td>Destination network administratively prohibited——目的网络被强制禁止</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>10</td>
-<td>Destination host administratively prohibited——目的主机被强制禁止</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>11</td>
-<td>Network unreachable for TOS——由于服务类型TOS，网络不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>12</td>
-<td>Host unreachable for TOS——由于服务类型TOS，主机不可达</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>13</td>
-<td>Communication administratively prohibited by filtering——由于过滤，通信被强制禁止</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>14</td>
-<td>Host precedence violation——主机越权</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>15</td>
-<td>Precedence cutoff in effect——优先中止生效</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>4</strong></td>
-<td>0</td>
-<td>Source quench——源端被关闭（基本流控制）</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td>0</td>
-<td>Redirect for network——对网络重定向</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td>1</td>
-<td>Redirect for host——对主机重定向</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td>2</td>
-<td>Redirect for TOS and network——对服务类型和网络重定向</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td>3</td>
-<td>Redirect for TOS and host——对服务类型和主机重定向</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>8</strong></td>
-<td>0</td>
-<td>Echo request——回显请求（Ping请求）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>9</strong></td>
-<td>0</td>
-<td>Router advertisement——路由器通告</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>10</strong></td>
-<td>0</td>
-<td>Route solicitation——路由器请求</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>11</strong></td>
-<td>0</td>
-<td>TTL equals 0 during transit——传输期间生存时间为0</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>11</strong></td>
-<td>1</td>
-<td>TTL equals 0 during reassembly——在数据报组装期间生存时间为0</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>12</strong></td>
-<td>0</td>
-<td>IP header bad (catchall error)——坏的IP首部（包括各种差错）</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>12</strong></td>
-<td>1</td>
-<td>Required options missing——缺少必需的选项</td>
-<td></td>
-<td>x</td>
-</tr>
-<tr>
-<td><strong>13</strong></td>
-<td>0</td>
-<td>Timestamp request (obsolete)——时间戳请求（作废不用）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>14</strong></td>
-<td></td>
-<td>Timestamp reply (obsolete)——时间戳应答（作废不用）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>15</strong></td>
-<td>0</td>
-<td>Information request (obsolete)——信息请求（作废不用）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>16</strong></td>
-<td>0</td>
-<td>Information reply (obsolete)——信息应答（作废不用）</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>17</strong></td>
-<td>0</td>
-<td>Address mask request——地址掩码请求</td>
-<td>x</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>18</strong></td>
-<td>0</td>
-<td>Address mask reply——地址掩码应答</td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>数据来源：<a href="http://www.cnitblog.com/yang55xiaoguang/articles/59581.html" target="_blank" rel="noopener">http://www.cnitblog.com/yang55xiaoguang/articles/59581.html</a></p>
-<h3 id="1-6-5-防火墙状态机制配置"><a href="#1-6-5-防火墙状态机制配置" class="headerlink" title="1.6.5 防火墙状态机制配置"></a>1.6.5 防火墙状态机制配置</h3><p>状态集简单说明:</p>
-<table>
-<thead>
-<tr>
-<th><strong>状态集</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>NEW</strong></td>
-<td>表示新建立连接的数据包状态</td>
-</tr>
-<tr>
-<td><strong>ESTABLISHED</strong></td>
-<td>表示新建立连接数据包发送之后，回复响应的数据包状态</td>
-</tr>
-<tr>
-<td><strong>RELATED</strong></td>
-<td>表示借助已经建立的链路，发送新的连接数据包</td>
-</tr>
-<tr>
-<td><strong>INVALID</strong></td>
-<td>无效无法识别的数据包</td>
-</tr>
-</tbody></table>
-<p>注意：允许关联的状态包通过（web服务不要使用FTP服务）</p>
-<p>防火墙服务配置在FTP服务器上时，需要配置以下策略</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>实现发现sent_syn状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state NEW -j DROP    # 防火墙所连接客户端上配置</span><br></pre></td></tr></table></figure>
-
-<p>实现发现sent_rcvd状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -i eth0 -s 10.0.0.201 -m state --state ESTABLISHED -j DROP  # 防护墙上配置的</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-6-6-使用iptables实现限速功能"><a href="#1-6-6-使用iptables实现限速功能" class="headerlink" title="1.6.6 使用iptables实现限速功能"></a>1.6.6 使用iptables实现限速功能</h3><p>limit是iptables的一个匹配模块，用它结合iptables的其它命令可以实现限速的功能。</p>
-<p>不过首先必须明确，limit本身只是一个“匹配”模块。我们知道，iptables的基本原理是“匹配–处理”，limit在这个工作过程中只能起到匹配的作用，它本身是无法对网络数据包进行任何处理的。我看到网上有些limit的例子里面说只 用一条包含limit匹配规则的iptables语句就可以实现限速，那是错误的。</p>
-<p>实际上，利用imit来限速需要包括两个步骤:</p>
-<p>1.对符合limit匹配规则包放行</p>
-<p>2.丢弃/拒绝未放行的包</p>
-<p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -m limit --limit 6&#x2F;min --limit-burst 5 -j ACCEPT </span><br><span class="line">iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>   语句含义：当来自10.0.0.7 的ping包超过5个时进行限速，限制为每10s一个。</p>
-<p>参数说明：</p>
-<table>
-<thead>
-<tr>
-<th><strong>参数</strong></th>
-<th><strong>参数含义</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>–limit n/{second/minute/hour}</strong></td>
-<td>指定时间内的请求速率”n”为速率，后面为时间分别为：秒 分 时</td>
-</tr>
-<tr>
-<td><strong>–limit-burst [n]</strong></td>
-<td>在同一时间内允许通过的请求”n”为数字，不指定默认为5</td>
-</tr>
-</tbody></table>
-<p><strong>limit</strong> <strong>模块具体是如何工作的。？</strong></p>
-<p>limit的匹配是基于令牌桶 (Token bucket）模型的。</p>
-<p>令牌桶是一种网络通讯中常见的缓冲区工作原理，它有两个重要的参数，令牌桶容量n和令牌产生速率s。</p>
-<blockquote>
-<p>我们可以把令牌当成是门票，而令牌桶则是负责制作和发放门票的管理员，它手里最多有n张令牌。一开始，管理员开始手里有n张令牌。每当一个数据包到达后，管理员就看看手里是否还有可用的令牌。如果有，就把令牌发给这个数据包，limit就告诉iptables，这个数据包被匹配了。而当管理员把手上所有的令牌都发完了，再来的数据包就拿不到令牌了。这时，limit模块就告诉iptables，这个数据包不能被匹配。除了发放令牌之外，只要令牌桶中的令牌数量少于n，它就会以速率s来产生新的令牌，直到令牌数量到达n为止。</p>
-</blockquote>
-<p>通过令牌桶机制，即可以有效的控制单位时间内通过（匹配）的数据包数量，又可以容许短时间内突发的大量数据包的通过（只要数据包数量不超过令牌桶n）。</p>
-<p>limit模块提供了两个参数–limit和–limit-burst，分别对应于令牌产生速率和令牌桶容量。除了令牌桶模型外，limit匹配的另外一个重要概念是匹配项。在limit中，每个匹配项拥有一个单独的令牌桶，执行独立的匹配计算。</p>
-<h3 id="1-6-7防火墙配置"><a href="#1-6-7防火墙配置" class="headerlink" title="1.6.7防火墙配置"></a>1.6.7防火墙配置</h3><p>清除防火墙规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -F</span><br><span class="line">[root@clsn ~]# iptables -X</span><br><span class="line">[root@clsn ~]# iptables -Z</span><br></pre></td></tr></table></figure>
-
-<p>修改默认规则为拒绝（修改前先放行22端口，保证自己能够连上主机）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -A INPUT -p tcp --dport  22 -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -P INPUT DROP </span><br><span class="line">[root@clsn ~]# iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-
-<p>放行指定的端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -A INPUT  -p tcp  -m multiport --dport  80,443 -j ACCEPT </span><br><span class="line">[root@clsn ~]# iptables -A INPUT -s 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line"></span><br><span class="line">#multiport多个不连续   21:25,80,443</span><br></pre></td></tr></table></figure>
-
-<p><strong>保存iptables**</strong>配置**</p>
-<p>\01. 第一种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# &#x2F;etc&#x2F;init.d&#x2F;iptables save</span><br><span class="line">iptables: Saving firewall rules to &#x2F;etc&#x2F;sysconfig&#x2F;iptables:[  OK  ]</span><br><span class="line">[root@clsn ~]# cat &#x2F;etc&#x2F;sysconfig&#x2F;iptables</span><br><span class="line"># Generated by iptables-save v1.4.7 on Tue Apr  4 12:24:43 2017</span><br><span class="line">*filter</span><br><span class="line">:INPUT DROP [0:0]</span><br><span class="line">:FORWARD DROP [0:0]</span><br><span class="line">:OUTPUT ACCEPT [159:10664]</span><br><span class="line">-A INPUT -s 10.0.0.0&#x2F;24 -j ACCEPT </span><br><span class="line">-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT </span><br><span class="line">-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT </span><br><span class="line">-A INPUT -s 172.16.1.0&#x2F;24 -j ACCEPT </span><br><span class="line">-A INPUT -i lo -j ACCEPT </span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT </span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Tue Apr  4 12:24:43 2017</span><br></pre></td></tr></table></figure>
-
-<p>\02. 第二种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt;&#x2F;etc&#x2F;sysconfig&#x2F;iptables</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-7-iptables-nat表配置实例-理论"><a href="#1-7-iptables-nat表配置实例-理论" class="headerlink" title="1.7 iptables nat表配置实例(理论)"></a>1.7 iptables nat表配置实例(理论)</h2><p>(理论掌握)</p>
-<h3 id="1-7-1-iptables实现共享上网"><a href="#1-7-1-iptables实现共享上网" class="headerlink" title="1.7.1 iptables实现共享上网"></a>1.7.1 iptables实现共享上网</h3><p> <img src="https://s1.ax1x.com/2020/04/26/JRuF58.png" alt="JRuF58.png"></p>
-<p>图 - SNAT 配置原理图</p>
-<p>第一个里程碑：配置内网服务器，设置网关地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;iptables stop      # 内网服务器停止防火墙服务</span><br><span class="line">ifdown eth0                    # 模拟关闭内网服务器外网网卡</span><br><span class="line">setup                          # 修改内网网卡网关和DNS地址信息</span><br></pre></td></tr></table></figure>
-
-<p>也可以使用命令添加默认网关</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 172.16.1.188</span><br></pre></td></tr></table></figure>
-
-<p>查看默认的路由信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@test ~]# route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 eth1</span><br><span class="line">169.254.0.0     0.0.0.0         255.255.0.0     U     1003   0        0 eth1</span><br><span class="line">0.0.0.0         172.16.1.188    0.0.0.0         UG    0      0        0 eth1</span><br></pre></td></tr></table></figure>
-
-<p>说明：内网服务器网关地址指定为共享上网服务器内网网卡地址</p>
-<p>第二个里程碑：配置共享上网服务器，开启共享上网服务器路由转发功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# vim &#x2F;etc&#x2F;sysctl.conf </span><br><span class="line">[root@clsn ~]# sysctl -p</span><br><span class="line">~~~</span><br><span class="line">net.ipv4.ip_forward &#x3D; 1</span><br><span class="line">~~~</span><br></pre></td></tr></table></figure>
-
-<p>第三个里程碑：配置共享上网服务器，实现内网访问外网的NAT映射</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.1.0&#x2F;24 -o eth0 -j SNAT --to-source 10.0.0.188</span><br></pre></td></tr></table></figure>
-
-<p>参数详解：</p>
-<table>
-<thead>
-<tr>
-<th><strong>参数</strong></th>
-<th><strong>参数说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>-s 172.16.1.0/24</strong></td>
-<td>指定将哪些内网网段进行映射转换</td>
-</tr>
-<tr>
-<td><strong>-o eth0</strong></td>
-<td>指定在共享上网哪个网卡接口上做NAT地址转换</td>
-</tr>
-<tr>
-<td><strong>-j SNAT</strong></td>
-<td>将源地址进行转换变更</td>
-</tr>
-<tr>
-<td><strong>-j DNAT</strong></td>
-<td>将目标地址进行转换变更</td>
-</tr>
-<tr>
-<td><strong>–to-source ip**</strong>地址**</td>
-<td>将源地址映射为什么IP地址</td>
-</tr>
-<tr>
-<td><strong>–to-destination ip**</strong>地址**</td>
-<td>将目标地址映射为什么IP地址</td>
-</tr>
-</tbody></table>
-<p>当filter表中的forward默认为drop策略时，如何配置forward链？</p>
-<p> <img src="https://s1.ax1x.com/2020/04/26/JRuubq.png" alt="JRuubq.png"></p>
-<p>图 - forward工作原理</p>
-<p>   <strong>配置示例</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth1 -s 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line"># iptables -A FORWARD -o eth0 -s 172.16.1.0&#x2F;24 -j ACCEPT  # 可以不进行配置</span><br><span class="line">iptables -A FORWARD -i eth0 -d 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line"># iptables -A FORWARD -o eth1 -d 172.16.1.0&#x2F;24 -j ACCEPT   # 可以不进行配置</span><br></pre></td></tr></table></figure>
-
-<p>当外网ip不固定时如何配置？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.1.0&#x2F;24 -o eth0 -j MASQUERADE   # 伪装共享上网</span><br></pre></td></tr></table></figure>
-
-<p>说明：在工作中如何没有固定外网IP地址，可以采取以上伪装映射的方式进行共享上网</p>
-<p><strong>配置映射方法小结</strong></p>
-<blockquote>
-<p> \01. 指定哪些网段需要进行映射     -s 172.16.1.0/24</p>
-<p> \02. 指定在哪做映射               -o eth0</p>
-<p> \03. 用什么方法做映射             -j SNAT/DNAT MASQUERADE</p>
-<p> \04. 映射成什么地址               –to-source  ip地址/–to-destination ip地址</p>
-</blockquote>
-<h3 id="1-7-2-iptables实现外网IP的端口映射到内网IP的端口"><a href="#1-7-2-iptables实现外网IP的端口映射到内网IP的端口" class="headerlink" title="1.7.2 iptables实现外网IP的端口映射到内网IP的端口"></a>1.7.2 iptables实现外网IP的端口映射到内网IP的端口</h3><p>实际需求：将网关的IP和9000端口映射到内网服务器的22端口</p>
-<p>端口映射 10.0.0.188:9000 –&gt;172.16.1.180:22</p>
-<p>配置实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -d 10.0.0.188 -p tcp --dport 9000 -i eth0 -j DNAT --to-destination 172.16.1.7:22</span><br></pre></td></tr></table></figure>
-
-<p>参数说明:</p>
-<table>
-<thead>
-<tr>
-<th><strong>参数</strong></th>
-<th><strong>参数说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>-d 10.0.0.188</strong></td>
-<td>目标地址。</td>
-</tr>
-<tr>
-<td><strong>-j DNAT</strong></td>
-<td>目的地址改写。</td>
-</tr>
-</tbody></table>
-<h3 id="1-7-3-IP一对一映射"><a href="#1-7-3-IP一对一映射" class="headerlink" title="1.7.3 IP一对一映射"></a>1.7.3 IP一对一映射</h3><p><img src="https://s1.ax1x.com/2020/04/26/JRu3PU.png" alt="JRu3PU.png"></p>
-<p>图 - DNAT 映射原理</p>
-<p>   实际需求：将ip 地址172.16.1.180 映射到10.0.0.188</p>
-<p>通过辅助IP配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip addr add 10.0.0.81&#x2F;24 dev eth0 label eth0:0   # 添加辅助IP</span><br><span class="line">iptables  -t nat -I PREROUTING -d 10.0.0.81 -j DNAT --to-destination 172.16.1.51</span><br><span class="line">iptables  -t nat -I POSTROUTING -s 172.16.1.51 -o eth0 -j SNAT --to-source 10.0.0.81</span><br></pre></td></tr></table></figure>
-
-<p>适合内网的机器访问NAT外网的IP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables  -t nat -I POSTROUTING -s 172.16.1.0&#x2F;255.255.240.0 -d 10.0.0.81 -j SNAT --to-source 172.16.1.8</span><br></pre></td></tr></table></figure>
-
-<p>检查配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ping 10.0.0.81 -t</span><br><span class="line">tcpdump|grep -i icmp（两台机器上分别监测）</span><br><span class="line">telnet 10.0.0.81 22</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-7-4-映射多个外网IP上网"><a href="#1-7-4-映射多个外网IP上网" class="headerlink" title="1.7.4 映射多个外网IP上网"></a>1.7.4 映射多个外网IP上网</h3><p>   方法1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 10.0.1.0&#x2F;255.255.240.0 -o eth0 -j SNAT --to-source 124.42.60.11-124.42.60.16</span><br></pre></td></tr></table></figure>
-
-<p>​      在三层交换机或路由器，划分VLAN。</p>
-<p>   方法2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 10.0.1.0&#x2F;22 -o eth0 -j SNAT --to-source 124.42.60.11</span><br><span class="line">iptables -t nat -A POSTROUTING -s 10.0.2.0&#x2F;22 -o eth0 -j SNAT --to-source 124.42.60.12</span><br></pre></td></tr></table></figure>
-
-<p>​      扩大子网，会增加广播风暴。</p>
-<h3 id="1-7-5-系统防火墙与网络内核优化标准参数"><a href="#1-7-5-系统防火墙与网络内核优化标准参数" class="headerlink" title="1.7.5 系统防火墙与网络内核优化标准参数"></a>1.7.5 系统防火墙与网络内核优化标准参数</h3><p>有关iptables的内核优化</p>
-<p>调整内核参数文件/etc/sysctl.conf</p>
-<p>以下是我的生产环境的某个服务器的配置：</p>
-<p><strong>解决time-wait**</strong>过多**的解决办法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_fin_timeout &#x3D; 2</span><br><span class="line">net.ipv4.tcp_tw_reuse &#x3D; 1</span><br><span class="line">net.ipv4.tcp_tw_recycle &#x3D; 1</span><br><span class="line">net.ipv4.tcp_syncookies &#x3D; 1</span><br><span class="line">net.ipv4.tcp_keepalive_time &#x3D; 600</span><br><span class="line">net.ipv4.tcp_max_tw_buckets &#x3D; 36000</span><br><span class="line">net.ipv4.ip_local_port_range &#x3D; 4000  65000</span><br><span class="line">net.ipv4.tcp_max_syn_backlog &#x3D; 16384</span><br><span class="line">net.ipv4.route.gc_timeout &#x3D; 100</span><br><span class="line">net.ipv4.tcp_syn_retries &#x3D; 1</span><br><span class="line">net.ipv4.tcp_synack_retries &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-<p>在dmesg中显示  ip_conntrack: table full, dropping packet. 的错误提示，什么原因？</p>
-<p>如何解决？</p>
-<p>   #iptables优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">net.nf_conntrack_max &#x3D; 25000000</span><br><span class="line">net.netfilter.nf_conntrack_max &#x3D; 25000000</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_established &#x3D; 180</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_time_wait &#x3D; 120</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_close_wait &#x3D; 60</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_fin_wait &#x3D; 120</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-8-自定义链的配置-了解"><a href="#1-8-自定义链的配置-了解" class="headerlink" title="1.8 自定义链的配置(了解)"></a>1.8 自定义链的配置(了解)</h2><p> <img src="https://s1.ax1x.com/2020/04/26/JRuG24.png" alt="JRuG24.png"></p>
-<p>图 - 自定义链原理</p>
-<p>创建自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：在filter表中创建NOICMP自定义链</span><br><span class="line">iptables -t filter -N NOICMP</span><br></pre></td></tr></table></figure>
-
-<p>引用自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：在INPUT链中引用刚才创建的自定义链</span><br><span class="line">iptables -t filter -I INPUT -p icmp  -j NOICMP</span><br></pre></td></tr></table></figure>
-
-<p>重命名自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：将IN_WEB自定义链重命名为WEB</span><br><span class="line">iptables -E NOICMP ACCEPTICMP</span><br></pre></td></tr></table></figure>
-
-<p>删除自定义链</p>
-<blockquote>
-<p> 删除自定义链需要满足两个条件</p>
-<p> 　　1、自定义链没有被引用</p>
-<p> 　　2、自定义链中没有任何规则</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 示例： 删除引用数为0且不包含任何规则的ACCEPTICMP链</span><br><span class="line">iptables -X ACCEPTICMP</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-9-附录-防火墙状态机制"><a href="#1-9-附录-防火墙状态机制" class="headerlink" title="1.9 附录-防火墙状态机制"></a>1.9 附录-防火墙状态机制</h2><p>状态机制是iptables中较为特殊的一部分，这也是iptables和比较老的ipchains的一个比较大的区別之一，运行状态机制（连接跟踪）的防火墙称作带有状态机制的防火墙，以下简称为状态防火墙.状态防火墙比非状态防火墙要安全，因为它允许我们编写更严密的规则。</p>
-<p>在iptables上一共有四种状态，分别被称为NEW、ESTABLISHED、INVALID、RELATED,这四种状态对于TCP、UDP、ICMP三种协议均有效。下面，我们来分别阐述四种状态的特性.</p>
-<p><strong>🔔 NEW</strong></p>
-<p>meaning that the packet has started a new connection, or otherwise associated with a connection which has not seen packets in both directions</p>
-<p>NEW说明这个包是我们看到的第一个包。意思就是，这是conntrack模块看到的某个连接的第一个包，它即格被匹配了。比如，我们看到一个SYN包，是我们所留意的连接的第一个包，就要匹配它。</p>
-<p><img src="https://s1.ax1x.com/2020/04/26/JRutM9.png" alt="JRutM9.png"> </p>
-<p><strong>🔔 ESTABLISHED</strong></p>
-<p>meaning that the packet is associated with a connection which has seen packets in both directions</p>
-<p>ESTABLISHED已经注意到两个方向上的数据传输，而且会继续匹配这个连接的包.处于ESTABLISHED状态的连接是非常容易理解的.只要发送并接到应答，连接就是ESTABLISHED的了。一个连接要从NEW变为ESTABLISHED,只需要接到应答包即可，不管这个包是发往防火墙的，还是要由防火墙转发的.ICMP的错误和重定向等信息包也被看作是ESTABLISHED,只要它们是我们所发出的信息的应答。</p>
-<p> <img src="https://s1.ax1x.com/2020/04/26/JRuUq1.png" alt="JRuUq1.png"></p>
-<p><strong>🔔</strong> RELATED</p>
-<p>meaning that the packet is starting a new connection, but is associated with an existing connection, such as an FTP data transfer, or an ICMP error.</p>
-<p>RELATED是个比较麻烦的状态.当一个连接和某个已处于ESTABLISHED状态的连接有关系时，就被认为是RELATED的了，换句话说，一个连接要想是RELATED的，首先要有一个ESTABLISHED的连接。这个ESTABLISHED连接再产生一个主连接之外的连接，这个新的连接就是RELATED的了，当然前提是conntrack模块要能理解RELATED。ftp是个很好的例子，FTP-data连接就是和FTP-control有关联的，如果没有在iptables的策略中配RELATED状态，FTP-data的连接是无法正确建立的，还有其他的例子，比如，通过IRC的DCC连接#有了这个状态，ICMP应答、FTP传输、DCC等才能穿过防火墙正常工作.注意，大部分还有一些UDP协议都依赖这个机制。这些协议是很复杂的，它们把连接信息放在数据包里，并且要求这些信息能被正确理解。</p>
-<p><img src="https://s1.ax1x.com/2020/04/26/JRudVx.png" alt="JRudVx.png"> </p>
-<p><strong>🔔 INVALID</strong></p>
-<p>meaning that the packet is associated with no known connection</p>
-<p>INVALID说明数据包不能被识别属于哪个连接或没有任何状态.有几个原因可以产生这种情况，比如，内存溢出，收到不知厲于哪个连接的ICMP错误信息。一般地，我们DROP这个状态的任何东西，因为防火墙认为这是不安全的东西</p>
-<p> <img src="https://s1.ax1x.com/2020/04/26/JRuwa6.png" alt="JRuwa6.png"></p>
-<h3 id="1-9-1-iptables配置哲学"><a href="#1-9-1-iptables配置哲学" class="headerlink" title="1.9.1 iptables配置哲学"></a>1.9.1 iptables配置哲学</h3><p>如何防止自己被关在门外？</p>
-<blockquote>
-<p> 01、去机房重启系统或者登陆服努器删除刚才的禁止规则。</p>
-<p> 02、让机房人员重启服务器或者让机房人员拿用户密码登录进去。</p>
-<p> 03、通过服务器的远程管理卡管理（推荐）。</p>
-<p> 04、先写一个定时任务，每5分钟就停止防火墙。</p>
-<p> 05、测试环境测试好，写成脚本，批置执行</p>
-</blockquote>
-<p>配置禁用22端口策略:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp - dport 22 -j DROP</span><br><span class="line"># 说明：利用-I参数，实现强行阻止访问22端口，将Jffc规则放在第一位</span><br></pre></td></tr></table></figure>
-
-<p>删除配置的禁止连接22端口的规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -D INPUT -p tcp —dport 22 -j DROP</span><br><span class="line">iptables -F</span><br><span class="line">&#x2F;etc&#x2F;init.d&#x2F;iptables restart</span><br></pre></td></tr></table></figure>
-
-<p> 1.10 参考文献</p>
-<blockquote>
-<p> [1]  <a href="http://www.aichengxu.com/linux/3122717.htm" target="_blank" rel="noopener">http://www.aichengxu.com/linux/3122717.htm</a></p>
-<p> [2]  <a href="http://blog.csdn.net/huguohu2006/article/details/6453522" target="_blank" rel="noopener">http://blog.csdn.net/huguohu2006/article/details/6453522</a></p>
-<p> [3]  <a href="http://blog.csdn.net/lin_credible/article/details/8614907" target="_blank" rel="noopener">http://blog.csdn.net/lin_credible/article/details/8614907</a></p>
-<p> [4]  <a href="http://blog.chinaunix.net/uid-27057175-id-5179329.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-27057175-id-5179329.html</a></p>
-<p> [5]  <a href="http://blog.51cto.com/oldboy/974194" target="_blank" rel="noopener">http://blog.51cto.com/oldboy/974194</a></p>
-<p> [6]  <a href="http://blog.sina.com.cn/s/blog_773d9b6701018rwo.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_773d9b6701018rwo.html</a></p>
-<p> [7]  <a href="http://www.zsythink.net/archives/1625" target="_blank" rel="noopener">http://www.zsythink.net/archives/1625</a></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"># iptables  -t  表名  动作(命令)   链名   匹配条件  -j  目标动作       </span><br><span class="line"> </span><br><span class="line"> -t 表名  raw mangle nat filter  （如果不写-t 默认使用filter表）</span><br><span class="line"> 链名(各表对应的链)</span><br><span class="line">raw(PROROUTING、OUPUT)</span><br><span class="line">mangle(PROROUTING、FORWARD、OUTPUT、POSTROUTING)</span><br><span class="line">nat(PREROUTING、INPUT、FORWARD、OUTPUT、POSTROUING)</span><br><span class="line">filter(INPUT、FORWARD、OUTPUT)    </span><br><span class="line">   </span><br><span class="line">  动作(官方叫命令)：</span><br><span class="line">-A  添加规则：  (append追加)</span><br><span class="line">  # iptables -t filter -A INPUT -p icmp -j REJECT(拒绝)     &#x2F;&#x2F;拒绝所有的icmp，即任何人不能ping同你</span><br><span class="line"> </span><br><span class="line">   # iptables -t filter -A INPUT -p tcp --dport 22 -s 10.18.44.158  -j REJECT    拒绝源地址10.18.44.158的tcp协议的22端口   </span><br><span class="line">    </span><br><span class="line">-I 插入规则  ：</span><br><span class="line">     #   iptables -t filter -I INPUT 2  -p tcp --dport 22 -s 10.18.44.171  -j REJECT   &#x2F;&#x2F;INPUT不加数字默认是第一行，数字代表插入到哪一行前边</span><br><span class="line">-R 替换规则：</span><br><span class="line">      #  iptables -t filter -R INPUT 1 -p tcp --dport 22 -s 10.18.44.181  -j REJECT    &#x2F;&#x2F;替换的时候 INPUT必须跟上行号</span><br><span class="line">-D 删除规则</span><br><span class="line">      #  iptables -t filter -D INPUT -p icmp -j REJECT</span><br><span class="line">      #  iptables -D INPUT 2</span><br><span class="line">-P 修改默认策略：只能使用DROP和ACCEPT</span><br><span class="line">       #  iptables -P INPUT DROP  </span><br><span class="line">       #  iptables -P INPUT ACCEPT</span><br><span class="line"> -N 添加自定义链  </span><br><span class="line">        #iptables -N tiger</span><br><span class="line">        #iptables -A tiger -p tcp --dport 22 -s 10.18.44.208 -j REJECT</span><br><span class="line">        </span><br><span class="line">     存储规则   </span><br><span class="line">      自定义链里的规则在没有被调用的情况下不生效</span><br><span class="line"> </span><br><span class="line"> 使用自定义链(关联自定义链)</span><br><span class="line"> #iptables -A INPUT -j tiger</span><br><span class="line"> </span><br><span class="line"> 修改自定义链名称</span><br><span class="line">  #iptables -E tiger TIGER</span><br><span class="line"></span><br><span class="line">删掉自定义链：</span><br><span class="line">    1.不能被关联</span><br><span class="line">    2.必须是空链</span><br><span class="line">     #iptables  -X  链名</span><br><span class="line"></span><br><span class="line">-F  清空规则</span><br><span class="line">     # iptables  -F 链名             &#x2F;&#x2F;指定链的所有规则</span><br><span class="line">     #iptables -F                     &#x2F;&#x2F;所有的规则</span><br><span class="line">-Z  计数清零</span><br><span class="line">      字节数  </span><br><span class="line">      数据包个数</span><br><span class="line">      #iptables -Z                          &#x2F;&#x2F;喜爱嗯看到计数用#iptables -L -n -v   (v可有号多个)</span><br><span class="line">        </span><br><span class="line">-L  查看规则  -n以数字的形式显示ip和端口协议 --line 显示规则行号  -v流量计数(verbose 数据包的计数)</span><br><span class="line">  #iptables  -L </span><br><span class="line">  #iptables  -L -n</span><br><span class="line">  #iptables -L -n --line  </span><br><span class="line">  #iptables  -L -n   -v                       </span><br><span class="line"></span><br><span class="line">匹配条件：</span><br><span class="line">基本匹配</span><br><span class="line">    在使用协议的时候不必非得写端口，但是使用端口是必须跟协议</span><br><span class="line">    协议                          &#x2F;etc&#x2F;protocols  ---icmp协议簇    &#x2F;etc&#x2F;servers --TCP&#x2F;IP协议簇</span><br><span class="line">        -p</span><br><span class="line">            tcp udp  icmp  </span><br><span class="line">         -ptcp</span><br><span class="line">    端口                          </span><br><span class="line">        --sport    &#x2F;&#x2F;源端口</span><br><span class="line">                 # iptables -A INPUT -p tcp --sport 22 -s 10.18.44.208 -j REJECT          </span><br><span class="line">                  # iptables _A INPUT -p tcp --sport 22:30 -s 10.18.44.208,10.18.44.209,10.18.44.210 -j REJECT     </span><br><span class="line">         --dport    &#x2F;&#x2F;目标端口</span><br><span class="line">                # iptables -A INPUT -p tcp --dport 22 -s 10.18.44.208 -j REJECT</span><br><span class="line">        </span><br><span class="line">    ip</span><br><span class="line">          -s  </span><br><span class="line">                #iptables -A INPUT -p tcp --dport 20:30 -s 10.18.44.208&#x2F;24 -j REJECT   &#x2F;&#x2F; 在iptables中  10.18.44.208&#x2F;24  其实是10.18.44.0&#x2F;24</span><br><span class="line">          -d</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2019/02/28/Linux/iptables%E7%AC%94%E8%AE%B0/" data-id="ckeglzl4q002fxsuv7ahgbllz" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2019/03/27/Linux/Nginx/Nginx%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85/" data-id="ckeglw9a8000ixsuvhlygdgdq" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li></ul>
 
     </footer>
   </div>
@@ -1263,7 +199,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/42/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><a class="extend next" rel="next" href="/page/44/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/42/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><a class="extend next" rel="next" href="/page/44/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -1303,7 +239,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/11/">November 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/10/">October 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/09/">September 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
     </div>
   </div>
 
@@ -1332,7 +268,7 @@
           </li>
         
           <li>
-            <a href="/2020/08/22/Interview/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解</a>
+            <a href="/2020/09/04/%5Bxshell%E7%AA%81%E5%87%BA%E6%98%BE%E7%A4%BA%E9%9B%86%5D/">[xshell突出显示集]</a>
           </li>
         
       </ul>
