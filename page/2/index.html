@@ -104,9 +104,12 @@
 <p>端口范围30000-32767</p>
 <h6 id="hostPort"><a href="#hostPort" class="headerlink" title="hostPort"></a><strong>hostPort</strong></h6><p>直接将容器的端口与所调度的节点上的端口进行映射</p>
 <h6 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h6><p>  创建集群内的服务， 应用只要在集群内都可以访问,外部（如公网）无法访问它。</p>
-<p>k8s-coredns</p>
+<p>k8s-coredns：</p>
 <p>在同一个命名空间内：<br>    可以通过  service_name 直接解析</p>
 <p>  不同命名空间内容：<br> service_name. namespace_name</p>
+<h5 id="PVC-和-PV"><a href="#PVC-和-PV" class="headerlink" title="PVC 和 PV"></a>PVC 和 PV</h5><p>Persistent Volume Claim(PVC)和Persistent Volume（PV）</p>
+<p>  PV： 定义Volume的类型、挂载目录、远程存储服务器等<br>  PVC：定义 Pod想要使用的持久化属性，比如存储大小、读写权限等..</p>
+<p>StorageClass： PV的模板，自动为PVC创建PV</p>
 
       
     </div>

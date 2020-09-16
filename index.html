@@ -141,8 +141,28 @@
 <td align="center">async</td>
 <td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td>
 </tr>
+<tr>
+<td align="center">secure（默认）</td>
+<td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td>
+</tr>
+<tr>
+<td align="center">insecure</td>
+<td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td>
+</tr>
+<tr>
+<td align="center">anonuid</td>
+<td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td>
+</tr>
+<tr>
+<td align="center">anongid</td>
+<td align="center">匿名用户的GID值</td>
+</tr>
+<tr>
+<td align="center">no_subtree_check</td>
+<td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td>
+</tr>
 </tbody></table>
-<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showmount -e localhost</span><br><span class="line">会发现没有</span><br><span class="line"></span><br><span class="line">于是重启nfs服务  (sudo systemctl restart nfs-server.service)</span><br><span class="line"></span><br><span class="line">接下来 </span><br><span class="line"> 创建刚才的文件夹</span><br></pre></td></tr></table></figure>
+<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showmount -e localhost</span><br><span class="line">发现没有</span><br><span class="line"></span><br><span class="line">重启nfs服务  (sudo systemctl restart nfs-server.service)</span><br><span class="line"></span><br><span class="line">接下来 </span><br><span class="line"> 创建刚才的文件夹</span><br></pre></td></tr></table></figure>
 
 <h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">不需要启动nfs服务</span><br><span class="line">直接执行如下：</span><br><span class="line">showmount -e 10.0.0.145</span><br><span class="line"></span><br><span class="line">尝试进行挂载  </span><br><span class="line">mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi</span><br><span class="line">卸载只需 </span><br><span class="line">umount /home/cyy/goapi</span><br></pre></td></tr></table></figure>
 
