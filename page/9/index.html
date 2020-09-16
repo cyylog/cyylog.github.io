@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-DevOPs/python之fabric模块" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-监控/Prometheus学习笔记（1）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/" class="article-date">
-  <time datetime="2020-05-31T08:20:44.000Z" itemprop="datePublished">2020-05-31</time>
+    <a href="/2020/06/18/%E7%9B%91%E6%8E%A7/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" class="article-date">
+  <time datetime="2020-06-17T16:48:56.000Z" itemprop="datePublished">2020-06-18</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
+    <a class="article-category-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
+      <a class="article-title" href="/2020/06/18/%E7%9B%91%E6%8E%A7/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">Prometheus学习笔记_01</a>
     </h1>
   
 
@@ -94,34 +94,76 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="python-之-fabric-模块"><a href="#python-之-fabric-模块" class="headerlink" title="python 之 fabric 模块"></a>python 之 fabric 模块</h3><p>Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># doc http:&#x2F;&#x2F;docs.fabfile.org&#x2F;en&#x2F;2.5&#x2F;getting-started.html</span><br><span class="line"># pip install fabric -i http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;pypi&#x2F;simple&#x2F;</span><br></pre></td></tr></table></figure>
-
-<h5 id="G站部署脚本-参考-示范"><a href="#G站部署脚本-参考-示范" class="headerlink" title="G站部署脚本 参考 示范"></a>G站部署脚本 参考 示范</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fabric <span class="keyword">import</span> Connection, task</span><br><span class="line"><span class="keyword">from</span> fabric.api <span class="keyword">import</span> env,hosts,run,execute</span><br><span class="line"></span><br><span class="line"><span class="meta">@task</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deploy</span><span class="params">(c)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> Connection(<span class="string">'root@x.x.x.x'</span>) <span class="keyword">as</span> c:</span><br><span class="line">        c.run(<span class="string">"rm -rf giligili"</span>)</span><br><span class="line">        c.run(<span class="string">"git clone https://github.com/bydmm/giligili.git"</span>, pty=<span class="literal">True</span>)</span><br><span class="line">        c.put(<span class="string">"docker-compose.yml"</span>, <span class="string">"giligili/docker-compose.yml"</span>)</span><br><span class="line">        c.run(<span class="string">"cd giligili &amp;&amp; docker-compose build &amp;&amp; docker-compose rm -fsv &amp;&amp; docker-compose up --build -d"</span>, pty=<span class="literal">True</span>)</span><br><span class="line">        c.run(<span class="string">"sleep 15 &amp;&amp; docker logs -f gili-api"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># doc http://docs.fabfile.org/en/2.5/getting-started.html</span></span><br><span class="line"><span class="comment"># apt install python-pip</span></span><br><span class="line"><span class="comment"># pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</span></span><br><span class="line"><span class="comment"># fab deploy</span></span><br></pre></td></tr></table></figure>
-
-<p>以上定义了pack和deploy两个任务，如果我们用Fabric部署，只需简单地输入两条命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ fab pack</span><br><span class="line">$ fab deploy</span><br></pre></td></tr></table></figure>
-
-<p>Fabric提供几个简单的API来完成所有的部署，最常用的是local()和run()，分别在本地和远程执行命令，put()可以把本地文件上传到远程，当需要在远程指定当前目录时，只需用with cd(‘/path/to/dir/‘):即可。</p>
-<p>默认情况下，当命令执行失败时，Fabric会停止执行后续命令。有时，我们允许忽略失败的命令继续执行，比如run(‘rm /tmp/abc’)在文件不存在的时候有可能失败，这时可以用with settings(warn_only=True):执行命令，这样Fabric只会打出警告信息而不会中断执行。</p>
-<p>Fabric是如何在远程执行命令的呢？其实Fabric所有操作都是基于SSH执行的，必要时它会提示输入口令，所以非常安全。更好的办法是在指定的部署服务器上用证书配置无密码的ssh连接。</p>
-<p>如果是基于团队开发，可以让Fabric利用版本库自动检出代码，自动执行测试、打包、部署的任务。由于Fabric运行的命令都是基本的Linux命令，所以根本不需要用Fabric本身来扩展，会敲Linux命令就能用Fabric部署。</p>
-<p>利用Fabric部署Python、Ruby、PHP这样的非编译型网站应用非常方便，而对于编译型的Java、C#等就麻烦了，编译本身就是一个极其复杂的大工程，需要依赖特定工具或者IDE，很难做到自动化。</p>
-<h4 id="fab命令常用参数"><a href="#fab命令常用参数" class="headerlink" title="fab命令常用参数"></a><strong>fab命令常用参数</strong></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> fab --<span class="built_in">help</span>   查看帮助</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 常用参数</span></span></span><br><span class="line">-l 显示定义好的任务函数名</span><br><span class="line">-f 指定fab入口文件，默认入口文件名为fabfile.py.. 即指定fabfile文件</span><br><span class="line">-g 指定网关（中转）设备，即HOST逗号分隔要操作的主机, 比如堡垒机环境，填写堡垒机IP即可.</span><br><span class="line">-H 指定目标主机，多台主机用‘,’号分隔</span><br><span class="line">-p 远程账号的密码，fab执行时默认使用root账户</span><br><span class="line">-P 以异步并行方式运行多主机任务，默认为串行运行</span><br><span class="line">-R 指定role（角色），以角色名区分不同业务组设备</span><br><span class="line">-t 设置设备连接超时时间（秒）</span><br><span class="line">-T 设置远程主机命令执行超时时间（秒）</span><br><span class="line">-w 当命令执行失败，发出警告，而非默认中止任务。</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">其他参数:</span><br><span class="line">--set=KEY=VALUE,...   逗号分隔，设置环境变量</span><br><span class="line">--shortlist       简短打印可用命令</span><br><span class="line">-c PATH         指定本地配置文件</span><br><span class="line">-D           不加载用户known_hosts文件</span><br><span class="line">-i PATH         指定私钥文件</span><br><span class="line">-k           不加载来自~/.``ssh``下的私钥文件</span><br><span class="line">--port=PORT       指定SSH连接端口</span><br><span class="line">-R ROLES        根据角色操作，逗号分隔</span><br><span class="line">-s SHELL        指定新shell，默认是``'/bin/bash -l -c'</span><br><span class="line">--show=LEVELS      以逗号分隔的输出</span><br><span class="line">--ssh-config-path=PATH SSH配置文件路径</span><br><span class="line">-T N          设置远程命令超时时间，单位秒</span><br><span class="line">-u USER         连接远程主机用户名</span><br><span class="line">-x HOSTS        以逗号分隔排除主机</span><br><span class="line">-z INT         并发进程数</span><br></pre></td></tr></table></figure>
-
-<h4 id="fabfile全局属性-env对象"><a href="#fabfile全局属性-env对象" class="headerlink" title="fabfile全局属性 (env对象)"></a>fabfile全局属性 (env对象)</h4><p><img src="https://s1.ax1x.com/2020/05/31/t1Gv3F.png" alt="t1Gv3F.png"></p>
+        <h1 id="Prometheus-监控"><a href="#Prometheus-监控" class="headerlink" title="Prometheus 监控"></a>Prometheus 监控</h1><h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>本文介绍Prometheus 监控及在k8s集群中使用node-exporter、prometheus、grafana对集群进行监控。实现原理类似ELK、EFK组合。node-exporter组件负责收集节点上的metrics监控数据，并将数据推送给prometheus, prometheus负责存储这些数据，grafana将这些数据通过网页以图形的形式展现给用户。</p>
+<p>在开始之前有必要了解下Prometheus是什么?<br>        Prometheus （中文名：普罗米修斯）是由 SoundCloud 开发的开源监控报警系统和时间序列数据库(TSDB).自2012年起,许多公司及组织已经采用 Prometheus,并且该项目有着非常活跃的开发者和用户社区.现在已经成为一个独立的开源项目。Prometheus 在2016加入 CNCF ( Cloud Native Computing Foundation 云原生计算基金会 ), 作为在 kubernetes 之后的第二个由基金会主持的项目。 Prometheus 的实现参考了Google内部的监控实现，与源自Google的Kubernetes结合起来非常合适。另外相比influxdb的方案，性能更加突出，而且还内置了报警功能。它针对大规模的集群环境设计了拉取式的数据采集方式，只需要在应用里面实现一个metrics接口，然后把这个接口告诉Prometheus就可以完成数据采集了，下图为prometheus的架构图。</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwhWt.png" alt="NZwhWt.png"></p>
+<p>​        promethues是一套开源的系统监控报警框架。Prometheus 所有采集的监控数据均以指标（metric）的形式保存在内置的<a href="https://www.wikiwand.com/zh/時間序列" target="_blank" rel="noopener">时间序列</a>数据库当中（TSDB）：属于同一指标名称，同一标签集合的、有时间戳标记的数据流。除了存储的时间序列，Prometheus 还可以根据查询请求产生临时的、衍生的时间序列作为返回结果。包含了以下组件</p>
+<ul>
+<li>prometheus server: 主要负责数据采集和存储，提供promQL查询语言支持。prometheus是一个时序数据库，将采集到的监控数据按照时间序列的方式存储到本地磁盘。</li>
+<li>Push Gateway: 支持临时性job主动推送指标的中间网关。</li>
+<li>PromDash： 使用rails开发的dashboard，用于可视化指标数据。</li>
+<li>Exporters: 负责监控机器运行状态，提供被监控组件信息的 HTTP 接口被叫做 exporter。<ul>
+<li>直接采集： exporter内置了prometheus支持，直接向prometheus暴露数据端点。</li>
+<li>间接采集：原不支持prometheus。通过prometheus提供的clien library编写的目标监控采集程序。</li>
+</ul>
+</li>
+<li>Altermanager: 从 Prometheus server 端接收到 alerts 后，会进行去除重复数据，分组，并路由到对收的接受方式，发出报警。常见的接收方式有：电子邮件，企业微信，钉钉 ,  webhook </li>
+<li>WebUI: Prometheus内置一个简单的Web控制台，可以查询指标，查看配置信息或者Service Discovery等，实际工作中，查看指标或者创建仪表盘通常使用Grafana，Prometheus作为Grafana的数据源；9090提供图形化界面功能。</li>
+</ul>
+<p>promethues 的各个组件基本都是用 golang 编写,对编译和部署十分友好.并且没有特殊依赖.基本都是独立工作。</p>
+<h2 id="二、基本工作原理"><a href="#二、基本工作原理" class="headerlink" title="二、基本工作原理"></a><strong>二、基本工作原理</strong></h2><ul>
+<li>Prometheus server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Pushgateway 发过来的 metrics，或者从其他的 Prometheus server 中拉 metrics。</li>
+<li>Prometheus server 在本地存储收集到的 metrics，并运行已定义好的 alert.rules，记录新的时间序列或者向 Alertmanager 推送警报。</li>
+<li>Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。</li>
+<li>在图形界面中，可视化采集数据。</li>
+</ul>
+<h2 id="三、Prometheus-的优势和不足"><a href="#三、Prometheus-的优势和不足" class="headerlink" title="三、Prometheus 的优势和不足"></a>三、Prometheus 的优势和不足</h2><h3 id="1、prometheus-的优势"><a href="#1、prometheus-的优势" class="headerlink" title="1、prometheus 的优势"></a>1、prometheus 的优势</h3><ol>
+<li>强大的多维度数据模型：<br>时间序列数据通过 metric 名和键值对来区分。<br>所有的 metrics 都可以设置任意的多维标签。<br>数据模型更随意，不需要刻意设置为以点分隔的字符串。<br>可以对数据模型进行聚合，切割和切片操作。<br>支持双精度浮点类型，标签可以设为全 unicode。</li>
+<li>灵活而强大的查询语句（PromQL）：<br>在同一个查询语句，可以对多个 metrics 进行乘法、加法、连接、取分数位等操作。</li>
+<li>易于管理：<br>Prometheus server 是一个单独的二进制文件，可直接在本地工作，不依赖于分布式存储。</li>
+<li>高效：<br>平均每个采样点仅占 3.5 bytes，且一个 Prometheus server 可以处理数百万的 metrics。<br>使用 pull 模式采集时间序列数据，这样不仅有利于本机测试而且可以避免有问题的服务器推送坏的 metrics。</li>
+<li>可以采用 push gateway 的方式把时间序列数据推送至 Prometheus server 端。</li>
+<li>可以通过服务发现或者静态配置去获取监控的 targets。</li>
+<li>有多种可视化图形界面。</li>
+<li>易于伸缩。</li>
+</ol>
+<h3 id="2、prometheus-的不足-有待于改进"><a href="#2、prometheus-的不足-有待于改进" class="headerlink" title="2、prometheus 的不足 有待于改进"></a>2、prometheus 的不足 有待于改进</h3><ol>
+<li>不支持集群化 (这个是当前最迫切的需求)</li>
+<li>被监控集群过大后 本身性能有一定瓶颈(如果有集群 就可以解决这个问题)</li>
+<li>偶尔发生数据丢失(这个问题 在2.0之前 会偶尔发生几次， 2.0之后貌似已经彻底解决 )</li>
+<li>中文支持不好 中文资料也很少(这个问题 也是老生常谈了 往往新的 很牛的国外工具都不太支持中文)</li>
+</ol>
+<p>注：<br>    由于数据采集可能会有丢失，所以 Prometheus 不适用对采集数据要 100% 准确的情形。但如果用于记录时间序列数据，Prometheus 具有很大的查询优势，此外，Prometheus 适用于微服务的体系架构。</p>
+<h2 id="四、prometheus-的基本概念"><a href="#四、prometheus-的基本概念" class="headerlink" title="四、prometheus 的基本概念"></a><strong>四、prometheus 的基本概念</strong></h2><h3 id="1、数据模型"><a href="#1、数据模型" class="headerlink" title="1、数据模型"></a><strong>1、数据模型</strong></h3><p>  prometheus中存储的数据为时间序列，是由Metric的名字和一系列的标签（键值对）唯一标识的，不同的标签代表不同的时间序列。</p>
+<p> 样本：实际时间序列，每个序列包括一个float64的值和一个毫秒级的时间戳。（指标+时间戳+样本值）</p>
+<p> metric名字： 具有语义，表示功能：例如：http_requeststotal, 表示 http 请求的总数。其中，metric 名字由 ASCII 字符，数字，下划线，以及冒号组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
+<p> 标签：使一个时间序列有不同未读的识别。例如 http_requeststotal{method=”Get”} 表示所有 http 请求中的 Get 请求。当 method=”post” 时，则为新的一个 metric。标签中的键由 ASCII 字符，数字，以及下划线组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
+<p> 格式：<metric name>{<label name>=<label value>, …}，例如：http_requests_total{method=”POST”,endpoint=”/api/tracks”}。</p>
+<h3 id="2、Metric类型"><a href="#2、Metric类型" class="headerlink" title="2、Metric类型"></a><strong>2、Metric类型</strong></h3><p>Prometheus 客户端库主要提供四种主要的 metric 类型：</p>
+<h4 id="1、Counter（累加性metirc）"><a href="#1、Counter（累加性metirc）" class="headerlink" title="1、Counter（累加性metirc）"></a>1、Counter（累加性metirc）</h4><p>一种累加的 metric，典型的应用如：<br>    请求的个数<br>    结束的任务数<br>    出现的错误数<br>    。。。</p>
+<p>例如：<br>    查询 promhttp_metric_handler_requests_total{code=”200”,instance=”localhost:9090”,job=”prometheus”}<br>    返回 8，10 秒后再次查询，则返回 14。</p>
+<h4 id="2、Gauge（可增减性metric）"><a href="#2、Gauge（可增减性metric）" class="headerlink" title="2、Gauge（可增减性metric）"></a>2、Gauge（可增减性metric）</h4><p>一种常规的 metric，典型的应用如：<br>    温度<br>    运行的 go routines 的个数<br>可以任意加减。</p>
+<p>例如：<br>    go_goroutines{instance=”localhost:9090”,job=”prometheus”}<br>    返回值 147，10 秒后返回 124。</p>
+<p>注：<br>    routines: go的日常工作？</p>
+<h4 id="3、Histogram（树状图）"><a href="#3、Histogram（树状图）" class="headerlink" title="3、Histogram（树状图）"></a>3、Histogram（树状图）</h4><p>注：<br> histogram    英[ˈhɪstəɡræm] 美[ˈhɪstəɡræm]   直方图；矩形图</p>
+<p> 可以理解为柱状图，典型的应用如：<br>     请求持续时间<br>     响应大小<br> 可以对观察结果采样，分组及统计。</p>
+<p> 例如：<br>     查询 go_gc_duration_seconds_sum{instance=”localhost:9090”,job=”prometheus”}时<br>      返回结果如下：Histogram metric 返回结果图</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwjWq.png" alt="NZwjWq.png"></p>
+<h4 id="4、Summary（汇总）"><a href="#4、Summary（汇总）" class="headerlink" title="4、Summary（汇总）"></a>4、Summary（汇总）</h4><p>类似于 Histogram，典型的应用如：<br>    请求持续时间<br>    响应大小<br>提供观测值的 count 和 sum 功能。<br>提供百分位的功能，即可以按百分比划分跟踪结果。</p>
+<p>instance 和 jobs<br>instance:<br>    一个单独 scrape(抓取) 的目标， 一般对应于一个进程。</p>
+<p>jobs:<br>    一组同种类型的 instances（主要用于保证可扩展性和可靠性），例如：<br>注：<br>    scrape    英[skreɪp] 美[skreɪp] 刮掉; 削去; 擦坏; 擦伤; 刮坏; 蹭破; (使) 发出刺耳的刮擦声</p>
+<p>当 scrape 目标时，Prometheus 会自动给这个 scrape 的时间序列附加一些标签以便更好的分别<br>例如： instance，job。</p>
+<p>下面以实际的 metric 为例，对上述概念进行说明：<br>Metrics 示例</p>
+<p><img src="https://s1.ax1x.com/2020/06/18/NZwzlV.png" alt="NZwzlV.png"></p>
+<p>如图所示，这三个 metric 的名字都一样，他们仅凭 handler 不同而被标识为不同的 metrics。<br>这类 metrics 只会向上累加，是属于 Counter 类型的 metric，且 metrics 中都含有 instance 和 job 这两个标签。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/" data-id="ckegm2ebg002rxsuv8rxd1i2k" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/06/18/%E7%9B%91%E6%8E%A7/%C2%96Prometheus%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" data-id="ckeglwxas000rxsuval4f4s80" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li></ul>
 
     </footer>
   </div>
@@ -134,7 +176,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -165,7 +207,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 17.5px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -187,6 +229,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/04/%5Bxshell%E7%AA%81%E5%87%BA%E6%98%BE%E7%A4%BA%E9%9B%86%5D/">[xshell突出显示集]</a>
           </li>
         
@@ -200,10 +246,6 @@
         
           <li>
             <a href="/2020/08/15/Interview/Interview_Network_001/">Interview Network_001--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_Go_001/">Interview Go_001--undone</a>
           </li>
         
       </ul>
