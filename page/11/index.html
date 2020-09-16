@@ -68,9 +68,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-DevOPs/Vue入门之001" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-DevOPs/python之fabric模块" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/05/31/DevOPs/Vue%E5%85%A5%E9%97%A8%E4%B9%8B001/" class="article-date">
+    <a href="/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/" class="article-date">
   <time datetime="2020-05-31T08:20:44.000Z" itemprop="datePublished">2020-05-31</time>
 </a>
     
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/31/DevOPs/Vue%E5%85%A5%E9%97%A8%E4%B9%8B001/">Vue之入门篇_001</a>
+      <a class="article-title" href="/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/">python之fabric模块</a>
     </h1>
   
 
@@ -94,63 +94,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h5><p><a href="https://cli.vuejs.org/zh/" target="_blank" rel="noopener">https://cli.vuejs.org/zh/</a></p>
-<p><strong>以文档为主</strong></p>
-<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p><a href="https://cli.vuejs.org/zh/guide/installation.html" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/installation.html</a></p>
-<h6 id="1-开始"><a href="#1-开始" class="headerlink" title="1. 开始"></a>1. 开始</h6><blockquote>
-<p>1、打开终端执行 npm install -g @vue/cli</p>
-<p>接下来可以用vue -V 看版本，或where vue 看下装到哪了</p>
-</blockquote>
-<h6 id="2-创建项目"><a href="#2-创建项目" class="headerlink" title="2. 创建项目"></a>2. 创建项目</h6><p><a href="https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create</a></p>
-<p>在你的当前文件夹下执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create myvue</span><br></pre></td></tr></table></figure>
+        <h3 id="python-之-fabric-模块"><a href="#python-之-fabric-模块" class="headerlink" title="python 之 fabric 模块"></a>python 之 fabric 模块</h3><p>Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># doc http:&#x2F;&#x2F;docs.fabfile.org&#x2F;en&#x2F;2.5&#x2F;getting-started.html</span><br><span class="line"># pip install fabric -i http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;pypi&#x2F;simple&#x2F;</span><br></pre></td></tr></table></figure>
 
-<p>1、具体看文档操作（使用默认选项）</p>
-<p>2、创建好后，会出现一个myvue文件夹，然后用webstorm打开它</p>
-<h5 id="运行和配置"><a href="#运行和配置" class="headerlink" title="运行和配置"></a>运行和配置</h5><blockquote>
-<ol>
-<li><p>首先运行<br>在当前项目目录下执行 npm run serve</p>
-</li>
-<li><p>默认会启动webpack –devserver(仅仅开发使用),默认端口是 8080</p>
-</li>
-</ol>
-</blockquote>
-<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p>进入<br><a href="https://cli.vuejs.org/zh/config/#vue-config-js" target="_blank" rel="noopener">https://cli.vuejs.org/zh/config/#vue-config-js</a></p>
-<h6 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h6><p>vue.config.js  （注意和package.json同级、同级、同级）</p>
-<p>写入如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line"> devServer: &#123;</span><br><span class="line">    port: 3000</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="G站部署脚本-参考-示范"><a href="#G站部署脚本-参考-示范" class="headerlink" title="G站部署脚本 参考 示范"></a>G站部署脚本 参考 示范</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fabric <span class="keyword">import</span> Connection, task</span><br><span class="line"><span class="keyword">from</span> fabric.api <span class="keyword">import</span> env,hosts,run,execute</span><br><span class="line"></span><br><span class="line"><span class="meta">@task</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deploy</span><span class="params">(c)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> Connection(<span class="string">'root@x.x.x.x'</span>) <span class="keyword">as</span> c:</span><br><span class="line">        c.run(<span class="string">"rm -rf giligili"</span>)</span><br><span class="line">        c.run(<span class="string">"git clone https://github.com/bydmm/giligili.git"</span>, pty=<span class="literal">True</span>)</span><br><span class="line">        c.put(<span class="string">"docker-compose.yml"</span>, <span class="string">"giligili/docker-compose.yml"</span>)</span><br><span class="line">        c.run(<span class="string">"cd giligili &amp;&amp; docker-compose build &amp;&amp; docker-compose rm -fsv &amp;&amp; docker-compose up --build -d"</span>, pty=<span class="literal">True</span>)</span><br><span class="line">        c.run(<span class="string">"sleep 15 &amp;&amp; docker logs -f gili-api"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># doc http://docs.fabfile.org/en/2.5/getting-started.html</span></span><br><span class="line"><span class="comment"># apt install python-pip</span></span><br><span class="line"><span class="comment"># pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</span></span><br><span class="line"><span class="comment"># fab deploy</span></span><br></pre></td></tr></table></figure>
 
-<p>或者看<br><a href="https://cn.vuejs.org/v2/api/#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7" target="_blank" rel="noopener">https://cn.vuejs.org/v2/api/#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">       data:&#123;name:&quot;lisi&quot;&#125;</span><br><span class="line">   &#125;).$mount(&#39;#app&#39;);</span><br></pre></td></tr></table></figure>
+<p>以上定义了pack和deploy两个任务，如果我们用Fabric部署，只需简单地输入两条命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ fab pack</span><br><span class="line">$ fab deploy</span><br></pre></td></tr></table></figure>
+
+<p>Fabric提供几个简单的API来完成所有的部署，最常用的是local()和run()，分别在本地和远程执行命令，put()可以把本地文件上传到远程，当需要在远程指定当前目录时，只需用with cd(‘/path/to/dir/‘):即可。</p>
+<p>默认情况下，当命令执行失败时，Fabric会停止执行后续命令。有时，我们允许忽略失败的命令继续执行，比如run(‘rm /tmp/abc’)在文件不存在的时候有可能失败，这时可以用with settings(warn_only=True):执行命令，这样Fabric只会打出警告信息而不会中断执行。</p>
+<p>Fabric是如何在远程执行命令的呢？其实Fabric所有操作都是基于SSH执行的，必要时它会提示输入口令，所以非常安全。更好的办法是在指定的部署服务器上用证书配置无密码的ssh连接。</p>
+<p>如果是基于团队开发，可以让Fabric利用版本库自动检出代码，自动执行测试、打包、部署的任务。由于Fabric运行的命令都是基本的Linux命令，所以根本不需要用Fabric本身来扩展，会敲Linux命令就能用Fabric部署。</p>
+<p>利用Fabric部署Python、Ruby、PHP这样的非编译型网站应用非常方便，而对于编译型的Java、C#等就麻烦了，编译本身就是一个极其复杂的大工程，需要依赖特定工具或者IDE，很难做到自动化。</p>
+<h4 id="fab命令常用参数"><a href="#fab命令常用参数" class="headerlink" title="fab命令常用参数"></a><strong>fab命令常用参数</strong></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> fab --<span class="built_in">help</span>   查看帮助</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 常用参数</span></span></span><br><span class="line">-l 显示定义好的任务函数名</span><br><span class="line">-f 指定fab入口文件，默认入口文件名为fabfile.py.. 即指定fabfile文件</span><br><span class="line">-g 指定网关（中转）设备，即HOST逗号分隔要操作的主机, 比如堡垒机环境，填写堡垒机IP即可.</span><br><span class="line">-H 指定目标主机，多台主机用‘,’号分隔</span><br><span class="line">-p 远程账号的密码，fab执行时默认使用root账户</span><br><span class="line">-P 以异步并行方式运行多主机任务，默认为串行运行</span><br><span class="line">-R 指定role（角色），以角色名区分不同业务组设备</span><br><span class="line">-t 设置设备连接超时时间（秒）</span><br><span class="line">-T 设置远程主机命令执行超时时间（秒）</span><br><span class="line">-w 当命令执行失败，发出警告，而非默认中止任务。</span><br></pre></td></tr></table></figure>
 
 
 
-<h6 id="使用template"><a href="#使用template" class="headerlink" title="使用template"></a>使用template</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">             data:&#123;</span><br><span class="line">                 name:&quot;aa&quot;</span><br><span class="line">             &#125;,</span><br><span class="line">             template:&quot;&lt;h1&gt;&#123;&#123;name&#125;&#125;&lt;&#x2F;h1&gt;&quot;</span><br><span class="line">     &#125;</span><br><span class="line">     ).$mount(&#39;#app&#39;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">其他参数:</span><br><span class="line">--set=KEY=VALUE,...   逗号分隔，设置环境变量</span><br><span class="line">--shortlist       简短打印可用命令</span><br><span class="line">-c PATH         指定本地配置文件</span><br><span class="line">-D           不加载用户known_hosts文件</span><br><span class="line">-i PATH         指定私钥文件</span><br><span class="line">-k           不加载来自~/.``ssh``下的私钥文件</span><br><span class="line">--port=PORT       指定SSH连接端口</span><br><span class="line">-R ROLES        根据角色操作，逗号分隔</span><br><span class="line">-s SHELL        指定新shell，默认是``'/bin/bash -l -c'</span><br><span class="line">--show=LEVELS      以逗号分隔的输出</span><br><span class="line">--ssh-config-path=PATH SSH配置文件路径</span><br><span class="line">-T N          设置远程命令超时时间，单位秒</span><br><span class="line">-u USER         连接远程主机用户名</span><br><span class="line">-x HOSTS        以逗号分隔排除主机</span><br><span class="line">-z INT         并发进程数</span><br></pre></td></tr></table></figure>
 
-
-
-<h6 id="使用渲染函数"><a href="#使用渲染函数" class="headerlink" title="使用渲染函数"></a>使用渲染函数</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;</span><br><span class="line">             data:&#123;</span><br><span class="line">                 name:&quot;aa&quot;</span><br><span class="line">             &#125;,</span><br><span class="line">             template:&quot;&lt;h1&gt;&#123;&#123;name&#125;&#125;&lt;&#x2F;h1&gt;&quot;</span><br><span class="line">     &#125;</span><br><span class="line">     ).$mount(&#39;#app&#39;);</span><br><span class="line"></span><br><span class="line">已及</span><br><span class="line">new Vue(&#123;</span><br><span class="line">             data:&#123;</span><br><span class="line">                 name:&quot;lisi&quot;</span><br><span class="line">             &#125;,</span><br><span class="line">             render(c)&#123;</span><br><span class="line">                 return c(&quot;h1&quot;,&#123;style:&#123;color:&#39;red&#39;&#125;&#125;,this.name)</span><br><span class="line">             &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     ).$mount(&#39;#app&#39;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="路由入门"><a href="#路由入门" class="headerlink" title="路由入门"></a>路由入门</h5><h6 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h6><p><a href="https://router.vuejs.org/zh/installation.html" target="_blank" rel="noopener">https://router.vuejs.org/zh/installation.html</a></p>
-<h6 id="2、使用引导"><a href="#2、使用引导" class="headerlink" title="2、使用引导"></a>2、使用引导</h6><p><a href="https://router.vuejs.org/zh/guide/#html" target="_blank" rel="noopener">https://router.vuejs.org/zh/guide/#html</a></p>
-<p>在项目目录下执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-router</span><br></pre></td></tr></table></figure>
-
-
-
-<h5 id="iview文档"><a href="#iview文档" class="headerlink" title="iview文档"></a>iview文档</h5><p><a href="http://iview.talkingdata.com/#/components/guide/start" target="_blank" rel="noopener">http://iview.talkingdata.com/#/components/guide/start</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首先 搞一个 文件夹 ，执行</span><br><span class="line"> 1、vue create myui</span><br><span class="line"> 2、用webstorm 打开这个文件夹</span><br><span class="line">3、npm install iview --save  安装iview框架</span><br><span class="line">4 、 npm install --save vue-router  安装vue路由</span><br></pre></td></tr></table></figure>
-
+<h4 id="fabfile全局属性-env对象"><a href="#fabfile全局属性-env对象" class="headerlink" title="fabfile全局属性 (env对象)"></a>fabfile全局属性 (env对象)</h4><p><img src="https://s1.ax1x.com/2020/05/31/t1Gv3F.png" alt="t1Gv3F.png"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/05/31/DevOPs/Vue%E5%85%A5%E9%97%A8%E4%B9%8B001/" data-id="ckeoaklyy0000k4uv9r3v9t97" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/05/31/DevOPs/python%E4%B9%8Bfabric%E6%A8%A1%E5%9D%97/" data-id="ckegm2ebg002rxsuv8rxd1i2k" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
 
     </footer>
   </div>
@@ -163,7 +134,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/51/">51</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -184,7 +155,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
     </div>
   </div>
 
@@ -194,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -216,6 +187,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
           </li>
         
@@ -229,10 +204,6 @@
         
           <li>
             <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_Network_001/">Interview Network_001--undone</a>
           </li>
         
       </ul>

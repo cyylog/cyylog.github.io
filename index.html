@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-容器/Kubernetes组件—介绍002" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux/部署NFS服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/" class="article-date">
-  <time datetime="2020-09-15T11:57:00.000Z" itemprop="datePublished">2020-09-15</time>
+    <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" class="article-date">
+  <time datetime="2020-09-15T17:55:39.000Z" itemprop="datePublished">2020-09-16</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
+      <a class="article-title" href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
     </h1>
   
 
@@ -96,26 +96,64 @@
       
         <a id="more"></a>
 
-<p>本文档描述了 Kubernetes 的组件。</p>
-<h5 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h5><p>Namespace是对一组资源和对象的抽象集合， 用来将系统内部的对象划分为不同的项目组或用户组  </p>
-<p>常用来隔离不同的用户，比如Kubernetes自带的服务一般运行在kube-system namespace中。</p>
-<h5 id="Port"><a href="#Port" class="headerlink" title="Port"></a>Port</h5><h6 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a><strong>NodePort</strong></h6><p>​    在所有节点（虚拟机）上开放一个特定端口，任何发送到该端口的流量都被转发到对应服务</p>
-<p>端口范围30000-32767</p>
-<h6 id="hostPort"><a href="#hostPort" class="headerlink" title="hostPort"></a><strong>hostPort</strong></h6><p>直接将容器的端口与所调度的节点上的端口进行映射</p>
-<h5 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h5><p>ingress 相当于一个7层负载均衡器，理解为进行反代并定义规则的一个api对象<br>ingress Controller 通过监听 Ingress  api 转化为各自的配置(常用的有nginx -ingress,  trafik-ingress )</p>
-<h5 id="ClusterIP模式"><a href="#ClusterIP模式" class="headerlink" title="ClusterIP模式"></a>ClusterIP模式</h5><h6 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h6><p>  创建集群内的服务， 应用只要在集群内都可以访问,外部（如公网）无法访问它。</p>
-<blockquote>
-<p>在同一个命名空间内：<br>    可以通过  service_name 直接解析</p>
-<p>  不同命名空间内容：<br> service_name. namespace_name</p>
-</blockquote>
+<p>目的：部署 NFS 服务进行跨主机文件共享</p>
+<p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p>
+<h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.系统版本：CentOS7.4</span><br><span class="line">2.NFS版本：nfs-utils （使用当前最新版本）</span><br><span class="line">3.初始化系统环境</span><br><span class="line">4.关闭防火墙</span><br><span class="line">[root@localhost ~]#  systemctl stop iptables firewalld</span><br><span class="line">[root@localhost ~]#  systemctl disable iptables firewalld</span><br><span class="line">5.关闭SELinux</span><br><span class="line">[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config</span><br><span class="line">[root@localhost ~]#  setenforce 0           # 临时关闭SELinux</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">2、配置</span><br><span class="line">sudo vi /etc/sysconfig/nfs</span><br><span class="line">加入</span><br><span class="line"> LOCKD_TCPPORT=30001 #TCP锁使用端口</span><br><span class="line">LOCKD_UDPPORT=30002 #UDP锁使用端口</span><br><span class="line">MOUNTD_PORT=30003 #挂载使用端口</span><br><span class="line">STATD_PORT=30004 #状态使用端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、sudo systemctl restart rpcbind.service </span><br><span class="line">2、sudo systemctl restart nfs-server.service</span><br><span class="line">开机启动：</span><br><span class="line">1、sudo  systemctl enable rpcbind.service</span><br><span class="line">2、 sudo systemctl enable nfs-server.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编辑/etc/exports</span><br><span class="line">  sudo vi /etc/exports</span><br><span class="line"> 写入如下内容</span><br><span class="line">   /home/cyy/goapi    10.0.0.0/24(rw,async)</span><br></pre></td></tr></table></figure>
+
+<h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ro</td>
+<td align="center">只读</td>
+</tr>
+<tr>
+<td align="center">rw</td>
+<td align="center">读写</td>
+</tr>
+<tr>
+<td align="center">root_squash</td>
+<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td align="center">no_root_squash</td>
+<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
+</tr>
+<tr>
+<td align="center">all_squash</td>
+<td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td align="center">sync</td>
+<td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td>
+</tr>
+<tr>
+<td align="center">async</td>
+<td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td>
+</tr>
+</tbody></table>
+<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showmount -e localhost</span><br><span class="line">会发现没有</span><br><span class="line"></span><br><span class="line">于是重启nfs服务  (sudo systemctl restart nfs-server.service)</span><br><span class="line"></span><br><span class="line">接下来 </span><br><span class="line"> 创建刚才的文件夹</span><br></pre></td></tr></table></figure>
+
+<h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">不需要启动nfs服务</span><br><span class="line">直接执行如下：</span><br><span class="line">showmount -e 10.0.0.145</span><br><span class="line"></span><br><span class="line">尝试进行挂载  </span><br><span class="line">mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi</span><br><span class="line">卸载只需 </span><br><span class="line">umount /home/cyy/goapi</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/" data-id="ckf4zrply0003bcuv5gjj0vm6" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" data-id="ckf586zx20000v0uvf9in4k37" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li></ul>
 
     </footer>
   </div>
@@ -128,7 +166,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/50/">50</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/51/">51</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -149,7 +187,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
     </div>
   </div>
 
@@ -159,7 +197,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 10px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
     </div>
   </div>
 
@@ -181,6 +219,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
           </li>
         
@@ -194,10 +236,6 @@
         
           <li>
             <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_Network_001/">Interview Network_001--undone</a>
           </li>
         
       </ul>
