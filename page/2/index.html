@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-容器/Kubernetes组件—介绍002" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux/部署NFS服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/" class="article-date">
-  <time datetime="2020-09-15T11:57:00.000Z" itemprop="datePublished">2020-09-15</time>
+    <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" class="article-date">
+  <time datetime="2020-09-15T17:55:39.000Z" itemprop="datePublished">2020-09-16</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
+      <a class="article-title" href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
     </h1>
   
 
@@ -96,28 +96,84 @@
       
         <a id="more"></a>
 
-<p>本文档描述了 Kubernetes 的组件。</p>
-<h5 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h5><p>Namespace是对一组资源和对象的抽象集合， 用来将系统内部的对象划分为不同的项目组或用户组  </p>
-<p>常用来隔离不同的用户，比如Kubernetes自带的服务一般运行在kube-system namespace中。</p>
-<h5 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h5><p>ingress 相当于一个7层负载均衡器，理解为进行反代并定义规则的一个api对象<br>ingress Controller 通过监听 Ingress  api 转化为各自的配置(常用的有nginx -ingress,  trafik-ingress )</p>
-<h5 id="Port"><a href="#Port" class="headerlink" title="Port"></a>Port</h5><h6 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a><strong>NodePort</strong></h6><p>​    在所有节点（虚拟机）上开放一个特定端口，任何发送到该端口的流量都被转发到对应服务</p>
-<p>端口范围30000-32767</p>
-<h6 id="hostPort"><a href="#hostPort" class="headerlink" title="hostPort"></a><strong>hostPort</strong></h6><p>直接将容器的端口与所调度的节点上的端口进行映射</p>
-<h6 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h6><p>  创建集群内的服务， 应用只要在集群内都可以访问,外部（如公网）无法访问它。</p>
-<p>k8s-coredns：</p>
-<p>在同一个命名空间内：<br>    可以通过  service_name 直接解析</p>
-<p>  不同命名空间内容：<br> service_name. namespace_name</p>
-<h5 id="PVC-和-PV"><a href="#PVC-和-PV" class="headerlink" title="PVC 和 PV"></a>PVC 和 PV</h5><p>Persistent Volume Claim(PVC)和Persistent Volume（PV）</p>
-<p>  PV： 定义Volume的类型、挂载目录、远程存储服务器等<br>  PVC：定义 Pod想要使用的持久化属性，比如存储大小、读写权限等..</p>
-<p>StorageClass： PV的模板，自动为PVC创建PV</p>
+<p>目的：部署 NFS 服务进行跨主机文件共享</p>
+<p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p>
+<h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.系统版本：CentOS7.4</span><br><span class="line">2.NFS版本：nfs-utils （使用当前最新版本）</span><br><span class="line">3.初始化系统环境</span><br><span class="line">4.关闭防火墙</span><br><span class="line">[root@localhost ~]#  systemctl stop iptables firewalld</span><br><span class="line">[root@localhost ~]#  systemctl disable iptables firewalld</span><br><span class="line">5.关闭SELinux</span><br><span class="line">[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config</span><br><span class="line">[root@localhost ~]#  setenforce 0           # 临时关闭SELinux</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">2、配置</span><br><span class="line">sudo vi /etc/sysconfig/nfs</span><br><span class="line">加入</span><br><span class="line"> LOCKD_TCPPORT=30001 #TCP锁使用端口</span><br><span class="line">LOCKD_UDPPORT=30002 #UDP锁使用端口</span><br><span class="line">MOUNTD_PORT=30003 #挂载使用端口</span><br><span class="line">STATD_PORT=30004 #状态使用端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、sudo systemctl restart rpcbind.service </span><br><span class="line">2、sudo systemctl restart nfs-server.service</span><br><span class="line">开机启动：</span><br><span class="line">1、sudo  systemctl enable rpcbind.service</span><br><span class="line">2、 sudo systemctl enable nfs-server.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编辑/etc/exports</span><br><span class="line">  sudo vi /etc/exports</span><br><span class="line"> 写入如下内容</span><br><span class="line">   /home/cyy/goapi    10.0.0.0/24(rw,async,insecure,no_root_squash)</span><br></pre></td></tr></table></figure>
+
+<h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ro</td>
+<td align="center">只读</td>
+</tr>
+<tr>
+<td align="center">rw</td>
+<td align="center">读写</td>
+</tr>
+<tr>
+<td align="center">root_squash</td>
+<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td align="center">no_root_squash</td>
+<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
+</tr>
+<tr>
+<td align="center">all_squash</td>
+<td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td align="center">sync</td>
+<td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td>
+</tr>
+<tr>
+<td align="center">async</td>
+<td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td>
+</tr>
+<tr>
+<td align="center">secure（默认）</td>
+<td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td>
+</tr>
+<tr>
+<td align="center">insecure</td>
+<td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td>
+</tr>
+<tr>
+<td align="center">anonuid</td>
+<td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td>
+</tr>
+<tr>
+<td align="center">anongid</td>
+<td align="center">匿名用户的GID值</td>
+</tr>
+<tr>
+<td align="center">no_subtree_check</td>
+<td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td>
+</tr>
+</tbody></table>
+<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showmount -e localhost</span><br><span class="line">发现没有</span><br><span class="line"></span><br><span class="line">重启nfs服务  (sudo systemctl restart nfs-server.service)</span><br><span class="line"></span><br><span class="line">接下来 </span><br><span class="line"> 创建刚才的文件夹</span><br></pre></td></tr></table></figure>
+
+<h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">不需要启动nfs服务</span><br><span class="line">直接执行如下：</span><br><span class="line">showmount -e 10.0.0.145</span><br><span class="line"></span><br><span class="line">尝试进行挂载  </span><br><span class="line">mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi</span><br><span class="line">卸载只需 </span><br><span class="line">umount /home/cyy/goapi</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/" data-id="ckf4zrply0003bcuv5gjj0vm6" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" data-id="ckf586zx20000v0uvf9in4k37" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li></ul>
 
     </footer>
   </div>
@@ -183,6 +239,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/">gitlab-ci 入门</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
           </li>
         
@@ -196,10 +256,6 @@
         
           <li>
             <a href="/2020/08/22/Interview/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
           </li>
         
       </ul>

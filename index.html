@@ -68,14 +68,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Linux/部署NFS服务" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-DevOPs/gitlab-ci入门" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" class="article-date">
-  <time datetime="2020-09-15T17:55:39.000Z" itemprop="datePublished">2020-09-16</time>
+    <a href="/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2020-09-20T15:30:39.000Z" itemprop="datePublished">2020-09-20</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
   </div>
 
   </div>
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
+      <a class="article-title" href="/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/">gitlab-ci 入门</a>
     </h1>
   
 
@@ -94,86 +94,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <h4 id="gitlab-ci入门"><a href="#gitlab-ci入门" class="headerlink" title="gitlab-ci入门"></a>gitlab-ci入门</h4><h6 id="示范："><a href="#示范：" class="headerlink" title="示范："></a>示范：</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="bash"> -d --name gitlab-runner   \</span></span><br><span class="line"><span class="bash">  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \</span></span><br><span class="line"><span class="bash">  -v /var/run/docker.sock:/var/run/docker.sock \</span></span><br><span class="line"><span class="bash"> -v /usr/bin/docker:/usr/bin/docker \</span></span><br><span class="line"><span class="bash"> -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \</span></span><br><span class="line"><span class="bash">  gitlab/gitlab-runner</span></span><br><span class="line"></span><br><span class="line">在宿主机上执行 ：chmod <span class="number">666</span> /var/<span class="keyword">run</span><span class="bash">/docker.sock</span></span><br></pre></td></tr></table></figure>
 
-<p>目的：部署 NFS 服务进行跨主机文件共享</p>
-<p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p>
-<h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.系统版本：CentOS7.4</span><br><span class="line">2.NFS版本：nfs-utils （使用当前最新版本）</span><br><span class="line">3.初始化系统环境</span><br><span class="line">4.关闭防火墙</span><br><span class="line">[root@localhost ~]#  systemctl stop iptables firewalld</span><br><span class="line">[root@localhost ~]#  systemctl disable iptables firewalld</span><br><span class="line">5.关闭SELinux</span><br><span class="line">[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config</span><br><span class="line">[root@localhost ~]#  setenforce 0           # 临时关闭SELinux</span><br></pre></td></tr></table></figure>
 
-<h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">2、配置</span><br><span class="line">sudo vi /etc/sysconfig/nfs</span><br><span class="line">加入</span><br><span class="line"> LOCKD_TCPPORT=30001 #TCP锁使用端口</span><br><span class="line">LOCKD_UDPPORT=30002 #UDP锁使用端口</span><br><span class="line">MOUNTD_PORT=30003 #挂载使用端口</span><br><span class="line">STATD_PORT=30004 #状态使用端口</span><br></pre></td></tr></table></figure>
 
-<h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、sudo systemctl restart rpcbind.service </span><br><span class="line">2、sudo systemctl restart nfs-server.service</span><br><span class="line">开机启动：</span><br><span class="line">1、sudo  systemctl enable rpcbind.service</span><br><span class="line">2、 sudo systemctl enable nfs-server.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat  .gitlab-ci.yml</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">job1:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is test"</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">job2:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is build"</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编辑/etc/exports</span><br><span class="line">  sudo vi /etc/exports</span><br><span class="line"> 写入如下内容</span><br><span class="line">   /home/cyy/goapi    10.0.0.0/24(rw,async,insecure,no_root_squash)</span><br></pre></td></tr></table></figure>
+<h6 id="各种参数说明"><a href="#各种参数说明" class="headerlink" title="各种参数说明"></a>各种参数说明</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">script             由Runner执行的Shell脚本。</span><br><span class="line">image              使用docker镜像，  image：name</span><br><span class="line">service            使用docker  services镜像, services：name</span><br><span class="line">before_script      执行作业前运行的脚本</span><br><span class="line">after_script       作业完成后运行的脚本</span><br><span class="line">stages             定义管道中的步骤，依次运行</span><br><span class="line">stage              定义管道中步骤的作业段</span><br><span class="line">only    　　        指定作业限制only:refs，only:kubernetes，only:variables，和only:changes</span><br><span class="line">tags               指定执行作业的runner</span><br><span class="line">allow_failure      允许job失败</span><br><span class="line"> </span><br><span class="line">when               什么时候开始工作，</span><br><span class="line">  on_success       只有当前一个阶段的所有工作都成功时（或者因为它们被标记而被认为是成功的allow_failure）才执行工作 。这是默认值。</span><br><span class="line">  on_failure       仅当前一阶段的至少一个作业失败时才执行作业。</span><br><span class="line">  always           无论先前阶段的工作状态如何，都可以执行工作。</span><br><span class="line">  manual           手动执行作业</span><br><span class="line">  delayed          延迟作业。后面跟start_in,start_in 30minutes(延迟30分钟)，不加单位，默认为秒。最长可延迟1小时。</span><br><span class="line">environment     作业部署到的环境名称   #暂未搞清</span><br><span class="line"> </span><br><span class="line"> cache    </span><br><span class="line">　　key："$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG" #为每分支，每步骤启用缓存</span><br><span class="line">artifacts         job成功时附加到作业的文件或目录</span><br><span class="line">dependencies      此job依赖其他jobz,主要作用于作业优先级</span><br><span class="line">converage         给定作业代码覆盖率设置　　　　　　 </span><br><span class="line">retry             在发生故障时，可以自动重试作业的次数。</span><br><span class="line">parallel　　      应该并行运行多少个作业实例</span><br><span class="line">trigger          定义下游管道触发器</span><br><span class="line">include          允许此作业包含外部YAML</span><br><span class="line">extends          此作业将继承的配置项</span><br><span class="line">pages            上传作业结果用于gitlab pages</span><br><span class="line">variables        作业级别定义作业变量</span><br></pre></td></tr></table></figure>
 
-<h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">ro</td>
-<td align="center">只读</td>
-</tr>
-<tr>
-<td align="center">rw</td>
-<td align="center">读写</td>
-</tr>
-<tr>
-<td align="center">root_squash</td>
-<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td align="center">no_root_squash</td>
-<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
-</tr>
-<tr>
-<td align="center">all_squash</td>
-<td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td align="center">sync</td>
-<td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td>
-</tr>
-<tr>
-<td align="center">async</td>
-<td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td>
-</tr>
-<tr>
-<td align="center">secure（默认）</td>
-<td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td>
-</tr>
-<tr>
-<td align="center">insecure</td>
-<td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td>
-</tr>
-<tr>
-<td align="center">anonuid</td>
-<td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td>
-</tr>
-<tr>
-<td align="center">anongid</td>
-<td align="center">匿名用户的GID值</td>
-</tr>
-<tr>
-<td align="center">no_subtree_check</td>
-<td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td>
-</tr>
-</tbody></table>
-<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showmount -e localhost</span><br><span class="line">发现没有</span><br><span class="line"></span><br><span class="line">重启nfs服务  (sudo systemctl restart nfs-server.service)</span><br><span class="line"></span><br><span class="line">接下来 </span><br><span class="line"> 创建刚才的文件夹</span><br></pre></td></tr></table></figure>
+<h6 id="案例-1-自动构建-go-程序"><a href="#案例-1-自动构建-go-程序" class="headerlink" title="案例 1  自动构建 go 程序"></a>案例 1  自动构建 go 程序</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stages:</span><br><span class="line">  - test</span><br><span class="line">job1:</span><br><span class="line">  stage: test</span><br><span class="line">  script:</span><br><span class="line">    - docker build -t mygo:v1  .</span><br><span class="line">  tags:</span><br><span class="line">    - go</span><br></pre></td></tr></table></figure>
 
-<h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install nfs-utils </span><br><span class="line"></span><br><span class="line">不需要启动nfs服务</span><br><span class="line">直接执行如下：</span><br><span class="line">showmount -e 10.0.0.145</span><br><span class="line"></span><br><span class="line">尝试进行挂载  </span><br><span class="line">mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi</span><br><span class="line">卸载只需 </span><br><span class="line">umount /home/cyy/goapi</span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> rm src -fr</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash">  [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="压缩镜像"><a href="#压缩镜像" class="headerlink" title="压缩镜像"></a>压缩镜像</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> alpine:<span class="number">3.12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> --from=0 /app/mygo /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /src</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /src</span></span><br><span class="line"><span class="keyword">cmd</span><span class="bash"> [<span class="string">"go"</span>,<span class="string">"test"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">GoTest:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-f</span> <span class="string">DockerfileTest</span> <span class="string">-t</span> <span class="string">test-mygo:v1</span> <span class="string">.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">run</span> <span class="string">--rm</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"><span class="attr">GoBuild:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">mygo:v1</span>  <span class="string">.</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$(docker</span> <span class="string">images</span> <span class="string">-af</span> <span class="string">"dangling=true"</span> <span class="string">-q)</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/" data-id="ckf586zx20000v0uvf9in4k37" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/" data-id="ckfb9htb30000xguvdj5rd8wq" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li></ul>
 
     </footer>
   </div>
@@ -239,6 +187,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/">gitlab-ci 入门</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
           </li>
         
@@ -252,10 +204,6 @@
         
           <li>
             <a href="/2020/08/22/Interview/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
           </li>
         
       </ul>

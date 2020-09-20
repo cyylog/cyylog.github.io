@@ -68,10 +68,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Linux/Tomcat/Tomcat-04" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux/Tomcat/Tomcat-05" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/03/30/Linux/Tomcat/Tomcat-04/" class="article-date">
-  <time datetime="2020-03-29T16:36:31.000Z" itemprop="datePublished">2020-03-30</time>
+    <a href="/2020/04/02/Linux/Tomcat/Tomcat-05/" class="article-date">
+  <time datetime="2020-04-01T16:36:51.000Z" itemprop="datePublished">2020-04-02</time>
 </a>
     
   <div class="article-category">
@@ -86,7 +86,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/30/Linux/Tomcat/Tomcat-04/">Tomcat_04_安全优化</a>
+      <a class="article-title" href="/2020/04/02/Linux/Tomcat/Tomcat-05/">Tomcat__05_JVM_排障工具</a>
     </h1>
   
 
@@ -96,203 +96,114 @@
       
         <a id="more"></a>
 
-<h4 id="10、Tomcat安全优化"><a href="#10、Tomcat安全优化" class="headerlink" title="10、Tomcat安全优化"></a>10、Tomcat安全优化</h4><h5 id="1、telnet管理端口保护（强制）"><a href="#1、telnet管理端口保护（强制）" class="headerlink" title="1、telnet管理端口保护（强制）"></a>1、telnet管理端口保护（强制）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>telnet管理端口保护</td>
-<td>1.修改默认的8005管理端口为不易猜测的端口（大于1024）；2.修改SHUTDOWN指令为其他字符串；</td>
-<td><Server port="**8527**" shutdown="**dangerous**"></td>
-<td>1.以上配置项的配置内容只是建议配置，可以按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；</td>
-</tr>
-</tbody></table>
-<h5 id="2、-ajp连接端口保护（推荐）"><a href="#2、-ajp连接端口保护（推荐）" class="headerlink" title="2、 ajp连接端口保护（推荐）"></a>2、 ajp连接端口保护（推荐）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Ajp 连接端口保护</td>
-<td>1.修改默认的ajp 8009端口为不易冲突的大于1024端口；2.通过iptables规则限制ajp端口访问的权限仅为线上机器；</td>
-<td>&lt;Connector port=”<strong>8528</strong>“protocol=”AJP/1.3” /&gt;</td>
-<td>以上配置项的配置内容仅为建议配置，请按照服务实际情况进行合理配置，但要求端口配置在<strong>8000~8999</strong>之间；；保护此端口的目的在于防止线下的测试流量被mod_jk转发至线上tomcat服务器；</td>
-</tr>
-</tbody></table>
-<h5 id="3、禁用管理端（强制）"><a href="#3、禁用管理端（强制）" class="headerlink" title="3、禁用管理端（强制）"></a>3、禁用管理端（强制）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>禁用管理端</td>
-<td>1. 删除默认的{Tomcat安装目录}/conf/tomcat-users.xml文件，重启tomcat后将会自动生成新的文件；2. 删除{Tomcat安装目录}/webapps下默认的所有目录和文件；3.将tomcat 应用根目录配置为tomcat安装目录以外的目录；</td>
-<td>&lt;Context path=”” docBase=”<strong>/home/work/local/tomcat**</strong>_webapps**”debug=”0”reloadable=”false”crossContext=”true”/&gt;</td>
-<td>对于前段web模块，Tomcat管理端属于tomcat的高危安全隐患，一旦被攻破，黑客通过上传web shell的方式将会直接取得服务器的控制权，后果极其严重；</td>
-</tr>
-</tbody></table>
-<h5 id="4、降权启动（强制）"><a href="#4、降权启动（强制）" class="headerlink" title="4、降权启动（强制）"></a>4、降权启动（强制）</h5><table>
-<thead>
-<tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>降权启动</td>
-<td>1.tomcat启动用户权限必须为非root权限，尽量降低tomcat启动用户的目录访问权限；2.如需直接对外使用80端口，可通过普通账号启动后，配置iptables规则进行转发；</td>
-<td></td>
-<td>避免一旦tomcat 服务被入侵，黑客直接获取高级用户权限危害整个server的安全；</td>
-</tr>
-</tbody></table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# useradd tomcat</span><br><span class="line">[root@web03 ~]# cp -a &#x2F;application&#x2F;tools&#x2F;tomcat8_1 &#x2F;home&#x2F;tomcat&#x2F;</span><br><span class="line">[root@web03 ~]# chown -R tomcat.tomcat &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;</span><br><span class="line">[root@web03 ~]# su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br><span class="line">Using CATALINA_BASE:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_HOME:   &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1</span><br><span class="line">Using CATALINA_TMPDIR: &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;temp</span><br><span class="line">Using JRE_HOME:        &#x2F;application&#x2F;jdk</span><br><span class="line">Using CLASSPATH:       &#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;bootstrap.jar:&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;tomcat-juli.jar</span><br><span class="line">Tomcat started.</span><br><span class="line">[root@web03 ~]# ps -ef|grep tomcat</span><br></pre></td></tr></table></figure>
+<h3 id="JVM-运维实用排障工具"><a href="#JVM-运维实用排障工具" class="headerlink" title="JVM 运维实用排障工具"></a>JVM 运维实用排障工具</h3><h4 id="1、jps"><a href="#1、jps" class="headerlink" title="1、jps"></a>1、jps</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用来查看Java进程的具体状态, 包括进程ID，进程启动的路径及启动参数等等，与unix上的ps类似，只不过jps是用来显示java进程，可以把jps理解为ps的一个子集。</span><br><span class="line">常用参数如下:</span><br><span class="line">-q：忽略输出的类名、Jar名以及传递给main方法的参数，只输出pid</span><br><span class="line">-m：输出传递给main方法的参数，如果是内嵌的JVM则输出为null</span><br><span class="line">-l：输出完全的包名，应用主类名，jar的完全路径名</span><br><span class="line">-v：输出传给jvm的参数</span><br><span class="line"></span><br><span class="line">注意: 使用jps 时的运行账户要和JVM 虚拟机启动的账户一致。若启动JVM虚拟机是运行的账户为www，那使用jps指令时，也要使用www 用户去指定。 sudo -u www jps</span><br></pre></td></tr></table></figure>
 
-<h5 id="5、文件列表访问控制（强制）"><a href="#5、文件列表访问控制（强制）" class="headerlink" title="5、文件列表访问控制（强制）"></a>5、文件列表访问控制（强制）</h5><table>
+<p>Example</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 查看已经运行的JVM 进程的实际启动参数</span><br><span class="line">[root@mouse03 bin]# jps  -v</span><br><span class="line">38372 Jps -Dapplication.home=/usr/local/jdk -Xms8m</span><br><span class="line">38360 Bootstrap -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、jstack"><a href="#2、jstack" class="headerlink" title="2、jstack"></a>2、jstack</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息。如果现在运行的java程序呈现hung的状态，jstack是非常有用的。此信息通常在运维的过程中被保存起来(保存故障现场)，以供RD们去分析故障。</span><br><span class="line">常用参数如下:</span><br><span class="line">jstack &lt;pid&gt;</span><br><span class="line">jstack [-l] &lt;pid&gt; &#x2F;&#x2F;长列表. 打印关于锁的附加信息</span><br><span class="line">jstack [-F] &lt;pid&gt; &#x2F;&#x2F;当’jstack [-l] pid’没有响应的时候强制打印栈信息</span><br></pre></td></tr></table></figure>
+
+<p>Example</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 打印JVM 的堆栈信息，以供问题排查</span><br><span class="line">[root@mouse03 ~]# jstack -F 38360 &gt; /tmp/jstack.log</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、jinfo"><a href="#3、jinfo" class="headerlink" title="3、jinfo"></a>3、jinfo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">可以查看或修改运行时的JVM进程的参数。</span><br><span class="line">常用参数:</span><br><span class="line">jinfo [option] pid</span><br><span class="line">    </span><br><span class="line">where &lt;option&gt; is one of:</span><br><span class="line">    -flag &lt;name&gt;         to print the value of the named VM flag</span><br><span class="line">    -flag [+|-]&lt;name&gt;    to enable or disable the named VM flag</span><br><span class="line">    -flag &lt;name&gt;&#x3D;&lt;value&gt; to set the named VM flag to the given value</span><br><span class="line">    -flags               to print VM flags</span><br></pre></td></tr></table></figure>
+
+<p>Example</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// 根据 PID 查看目前分配的最大堆栈</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize 38360</span><br><span class="line">-XX:MaxHeapSize=4294967296</span><br><span class="line">// 动态更改 JVM 的最大堆栈值</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize=4294967296  38360</span><br><span class="line">Exception in thread "main" com.sun.tools.attach.AttachOperationFailedException: flag 'MaxHeapSize' cannot be changed</span><br><span class="line"></span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:229)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.setFlag(HotSpotVirtualMachine.java:234)</span><br><span class="line">	at sun.tools.jinfo.JInfo.flag(JInfo.java:134)</span><br><span class="line">	at sun.tools.jinfo.JInfo.main(JInfo.java:81)</span><br><span class="line"></span><br><span class="line">// jinfo 并不能动态的改变所有的JVM 参数。 那到底有哪些参数能够被动态的改变呢?</span><br><span class="line">// java -XX:+PrintFlagsFinal -version 答应JVM 的所有参数</span><br><span class="line">// java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line"></span><br><span class="line">[root@mouse03 ~]# java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line">     intx CMSAbortablePrecleanWaitMillis            = 100                                 &#123;manageable&#125;</span><br><span class="line">     intx CMSTriggerInterval                        = -1                                  &#123;manageable&#125;</span><br><span class="line">     intx CMSWaitDuration                           = 2000                                &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpAfterFullGC                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpBeforeFullGC                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpOnOutOfMemoryError                = false                               &#123;manageable&#125;</span><br><span class="line">    ccstr HeapDumpPath                              =                                     &#123;manageable&#125;</span><br><span class="line">    uintx MaxHeapFreeRatio                          = 70                                  &#123;manageable&#125;</span><br><span class="line">    uintx MinHeapFreeRatio                          = 40                                  &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogram                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramAfterFullGC            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramBeforeFullGC           = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintConcurrentLocks                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGC                                   = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDateStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDetails                            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCID                                 = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCTimeStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     </span><br><span class="line">// 也只有以上这些值才能够动态的被改变</span><br><span class="line">[root@mouse03 ~]# jinfo -flag CMSWaitDuration=1900  38360</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看， jinfo -flags 查看 JVM 的 flags </span></span><br><span class="line">[root@mouse03 ~]# jinfo -flags 38360</span><br><span class="line">Attaching to process ID 38360, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.91-b14</span><br><span class="line">Non-default VM flags: -XX:CICompilerCount=2 -XX:CMSWaitDuration=1900 -XX:InitialHeapSize=4294967296 -XX:MaxHeapSize=4294967296 -XX:MaxNewSize=1431633920 -XX:MinHeapDeltaBytes=196608 -XX:NewSize=1431633920 -XX:OldSize=2863333376 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps</span><br><span class="line">Command line:  -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、jstat"><a href="#4、jstat" class="headerlink" title="4、jstat"></a>4、jstat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 监控JVM 的状态，常用指令:</span><br><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10 // 打印PID 为 113059 JVM 状态，一共打印10次，每次间隔时间为1s(1000ms)</span></span><br><span class="line">// 注 jstat 的用法超级强大， 我们这里只是列举出列其中一个简单的应用。</span><br></pre></td></tr></table></figure>
+
+<p>Example</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">195904.0 195904.0  0.0   21610.3 1567680.0 1516721.9 8526272.0  3557507.8  1048576.0 163148.4   2577   92.033   0      0.000   92.033</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 142541.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 266338.1 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 413941.8 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 642390.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 813957.3 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 984223.2 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1155472.7 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1399228.5 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0  0.0   23866.6 1567680.0 38005.6  8526272.0  3559196.7  1048576.0 163148.4   2579   92.092   0      0.000   92.092</span><br></pre></td></tr></table></figure>
+
+<p><strong>字段意义如下</strong></p>
+<table>
 <thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<th>列名</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>文件列表访问控制</td>
-<td>1.conf/web.xml文件中default部分listings的配置必须为false；</td>
-<td><init-param><param-name><strong>listings</strong></param-name><param-value><strong>false</strong></param-value></init-param></td>
-<td>false为不列出目录文件，true为允许列出，默认为false；</td>
+<td>S0C</td>
+<td>新生代中Survivor space中S0当前容量的大小（KB）</td>
 </tr>
-</tbody></table>
-<h5 id="6、版本信息隐藏（强制）"><a href="#6、版本信息隐藏（强制）" class="headerlink" title="6、版本信息隐藏（强制）"></a>6、版本信息隐藏（强制）</h5><table>
-<thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<td>S1C</td>
+<td>新生代中Survivor space中S1当前容量的大小（KB）</td>
 </tr>
-</thead>
-<tbody><tr>
-<td>版本信息隐藏</td>
-<td>1.修改conf/web.xml，重定向403、404以及500等错误到指定的错误页面；2.也可以通过修改应用程序目录下的WEB-INF/web.xml下的配置进行错误页面的重定向；</td>
-<td><error-page><error-code><strong>403</strong></error-code><location><strong>/forbidden.jsp</strong></location></error-page><error-page><error-code><strong>404</strong></error-code><location><strong>/notfound.jsp</strong></location></error-page><error-page><error-code><strong>500</strong></error-code><location><strong>/systembusy.jsp</strong></location></error-page></td>
-<td>在配置中对一些常见错误进行重定向，避免当出现错误时tomcat默认显示的错误页面暴露服务器和版本信息；必须确保程序根目录下的错误页面已经存在；</td>
-</tr>
-</tbody></table>
-<h5 id="7、Server-header重写（推荐）"><a href="#7、Server-header重写（推荐）" class="headerlink" title="7、Server header重写（推荐）"></a>7、Server header重写（推荐）</h5><table>
-<thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置</strong></th>
-<th><strong>备注</strong></th>
+<td>S0U</td>
+<td>新生代中Survivor space中S0容量使用的大小（KB）</td>
 </tr>
-</thead>
-<tbody><tr>
-<td>Server header重写</td>
-<td>在HTTP Connector配置中加入server的配置；</td>
-<td>server=”<strong>webserver</strong>“</td>
-<td>当tomcat HTTP端口直接提供web服务时此配置生效，加入此配置，将会替换http 响应Server header部分的默认配置，默认是<code>Apache-Coyote/1.1</code></td>
-</tr>
-</tbody></table>
-<h5 id="8、访问限制（可选）"><a href="#8、访问限制（可选）" class="headerlink" title="8、访问限制（可选）"></a>8、访问限制（可选）</h5><table>
-<thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<td>S1U</td>
+<td>新生代中Survivor space中S1容量使用的大小（KB）</td>
 </tr>
-</thead>
-<tbody><tr>
-<td>访问限制</td>
-<td>通过配置，限定访问的ip来源</td>
-<td><Context path="" docBase="/home/work/tomcat" debug="0" reloadable="false" crossContext="true">&lt;Valve className=”org.apache.catalina.valves.RemoteAddrValve” <strong>allow=”61.148.18.138,61.135.165.*“ deny=”*.*.*.*“</strong>/&gt;</Context></td>
-<td>通过配置信任ip的白名单，拒绝非白名单ip的访问，此配置主要是针对高保密级别的系统，一般产品线不需要；</td>
-</tr>
-</tbody></table>
-<h5 id="9、起停脚本权限回收（推荐）"><a href="#9、起停脚本权限回收（推荐）" class="headerlink" title="9、起停脚本权限回收（推荐）"></a>9、起停脚本权限回收（推荐）</h5><table>
-<thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<td>EC</td>
+<td>Eden space当前容量的大小（KB）</td>
 </tr>
-</thead>
-<tbody><tr>
-<td>起停脚本权限回收</td>
-<td>去除其他用户对Tomcat的bin目录下shutdown.sh、startup.sh、catalina.sh的可执行权限；</td>
-<td>chmod -R 744 tomcat/bin/*</td>
-<td>防止其他用户有起停线上Tomcat的权限；</td>
-</tr>
-</tbody></table>
-<h5 id="10、-访问日志格式规范（推荐）"><a href="#10、-访问日志格式规范（推荐）" class="headerlink" title="10、 访问日志格式规范（推荐）"></a>10、 访问日志格式规范（推荐）</h5><table>
-<thead>
 <tr>
-<th><strong>类别</strong></th>
-<th><strong>配置内容及说明</strong></th>
-<th><strong>标准配置或操作</strong></th>
-<th><strong>备注</strong></th>
+<td>EU</td>
+<td>Eden space容量使用的大小（KB）</td>
 </tr>
-</thead>
-<tbody><tr>
-<td>访问日志格式规范</td>
-<td>开启Tomcat默认访问日志中的Referer和User-Agent记录</td>
-<td><Valve className="org.apache.catalina.valves.AccessLogValve"                 directory="logs"  prefix="localhost_access_log." suffix=".txt"                 pattern="%h %l %u %t %r %s %b %{Referer}i %{User-Agent}i %D" resolveHosts="false"/></td>
-<td>开启Referer和User-Agent是为了一旦出现安全问题能够更好的根据日志进行问题排查；</td>
+<tr>
+<td>OC</td>
+<td>Old space当前容量的大小（KB）</td>
+</tr>
+<tr>
+<td>OU</td>
+<td>Old space使用容量的大小（KB）</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>Permanent space当前容量的大小（KB）</td>
+</tr>
+<tr>
+<td>PU</td>
+<td>Permanent space使用容量的大小（KB）</td>
+</tr>
+<tr>
+<td>YGC</td>
+<td>从应用程序启动到采样时发生 Young GC 的次数</td>
+</tr>
+<tr>
+<td>YGCT</td>
+<td>从应用程序启动到采样时 Young GC 所用的时间(秒)</td>
+</tr>
+<tr>
+<td>FGC</td>
+<td>从应用程序启动到采样时发生 Full GC 的次数</td>
+</tr>
+<tr>
+<td>FGCT</td>
+<td>从应用程序启动到采样时 Full GC 所用的时间(秒)</td>
+</tr>
+<tr>
+<td>GCT</td>
+<td>T从应用程序启动到采样时用于垃圾回收的总时间(单位秒)，它的值等于YGC+FGC</td>
 </tr>
 </tbody></table>
-<h5 id="11、-附录：建议配置及标准执行方案"><a href="#11、-附录：建议配置及标准执行方案" class="headerlink" title="11、 附录：建议配置及标准执行方案"></a>11、 附录：建议配置及标准执行方案</h5><p><strong>1.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/server.xml<strong>**）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;Server port&#x3D;&quot;8527&quot; shutdown&#x3D;&quot; dangerous&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Define a non-SSL HTTP&#x2F;1.1 Connector on port 8080 --&gt;</span><br><span class="line">&lt;Connector port&#x3D;&quot;8080&quot; server&#x3D;&quot;webserver&quot;&#x2F;&gt; </span><br><span class="line"></span><br><span class="line">&lt;!-- Define an AJP 1.3 Connector on port 8528 --&gt;</span><br><span class="line">&lt;!--Define an accesslog --&gt; </span><br><span class="line">&lt;Valve className&#x3D;&quot;org.apache.catalina.valves.AccessLogValve&quot;</span><br><span class="line">                 directory&#x3D;&quot;logs&quot;  prefix&#x3D;&quot;localhost_access_log.&quot; suffix&#x3D;&quot;.txt&quot;</span><br><span class="line">                 pattern&#x3D;&quot;%h %l %u %t %r %s %b %&#123;Referer&#125;i %&#123;User-Agent&#125;i %D&quot; resolveHosts&#x3D;&quot;false&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Connector port&#x3D;&quot;8528&quot; protocol&#x3D;&quot;AJP&#x2F;1.3&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;Context path&#x3D;&quot;&quot; docBase&#x3D;&quot;&#x2F;home&#x2F;work&#x2F;local&#x2F;tomcat_webapps&quot; debug&#x3D;&quot;0&quot; reloadable&#x3D;&quot;false&quot; crossContext&#x3D;&quot;true&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="5、jvmtop"><a href="#5、jvmtop" class="headerlink" title="5、jvmtop"></a>5、jvmtop</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">以上介绍的jps、jstack、jinfo等都是安装JDK 时自带的系统分析工具，而jvmtop是一款开源的JVM工具。</span><br><span class="line">它的下载地址如下: https:&#x2F;&#x2F;github.com&#x2F;patric-r&#x2F;jvmtop</span><br><span class="line">顾名思义，它是一个只针对JVM的工具，展示的方式和unix的top命令相似.</span><br><span class="line">jvmtop 提供了两个视图，一个是概览视图，可以展示出当前机器的所有的 JVM 的情况. 还有一个视图是详情视图，展示一个 JVM 的详细情况.</span><br></pre></td></tr></table></figure>
 
+<p><strong>概览视图</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh</span><br></pre></td></tr></table></figure>
 
+<p><img src="https://s1.ax1x.com/2020/05/21/YHC9BV.png" alt="YHC9BV.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义分别如下：</span><br><span class="line">PID：进程 ID</span><br><span class="line">MAIN-CLASS：main 类的名字</span><br><span class="line">HPCUR：当前被使用的 heap 的大小</span><br><span class="line">HPMAX：最大可用的 heap 的大小</span><br><span class="line">NHCUR：当前被使用的非 heap 大小（比如：perm gen）</span><br><span class="line">NHMAX：最大可用的非 heap 大小</span><br><span class="line">CPU：CPU 的使用情况</span><br><span class="line">GC：消耗在 GC 上的时间比例</span><br><span class="line">VM：JVM 的提供者，大版本号，小版本号，图中的意思是 Apple 提供的 JDK 6U51 版本。</span><br><span class="line">USERNAME：当前的用户名</span><br><span class="line">#T：线程数量</span><br><span class="line">DL：是否有现成发生死锁</span><br></pre></td></tr></table></figure>
 
-<p><strong>2.</strong>       <strong>配置部分（**</strong>${ CATALINA_HOME }conf/web.xml<strong><strong>或者</strong></strong>WEB-INF/web.xml<strong>**）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;init-param&gt;</span><br><span class="line">    &lt;param-name&gt;listings&lt;&#x2F;param-name&gt;</span><br><span class="line">    &lt;param-value&gt;false&lt;&#x2F;param-value&gt;</span><br><span class="line">&lt;&#x2F;init-param&gt;</span><br><span class="line"></span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;403&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;forbidden.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;404&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;notfound.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;500&lt;&#x2F;error-code&gt;</span><br><span class="line">    &lt;location&gt;&#x2F;systembusy.jsp&lt;&#x2F;location&gt;</span><br><span class="line">&lt;&#x2F;error-page&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>详情视图</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh &lt;pid&gt;</span><br></pre></td></tr></table></figure>
 
-<p><strong>3.</strong>       <strong>删除如下**</strong>tomcat<strong>**的默认目录和默认文件</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tomcat&#x2F;webapps&#x2F;*</span><br><span class="line">tomcat&#x2F;conf&#x2F;tomcat-user.xml</span><br></pre></td></tr></table></figure>
+<p><img src="https://s1.ax1x.com/2020/05/21/YHCiAU.png" alt="YHCiAU.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义如下：</span><br><span class="line">TID：线程 ID</span><br><span class="line">NAME：线程名</span><br><span class="line">STATE：线程状态</span><br><span class="line">CPU：线程当前的 CPU 占用情况</span><br><span class="line">TOTALCPU：从线程被创建开始总体的 CPU 占用情况</span><br><span class="line">BLOCKBY：阻塞这个线程的线程 ID</span><br></pre></td></tr></table></figure>
 
-<p><strong>4.</strong>       <strong>去除其他用户对**</strong>tomcat** <strong>起停脚本的执行权限</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 744 –R tomcat&#x2F;bin&#x2F;*</span><br></pre></td></tr></table></figure>
-
-<h4 id="11、Tomcat性能优化"><a href="#11、Tomcat性能优化" class="headerlink" title="11、Tomcat性能优化"></a>11、Tomcat性能优化</h4><p>tomcat性能取决于 内存大小</p>
-<p><strong>上策：优化代码</strong></p>
-<p>   该项需要开发经验足够丰富，对开发人员要求较高</p>
-<p><strong>中策：jvm**</strong>优化机制** <strong>垃圾回收机制</strong> <strong>把不需要的内存回收</strong></p>
-<p>​                  优化jvm–优化垃圾回收策略</p>
-<p>优化catalina.sh配置文件。在catalina.sh配置文件中添加以下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># tomcat分配1G内存模板</span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms1024m -Xmx1024m -XX:NewSize&#x3D;512m -XX:MaxNewSize&#x3D;512m -XX:PermSize&#x3D;512m -XX:MaxPermSize&#x3D;512m&quot;        </span><br><span class="line"></span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Djava.awt.headless&#x3D;true -Dfile.encoding&#x3D;UTF-8 -server -Xms800m -Xmx800m -XX:NewSize&#x3D;400m -XX:MaxNewSize&#x3D;400m -XX:PermSize&#x3D;400m -XX:MaxPermSize&#x3D;400m&quot;    </span><br><span class="line"># 重启服务</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;shutdown.sh&#39; tomcat</span><br><span class="line">su -c &#39;&#x2F;home&#x2F;tomcat&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh&#39; tomcat</span><br></pre></td></tr></table></figure>
-
-<p>​         <strong>修改之前</strong></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHitTf.png" alt="YHitTf.png"></p>
-<p>​         <strong>修改之后</strong></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHiUk8.png" alt="YHiUk8.png"></p>
-<p><strong>下策：加足够大的内存</strong></p>
-<p>该项的资金投入较大</p>
-<p><strong>下下策：每天0**</strong>点定时重启tomcat**</p>
-<p>使用较为广泛</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/cyylog/2020/03/30/Linux/Tomcat/Tomcat-04/" data-id="ckeglw99x0005xsuvhbgu9qku" class="article-share-link">Share</a>
+      <a data-url="https://github.com/cyylog/2020/04/02/Linux/Tomcat/Tomcat-05/" data-id="ckeglw9a1000cxsuveci70pws" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li></ul>
@@ -361,6 +272,10 @@
       <ul>
         
           <li>
+            <a href="/2020/09/20/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/">gitlab-ci 入门</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
           </li>
         
@@ -374,10 +289,6 @@
         
           <li>
             <a href="/2020/08/22/Interview/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解--undone</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
           </li>
         
       </ul>
