@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>gitlab-ci 入门 | Cyylog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="gitlab-ci入门示范：12345678docker run -d --name gitlab-runner   \  -v &#x2F;data&#x2F;cyy&#x2F;gitlab-runner:&#x2F;etc&#x2F;gitlab-runner \  -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \ -v &#x2F;usr&#x2F;bin&#x2F;docker:&#x2F;usr&#x2F;bin&#x2F;docker \ -v &#x2F;u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gitlab-ci 入门">
+<meta property="og:url" content="https://github.com/cyylog/2019/10/05/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Cyylog">
+<meta property="og:description" content="gitlab-ci入门示范：12345678docker run -d --name gitlab-runner   \  -v &#x2F;data&#x2F;cyy&#x2F;gitlab-runner:&#x2F;etc&#x2F;gitlab-runner \  -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \ -v &#x2F;usr&#x2F;bin&#x2F;docker:&#x2F;usr&#x2F;bin&#x2F;docker \ -v &#x2F;u">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-10-04T17:55:39.000Z">
+<meta property="article:modified_time" content="2020-09-20T15:34:24.144Z">
+<meta property="article:author" content="Cyylog">
+<meta property="article:tag" content="Gitlab">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cyylog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">有些人是山川是河流，唯独不是可停泊的港口</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/cyylog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DevOPs/gitlab-ci入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/05/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2019-10-04T17:55:39.000Z" itemprop="datePublished">2019-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gitlab-ci 入门
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="gitlab-ci入门"><a href="#gitlab-ci入门" class="headerlink" title="gitlab-ci入门"></a>gitlab-ci入门</h4><h6 id="示范："><a href="#示范：" class="headerlink" title="示范："></a>示范：</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="bash"> -d --name gitlab-runner   \</span></span><br><span class="line"><span class="bash">  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \</span></span><br><span class="line"><span class="bash">  -v /var/run/docker.sock:/var/run/docker.sock \</span></span><br><span class="line"><span class="bash"> -v /usr/bin/docker:/usr/bin/docker \</span></span><br><span class="line"><span class="bash"> -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \</span></span><br><span class="line"><span class="bash">  gitlab/gitlab-runner</span></span><br><span class="line"></span><br><span class="line">在宿主机上执行 ：chmod <span class="number">666</span> /var/<span class="keyword">run</span><span class="bash">/docker.sock</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat  .gitlab-ci.yml</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">job1:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is test"</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">job2:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is build"</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="各种参数说明"><a href="#各种参数说明" class="headerlink" title="各种参数说明"></a>各种参数说明</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">script             由Runner执行的Shell脚本。</span><br><span class="line">image              使用docker镜像，  image：name</span><br><span class="line">service            使用docker  services镜像, services：name</span><br><span class="line">before_script      执行作业前运行的脚本</span><br><span class="line">after_script       作业完成后运行的脚本</span><br><span class="line">stages             定义管道中的步骤，依次运行</span><br><span class="line">stage              定义管道中步骤的作业段</span><br><span class="line">only    　　        指定作业限制only:refs，only:kubernetes，only:variables，和only:changes</span><br><span class="line">tags               指定执行作业的runner</span><br><span class="line">allow_failure      允许job失败</span><br><span class="line"> </span><br><span class="line">when               什么时候开始工作，</span><br><span class="line">  on_success       只有当前一个阶段的所有工作都成功时（或者因为它们被标记而被认为是成功的allow_failure）才执行工作 。这是默认值。</span><br><span class="line">  on_failure       仅当前一阶段的至少一个作业失败时才执行作业。</span><br><span class="line">  always           无论先前阶段的工作状态如何，都可以执行工作。</span><br><span class="line">  manual           手动执行作业</span><br><span class="line">  delayed          延迟作业。后面跟start_in,start_in 30minutes(延迟30分钟)，不加单位，默认为秒。最长可延迟1小时。</span><br><span class="line">environment     作业部署到的环境名称   #暂未搞清</span><br><span class="line"> </span><br><span class="line"> cache    </span><br><span class="line">　　key："$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG" #为每分支，每步骤启用缓存</span><br><span class="line">artifacts         job成功时附加到作业的文件或目录</span><br><span class="line">dependencies      此job依赖其他jobz,主要作用于作业优先级</span><br><span class="line">converage         给定作业代码覆盖率设置　　　　　　 </span><br><span class="line">retry             在发生故障时，可以自动重试作业的次数。</span><br><span class="line">parallel　　      应该并行运行多少个作业实例</span><br><span class="line">trigger          定义下游管道触发器</span><br><span class="line">include          允许此作业包含外部YAML</span><br><span class="line">extends          此作业将继承的配置项</span><br><span class="line">pages            上传作业结果用于gitlab pages</span><br><span class="line">variables        作业级别定义作业变量</span><br></pre></td></tr></table></figure>
+
+<h6 id="案例-1-自动构建-go-程序"><a href="#案例-1-自动构建-go-程序" class="headerlink" title="案例 1  自动构建 go 程序"></a>案例 1  自动构建 go 程序</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stages:</span><br><span class="line">  - test</span><br><span class="line">job1:</span><br><span class="line">  stage: test</span><br><span class="line">  script:</span><br><span class="line">    - docker build -t mygo:v1  .</span><br><span class="line">  tags:</span><br><span class="line">    - go</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> rm src -fr</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash">  [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="压缩镜像"><a href="#压缩镜像" class="headerlink" title="压缩镜像"></a>压缩镜像</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> alpine:<span class="number">3.12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> --from=0 /app/mygo /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /src</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /src</span></span><br><span class="line"><span class="keyword">cmd</span><span class="bash"> [<span class="string">"go"</span>,<span class="string">"test"</span>]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">GoTest:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-f</span> <span class="string">DockerfileTest</span> <span class="string">-t</span> <span class="string">test-mygo:v1</span> <span class="string">.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">run</span> <span class="string">--rm</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"><span class="attr">GoBuild:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">mygo:v1</span>  <span class="string">.</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$(docker</span> <span class="string">images</span> <span class="string">-af</span> <span class="string">"dangling=true"</span> <span class="string">-q)</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/cyylog/2019/10/05/DevOPs/gitlab-ci%E5%85%A5%E9%97%A8/" data-id="ckfb9htb30000xguvdj5rd8wq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/10/05/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A2%AB%E9%BB%91%E6%8E%92%E6%9F%A5%E6%80%9D%E8%B7%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          linux服务器被黑排查思路
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/05/DevOPs/%E6%90%AD%E5%BB%BAGitlab/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">搭建Gitlab</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Interview/">Interview</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%B9%E5%99%A8/">容器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%9B%91%E6%8E%A7/">监控</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gitlab/" rel="tag">Gitlab</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jenkins/" rel="tag">Jenkins</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFS/" rel="tag">NFS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/" rel="tag">Nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle/" rel="tag">Oracle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prometheus/" rel="tag">Prometheus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/System/" rel="tag">System</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/" rel="tag">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/" rel="tag">Tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iptables/" rel="tag">iptables</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/" rel="tag">zabbix</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 20px;">Docker</a> <a href="/tags/Gitlab/" style="font-size: 12.5px;">Gitlab</a> <a href="/tags/Go/" style="font-size: 12.5px;">Go</a> <a href="/tags/Jenkins/" style="font-size: 12.5px;">Jenkins</a> <a href="/tags/Kubernetes/" style="font-size: 20px;">Kubernetes</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Nginx/" style="font-size: 15px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Prometheus/" style="font-size: 10px;">Prometheus</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/System/" style="font-size: 10px;">System</a> <a href="/tags/Tomcat/" style="font-size: 20px;">Tomcat</a> <a href="/tags/Tools/" style="font-size: 12.5px;">Tools</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/iptables/" style="font-size: 10px;">iptables</a> <a href="/tags/kafka/" style="font-size: 12.5px;">kafka</a> <a href="/tags/zabbix/" style="font-size: 17.5px;">zabbix</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/09/16/Linux/%E9%83%A8%E7%BD%B2NFS%E6%9C%8D%E5%8A%A1/">搭建 NFS 服务</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/15/%E5%AE%B9%E5%99%A8/Kubernetes%E7%BB%84%E4%BB%B6%E2%80%94%E4%BB%8B%E7%BB%8D002/">Kubernetes组件—介绍002</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/04/%5Bxshell%E7%AA%81%E5%87%BA%E6%98%BE%E7%A4%BA%E9%9B%86%5D/">[xshell突出显示集]</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/22/Interview/%E5%88%86%E5%B8%83%E5%BC%8F%E8%A7%81%E8%A7%A3/">分布式见解--undone</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/15/Interview/Interview_System_001/">Interview System_001--undone</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Cyylog<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
