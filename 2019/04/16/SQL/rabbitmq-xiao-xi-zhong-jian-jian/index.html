@@ -1,0 +1,1479 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="RabbitMQ消息中间件, Cyylog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>RabbitMQ消息中间件 | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">RabbitMQ消息中间件</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/RabbitMQ/">
+                                <span class="chip bg-color">RabbitMQ</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/SQL/" class="post-category">
+                                SQL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-04-16
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <a id="more"></a>
+
+<h2 id="RabbitMQ-消息中间件"><a href="#RabbitMQ-消息中间件" class="headerlink" title="RabbitMQ 消息中间件"></a>RabbitMQ 消息中间件</h2><h3 id="1、消息中间件"><a href="#1、消息中间件" class="headerlink" title="1、消息中间件"></a>1、消息中间件</h3><h4 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h4><p>消息中间件也可以称消息队列，是指用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据通信来进行分布式系统的集成。通过提供消息传递和消息队列模型，可以在分布式环境下扩展进程的通信。</p>
+<p>当下主流的消息中间件有RabbitMQ、Kafka、ActiveMQ、RocketMQ等。其能在不同平台之间进行通信，常用来屏蔽各种平台协议之间的特性，实现应用程序之间的协同。优点在于能够在客户端和服务器之间进行同步和异步的连接，并且在任何时刻都可以将消息进行传送和转发，是分布式系统中非常重要的组件，主要用来解决应用耦合、异步通信、流量削峰等问题。 </p>
+<h4 id="2、作用"><a href="#2、作用" class="headerlink" title="2、作用"></a>2、作用</h4><h5 id="1、消息中间件主要作用"><a href="#1、消息中间件主要作用" class="headerlink" title="1、消息中间件主要作用"></a>1、消息中间件主要作用</h5><ul>
+<li>解耦</li>
+<li>冗余(存储)</li>
+<li>扩展性</li>
+<li>削峰</li>
+<li>可恢复性</li>
+<li>顺序保证</li>
+<li>缓冲</li>
+<li>异步通信</li>
+</ul>
+<h5 id="2、消息中间件的两种模式"><a href="#2、消息中间件的两种模式" class="headerlink" title="2、消息中间件的两种模式"></a>2、消息中间件的两种模式</h5><h6 id="1、P2P模式"><a href="#1、P2P模式" class="headerlink" title="1、P2P模式"></a>1、P2P模式</h6><p>P2P模式包含三个角色：消息队列（Queue）、发送者(Sender)、接收者(Receiver)。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到它们被消费或超时。</p>
+<p><strong>P2P的特点：</strong></p>
+<ul>
+<li>每个消息只有一个消费者（Consumer），即一旦被消费，消息就不再在消息队列中</li>
+<li>发送者和接收者之间在时间上没有依赖性，也就是说当发送者发送了消息之后，不管接收者有没有正在运行它不会影响到消息被发送到队列</li>
+<li>接收者在成功接收消息之后需向队列应答成功</li>
+<li>如果希望发送的每个消息都会被成功处理的话，那么需要P2P模 </li>
+</ul>
+<h6 id="2、Pub-Sub模式"><a href="#2、Pub-Sub模式" class="headerlink" title="2、Pub/Sub模式"></a>2、Pub/Sub模式</h6><p>Pub/Sub模式包含三个角色：主题（Topic）、发布者（Publisher）、订阅者（Subscriber） 。多个发布者将消息发送到Topic，系统将这些消息传递给多个订阅者。</p>
+<p><strong>Pub/Sub的特点：</strong></p>
+<ul>
+<li>每个消息可以有多个消费者</li>
+<li>发布者和订阅者之间有时间上的依赖性。针对某个主题（Topic）的订阅者，它必须创建一个订阅者之后，才能消费发布者的消息</li>
+<li>为了消费消息，订阅者必须保持运行的状态</li>
+<li>如果希望发送的消息可以不被做任何处理、或者只被一个消息者处理、或者可以被多个消费者处理的话，那么可以采用Pub/Sub模型</li>
+</ul>
+<h5 id="3、常用中间件介绍与对比"><a href="#3、常用中间件介绍与对比" class="headerlink" title="3、常用中间件介绍与对比"></a>3、常用中间件介绍与对比</h5><h6 id="1、Kafka"><a href="#1、Kafka" class="headerlink" title="1、Kafka"></a>1、Kafka</h6><p>Kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apache顶级项目。Kafka主要特点是基于Pull的模式来处理消息消费，追求高吞吐量，一开始的目的就是用于日志收集和传输。0.8版本开始支持复制，不支持事务，对消息的重复、丢失、错误没有严格要求，适合产生大量数据的互联网服务的数据收集业务。</p>
+<h6 id="2、RabbitMQ"><a href="#2、RabbitMQ" class="headerlink" title="2、RabbitMQ"></a>2、RabbitMQ</h6><p>RabbitMQ是使用Erlang语言开发的开源消息队列系统，基于AMQP协议来实现。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。AMQP协议更多用在企业系统内对数据一致性、稳定性和可靠性要求很高的场景，对性能和吞吐量的要求还在其次。</p>
+<h6 id="3、RocketMQ"><a href="#3、RocketMQ" class="headerlink" title="3、RocketMQ"></a>3、RocketMQ</h6><p>RocketMQ是阿里开源的消息中间件，它是纯Java开发，具有高吞吐量、高可用性、适合大规模分布式系统应用的特点。RocketMQ思路起源于Kafka，但并不是Kafka的一个Copy，它对消息的可靠传输及事务性做了优化，目前在阿里集团被广泛应用于交易、充值、流计算、消息推送、日志流式处理、binglog分发等场景。</p>
+<p>RabbitMQ比Kafka可靠，Kafka更适合IO高吞吐的处理，一般应用在大数据日志处理或对实时性（少量延迟），可靠性（少量丢数据）要求稍低的场景使用，比如ELK日志收集。</p>
+<h3 id="2、RabbitMQ-详解"><a href="#2、RabbitMQ-详解" class="headerlink" title="2、RabbitMQ 详解"></a>2、RabbitMQ 详解</h3><h4 id="1、RabbitMQ-介绍"><a href="#1、RabbitMQ-介绍" class="headerlink" title="1、RabbitMQ 介绍"></a>1、RabbitMQ 介绍</h4><p>RabbitMQ是一个在AMQP（Advanced Message Queuing Protocol ）基础上实现的，可复用的企业消息系统。它可以用于大型软件系统各个模块之间的高效通信，支持高并发，支持可扩展。它支持多种客户端如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX，持久化，用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
+<p>RabbitMQ是使用Erlang编写的一个开源的消息队列，本身支持很多的协议：AMQP，XMPP, SMTP, STOMP，也正是如此，使的它变的非常重量级，更适合于企业级的开发。它同时实现了一个Broker构架，这意味着消息在发送给客户端时先在中心队列排队，对路由(Routing)、负载均衡(Load balance)或者数据持久化都有很好的支持。</p>
+<h4 id="2、RabbitMQ-特点"><a href="#2、RabbitMQ-特点" class="headerlink" title="2、RabbitMQ 特点"></a>2、RabbitMQ 特点</h4><ul>
+<li>可靠性</li>
+<li>灵活的路由</li>
+<li>扩展性</li>
+<li>高可用性</li>
+<li>多种协议</li>
+<li>多语言客户端</li>
+<li>管理界面</li>
+<li>插件机制</li>
+</ul>
+<h4 id="3、AMQP-介绍"><a href="#3、AMQP-介绍" class="headerlink" title="3、AMQP 介绍"></a>3、AMQP 介绍</h4><p>AMQP，即Advanced Message Queuing Protocol,一个提供统一消息服务的应用层标准<strong>高级消息队列协议</strong>,是应用层协议的一个开放标准,为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。</p>
+<h4 id="4、什么和是消息队列"><a href="#4、什么和是消息队列" class="headerlink" title="4、什么和是消息队列"></a>4、什么和是消息队列</h4><p>MQ 全称为Message Queue, 消息队列。是一种应用程序对应用程序的通信方法。应用程序通过读写出入队列的消息（针对应用程序的数据）来通信，而无需专用连接来链接它们。</p>
+<p><strong>消息传递</strong>指的是程序之间通过在消息中发送数据进行通信，而不是通过直接调用彼此来通信。队列的使用除去了接收和发送应用程序同时执行的要求。</p>
+<p>在项目中，将一些无需即时返回且耗时的操作提取出来，进行了异步处理，而这种异步处理的方式大大的节省了服务器的请求响应时间，从而提高了系统的吞吐量。</p>
+<p>消息队列的使用场景是怎样的？</p>
+<h4 id="5、RabbitMQ-应用场景"><a href="#5、RabbitMQ-应用场景" class="headerlink" title="5、RabbitMQ 应用场景"></a>5、RabbitMQ 应用场景</h4><p>对于一个大型的软件系统来说，它会有很多的组件或者说模块或者说子系统或者（subsystem or Component or submodule）。那么这些模块的如何通信？这和传统的IPC有很大的区别。传统的IPC很多都是在单一系统上的，模块耦合性很大，不适合扩展（Scalability）；如果使用socket那么不同的模块的确可以部署到不同的机器上，但是还是有很多问题需要解决。比如：<br>1）信息的发送者和接收者如何维持这个连接，如果一方的连接中断，这期间的数据如何防止丢失？<br>2）如何降低发送者和接收者的耦合度？<br>3）如何让Priority高的接收者先接到数据？<br>4）如何做到load balance？有效均衡接收者的负载？<br>5）如何有效的将数据发送到相关的接收者？也就是说将接收者subscribe 不同的数据，如何做有效的filter。<br>6）如何做到可扩展，甚至将这个通信模块发到cluster上？<br>7）如何保证接收者接收到了完整，正确的数据？<br><strong>AMDQ</strong>协议解决了以上的问题，而RabbitMQ实现了<strong>AMQP</strong>。</p>
+<h4 id="6、RabbitMQ-概念介绍"><a href="#6、RabbitMQ-概念介绍" class="headerlink" title="6、RabbitMQ 概念介绍"></a>6、RabbitMQ 概念介绍</h4><ul>
+<li><strong>Broker</strong>：简单来说就是消息队列服务器实体。</li>
+<li><strong>Exchange</strong>：消息交换机，它指定消息按什么规则，路由到哪个队列。</li>
+<li><strong>Queue</strong>：消息队列载体，每个消息都会被投入到一个或多个队列。</li>
+<li><strong>Binding</strong>：绑定，它的作用就是把exchange和queue按照路由规则绑定起来。</li>
+<li><strong>Routing Key</strong>：路由关键字，exchange根据这个关键字进行消息投递。</li>
+<li><strong>vhost</strong>：虚拟主机，一个broker里可以开设多个vhost，用作不同用户的权限分离。</li>
+<li><strong>producer</strong>：消息生产者，就是投递消息的程序。</li>
+<li><strong>consumer</strong>：消息消费者，就是接受消息的程序。</li>
+<li><strong>channel</strong>：消息通道，在客户端的每个连接里，可建立多个channel，每个channel代表一个会话任务。</li>
+</ul>
+<p>RabbitMQ从整体上来看是一个典型的生产者消费者模型，主要负责接收、存储和转发消息</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRegrq.png" alt="JRegrq.png"></p>
+<h4 id="7、RabbitMQ-使用流程"><a href="#7、RabbitMQ-使用流程" class="headerlink" title="7、RabbitMQ 使用流程"></a>7、RabbitMQ 使用流程</h4><p>AMQP模型中，消息在producer中产生，发送到MQ的exchange上，exchange根据配置的路由方式发到相应的Queue上，Queue又将消息发送给consumer，消息从queue到consumer有push和pull两种方式。 消息队列的使用过程大概如下：</p>
+<ol>
+<li>客户端连接到消息队列服务器，打开一个channel。</li>
+<li>客户端声明一个exchange，并设置相关属性。</li>
+<li>客户端声明一个queue，并设置相关属性。</li>
+<li>客户端使用routing key，在exchange和queue之间建立好绑定关系。</li>
+<li>客户端投递消息到exchange。</li>
+</ol>
+<p>exchange接收到消息后，就根据消息的key和已经设置的binding，进行消息路由，将消息投递到一个或多个队列里。 exchange也有几个类型，完全根据key进行投递的叫做Direct交换机，例如，绑定时设置了routing key为”abc”，那么客户端提交的消息，只有设置了key为”abc”的才会投递到队列。</p>
+<h3 id="3、RabbitMQ-单机安装部署"><a href="#3、RabbitMQ-单机安装部署" class="headerlink" title="3、RabbitMQ 单机安装部署"></a>3、RabbitMQ 单机安装部署</h3><h4 id="1、下载"><a href="#1、下载" class="headerlink" title="1、下载"></a>1、下载</h4><p>下载地址：<a href="http://www.rabbitmq.com/download.html" target="_blank" rel="noopener">http://www.rabbitmq.com/download.html</a></p>
+<h4 id="2、Windows上安装"><a href="#2、Windows上安装" class="headerlink" title="2、Windows上安装"></a>2、Windows上安装</h4><h6 id="1、安装安装Erlang"><a href="#1、安装安装Erlang" class="headerlink" title="1、安装安装Erlang"></a>1、安装安装Erlang</h6><p>下载erlang：<a href="http://www.erlang.org/download/otp_win64_17.3.exe" target="_blank" rel="noopener">http://www.erlang.org/download/otp_win64_17.3.exe</a></p>
+<p>安装：</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRe5iF.png" alt="JRe5iF.png"></p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmiLt.png" alt="JRmiLt.png"></p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmEo8.png" alt="JRmEo8.png"></p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmnzj.png" alt="JRmnzj.png"></p>
+<p>erlang安装完成。</p>
+<h6 id="2、安装安装RabbitMQ"><a href="#2、安装安装RabbitMQ" class="headerlink" title="2、安装安装RabbitMQ"></a>2、安装安装RabbitMQ</h6><p><img src="https://s1.ax1x.com/2020/04/26/JRm1e0.png" alt="JRm1e0.png"></p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRm8oT.png" alt="JRm8oT.png"></p>
+<p>RabbitMQ安装完成。</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmUSJ.png" alt="JRmUSJ.png"></p>
+<p>启动、停止、重新安装等。</p>
+<h6 id="3、启用管理工具"><a href="#3、启用管理工具" class="headerlink" title="3、启用管理工具"></a>3、启用管理工具</h6><p>第一步：点击打开RabbitMQ的命令窗口。如图：</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmwO1.png" alt="JRmwO1.png"></p>
+<p>第二步：输入命令rabbitmq-plugins enable rabbitmq_management</p>
+<p>这个命令的意思是安装RabbitMQ的插件。</p>
+<p>第三步：测试是否安装成功。</p>
+<p>方法：访问地址：<a href="http://127.0.0.1:15672/" target="_blank" rel="noopener">http://127.0.0.1:15672/</a></p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmDw6.png" alt="JRmDw6.png"></p>
+<p>默认账号：guest/guest</p>
+<h4 id="3、Linux上安装"><a href="#3、Linux上安装" class="headerlink" title="3、Linux上安装"></a>3、Linux上安装</h4><h6 id="1、安装-erlang"><a href="#1、安装-erlang" class="headerlink" title="1、安装 erlang"></a>1、安装 erlang</h6><p>添加yum支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;src&#x2F;</span><br><span class="line">mkdir rabbitmq</span><br><span class="line">cd rabbitmq</span><br><span class="line">wget http:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;erlang-solutions-1.0-1.noarch.rpm</span><br><span class="line">rpm -ivh erlang-solutions-1.0-1.noarch.rpm</span><br><span class="line">rpm --import http:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;rpm&#x2F;erlang_solutions.asc</span><br><span class="line">yum install erlang</span><br></pre></td></tr></table></figure>
+
+<h6 id="2、安装RabbitMQ"><a href="#2、安装RabbitMQ" class="headerlink" title="2、安装RabbitMQ"></a>2、安装RabbitMQ</h6><p>1、用 yum 安装 RabbitMQ</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc</span><br><span class="line"><span class="comment"># this example assumes the CentOS 7 version of the package</span></span><br><span class="line">yum install rabbitmq-server-3.7.13-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</span><br><span class="line"><span class="comment"># this example assumes the CentOS 7 version of the package</span></span><br><span class="line">yum install rabbitmq-server-3.7.13-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>2、用 rpm 手动安装</p>
+<p>下载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget  https:&#x2F;&#x2F;github.com&#x2F;rabbitmq&#x2F;rabbitmq-server&#x2F;releases&#x2F;download&#x2F;v3.7.13&#x2F;rabbitmq-server-3.7.13-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>上传rabbitmq-server-3.7.13-1.el7.noarch.rpm文件到/usr/local/src/rabbitmq/</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh rabbitmq-server-3.7.13-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>几个常用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br><span class="line">service rabbitmq-server stop</span><br><span class="line">service rabbitmq-server restart </span><br><span class="line">chkconfig rabbitmq-server on　　&#x2F;&#x2F;设置开机自启</span><br></pre></td></tr></table></figure>
+
+<p>设置配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;rabbitmq</span><br><span class="line">cp &#x2F;usr&#x2F;share&#x2F;doc&#x2F;rabbitmq-server-3.7.13&#x2F;rabbitmq.config.example &#x2F;etc&#x2F;rabbitmq&#x2F;</span><br><span class="line">mv rabbitmq.config.example rabbitmq.config</span><br></pre></td></tr></table></figure>
+
+<p>设置用户远程访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;rabbitmq&#x2F;rabbitmq.config</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmyFO.png" alt="JRmyFO.png"></p>
+<p>去掉后面的逗号</p>
+<p>开启web界面管理工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br><span class="line">service rabbitmq-server restart</span><br></pre></td></tr></table></figure>
+
+<p>防火墙开放15672端口(CentOS7 不用操作)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;sbin&#x2F;iptables -I INPUT -p tcp --dport 15672 -j ACCEPT</span><br><span class="line">&#x2F;etc&#x2F;rc.d&#x2F;init.d&#x2F;iptables save</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h6 id="4、客户端的简单介绍"><a href="#4、客户端的简单介绍" class="headerlink" title="4、客户端的简单介绍"></a>4、客户端的简单介绍</h6><p>1、界面的介绍</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmcfe.png" alt="JRmcfe.png"></p>
+<p>注意设置虚拟主机与添加用户这块。</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmfOI.png" alt="JRmfOI.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">命令行添加用户，设置tags</span><br><span class="line">rabbitmqctl list_users</span><br><span class="line">rabbitmqctl add_user username password</span><br><span class="line">rabbitmqctl set_user_tags username  administrator</span><br></pre></td></tr></table></figure>
+
+<p>关于虚拟主机，Virtual Host，其实是一个虚拟概念，类似于权限控制组，一个Virtual Host里面可以有若干个Exchange和Queue，但是权限控制的最小粒度是Virtual Host</p>
+<p>用户角色有下面几种：</p>
+<ol>
+<li>超级管理员(administrator)</li>
+</ol>
+<p>可登陆管理控制台，可查看所有的信息，并且可以对用户，策略(policy)进行操作。</p>
+<ol>
+<li>监控者(monitoring)</li>
+</ol>
+<p>可登陆管理控制台，同时可以查看rabbitmq节点的相关信息(进程数，内存使用情况，磁盘使用情况等)</p>
+<ol>
+<li>策略制定者(policymaker)</li>
+</ol>
+<p>可登陆管理控制台, 同时可以对policy进行管理。但无法查看节点的相关信息(上图红框标识的部分)。</p>
+<ol>
+<li>普通管理者(management)</li>
+</ol>
+<p>仅可登陆管理控制台，无法看到节点信息，也无法对策略进行管理。</p>
+<ol>
+<li>其他</li>
+</ol>
+<p>无法登陆管理控制台，通常就是普通的生产者和消费者。</p>
+<h4 id="4、Mac-安装教程"><a href="#4、Mac-安装教程" class="headerlink" title="4、Mac 安装教程"></a>4、Mac 安装教程</h4><h6 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h6><p>在Mac下安装RabbitMQ是非常简单的，一般默认RabbitMQ服务器依赖的Erlang已经安装，只需要用下面两个命令就可以完成RabbitMQ的安装（前提是homebrew已经被安装）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew update</span><br><span class="line">brew install rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>耐心等待，安装完成后需要将/usr/local/sbin添加到$PATH，可以将下面这两行加到~/.bash_profile：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># RabbitMQ Config</span><br><span class="line">export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;sbin</span><br></pre></td></tr></table></figure>
+
+<p>编辑完后:wq保存退出，使环境变量立即生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h6 id="2、启动RabbitMQ服务"><a href="#2、启动RabbitMQ服务" class="headerlink" title="2、启动RabbitMQ服务"></a>2、启动RabbitMQ服务</h6><p>上面配置完成后，需要关闭终端窗口，重新打开，然后输入下面命令即可启动RabbitMQ服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-server</span><br></pre></td></tr></table></figure>
+
+<h6 id="3、登录Web管理界面"><a href="#3、登录Web管理界面" class="headerlink" title="3、登录Web管理界面"></a>3、登录Web管理界面</h6><p>浏览器输入<code>localhost：15672</code>,账号密码全输入guest即可登录。</p>
+<h4 id="5、RabbitMQ常用的命令"><a href="#5、RabbitMQ常用的命令" class="headerlink" title="5、RabbitMQ常用的命令"></a>5、RabbitMQ常用的命令</h4><h5 id="1、基本命令"><a href="#1、基本命令" class="headerlink" title="1、基本命令"></a>1、基本命令</h5><p>启动监控管理器：rabbitmq-plugins enable rabbitmq_management<br>关闭监控管理器：rabbitmq-plugins disable rabbitmq_management<br>启动rabbitmq：rabbitmq-service start<br>关闭rabbitmq：rabbitmq-service stop<br>查看所有的队列：rabbitmqctl list_queues<br>清除所有的队列：rabbitmqctl reset<br>关闭应用：rabbitmqctl stop_app<br>启动应用：rabbitmqctl start_app</p>
+<h5 id="2、用户和权限设置"><a href="#2、用户和权限设置" class="headerlink" title="2、用户和权限设置"></a>2、用户和权限设置</h5><p>添加用户：rabbitmqctl add_user username password<br>分配角色：rabbitmqctl set_user_tags username administrator<br>新增虚拟主机：rabbitmqctl add_vhost vhost_name<br>将新虚拟主机授权给新用户：<code>rabbitmqctl set_permissions -p vhost_name username “.*” “.*” “.*”</code>(后面三个”*”代表用户拥有配置、写、读全部权限)</p>
+<h5 id="3、角色说明"><a href="#3、角色说明" class="headerlink" title="3、角色说明"></a>3、角色说明</h5><ul>
+<li>超级管理员(administrator)<br>可登陆管理控制台，可查看所有的信息，并且可以对用户，策略(policy)进行操作。</li>
+<li>监控者(monitoring)<br>可登陆管理控制台，同时可以查看rabbitmq节点的相关信息(进程数，内存使用情况，磁盘使用情况等)</li>
+<li>策略制定者(policymaker)<br>可登陆管理控制台, 同时可以对policy进行管理。但无法查看节点的相关信息(上图红框标识的部分)。</li>
+<li>普通管理者(management)<br>仅可登陆管理控制台，无法看到节点信息，也无法对策略进行管理。</li>
+<li>其他<br>无法登陆管理控制台，通常就是普通的生产者和消费者。</li>
+</ul>
+<h3 id="4、RabbitMQ-集群部署及配置"><a href="#4、RabbitMQ-集群部署及配置" class="headerlink" title="4、RabbitMQ 集群部署及配置"></a>4、RabbitMQ 集群部署及配置</h3><p>消息中间件RabbitMQ，一般以集群方式部署，主要提供消息的接受和发送，实现各微服务之间的消息异步。以下将介绍RabbitMQ+HA方式进行部署。</p>
+<h4 id="1、原理介绍"><a href="#1、原理介绍" class="headerlink" title="1、原理介绍"></a>1、原理介绍</h4><p>RabbitMQ是依据erlang的分布式特性（RabbitMQ底层是通过Erlang架构来实现的，所以rabbitmqctl会启动Erlang节点，并基于Erlang节点来使用Erlang系统连接RabbitMQ节点，在连接过程中需要正确的Erlang Cookie和节点名称，Erlang节点通过交换Erlang Cookie以获得认证）来实现的，所以部署Rabbitmq分布式集群时要先安装Erlang，并把其中一个服务的cookie复制到另外的节点。</p>
+<p>RabbitMQ集群中，各个RabbitMQ为对等节点，即每个节点均提供给客户端连接，进行消息的接收和发送。节点分为内存节点和磁盘节点，一般的，均应建立为磁盘节点，为了防止机器重启后的消息消失；</p>
+<p>RabbitMQ的Cluster集群模式一般分为两种，普通模式和镜像模式。消息队列通过RabbitMQ HA镜像队列进行消息队列实体复制。</p>
+<p>普通模式下，以两个节点（rabbit01、rabbit02）为例来进行说明。对于Queue来说，消息实体只存在于其中一个节点rabbit01（或者rabbit02），rabbit01和rabbit02两个节点仅有相同的元数据，即队列的结构。当消息进入rabbit01节点的Queue后，consumer从rabbit02节点消费时，RabbitMQ会临时在rabbit01、rabbit02间进行消息传输，把A中的消息实体取出并经过B发送给consumer。所以consumer应尽量连接每一个节点，从中取消息。即对于同一个逻辑队列，要在多个节点建立物理Queue。否则无论consumer连rabbit01或rabbit02，出口总在rabbit01，会产生瓶颈。</p>
+<p>镜像模式下，将需要消费的队列变为镜像队列，存在于多个节点，这样就可以实现RabbitMQ的HA高可用性。作用就是消息实体会主动在镜像节点之间实现同步，而不是像普通模式那样，在consumer消费数据时临时读取。缺点就是，集群内部的同步通讯会占用大量的网络带宽。</p>
+<h4 id="2、部署-RabbitMQ-Cluster"><a href="#2、部署-RabbitMQ-Cluster" class="headerlink" title="2、部署 RabbitMQ Cluster"></a>2、部署 RabbitMQ Cluster</h4><p>多台机器部署RabbitMQ的cluster，</p>
+<h5 id="1、环境要求"><a href="#1、环境要求" class="headerlink" title="1、环境要求"></a>1、环境要求</h5><p>1、所有节点需要再同一个局域网内；</p>
+<p>2、所有节点需要有相同的 erlang cookie，否则不能正常通信，为了实现cookie内容一致，采用scp的方式进行。</p>
+<p>3、准备三台虚拟机，配置相同</p>
+<p>rabbitmq01 192.168.101.11   </p>
+<p>rabbitmq02 192.168.101.12  </p>
+<p>rabbitmq03 192.168.101.13</p>
+<p>操作系统：centos7.5</p>
+<h5 id="2、部署过程"><a href="#2、部署过程" class="headerlink" title="2、部署过程"></a>2、部署过程</h5><h6 id="1、所有节点配置-etc-hosts"><a href="#1、所有节点配置-etc-hosts" class="headerlink" title="1、所有节点配置/etc/hosts"></a>1、所有节点配置/etc/hosts</h6><p>node1 192.168.101.11   </p>
+<p>node2 192.168.101.12  </p>
+<p>node3 192.168.101.13</p>
+<h6 id="2、所有节点安装-erLang-和-rabbitmq"><a href="#2、所有节点安装-erLang-和-rabbitmq" class="headerlink" title="2、所有节点安装 erLang 和 rabbitmq"></a>2、所有节点安装 erLang 和 rabbitmq</h6><p><strong>1、安装erlang</strong></p>
+<p>安装依赖包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y *epel* gcc-c++ unixODBC unixODBC-devel openssl-devel ncurses-devel</span><br></pre></td></tr></table></figure>
+
+<p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;erlang.org&#x2F;download&#x2F;otp_src_21.3.tar.gz</span><br><span class="line">tar -zxvf otp_src_21.3.tar.gz</span><br><span class="line">cd otp_src_21.3</span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;erlang --without-javac</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">echo &quot;export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;bin&#x2F;erlang&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin&#x2F;rabbitmq_server-3.6.15&#x2F;sbin&quot; &gt;&gt; &#x2F;etc&#x2F;profile</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>出现 erl 命令则说明安装成功；</p>
+<p><strong>2、安装rabbitmq</strong></p>
+<p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;www.rabbitmq.com&#x2F;releases&#x2F;rabbitmq-server&#x2F;v3.6.15&#x2F;rabbitmq-server-generic-unix-3.6.15.tar.xz</span><br><span class="line">yum install -y xz</span><br><span class="line">xz -d rabbitmq-server-generic-unix-3.6.15.tar.xz</span><br><span class="line">tar -xvf rabbitmq-server-generic-unix-3.6.15.tar -C &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br><span class="line">echo &quot;export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;bin&#x2F;erlang&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin&#x2F;rabbitmq_server-3.6.15&#x2F;sbin&quot; &gt;&gt; &#x2F;etc&#x2F;profile</span><br><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、导入 rabbitmq 的管理界面</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p><strong>4、设置 erlang</strong></p>
+<p>找到erlang cookie文件的位置，官方在介绍集群的文档中提到过.erlang.cookie 一般会存在这两个地址：第一个是<code>home/.erlang.cookie</code>；第二个地方就是<code>/var/lib/rabbitmq/.erlang.cookie</code>。如果我们使用解压缩方式安装部署的rabbitmq，那么这个文件会在{home}目录下，也就是<code>$home/.erlang.cookie</code>。如果我们使用rpm等安装包方式进行安装的，那么这个文件会在<code>/var/lib/rabbitmq</code>目录下。</p>
+<p>这里将 node1 的该文件复制到 node2、node3，注意这个文件的权限是 400（默认即是400），因此采用scp的方式只拷贝内容即可；</p>
+<p>可以通过<code>cat  $home/.erlang.cookie</code>来查看三台机器的cookie是否一致，设置erlang的目的是要保证集群内的cookie内容一致。</p>
+<p><strong>使用-detached参数运行各节点</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl stop</span><br><span class="line"></span><br><span class="line">rabbitmq-server -detached</span><br></pre></td></tr></table></figure>
+
+<p>然后可以通过 <code>rabbitmqctl cluster_status</code>查看节点状态。</p>
+<p>注意：要先拷贝cookie到另外两台机器上，保证三台机器上的cookie是一致的，然后再启动服务。</p>
+<p>由于guest这个用户,只能在本地访问,所以我们要新增一个用户并赋予权限:</p>
+<p>添加用户并设置密码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user  admin 123456</span><br></pre></td></tr></table></figure>
+
+<p>添加权限（使admin用户对虚拟主机“/” 具有所有权限）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
+
+<p>修改用户角色（加入administrator用户组）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以远程访问了，然后可直接配置用户权限等信息。到此,就可以通过<a href="http://ip:15672" target="_blank" rel="noopener">http://ip:15672</a> 使用admin 123456 进行登陆了。</p>
+<p>到这里的话，每个节点是作为单独的一台RabbitMQ存在的，也可以正常提供服务了</p>
+<h5 id="3、组成集群"><a href="#3、组成集群" class="headerlink" title="3、组成集群"></a>3、组成集群</h5><p>rabbitmq-server 启动时，会一起启动节点和应用，它预先设置RabbitMQ应用为standalone模式。要将一个节点加入到现有的集群中，你需要停止这个应用，并将节点设置为原始状态。如果使用./rabbitmqctl stop，应用和节点都将被关闭。所以使用rabbitmqctl stop_app仅仅关闭应用。</p>
+<p>1、将 node2、node3与 node1 组成集群，这里以node2为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node2# rabbitmqctl stop_app      </span><br><span class="line">node2# rabbitmqctl join_cluster rabbit@node1               ####这里集群的名字一定不要写错了</span><br><span class="line">node2# rabbitmqctl start_app</span><br></pre></td></tr></table></figure>
+
+<p>2、将node3重复上述操作，也加入node1的集群。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node3# rabbitmqctl stop_app      </span><br><span class="line">node3# rabbitmqctl join_cluster rabbit@node1               ####这里集群的名字一定不要写错了</span><br><span class="line">node3# rabbitmqctl start_app</span><br></pre></td></tr></table></figure>
+
+<p>则此时 node2 与 node3 也会自动建立连接，集群配置完毕；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#使用内存节点加入集群</span><br><span class="line">node2 # rabbitmqctl join_cluster --ram rabbit@node1</span><br></pre></td></tr></table></figure>
+
+<p>3、在 RabbitMQ 集群任意节点上执行 <code>rabbitmqctl cluster_status</code>来查看是否集群配置成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">node3# rabbitmqctl cluster_status</span><br><span class="line">Cluster status of node rabbit@node3 ...</span><br><span class="line">[&#123;nodes,[&#123;disc,[rabbit@node1,rabbit@node2,rabbit@node3]&#125;]&#125;,</span><br><span class="line"> &#123;running_nodes,[rabbit@node1,rabbit@node2,rabbit@node3]&#125;,</span><br><span class="line"> &#123;cluster_name,&lt;&quot;rabbit@node1&quot;&gt;&#125;,      #集群的名称默认为 rabbit@node1</span><br><span class="line"> &#123;partitions,[]&#125;,</span><br><span class="line"> &#123;alarms,[&#123;rabbit@node1,[]&#125;,&#123;rabbit@node2,[]&#125;,&#123;rabbit@node3,[]&#125;]&#125;]</span><br></pre></td></tr></table></figure>
+
+<p>4、也可通过在web页面上的“Queues”的列表中，查看有如下显示为“同步镜像到node2”，则也表示集群配置成功</p>
+<p><img src="https://s1.ax1x.com/2020/04/26/JRmHfg.png" alt="JRmHfg.png"></p>
+<p>5、设置镜像队列策略</p>
+<p>在任意一个节点上执行如下操作（这里在node1上执行）</p>
+<p>首先，在web界面，登陆后，点击“Admin–Virtual Hosts（页面右侧）”，在打开的页面上的下方的“Add a new virtual host”处增加一个虚拟主机，同时给用户“admin”和“guest”均加上权限（在页面直接设置、点点点即可）；</p>
+<p>然后，在linux中执行如下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_policy -p coresystem  ha-all &quot;^&quot; &#39;&#123;&quot;ha-mode&quot;:&quot;all&quot;&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>“coresystem” vhost名称， “^”匹配所有的队列， ha-all 策略名称为ha-all, ‘{“ha-mode”:”all”}’ 策略模式为 all 即复制到所有节点，包含新增节点。</p>
+<p>则此时镜像队列设置成功。（这里的虚拟主机coresystem是代码中需要用到的虚拟主机，虚拟主机的作用是做一个消息的隔离，本质上可认为是一个rabbitmq-server，是否增加虚拟主机，增加几个，这是由开发中的业务决定，即有哪几类服务，哪些服务用哪一个虚拟主机，这是一个规划）。</p>
+<p>6、镜像队列策略设置说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_policy [-p Vhost] Name Pattern Definition [Priority]</span><br><span class="line"></span><br><span class="line">-p Vhost： 可选参数，针对指定vhost下的queue进行设置</span><br><span class="line">Name: policy的名称</span><br><span class="line">Pattern: queue的匹配模式(正则表达式)</span><br><span class="line">Definition：镜像定义，包括三个部分ha-mode, ha-params, ha-sync-mode</span><br><span class="line">    ha-mode:指明镜像队列的模式，有效值为 all&#x2F;exactly&#x2F;nodes</span><br><span class="line">        all：表示在集群中所有的节点上进行镜像</span><br><span class="line">        exactly：表示在指定个数的节点上进行镜像，节点的个数由ha-params指定</span><br><span class="line">        nodes：表示在指定的节点上进行镜像，节点名称通过ha-params指定</span><br><span class="line">    ha-params：ha-mode模式需要用到的参数</span><br><span class="line">    ha-sync-mode：进行队列中消息的同步方式，有效值为automatic和manual</span><br><span class="line">priority：可选参数，policy的优先级</span><br></pre></td></tr></table></figure>
+
+<p>将所有队列设置为镜像队列，即队列会被复制到各个节点，各个节点状态保持一直。完成这 6 个步骤后，RabbitMQ 高可用集群搭建完成，最后一个步骤就是搭建均衡器。</p>
+<p>7、安装并配置负载均衡器HA</p>
+<p>注意：如果使用阿里云，可以使用阿里云的内网slb来实现负载均衡，不用自己搭建HA。</p>
+<p>1、在192.168.101.11安装HAProxy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install HAProxy</span><br></pre></td></tr></table></figure>
+
+<p>2、修改 /etc/haproxy/haproxy.cfg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;haproxy&#x2F;haproxy.cfg</span><br><span class="line">global </span><br><span class="line">    </span><br><span class="line">    log         127.0.0.1 local2</span><br><span class="line"> </span><br><span class="line">    chroot      &#x2F;var&#x2F;lib&#x2F;haproxy</span><br><span class="line">    pidfile     &#x2F;var&#x2F;run&#x2F;haproxy.pid</span><br><span class="line">    maxconn     4000</span><br><span class="line">    user        haproxy</span><br><span class="line">    group       haproxy</span><br><span class="line">    daemon</span><br><span class="line"> </span><br><span class="line">    stats socket &#x2F;var&#x2F;lib&#x2F;haproxy&#x2F;stats</span><br><span class="line"> </span><br><span class="line">defaults </span><br><span class="line">       log        global </span><br><span class="line">       mode       tcp </span><br><span class="line">       option     tcplog </span><br><span class="line">       option     dontlognull </span><br><span class="line">       retries    3 </span><br><span class="line">       option redispatch </span><br><span class="line">       maxconn 2000 </span><br><span class="line">       contimeout      5s </span><br><span class="line">       clitimeout      120s </span><br><span class="line">       srvtimeout      120s </span><br><span class="line"> </span><br><span class="line">listen rabbitmq_cluster 192.168.101.11:5670</span><br><span class="line">       mode      tcp </span><br><span class="line">       balance roundrobin </span><br><span class="line">       server rabbit1  192.168.101.11:5672 check inter 5000 rise 2 fall 2 </span><br><span class="line">       server rabbit2  192.168.101.12:5672 check inter 5000 rise 2 fall 2</span><br></pre></td></tr></table></figure>
+
+<p>3、重启HAProxy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service haproxy restart</span><br></pre></td></tr></table></figure>
+
+<p>登录浏览器输入地址<a href="http://192.168.101.11:8100/rabbitmqstats查看HAProxy的状态" target="_blank" rel="noopener">http://192.168.101.11:8100/rabbitmqstats查看HAProxy的状态</a></p>
+<p>三、常见问题</p>
+<p>常见错误：</p>
+<p>1、使用 rabbitmq-server -detached命令启动rabbitmq时，出现以下提示Warning: PID file not written; -detached was passed，此时使用rabbitmqctl status提示服务已启动，可知此问题不用解决。</p>
+<p>2、由于更改hostname文件，在每次rabbitmqctl stop或者rabbitmqctl cluster_status等，只要是rabbitmq的命令就报错，提示大概如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Cluster status of node rabbit@web2 ...</span><br><span class="line">Error: unable to connect to node rabbit@web2: nodedown</span><br><span class="line"></span><br><span class="line">DIAGNOSTICS</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">attempted to contact: [rabbit@web2]</span><br><span class="line"></span><br><span class="line">rabbit@web2:</span><br><span class="line">  * connected to epmd (port 4369) on web2</span><br><span class="line">  * epmd reports node &#39;rabbit&#39; running on port 25672</span><br><span class="line">  * TCP connection succeeded but Erlang distribution failed</span><br><span class="line"></span><br><span class="line">  * Hostname mismatch: node &quot;rabbit@mq2&quot; believes its host is different. Please ensure that hostnames resolve the same way locally and on &quot;rabbit@mq2&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">current node details:</span><br><span class="line">- node name: &#39;rabbitmq-cli-11@web2&#39;</span><br><span class="line">- home dir: &#x2F;root</span><br><span class="line">- cookie hash: SGwxMdJ3PjEXG1asIEFpBg&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>此时先<code>ps aux | grep mq</code>，然后<code>kill -9</code> 该进程，然后再<code>rabbitmq-server -detached</code>即可解决。（即先强杀，再重新启动）</p>
+<p>3、使用<code>rabbitmqctl stop</code>，<code>rabbitmq-server -detached</code>重新启动后，原先添加的用户admin、虚拟主机coresystem等均丢失，还需要重新添加。</p>
+<p>采用脚本启动，在脚本中写好启动好需要加载的各配置项（创建admin用户并授权，创建虚拟主机并授权，配置镜像队列）。</p>
+<p>4、命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl stop_app 		#仅关闭应用，不关闭节点</span><br><span class="line">rabbitmqctl start_app 		#开启应用</span><br><span class="line">rabbitmq--server -detached 	#启动节点和应用</span><br><span class="line">rabbitmqctl	stop	 		#关闭节点和应用</span><br></pre></td></tr></table></figure>
+
+<p>4、常用命令：</p>
+<p>Rabbitmq服务器的主要通过rabbitmqctl和rabbimq-plugins两个工具来管理，以下是一些常用功能。</p>
+<p>1、 服务器启动与关闭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">启动: rabbitmq-server –detached</span><br><span class="line">关闭: rabbitmqctl stop</span><br><span class="line">若单机有多个实例，则在rabbitmqctl后加 –n 指定名称</span><br></pre></td></tr></table></figure>
+
+<p>2、插件管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">开启某个插件：rabbitmq-plugins enable  xxx</span><br><span class="line">关闭某个插件：rabbitmq-plugins disable xxx</span><br><span class="line">注意：重启服务器后生效。</span><br></pre></td></tr></table></figure>
+
+<p>3、virtual_host管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">新建virtual_host:rabbitmqctl add_vhost  xxx</span><br><span class="line">撤销virtual_host:rabbitmqctl  delete_vhost xxx</span><br></pre></td></tr></table></figure>
+
+<p>4、用户管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">新建用户：rabbitmqctl add_user xxxpwd</span><br><span class="line">删除用户: rabbitmqctl delete_user xxx</span><br><span class="line">查看用户：rabbitmqctl list_users</span><br><span class="line">改密码: rabbimqctl change_password &#123;username&#125; &#123;newpassword&#125;</span><br><span class="line">设置用户角色：rabbitmqctlset_user_tags &#123;username&#125; &#123;tag ...&#125;</span><br><span class="line">        Tag可以为 administrator,monitoring, management</span><br></pre></td></tr></table></figure>
+
+<p>5、 权限管理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">权限设置：set_permissions [-pvhostpath] &#123;user&#125; &#123;conf&#125; &#123;write&#125; &#123;read&#125;</span><br><span class="line">Vhostpath: Vhost路径</span><br><span class="line">user: 用户名</span><br><span class="line">Conf: 一个正则表达式match哪些配置资源能够被该用户访问。</span><br><span class="line">Write: 一个正则表达式match哪些配置资源能够被该用户读。</span><br><span class="line">Read: 一个正则表达式match哪些配置资源能够被该用户访问。</span><br></pre></td></tr></table></figure>
+
+<p>6、获取服务器状态信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">服务器状态：rabbitmqctl status     ##其中可查看rabbitmq的版本信息</span><br></pre></td></tr></table></figure>
+
+<p>7、获取集群状态信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl cluster_status</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.com/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/">https://cyylog.github.com/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/RabbitMQ/">
+                                    <span class="chip bg-color">RabbitMQ</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/04/16/linux/ansible/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="ansible">
+                        
+                        <span class="card-title">ansible</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+自动化运维工具—ansible详解一、ansible 简介1、ansible 是什么？　　ansible是目前最受运维欢迎的自动化运维工具，基于Python开发，集合了众多运维工具（SaltStack puppet、chef、func、
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Tools/">
+                        <span class="chip bg-color">Tools</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/03/27/linux/nginx/nginx-bian-yi-an-zhuang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Nginx编译安装">
+                        
+                        <span class="card-title">Nginx编译安装</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c++
+2、安装pcre软件包（使nginx支持http rewrite模块）yum install -y pcre pcre-devel
+3、
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-03-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

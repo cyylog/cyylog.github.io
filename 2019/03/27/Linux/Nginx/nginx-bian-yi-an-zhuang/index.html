@@ -1,0 +1,1256 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Nginx编译安装, Cyylog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Nginx编译安装 | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Nginx编译安装</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Nginx/">
+                                <span class="chip bg-color">Nginx</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-27
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <a id="more"></a>
+
+<h4 id="nginx-编译安装与配置使用"><a href="#nginx-编译安装与配置使用" class="headerlink" title="nginx 编译安装与配置使用"></a>nginx 编译安装与配置使用</h4><h5 id="1、安装编译环境"><a href="#1、安装编译环境" class="headerlink" title="1、安装编译环境"></a>1、安装编译环境</h5><p>yum -y install gcc gcc-c++</p>
+<h5 id="2、安装pcre软件包（使nginx支持http-rewrite模块）"><a href="#2、安装pcre软件包（使nginx支持http-rewrite模块）" class="headerlink" title="2、安装pcre软件包（使nginx支持http rewrite模块）"></a>2、安装pcre软件包（使nginx支持http rewrite模块）</h5><p>yum install -y pcre pcre-devel</p>
+<h5 id="3、安装openssl-devel（使nginx支持ssl）"><a href="#3、安装openssl-devel（使nginx支持ssl）" class="headerlink" title="3、安装openssl-devel（使nginx支持ssl）"></a>3、安装openssl-devel（使nginx支持ssl）</h5><p>yum install -y openssl openssl-devel </p>
+<h5 id="4、安装zlib"><a href="#4、安装zlib" class="headerlink" title="4、安装zlib"></a>4、安装zlib</h5><p>yum install -y zlib zlib-devel</p>
+<h5 id="5、创建用户nginx"><a href="#5、创建用户nginx" class="headerlink" title="5、创建用户nginx"></a>5、创建用户nginx</h5><p>useradd nginx </p>
+<p>passwd nginx</p>
+<h5 id="6、安装nginx"><a href="#6、安装nginx" class="headerlink" title="6、安装nginx"></a>6、安装nginx</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#wget http://192.168.233.100/nginx.org/download/nginx-1.14.2.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ～]#tar -vzxf nginx-1.14.2.tar.gz -C /usr/local</span><br><span class="line">[root@localhost ～]#cd nginx-1.14.2/ </span><br><span class="line">[root@localhost nginx-1.14.2]# ./configure \ </span><br><span class="line">--group=nginx \ </span><br><span class="line">--user=nginx \ </span><br><span class="line">--prefix=/usr/local/nginx \ </span><br><span class="line">--sbin-path=/usr/sbin/nginx \ </span><br><span class="line">--conf-path=/etc/nginx/nginx.conf \ </span><br><span class="line">--error-log-path=/var/log/nginx/error.log \ </span><br><span class="line">--http-log-path=/var/log/nginx/access.log \ </span><br><span class="line">--http-client-body-temp-path=/tmp/nginx/client_body \ </span><br><span class="line">--http-proxy-temp-path=/tmp/nginx/proxy \ </span><br><span class="line">--http-fastcgi-temp-path=/tmp/nginx/fastcgi \ </span><br><span class="line">--pid-path=/var/run/nginx.pid \ </span><br><span class="line">--lock-path=/var/lock/nginx \ </span><br><span class="line">--with-http_stub_status_module \ </span><br><span class="line">--with-http_ssl_module \ </span><br><span class="line">--with-http_gzip_static_module \ </span><br><span class="line">--with-pcre </span><br><span class="line">[root@localhost nginx-1.11.3]# make &amp;&amp;make install</span><br></pre></td></tr></table></figure>
+
+<h5 id="7、Nginx-编译参数"><a href="#7、Nginx-编译参数" class="headerlink" title="7、Nginx 编译参数"></a>7、Nginx 编译参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 nginx 安装的模块</span></span><br><span class="line">[root@tianyun ~]# nginx -V</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 模块参数具体功能 </span></span><br><span class="line">--with-cc-opt='-g -O2 -fPIE -fstack-protector    //设置额外的参数将被添加到CFLAGS变量。（FreeBSD或者ubuntu使用）</span><br><span class="line">--param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2' </span><br><span class="line">--with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' </span><br><span class="line"></span><br><span class="line">--prefix=/usr/share/nginx                        //指向安装目录</span><br><span class="line">--conf-path=/etc/nginx/nginx.conf                //指定配置文件</span><br><span class="line">--http-log-path=/var/log/nginx/access.log        //指定访问日志</span><br><span class="line">--error-log-path=/var/log/nginx/error.log        //指定错误日志</span><br><span class="line">--lock-path=/var/lock/nginx.lock                 //指定lock文件</span><br><span class="line">--pid-path=/run/nginx.pid                        //指定pid文件</span><br><span class="line"></span><br><span class="line">--http-client-body-temp-path=/var/lib/nginx/body    //设定http客户端请求临时文件路径</span><br><span class="line">--http-fastcgi-temp-path=/var/lib/nginx/fastcgi     //设定http fastcgi临时文件路径</span><br><span class="line">--http-proxy-temp-path=/var/lib/nginx/proxy         //设定http代理临时文件路径</span><br><span class="line">--http-scgi-temp-path=/var/lib/nginx/scgi           //设定http scgi临时文件路径</span><br><span class="line">--http-uwsgi-temp-path=/var/lib/nginx/uwsgi         //设定http uwsgi临时文件路径</span><br><span class="line"></span><br><span class="line">--with-debug                                        //启用debug日志</span><br><span class="line">--with-pcre-jit                                     //编译PCRE包含“just-in-time compilation”</span><br><span class="line">--with-ipv6                                         //启用ipv6支持</span><br><span class="line">--with-http_ssl_module                              //启用ssl支持</span><br><span class="line">--with-http_stub_status_module                      //获取nginx自上次启动以来的状态</span><br><span class="line">--with-http_realip_module                 //允许从请求标头更改客户端的IP地址值，默认为关</span><br><span class="line">--with-http_auth_request_module           //实现基于一个子请求的结果的客户端授权。如果该子请求返回的2xx响应代码，所述接入是允许的。如果它返回401或403中，访问被拒绝与相应的错误代码。由子请求返回的任何其他响应代码被认为是一个错误。</span><br><span class="line">--with-http_addition_module               //作为一个输出过滤器，支持不完全缓冲，分部分响应请求</span><br><span class="line">--with-http_dav_module                    //增加PUT,DELETE,MKCOL：创建集合,COPY和MOVE方法 默认关闭，需编译开启</span><br><span class="line">--with-http_geoip_module                  //使用预编译的MaxMind数据库解析客户端IP地址，得到变量值</span><br><span class="line">--with-http_gunzip_module                 //它为不支持“gzip”编码方法的客户端解压具有“Content-Encoding: gzip”头的响应。</span><br><span class="line">--with-http_gzip_static_module            //在线实时压缩输出数据流</span><br><span class="line">--with-http_image_filter_module           //传输JPEG/GIF/PNG 图片的一个过滤器）（默认为不启用。gd库要用到）</span><br><span class="line">--with-http_spdy_module                   //SPDY可以缩短网页的加载时间</span><br><span class="line">--with-http_sub_module                    //允许用一些其他文本替换nginx响应中的一些文本</span><br><span class="line">--with-http_xslt_module                   //过滤转换XML请求</span><br><span class="line">--with-mail                               //启用POP3/IMAP4/SMTP代理模块支持</span><br><span class="line">--with-mail_ssl_module                    //启用ngx_mail_ssl_module支持启用外部模块支持</span><br></pre></td></tr></table></figure>
+
+<h5 id="8、修改配置文件-etc-nginx-nginx-conf"><a href="#8、修改配置文件-etc-nginx-nginx-conf" class="headerlink" title="8、修改配置文件/etc/nginx/nginx.conf"></a>8、修改配置文件/etc/nginx/nginx.conf</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 全局参数设置 </span></span><br><span class="line">worker_processes  1;          #设置nginx启动进程的数量，一般设置成与逻辑cpu数量相同 </span><br><span class="line">error_log  logs/error.log;    #指定错误日志 </span><br><span class="line">worker_rlimit_nofile 102400;  #设置一个nginx进程能打开的最大文件数 </span><br><span class="line">pid        /var/run/nginx.pid; </span><br><span class="line">events &#123; </span><br><span class="line">    worker_connections  1024; #设置一个进程的最大并发连接数 </span><br><span class="line">&#125; </span><br><span class="line"><span class="meta">#</span><span class="bash"> http 服务相关设置 </span></span><br><span class="line">http &#123; </span><br><span class="line">    include      mime.types; </span><br><span class="line">    default_type  application/octet-stream; </span><br><span class="line">    log_format  main  'remote_addr - remote_user [time_local] "request" '</span><br><span class="line">                      'status body_bytes_sent "$http_referer" '</span><br><span class="line">                      '"http_user_agent" "http_x_forwarded_for"'; </span><br><span class="line">    access_log  /var/log/nginx/access.log  main;    #设置访问日志的位置和格式 </span><br><span class="line">    sendfile          on; #是否调用sendfile函数输出文件，一般设置为on，若nginx是用来进行磁盘IO负载应用时，可以设置为off，降低系统负载 </span><br><span class="line">    gzip              on;      #是否开启gzip压缩 </span><br><span class="line">    keepalive_timeout  65;     #设置长连接的超时时间 </span><br><span class="line"><span class="meta">#</span><span class="bash"> 虚拟服务器的相关设置 </span></span><br><span class="line">    server &#123; </span><br><span class="line">        listen      80;        #设置监听的端口 </span><br><span class="line">        server_name  localhost;        #设置绑定的主机名、域名或ip地址 </span><br><span class="line">        charset koi8-r;        # 设置编码字符 </span><br><span class="line">        location / &#123; </span><br><span class="line">            root  /var/www/nginx;           #设置服务器默认网站的根目录位置 </span><br><span class="line">            index  index.html index.htm;    #设置默认打开的文档 </span><br><span class="line">            &#125; </span><br><span class="line">        error_page  500 502 503 504  /50x.html; #设置错误信息返回页面 </span><br><span class="line">        location = /50x.html &#123; </span><br><span class="line">            root  html;        #这里的绝对位置是/var/www/nginx/html </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="9、检测-nginx-配置文件是否正确"><a href="#9、检测-nginx-配置文件是否正确" class="headerlink" title="9、检测 nginx 配置文件是否正确"></a>9、检测 nginx 配置文件是否正确</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#/usr/local/nginx/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+
+<h5 id="10、启动nginx服务"><a href="#10、启动nginx服务" class="headerlink" title="10、启动nginx服务"></a>10、启动nginx服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx</span><br></pre></td></tr></table></figure>
+
+<h5 id="11、通过-nginx-命令控制-nginx-服务"><a href="#11、通过-nginx-命令控制-nginx-服务" class="headerlink" title="11、通过 nginx 命令控制 nginx 服务"></a>11、通过 nginx 命令控制 nginx 服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nginx -c /path/to/nginx.conf  	 # 以特定目录下的配置文件启动nginx:</span><br><span class="line">nginx -s reload            	 	 # 修改配置后重新加载生效</span><br><span class="line">nginx -s reopen   			 	 # 重新打开日志文件</span><br><span class="line">nginx -s stop  				 	 # 快速停止nginx</span><br><span class="line">nginx -s quit  				  	 # 完整有序的停止nginx</span><br><span class="line">nginx -t    					 # 测试当前配置文件是否正确</span><br><span class="line">nginx -t -c /path/to/nginx.conf  # 测试特定的nginx配置文件是否正确</span><br></pre></td></tr></table></figure>
+
+<h5 id="12、实现nginx开机自启"><a href="#12、实现nginx开机自启" class="headerlink" title="12、实现nginx开机自启"></a>12、实现nginx开机自启</h5><p> a、添加启动脚本  vim /etc/init.d/nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> nginx - this script starts and stops the nginx daemon </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chkconfig:  - 85 15  </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> description:  Nginx is an HTTP(S) server, HTTP(S) reverse \ </span></span><br><span class="line"><span class="meta">#</span><span class="bash">              proxy and IMAP/POP3 proxy server </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> processname: nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/nginx/nginx.conf </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> config:      /etc/sysconfig/nginx </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> pidfile:    /var/run/nginx.pid </span></span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source <span class="keyword">function</span> library. </span></span><br><span class="line">. /etc/rc.d/init.d/functions</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Source networking configuration. </span></span><br><span class="line">. /etc/sysconfig/network</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> Check that networking is up. </span></span><br><span class="line">[ "$NETWORKING" = "no" ] &amp;&amp; exit 0 </span><br><span class="line">  </span><br><span class="line">nginx="/usr/sbin/nginx"</span><br><span class="line">prog=$(basename $nginx) </span><br><span class="line">  </span><br><span class="line">NGINX_CONF_FILE="/etc/nginx/nginx.conf"</span><br><span class="line">  </span><br><span class="line">[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx</span><br><span class="line">  </span><br><span class="line">lockfile=/var/lock/subsys/nginx</span><br><span class="line">  </span><br><span class="line">make_dirs() &#123; </span><br><span class="line"><span class="meta">  #</span><span class="bash"> make required directories </span></span><br><span class="line">  user=`nginx -V 2&gt;&amp;1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -` </span><br><span class="line">  options=`$nginx -V 2&gt;&amp;1 | grep 'configure arguments:'` </span><br><span class="line">  for opt in $options; do</span><br><span class="line">      if [ `echo $opt | grep '.*-temp-path'` ]; then</span><br><span class="line">          value=`echo $opt | cut -d "=" -f 2` </span><br><span class="line">          if [ ! -d "$value" ]; then</span><br><span class="line">              # echo "creating" $value </span><br><span class="line">              mkdir -p $value &amp;&amp; chown -R $user $value </span><br><span class="line">          fi</span><br><span class="line">      fi</span><br><span class="line">  done</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">start() &#123; </span><br><span class="line">    [ -x $nginx ] || exit 5 </span><br><span class="line">    [ -f $NGINX_CONF_FILE ] || exit 6 </span><br><span class="line">    make_dirs </span><br><span class="line">    echo -n $"Starting $prog: "</span><br><span class="line">    daemon $nginx -c $NGINX_CONF_FILE </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">stop() &#123; </span><br><span class="line">    echo -n $"Stopping $prog: "</span><br><span class="line">    killproc $prog -QUIT </span><br><span class="line">    retval=$? </span><br><span class="line">    echo</span><br><span class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile </span><br><span class="line">    return $retval </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">restart() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    stop </span><br><span class="line">    sleep 1 </span><br><span class="line">    start </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">reload() &#123; </span><br><span class="line">    configtest || return $? </span><br><span class="line">    echo -n $"Reloading $prog: "</span><br><span class="line">    killproc $nginx -HUP </span><br><span class="line">    RETVAL=$? </span><br><span class="line">    echo</span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">force_reload() &#123; </span><br><span class="line">    restart </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">configtest() &#123; </span><br><span class="line"><span class="meta">  $</span><span class="bash">nginx -t -c <span class="variable">$NGINX_CONF_FILE</span> </span></span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status() &#123; </span><br><span class="line">    status $prog </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">rh_status_q() &#123; </span><br><span class="line">    rh_status &gt;/dev/null 2&gt;&amp;1 </span><br><span class="line">&#125; </span><br><span class="line">  </span><br><span class="line">case "$1" in</span><br><span class="line">    start) </span><br><span class="line">        rh_status_q &amp;&amp; exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    stop) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    restart|configtest) </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    reload) </span><br><span class="line">        rh_status_q || exit 7 </span><br><span class="line">        $1 </span><br><span class="line">        ;; </span><br><span class="line">    force-reload) </span><br><span class="line">        force_reload </span><br><span class="line">        ;; </span><br><span class="line">    status) </span><br><span class="line">        rh_status </span><br><span class="line">        ;; </span><br><span class="line">    condrestart|try-restart) </span><br><span class="line">        rh_status_q || exit 0 </span><br><span class="line">            ;; </span><br><span class="line">    *) </span><br><span class="line">        echo $"Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest&#125;"</span><br><span class="line">        exit 2 </span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+
+<p>b、添加权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/nginx</span><br></pre></td></tr></table></figure>
+
+<p>c、重载系统启动文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<p>d、设置开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p>10、nginx 日志文件详解</p>
+<p>​    nginx 日志文件分为 <strong>log_format</strong> 和 <strong>access_log</strong> 两部分</p>
+<p>​    log_format 定义记录的格式，其语法格式为</p>
+<p>​    log_format        样式名称        样式详情</p>
+<p>​    配置文件中默认有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &#39;remote_addr - remote_user [time_local] &quot;request&quot; &#39;</span><br><span class="line">                  &#39;status body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                  &#39;&quot;http_user_agent&quot; &quot;http_x_forwarded_for&quot;&#39;;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>点击这里</th>
+<th>点击这里</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>变量</td>
+<td>说明</td>
+</tr>
+<tr>
+<td>$remote_addr和$http_x_forwarded_for</td>
+<td>客户端的ip</td>
+</tr>
+<tr>
+<td>$remote_user</td>
+<td>客户端的名称</td>
+</tr>
+<tr>
+<td>$time_local</td>
+<td>访问时的本地时间</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的URL和http协议</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>访问的状态码</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端的主体内容大小</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>记录客户端是从哪个页面链接访问过来的，若没有链接，则访问‘-’</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>记录客户端使用的浏览器的相关信息</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.com/2019/03/27/linux/nginx/nginx-bian-yi-an-zhuang/">https://cyylog.github.com/2019/03/27/linux/nginx/nginx-bian-yi-an-zhuang/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Nginx/">
+                                    <span class="chip bg-color">Nginx</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="RabbitMQ消息中间件">
+                        
+                        <span class="card-title">RabbitMQ消息中间件</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+RabbitMQ 消息中间件1、消息中间件1、简介消息中间件也可以称消息队列，是指用高效可靠的消息传递机制进行与平台无关的数据交流，并基于数据通信来进行分布式系统的集成。通过提供消息传递和消息队列模型，可以在分布式环境下扩展进程的通信。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-04-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/RabbitMQ/">
+                        <span class="chip bg-color">RabbitMQ</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/28/linux/iptables-bi-ji/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="iptables笔记">
+                        
+                        <span class="card-title">iptables笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+防火墙之 iptables1.1 安全优化配置原则尽可能不给服务器配置外网ip ,可以通过代理转发或者通过防火墙映射.并发不是特别大情况有外网ip,可以开启防火墙服务.
+大并发的情况，不能开iptables,影响性能，利用硬件防火墙提升
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iptables/">
+                        <span class="chip bg-color">iptables</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

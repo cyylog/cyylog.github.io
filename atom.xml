@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Cyylog</title>
+  
+  <subtitle>有些人是山川是河流，唯独不是可停泊的港口</subtitle>
+  <link href="https://cyylog.github.com/atom.xml" rel="self"/>
+  
+  <link href="https://cyylog.github.com/"/>
+  <updated>2020-09-23T17:05:26.667Z</updated>
+  <id>https://cyylog.github.com/</id>
+  
+  <author>
+    <name>Cyylog</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>gitlab-ci 入门</title>
+    <link href="https://cyylog.github.com/2020/09/20/devops/gitlab-ci-ru-men/"/>
+    <id>https://cyylog.github.com/2020/09/20/devops/gitlab-ci-ru-men/</id>
+    <published>2020-09-20T15:30:39.000Z</published>
+    <updated>2020-09-23T17:05:26.667Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;gitlab-ci入门&quot;&gt;&lt;a href=&quot;#gitlab-ci入门&quot; class=&quot;headerlink&quot; title=&quot;gitlab-ci入门&quot;&gt;&lt;/a&gt;gitlab-ci入门&lt;/h4&gt;&lt;h6 id=&quot;示范：&quot;&gt;&lt;a href=&quot;#示范：&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Gitlab" scheme="https://cyylog.github.com/tags/Gitlab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搭建 NFS 服务</title>
+    <link href="https://cyylog.github.com/2020/09/16/linux/bu-shu-nfs-fu-wu/"/>
+    <id>https://cyylog.github.com/2020/09/16/linux/bu-shu-nfs-fu-wu/</id>
+    <published>2020-09-15T17:55:39.000Z</published>
+    <updated>2020-09-18T06:54:46.557Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;目的：部署 NFS 服务进行跨主机文件共享&lt;/p&gt;
+&lt;p&gt;Network File System&lt;br&gt;      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。&lt;/p&gt;
+&lt;h3 id=&quot;1、环境准备&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.com/categories/Linux/"/>
+    
+    
+    <category term="NFS" scheme="https://cyylog.github.com/tags/NFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes组件—介绍002</title>
+    <link href="https://cyylog.github.com/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/"/>
+    <id>https://cyylog.github.com/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/</id>
+    <published>2020-09-15T11:57:00.000Z</published>
+    <updated>2020-09-16T13:11:59.236Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;本文档描述了 Kubernetes 的组件。&lt;/p&gt;
+&lt;h5 id=&quot;Namespace&quot;&gt;&lt;a href=&quot;#Namespace&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.com/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.com/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[xshell突出显示集]</title>
+    <link href="https://cyylog.github.com/2020/09/04/xshell-tu-chu-xian-shi-ji/"/>
+    <id>https://cyylog.github.com/2020/09/04/xshell-tu-chu-xian-shi-ji/</id>
+    <published>2020-09-04T01:51:31.137Z</published>
+    <updated>2020-09-04T01:52:11.327Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;xshell突出显示集&quot;&gt;&lt;a href=&quot;#xshell突出显示集&quot; class=&quot;headerlink&quot; title=&quot;[xshell突出显示集]&quot;&gt;&lt;/a&gt;[xshell突出显示集]&lt;/h1&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>分布式见解--undone</title>
+    <link href="https://cyylog.github.com/2020/08/22/interview/fen-bu-shi-jian-jie/"/>
+    <id>https://cyylog.github.com/2020/08/22/interview/fen-bu-shi-jian-jie/</id>
+    <published>2020-08-21T17:55:39.000Z</published>
+    <updated>2020-09-14T02:48:30.548Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;三大-协议&quot;&gt;&lt;a href=&quot;#三大-协议&quot; class=&quot;headerlink&quot; title=&quot;三大 协议&quot;&gt;&lt;/a&gt;三大 协议&lt;/h4&gt;&lt;p&gt;raft zab gossip&lt;/p&gt;
+&lt;p&gt;raft是etcd用的.   </summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.com/categories/Interview/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.com/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview System_001--undone</title>
+    <link href="https://cyylog.github.com/2020/08/15/interview/interview-system-001/"/>
+    <id>https://cyylog.github.com/2020/08/15/interview/interview-system-001/</id>
+    <published>2020-08-15T14:09:12.831Z</published>
+    <updated>2020-09-14T02:48:25.656Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.com/categories/Interview/"/>
+    
+    
+    <category term="System" scheme="https://cyylog.github.com/tags/System/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview Network_001--undone</title>
+    <link href="https://cyylog.github.com/2020/08/15/interview/interview-network-001/"/>
+    <id>https://cyylog.github.com/2020/08/15/interview/interview-network-001/</id>
+    <published>2020-08-15T14:05:23.519Z</published>
+    <updated>2020-09-14T02:48:21.810Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;网络&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;http的3次握手&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.com/categories/Interview/"/>
+    
+    
+    <category term="Network" scheme="https://cyylog.github.com/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview Go_001--undone</title>
+    <link href="https://cyylog.github.com/2020/08/15/interview/interview-go-001/"/>
+    <id>https://cyylog.github.com/2020/08/15/interview/interview-go-001/</id>
+    <published>2020-08-15T14:02:17.872Z</published>
+    <updated>2020-09-14T02:49:25.489Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;go：&quot;&gt;&lt;a href=&quot;#go：&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.com/categories/Interview/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.com/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview MySQL_001--undone</title>
+    <link href="https://cyylog.github.com/2020/08/15/interview/interview-mysql-001/"/>
+    <id>https://cyylog.github.com/2020/08/15/interview/interview-mysql-001/</id>
+    <published>2020-08-15T13:54:15.126Z</published>
+    <updated>2020-09-14T02:48:17.214Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+
+
+&lt;p&gt;mysql：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;mysql事务的隔离级别&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.com/categories/Interview/"/>
+    
+    
+    <category term="MySQL" scheme="https://cyylog.github.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql 游标</title>
+    <link href="https://cyylog.github.com/2020/07/16/sql/mysql-you-biao/"/>
+    <id>https://cyylog.github.com/2020/07/16/sql/mysql-you-biao/</id>
+    <published>2020-07-16T03:54:04.000Z</published>
+    <updated>2020-08-15T13:54:34.922Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;mysql游标的用法及作用&quot;&gt;&lt;a href=&quot;#mysql游标的用法及作用&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="SQL" scheme="https://cyylog.github.com/categories/SQL/"/>
+    
+    
+    <category term="MySQL" scheme="https://cyylog.github.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Prometheus学习笔记_01</title>
+    <link href="https://cyylog.github.com/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/"/>
+    <id>https://cyylog.github.com/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/</id>
+    <published>2020-06-17T16:48:56.000Z</published>
+    <updated>2020-06-17T16:53:18.893Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Prometheus-监控&quot;&gt;&lt;a href=&quot;#Prometheus-监控&quot; class=&quot;headerlink&quot; title=&quot;Prometheus 监控&quot;&gt;&lt;/a&gt;Prometheus 监控&lt;/h1&gt;&lt;h2 id=&quot;一、介绍&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.com/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="Prometheus" scheme="https://cyylog.github.com/tags/Prometheus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python之fabric模块</title>
+    <link href="https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
+    <id>https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-05-31T08:24:59.471Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Python" scheme="https://cyylog.github.com/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue之入门篇_001</title>
+    <link href="https://cyylog.github.com/2020/05/31/devops/vue-ru-men-zhi-001/"/>
+    <id>https://cyylog.github.com/2020/05/31/devops/vue-ru-men-zhi-001/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-09-14T06:34:03.579Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;文档&quot;&gt;&lt;a href=&quot;#文档&quot; class=&quot;headerlink&quot; title=&quot;文档&quot;&gt;&lt;/a&gt;文档&lt;/h5&gt;&lt;p&gt;&lt;a href=&quot;https://cli.vuejs.org/zh/&quot; target=&quot;_blank&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Vue" scheme="https://cyylog.github.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计划任务及日志管理</title>
+    <link href="https://cyylog.github.com/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/"/>
+    <id>https://cyylog.github.com/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/</id>
+    <published>2020-05-30T15:33:41.000Z</published>
+    <updated>2020-05-30T15:34:52.084Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;循环调度执行cron&quot;&gt;&lt;a href=&quot;#循环调度执行cron&quot; class=&quot;headerlink&quot; title=&quot;循环调度执行cron&quot;&gt;&lt;/a&gt;循环调度执行cron&lt;/h4&gt;&lt;h5 id=&quot;1-1简介cron&quot;&gt;&lt;a href=&quot;#1-1简介cron&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.com/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins_流水线语法_002</title>
+    <link href="https://cyylog.github.com/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/"/>
+    <id>https://cyylog.github.com/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</id>
+    <published>2020-05-30T04:43:37.000Z</published>
+    <updated>2020-05-30T13:56:43.585Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;参数&quot;&gt;&lt;a href=&quot;#参数&quot; class=&quot;headerlink&quot; title=&quot;参数&quot;&gt;&lt;/a&gt;参数&lt;/h4&gt;&lt;p&gt;&lt;code&gt;parameters&lt;/code&gt; 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Jenkins" scheme="https://cyylog.github.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins_流水线语法_001</title>
+    <link href="https://cyylog.github.com/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/"/>
+    <id>https://cyylog.github.com/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/</id>
+    <published>2020-05-28T13:43:32.000Z</published>
+    <updated>2020-05-30T13:54:45.129Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;流水线语法&quot;&gt;&lt;a href=&quot;#流水线语法&quot; class=&quot;headerlink&quot; title=&quot;流水线语法&quot;&gt;&lt;/a&gt;流水线语法&lt;/h4&gt;&lt;p&gt;本节是建立在 &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Jenkins" scheme="https://cyylog.github.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes组件—介绍001</title>
+    <link href="https://cyylog.github.com/2020/04/04/rong-qi/kubernetes-zu-jian-jie-shao-001/"/>
+    <id>https://cyylog.github.com/2020/04/04/rong-qi/kubernetes-zu-jian-jie-shao-001/</id>
+    <published>2020-04-04T11:57:00.000Z</published>
+    <updated>2020-09-16T06:01:52.488Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+
+&lt;p&gt;本文档描述了 Kubernetes 的主要组件。&lt;/p&gt;
+&lt;h2 id=&quot;Master组件&quot;&gt;&lt;a href=&quot;#Master组件&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.com/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.com/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tomcat__05_JVM_排障工具</title>
+    <link href="https://cyylog.github.com/2020/04/02/linux/tomcat/tomcat-05/"/>
+    <id>https://cyylog.github.com/2020/04/02/linux/tomcat/tomcat-05/</id>
+    <published>2020-04-01T16:36:51.000Z</published>
+    <updated>2020-05-25T13:58:25.372Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h3 id=&quot;JVM-运维实用排障工具&quot;&gt;&lt;a href=&quot;#JVM-运维实用排障工具&quot; class=&quot;headerlink&quot; title=&quot;JVM 运维实用排障工具&quot;&gt;&lt;/a&gt;JVM 运维实用排障工具&lt;/h3&gt;&lt;h4</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.com/categories/Linux/"/>
+    
+    
+    <category term="Tomcat" scheme="https://cyylog.github.com/tags/Tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tomcat_04_安全优化</title>
+    <link href="https://cyylog.github.com/2020/03/30/linux/tomcat/tomcat-04/"/>
+    <id>https://cyylog.github.com/2020/03/30/linux/tomcat/tomcat-04/</id>
+    <published>2020-03-29T16:36:31.000Z</published>
+    <updated>2020-05-25T13:58:16.512Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;10、Tomcat安全优化&quot;&gt;&lt;a href=&quot;#10、Tomcat安全优化&quot; class=&quot;headerlink&quot; title=&quot;10、Tomcat安全优化&quot;&gt;&lt;/a&gt;10、Tomcat安全优化&lt;/h4&gt;&lt;h5</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.com/categories/Linux/"/>
+    
+    
+    <category term="Tomcat" scheme="https://cyylog.github.com/tags/Tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes常用命令</title>
+    <link href="https://cyylog.github.com/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/"/>
+    <id>https://cyylog.github.com/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/</id>
+    <published>2020-03-28T17:21:16.000Z</published>
+    <updated>2020-05-25T13:43:46.812Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;常用命令&quot;&gt;&lt;a href=&quot;#常用命令&quot; class=&quot;headerlink&quot; title=&quot;常用命令&quot;&gt;&lt;/a&gt;常用命令&lt;/h4&gt;&lt;h5 id=&quot;Kubernetes-Cheat-Sheet&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.com/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.com/tags/Kubernetes/"/>
+    
+  </entry>
+  
+</feed>

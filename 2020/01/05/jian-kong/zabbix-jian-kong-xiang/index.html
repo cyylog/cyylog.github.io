@@ -1,0 +1,1197 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="zabbix 监控项, Cyylog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>zabbix 监控项 | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">zabbix 监控项</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/zabbix/">
+                                <span class="chip bg-color">zabbix</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                监控
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-01-05
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <a id="more"></a>
+
+<ul>
+<li><img src="https://sf3-ttcdn-tos.pstatp.com/img/user-avatar/e6b34034d49299efa443ddeafa9643a9~120x256.image" alt="img"> </li>
+</ul>
+<h1 id="Zabbix-监控"><a href="#Zabbix-监控" class="headerlink" title="Zabbix 监控"></a>Zabbix 监控</h1><p>cyylog 2020-04-07 22:08:29</p>
+<h1 id="Zabbix监控什么？"><a href="#Zabbix监控什么？" class="headerlink" title="Zabbix监控什么？"></a>Zabbix监控什么？</h1><p><img src="http://p1.pstatp.com/large/pgc-image/1ee9df63b32b4108a8537cc27eb9252b" alt="Zabbix 监控"></p>
+<p>监控项</p>
+<h1 id="Zabbix常用监控项"><a href="#Zabbix常用监控项" class="headerlink" title="Zabbix常用监控项"></a>Zabbix常用监控项</h1><p><strong>zabbix自带的常用监控项</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">agent.ping 检测客户端可达性、返回nothing表示不可达。1表示可达</span><br><span class="line">system.cpu.load --检测cpu负载。返回浮点数</span><br><span class="line">system.cpu.util -- 检测cpu使用率。返回浮点数</span><br><span class="line">vfs.dev.read -- 检测硬盘读取数据，返回是sps.ops.bps浮点类型，需要定义1024倍</span><br><span class="line">vfs.dev.write -- 检测硬盘写入数据。返回是sps.ops.bps浮点类型，需要定义1024倍</span><br><span class="line">net.if.out[br0] --检测网卡流速、流出方向，时间间隔为60S</span><br><span class="line">net-if-in[br0] --检测网卡流速，流入方向（单位：字节） 时间间隔60S</span><br><span class="line">proc.num[]  目前系统中的进程总数，时间间隔60s</span><br><span class="line">proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</span><br></pre></td></tr></table></figure>
+
+<h4 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">通过zabbix_get 获取负载值</span><br><span class="line">合理的控制用户态、系统态、IO等待时间剋保证进程高效率的运行</span><br><span class="line">系统态运行时间较高说明进程进行系统调用的次数比较多，一般的程序如果系统态运行时间占用过高就需要优化程序，减少系统调用</span><br><span class="line">io等待时间过高则表明硬盘的io性能差，如果是读写文件比较频繁、读写效率要求比较高，可以考虑更换硬盘，或者使用多磁盘做raid的方案</span><br><span class="line">system.cpu.swtiches --cpu的进程上下文切换，单位sps，表示每秒采样次数，api中参数history需指定为3</span><br><span class="line">system.cpu.intr  --cpu中断数量、api中参数history需指定为3</span><br><span class="line">system.cpu.load[percpu,avg1]  --cpu每分钟的负载值，按照核数做平均值(Processor load (1 min average per core))，api中参数history需指定为0</span><br><span class="line">system.cpu.load[percpu,avg5]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (5 min average per core))，api中参数history需指定为0</span><br><span class="line">system.cpu.load[percpu,avg15]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (15 min average per core))，api中参数history需指定为0</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="zabbix的自定义常用项"><a href="#zabbix的自定义常用项" class="headerlink" title="zabbix的自定义常用项"></a>zabbix的自定义常用项</h4><h5 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;catcarm.conf</span><br><span class="line">UserParameter&#x3D;ram.info[*],&#x2F;bin&#x2F;cat  &#x2F;proc&#x2F;meminfo  |awk &#39;&#x2F;^$1:&#123;print $2&#125;&#39;</span><br><span class="line">ram.info[Cached] --检测内存的缓存使用量、返回整数，需要定义1024倍</span><br><span class="line">ram.info[MemFree] --检测内存的空余量，返回整数，需要定义1024倍</span><br><span class="line">ram.info[Buffers] --检测内存的使用量，返回整数，需要定义1024倍</span><br></pre></td></tr></table></figure>
+
+<h5 id="TCP相关的自定义项"><a href="#TCP相关的自定义项" class="headerlink" title="TCP相关的自定义项"></a>TCP相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;share&#x2F;zabbix&#x2F;alertscripts&#x2F;tcp_connection.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">function ESTAB &#123; </span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant |awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;ESTAB&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">function TIMEWAIT &#123;</span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant | awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;TIME-WAIT&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">function LISTEN &#123;</span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant | awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;LISTEN&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">$1</span><br><span class="line"></span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;cattcp.conf</span><br><span class="line">UserParameter&#x3D;tcp[*],&#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;share&#x2F;zabbix&#x2F;alertscripts&#x2F;tcp_connection.sh $1</span><br><span class="line"></span><br><span class="line">tcp[TIMEWAIT] --检测TCP的驻留数，返回整数</span><br><span class="line">tcp[ESTAB]  --检测tcp的连接数、返回整数</span><br><span class="line">tcp[LISTEN] --检测TCP的监听数，返回整数</span><br></pre></td></tr></table></figure>
+
+<h5 id="nginx相关的自定义项"><a href="#nginx相关的自定义项" class="headerlink" title="nginx相关的自定义项"></a>nginx相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf</span><br><span class="line">    location &#x2F;nginx-status</span><br><span class="line">    &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">        allow 127.0.0.1;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;nginx.conf</span><br><span class="line">UserParameter&#x3D;Nginx.active,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;Active&#x2F; &#123;print $NF&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.read,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Reading&#39; | cut -d&quot; &quot; -f2</span><br><span class="line">UserParameter&#x3D;Nginx.wrie,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Writing&#39; | cut -d&quot; &quot; -f4</span><br><span class="line">UserParameter&#x3D;Nginx.wait,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Waiting&#39; | cut -d&quot; &quot; -f6</span><br><span class="line">UserParameter&#x3D;Nginx.accepted,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $1&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.handled,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.requests,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $3&#125;&#39;</span><br><span class="line"></span><br><span class="line">PHP.listenqueue --检测PHP队列数，返回整数</span><br><span class="line">PHP.idle --检测PHP空闲进程数，返回整数</span><br><span class="line">PHP.active --检测PHP活动进程数，返回整数</span><br><span class="line">PHP.conn --检测PHP请求数,返回整数</span><br><span class="line">PHP.reached --检测PHP达到限制次数，返回整数</span><br><span class="line">PHP.requets --检测PHP慢请求书，返回整数</span><br></pre></td></tr></table></figure>
+
+<h5 id="redis相关的自定义项"><a href="#redis相关的自定义项" class="headerlink" title="redis相关的自定义项"></a>redis相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;redis.conf</span><br><span class="line">UserParameter&#x3D;Redis.Status,&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h 127.0.0.1 -p 6379 ping |grep -c PONG</span><br><span class="line">UserParameter&#x3D;Redis_conn[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;connected_clients&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_rss_mem[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_rss&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_lua_mem[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_lua&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_sys[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_user[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_sys_cline[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys_children&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_user_cline[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user_children&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_keys_num[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;$$1&quot; | grep -w &quot;keys&quot; | grep db$3 | awk -F&#39;&#x3D;&#39; &#39;&#123;print $2&#125;&#39; | awk -F&#39;,&#39; &#39;&#123;print $1&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_loading[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep loading | awk -F&#39;:&#39; &#39;&#123;print $$2&#125;&#39;</span><br><span class="line"></span><br><span class="line">Redis.Status --检测Redis运行状态， 返回整数</span><br><span class="line">Redis_conn  --检测Redis成功连接数，返回整数</span><br><span class="line">Redis_rss_mem  --检测Redis系统分配内存，返回整数</span><br><span class="line">Redis_lua_mem  --检测Redis引擎消耗内存，返回整数</span><br><span class="line">Redis_cpu_sys --检测Redis主程序核心CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_user --检测Redis主程序用户CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_sys_cline --检测Redis后台核心CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_user_cline --检测Redis后台用户CPU消耗率，返回整数</span><br><span class="line">Redis_keys_num --检测库键值数，返回整数</span><br><span class="line">Redis_loding --检测Redis持久化文件状态，返回整数</span><br></pre></td></tr></table></figure>
+
+<h5 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL:"></a>MySQL:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">version:数据库版本</span><br><span class="line">key_buffer_size:myisam的索引buffer大小</span><br><span class="line">sort_buffer_size:会话的排序空间（每个线程会申请一个）</span><br><span class="line">join_buffer_size:这是为链接操作分配的最小缓存大小，这些连接使用普通索引扫描、范围扫描、或者连接不适用索引</span><br><span class="line">max_connections:最大允许同时连接的数量</span><br><span class="line">max_connect_errors：允许一个主机最多的错误链接次数，如果超过了就会拒绝之后链接（默认100）。可以使用flush hosts命令去解除拒绝</span><br><span class="line">open_files_limits:操作系统允许mysql打开的文件数量，可以通过opened_tables状态确定是否需要增大table_open_cache,如果opened_tables比较大且一直还在增大说明需要增大table_open_cache</span><br><span class="line">max-heap_tables_size:建立的内存表的最大大小（默认16M）这个参数和tmp_table_size一起限制内部临时表的最大值(取这两个参数的小的一个），如果超过限制，则表会变为innodb或myisam引擎，（5.7.5之前是默认是myisam，5.7.6开始是innodb，可以通过internal_tmp_disk_storage_engine参数调整）。</span><br><span class="line">max_allowed_packet:一个包的最大大小</span><br><span class="line">##########GET INNODB INFO</span><br><span class="line">#INNODB variables</span><br><span class="line">innodb_version:</span><br><span class="line">innodb_buffer_pool_instances：将innodb缓冲池分为指定的多个（默认为1）</span><br><span class="line">innodb_buffer_pool_size:innodb缓冲池大小、5.7.5引入了innodb_buffer_pool_chunk_size,</span><br><span class="line">innodb_doublewrite：是否开启doublewrite（默认开启）</span><br><span class="line">innodb_read_io_threads:IO读线程的数量</span><br><span class="line">innodb_write_io_threads:IO写线程的数量</span><br><span class="line">########innodb status</span><br><span class="line">innodb_buffer_pool_pages_total:innodb缓冲池页的数量、大小等于innodb_buffer_pool_size&#x2F;(16*1024)</span><br><span class="line">innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量</span><br><span class="line">########## GET MYSQL HITRATE</span><br><span class="line">1、查询缓存命中率</span><br><span class="line">如果Qcache_hits+Com_select&lt;&gt;0则为 Qcache_hits&#x2F;（Qcache_hits+Com_select），否则为0</span><br><span class="line"></span><br><span class="line">2、线程缓存命中率</span><br><span class="line">如果Connections&lt;&gt;0,则为1-Threads_created&#x2F;Connections，否则为0</span><br><span class="line"></span><br><span class="line">3、myisam键缓存命中率</span><br><span class="line">如果Key_read_requests&lt;&gt;0,则为1-Key_reads&#x2F;Key_read_requests，否则为0</span><br><span class="line"></span><br><span class="line">4、myisam键缓存写命中率</span><br><span class="line">如果Key_write_requests&lt;&gt;0,则为1-Key_writes&#x2F;Key_write_requests，否则为0</span><br><span class="line"></span><br><span class="line">5、键块使用率</span><br><span class="line">如果Key_blocks_used+Key_blocks_unused&lt;&gt;0，则Key_blocks_used&#x2F;（Key_blocks_used+Key_blocks_unused），否则为0</span><br><span class="line"></span><br><span class="line">6、创建磁盘存储的临时表比率</span><br><span class="line">如果Created_tmp_disk_tables+Created_tmp_tables&lt;&gt;0,则Created_tmp_disk_tables&#x2F;（Created_tmp_disk_tables+Created_tmp_tables），否则为0</span><br><span class="line"></span><br><span class="line">7、连接使用率</span><br><span class="line">如果max_connections&lt;&gt;0，则threads_connected&#x2F;max_connections，否则为0</span><br><span class="line"></span><br><span class="line">8、打开文件比率</span><br><span class="line">如果open_files_limit&lt;&gt;0，则open_files&#x2F;open_files_limit，否则为0</span><br><span class="line"></span><br><span class="line">9、表缓存使用率</span><br><span class="line">如果table_open_cache&lt;&gt;0，则open_tables&#x2F;table_open_cache，否则为0</span><br></pre></td></tr></table></figure>
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.com/2020/01/05/jian-kong/zabbix-jian-kong-xiang/">https://cyylog.github.com/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/zabbix/">
+                                    <span class="chip bg-color">zabbix</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/01/19/rong-qi/docker-shu-ju-gong-xiang-yu-chi-jiu-hua/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Docker数据共享与持久化">
+                        
+                        <span class="card-title">Docker数据共享与持久化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本文介绍如何在 Docker 内部以及容器之间管理数据，在容器中管理数据主要有两种方式：
+
+
+数据卷（Data Volumes）
+挂载主机目录 (Bind mounts)
+
+数据卷数据卷是一个可供一个或多个容器使用的特殊目录，它绕过UFS，
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-01-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/05/devops/golang/go-study/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Go_学习之Docke容器">
+                        
+                        <span class="card-title">Go_学习之Docke容器</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+mysql容器1234567891011121314151617181920[mysqld]log-error&#x3D;&#x2F;mylog&#x2F;error.logslow_query_log &#x3D; onlong_qu
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,1413 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Jenkins_流水线语法_002, Cyylog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Jenkins_流水线语法_002 | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Jenkins_流水线语法_002</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Jenkins/">
+                                <span class="chip bg-color">Jenkins</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/DevOps/" class="post-category">
+                                DevOps
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-05-30
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p><code>parameters</code> 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过 <code>params</code> 对象提供给流水线步骤, 了解更多请参考<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#parameters-example" target="_blank" rel="noopener">示例</a>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Only once, inside the <code>pipeline</code> block.</td>
+</tr>
+</tbody></table>
+<h5 id="可用参数"><a href="#可用参数" class="headerlink" title="可用参数"></a>可用参数</h5><ul>
+<li><p>string</p>
+<p>字符串类型的参数, 例如: <code>parameters { string(name: &#39;DEPLOY_ENV&#39;, defaultValue: &#39;staging&#39;, description: &#39;&#39;) }</code></p>
+</li>
+<li><p>booleanParam</p>
+<p>布尔参数, 例如: <code>parameters { booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: true, description: &#39;&#39;) }</code></p>
+</li>
+</ul>
+<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    parameters &#123;</span><br><span class="line">        string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello $&#123;params.PERSON&#125;"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>一份完整的可用参数列表正在等待 <a href="https://issues.jenkins-ci.org/browse/INFRA-1053" target="_blank" rel="noopener">INFRA-1503</a>的完成。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h4><p><code>triggers</code> 指令定义了流水线被重新触发的自动化方法。对于集成了源（ 比如 GitHub 或 BitBucket）的流水线, 可能不需要 <code>triggers</code> ，因为基于 web 的集成很肯能已经存在。 当前可用的触发器是 <code>cron</code>, <code>pollSCM</code> 和 <code>upstream</code>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Only once, inside the <code>pipeline</code> block.</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>cron</p>
+<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron(&#39;H */4 * * 1-5&#39;) }</code></p>
+</li>
+<li><p>pollSCM</p>
+<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM(&#39;H */4 * * 1-5&#39;) }</code></p>
+</li>
+<li><p>upstream</p>
+<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: &#39;job1,job2&#39;, threshold: hudson.model.Result.SUCCESS) }</code></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>pollSCM</code> 只在Jenkins 2.22 及以上版本中可用。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    triggers &#123;</span><br><span class="line">        cron(<span class="string">'H */4 * * 1-5'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="stage"><a href="#stage" class="headerlink" title="stage"></a>stage</h4><p><code>stage</code> 指令在 <code>stages</code> 部分进行，应该包含一个 实际上, 流水巷所做的所有实际工作都将封装进一个或多个 <code>stage</code> 指令中。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>At least one</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td>One mandatory parameter, a string for the name of the stage.</td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside the <code>stages</code> section.</td>
+</tr>
+</tbody></table>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><p>定义自动安装和放置 <code>PATH</code> 的工具的一部分。如果 <code>agent none</code> 指定，则忽略该操作。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside the <code>pipeline</code> block or a <code>stage</code> block.</td>
+</tr>
+</tbody></table>
+<h5 id="支持工具"><a href="#支持工具" class="headerlink" title="支持工具"></a>支持工具</h5><ul>
+<li>maven</li>
+<li>jdk</li>
+<li>gradle</li>
+</ul>
+<h5 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    tools &#123;</span><br><span class="line">        maven <span class="string">'apache-maven-3.0.1'</span> </span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">'mvn --version'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>The tool name must be pre-configured in Jenkins under <strong>Manage Jenkins</strong> → <strong>Global Tool Configuration</strong>.</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>工具名称必须在Jenkins中的Manage Jenkins→全局工具配置下预先配置。</td>
+</tr>
+</tbody></table>
+<h4 id="input"><a href="#input" class="headerlink" title="input"></a>input</h4><p><code>stage</code> 的 <code>input</code> 指令允许你使用 <a href="https://jenkins.io/doc/pipeline/steps/pipeline-input-step/#input-wait-for-interactive-input" target="_blank" rel="noopener"><code>input</code> step</a>提示输入。 在应用了 <code>options</code> 后，进入 <code>stage</code> 的 <code>agent</code> 或评估 <code>when</code> 条件前， <code>stage</code> 将暂停。 如果 <code>input</code> 被批准, <code>stage</code> 将会继续。 作为 <code>input</code> 提交的一部分的任何参数都将在环境中用于其他 <code>stage</code>。</p>
+<h5 id="配置项"><a href="#配置项" class="headerlink" title="配置项"></a>配置项</h5><ul>
+<li><p>message</p>
+<p>必需的。 这将在用户提交 <code>input</code> 时呈现给用户。</p>
+</li>
+<li><p>id</p>
+<p><code>input</code> 的可选标识符， 默认为 <code>stage</code> 名称。</p>
+</li>
+<li><p>ok</p>
+<p><code>input</code>表单上的”ok” 按钮的可选文本。</p>
+</li>
+<li><p>submitter</p>
+<p>可选的以逗号分隔的用户列表或允许提交 <code>input</code> 的外部组名。默认允许任何用户。</p>
+</li>
+<li><p>submitterParameter</p>
+<p>环境变量的可选名称。如果存在，用 <code>submitter</code> 名称设置。</p>
+</li>
+<li><p>parameters</p>
+<p>提示提交者提供的一个可选的参数列表。 更多信息参见 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#parameters" target="_blank" rel="noopener">[parameters]</a>。</p>
+</li>
+</ul>
+<h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            input &#123;</span><br><span class="line">                message <span class="string">"Should we continue?"</span></span><br><span class="line">                ok <span class="string">"Yes, we should."</span></span><br><span class="line">                submitter <span class="string">"alice,bob"</span></span><br><span class="line">                parameters &#123;</span><br><span class="line">                    string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello, $&#123;PERSON&#125;, nice to meet you."</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="when"><a href="#when" class="headerlink" title="when"></a>when</h4><p><code>when</code> 指令允许流水线根据给定的条件决定是否应该执行阶段。 <code>when</code> 指令必须包含至少一个条件。 如果 <code>when</code> 指令包含多个条件, 所有的子条件必须返回True，阶段才能执行。 这与子条件在 <code>allOf</code> 条件下嵌套的情况相同 (参见下面的<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#when-example" target="_blank" rel="noopener">示例</a>)。</p>
+<p>使用诸如 <code>not</code>, <code>allOf</code>, 或 <code>anyOf</code> 的嵌套条件可以构建更复杂的条件结构 can be built 嵌套条件刻意潜逃到任意深度。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Required</th>
+<th>No</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Parameters</td>
+<td><em>None</em></td>
+</tr>
+<tr>
+<td align="left">Allowed</td>
+<td>Inside a <code>stage</code> directive</td>
+</tr>
+</tbody></table>
+<h5 id="内置条件"><a href="#内置条件" class="headerlink" title="内置条件"></a>内置条件</h5><ul>
+<li><p>branch</p>
+<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch &#39;master&#39; }</code>。注意，这只适用于多分支流水线。</p>
+</li>
+<li><p>environment</p>
+<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; }</code></p>
+</li>
+<li><p>expression</p>
+<p>当指定的Groovy表达式评估为true时，执行这个阶段, 例如: <code>when { expression { return params.DEBUG_BUILD } }</code></p>
+</li>
+<li><p>not</p>
+<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch &#39;master&#39; } }</code></p>
+</li>
+<li><p>allOf</p>
+<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch &#39;master&#39;; environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; } }</code></p>
+</li>
+<li><p>anyOf</p>
+<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch &#39;master&#39;; branch &#39;staging&#39; } }</code></p>
+</li>
+</ul>
+<h5 id="在进入-stage-的-agent-前评估-when"><a href="#在进入-stage-的-agent-前评估-when" class="headerlink" title="在进入 stage 的 agent 前评估 when"></a>在进入 <code>stage</code> 的 <code>agent</code> 前评估 <code>when</code></h5><p>默认情况下, 如果定义了某个阶段的代理，在进入该<code>stage</code> 的 <code>agent</code> 后该 <code>stage</code> 的 <code>when</code> 条件将会被评估。但是, 可以通过在 <code>when</code> 块中指定 <code>beforeAgent</code> 选项来更改此选项。 如果 <code>beforeAgent</code> 被设置为 <code>true</code>, 那么就会首先对 <code>when</code> 条件进行评估 , 并且只有在 <code>when</code> 条件验证为真时才会进入 <code>agent</code> 。</p>
+<h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                allOf &#123;</span><br><span class="line">                    branch <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                expression &#123; BRANCH_NAME ==~ <span class="regexp">/(production|staging)/</span> &#125;</span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent none</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            agent &#123;</span><br><span class="line">                label <span class="string">"some-label"</span></span><br><span class="line">            &#125;</span><br><span class="line">            when &#123;</span><br><span class="line">                beforeAgent <span class="literal">true</span></span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><p>声明式流水线的阶段可以在他们内部声明多隔嵌套阶段, 它们将并行执行。 注意，一个阶段必须只有一个 <code>steps</code> 或 <code>parallel</code> 的阶段。 嵌套阶段本身不能包含进一步的 <code>parallel</code> 阶段, 但是其他的阶段的行为与任何其他 <code>stage</code> 相同。任何包含 <code>parallel</code> 的阶段不能包含 <code>agent</code> 或 <code>tools</code> 阶段, 因为他们没有相关 <code>steps</code>。</p>
+<p>另外, 通过添加 <code>failFast true</code> 到包含 <code>parallel</code>的 <code>stage</code> 中， 当其中一个进程失败时，你可以强制所有的 <code>parallel</code> 阶段都被终止。</p>
+<h4 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h4><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Non-Parallel Stage'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'This stage will be executed first.'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Parallel Stage'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'master'</span></span><br><span class="line">            &#125;</span><br><span class="line">            failFast <span class="literal">true</span></span><br><span class="line">            parallel &#123;</span><br><span class="line">                stage(<span class="string">'Branch A'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-a"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch A"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                stage(<span class="string">'Branch B'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-b"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch B"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>声明式流水线可能使用在 <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a>中记录的所有可用的步骤, 它包含一个完整的步骤列表, 其中添加了下面列出的步骤，这些步骤只在声明式流水线中 <strong>only supported</strong> 。</p>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p><code>script</code> 步骤需要 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-pipeline" target="_blank" rel="noopener">[scripted-pipeline]</a>块并在声明式流水线中执行。 对于大多数用例来说,应该声明式流水线中的“脚本”步骤是不必要的， 但是它可以提供一个有用的”逃生出口”。 非平凡的规模和/或复杂性的 <code>script</code> 块应该被转移到 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a> 。</p>
+<h5 id="示例-7"><a href="#示例-7" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line"></span><br><span class="line">                script &#123;</span><br><span class="line">                    <span class="keyword">def</span> browsers = [<span class="string">'chrome'</span>, <span class="string">'firefox'</span>]</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; browsers.size(); ++i) &#123;</span><br><span class="line">                        echo <span class="string">"Testing the $&#123;browsers[i]&#125; browser"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="脚本化流水线"><a href="#脚本化流水线" class="headerlink" title="脚本化流水线"></a>脚本化流水线</h2><p>脚本化流水线, 与<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#declarative-pipeline" target="_blank" rel="noopener">[declarative-pipeline]</a>一样的是, 是建立在底层流水线的子系统上的。与声明式不同的是, 脚本化流水线实际上是由 <a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">Groovy</a>构建的通用 DSL [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_2" target="_blank" rel="noopener">2</a>]。 Groovy 语言提供的大部分功能都可以用于脚本化流水线的用户。这意味着它是一个非常有表现力和灵活的工具，可以通过它编写持续交付流水线。</p>
+<h3 id="流控制"><a href="#流控制" class="headerlink" title="流控制"></a>流控制</h3><p>脚本化流水线从 <code>Jenkinsfile</code> 的顶部开始向下串行执行, 就像 Groovy 或其他语言中的大多数传统脚本一样。 因此，提供流控制取决于 Groovy 表达式, 比如 <code>if/else</code> 条件, 例如:</p>
+<p>Jenkinsfile (Scripted Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">'master'</span>) &#123;</span><br><span class="line">            echo <span class="string">'I only execute on the master branch'</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            echo <span class="string">'I execute elsewhere'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一种方法是使用Groovy的异常处理支持来管理脚本化流水线流控制。当 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-steps" target="_blank" rel="noopener">步骤</a> 失败 ，无论什么原因，它们都会抛出一个异常。处理错误的行为必须使用Groovy中的 <code>try/catch/finally</code> 块 , 例如:</p>
+<p>Jenkinsfile (Scripted Pipeline)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sh <span class="string">'exit 1'</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (exc) &#123;</span><br><span class="line">            echo <span class="string">'Something failed, I should sound the klaxons!'</span></span><br><span class="line">            <span class="keyword">throw</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><p>正如 <a href="https://www.jenkins.io/zh/doc/book/pipeline/" target="_blank" rel="noopener">本章开始</a>所讨论的, 流水线最基础的部分是”步骤”。从根本上说, 步骤告诉 Jenkins要做 <em>what</em> ，并作为声明式和脚本化流水线已发的基本构建块。</p>
+<p>脚本化流水线 <strong>not</strong> 不引入任何特定于其语法的步骤; <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a> 包括流水线和插件提供的步骤的完整列表。</p>
+<h3 id="区别普通-Groovy"><a href="#区别普通-Groovy" class="headerlink" title="区别普通 Groovy"></a>区别普通 Groovy</h3><p>为了提供 <em>durability</em>, 这意味着运行流水线可以在Jenkins <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#../glossary#master" target="_blank" rel="noopener">master</a> 重启后继续运行，脚本化的流水线序列化数据到主服务器。由于这个设计需求, 一些Groovy 习惯用语，比如 <code>collection.each { item -&gt; /* perform operation */ }</code> 都不完全支持。详情参见 <a href="https://issues.jenkins-ci.org/browse/JENKINS-27421" target="_blank" rel="noopener">JENKINS-27421</a> 和 <a href="https://issues.jenkins-ci.org/browse/JENKINS-26481" target="_blank" rel="noopener">JENKINS-26481</a>。</p>
+<h2 id="语法比较"><a href="#语法比较" class="headerlink" title="语法比较"></a>语法比较</h2><p>当Jenkins 流水线第一次构建时, Groovy 被选为基础。 Jenkins长期使用嵌入式 Groovy引擎来为管理员和用户提供 高级脚本功能。另外, Jenkins流水线的实现者发现 Groovy是 构建现在成为 “脚本化流水线” DSL的坚实基础 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_2" target="_blank" rel="noopener">2</a>]。</p>
+<p>由于它是一个功能齐全的编程环境, 脚本化流水线为Jenkins用户提供了 大量的灵活性性和可扩展性。 Groovy学习曲线通常不适合给定团队的所有成员, 因此创造了声明式流水线来为编写Jenkins流水线提供一种更简单、更有主见的语法。</p>
+<p>两者本质上是相同的流水线子系统。 underneath. 他们都是 “流水线即代码” 的持久实现。它们都能够使用构建到流水线中或插件提供的步骤。它们都能够使用 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a></p>
+<p>但是它们的区别在于语法和灵活性。 声明式限制了用户使用更严格和预定义的结构， 使其成为更简单的持续交付流水线的理想选择。 脚本化提供了很少的限制, 以至于对脚本和语法的唯一限制往往是由Groovy子集本身定义的，而不是任何特定于流水线的系统, 这使他成为权利用户和那些有更复杂需求的人的理想选择。 顾名思义, 声明式流水线鼓励 声明式编程模型。 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_3" target="_blank" rel="noopener">3</a>] 而脚本化流水线遵循一个更命令式的编程模型 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_4" target="_blank" rel="noopener">4</a>]</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.com/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/">https://cyylog.github.com/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Jenkins/">
+                                    <span class="chip bg-color">Jenkins</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="计划任务及日志管理">
+                        
+                        <span class="card-title">计划任务及日志管理</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            循环调度执行cron1.1简介cron1crond的概念和crontab是不可分割的。crontab是一个命令，常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-30
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Jenkins_流水线语法_001">
+                        
+                        <span class="card-title">Jenkins_流水线语法_001</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            流水线语法本节是建立在 流水线入门内容的基础上，而且，应当被当作一个参考。 对于在实际示例中如何使用流水线语法的更多信息, 请参阅本章在流水线插件的2.5版本中的 使用 Jenkinsfile部分, 流水线支持两种离散的语法，具体如下对于每
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DevOps/" class="post-category">
+                                    DevOps
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Jenkins/">
+                        <span class="chip bg-color">Jenkins</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

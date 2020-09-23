@@ -1,0 +1,1360 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CentOS7静默安装oracle11g, Cyylog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CentOS7静默安装oracle11g | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-list" style="zoom: 0.6;"></i>
+      
+      <span>Medias</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/musics">
+          
+          <i class="fas fa-music" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Musics</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/movies">
+          
+          <i class="fas fa-film" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Movies</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/books">
+          
+          <i class="fas fa-book" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Books</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/galleries">
+          
+          <i class="fas fa-image" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>Galleries</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-list"></i>
+			
+			Medias
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>
+
+                  <a href="/musics " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-music" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Musics</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/movies " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-film" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Movies</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/books " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-book" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Books</span>
+                  </a>
+                </li>
+              
+                <li>
+
+                  <a href="/galleries " style="margin-left:75px">
+				  
+				   <i class="fa fas fa-image" style="position: absolute;left:50px" ></i>
+			      
+		          <span>Galleries</span>
+                  </a>
+                </li>
+              
+            </ul>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CentOS7静默安装oracle11g</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Oracle/">
+                                <span class="chip bg-color">Oracle</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/SQL/" class="post-category">
+                                SQL
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-11-27
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <a id="more"></a>
+
+<p><strong>操作系统：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@cyylog ~]# uname -m</span><br><span class="line">x86_64</span><br><span class="line">[root@cyylog ~]# cat &#x2F;etc&#x2F;redhat-release </span><br><span class="line">CentOS Linux release 7.2.1511 (Core)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="安装前的准备："><a href="#安装前的准备：" class="headerlink" title="安装前的准备："></a><strong>安装前的准备：</strong></h1><p><strong>1. 修改主机名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#sed -i &quot;s&#x2F;HOSTNAME&#x3D;localhost.localdomain&#x2F;HOSTNAME&#x3D;oracledb&#x2F;&quot; &#x2F;etc&#x2F;sysconfig&#x2F;network</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>2.添加主机名与IP对应记录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># vim &#x2F;etc&#x2F;hosts </span><br><span class="line">192.168.0.9 oracledb</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>3.关闭Selinux</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># sed -i &quot;s&#x2F;SELINUX&#x3D;enforcing&#x2F;SELINUX&#x3D;disabled&#x2F;&quot; &#x2F;etc&#x2F;selinux&#x2F;config </span><br><span class="line"></span><br><span class="line"># setenforce 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.检查是否有swap分区.</strong></p>
+<p>(我的机器是没有这个,所有后面有报错) Linux一切皆文件,没有就自己造一个</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令：</span><br><span class="line"></span><br><span class="line"># swapon -s</span><br><span class="line">如果返回的信息概要是空的，则表示 Swap 文件不存在。</span><br><span class="line"></span><br><span class="line">2、检查文件系统在设置 Swap 文件之前，同样有必要检查一下文件系统，看看是否有足够的硬盘空间来设置 Swap 。运行以下命令：</span><br><span class="line"></span><br><span class="line"># df -hal</span><br><span class="line"></span><br><span class="line">3、创建并允许 Swap 文件下面使用 dd 命令来创建 Swap 文件。检查返回的信息，还剩余足够的硬盘空间即可。</span><br><span class="line"></span><br><span class="line"># dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;swapfile bs&#x3D;1024 count&#x3D;512k</span><br><span class="line">参数解读：if&#x3D;文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if&#x3D;input file &gt;of&#x3D;文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of&#x3D;output file &gt;bs&#x3D;bytes：同时设置读入&#x2F;输出的块大小为bytes个字节count&#x3D;blocks：仅拷贝blocks个块，块大小等于bs指定的字节数。</span><br><span class="line"></span><br><span class="line">4、格式化并激活 Swap 文件上面已经创建好 Swap 文件，还需要格式化后才能使用。运行命令：</span><br><span class="line"></span><br><span class="line"># mkswap &#x2F;swapfile</span><br><span class="line"></span><br><span class="line">激活 Swap ，运行命令：</span><br><span class="line"></span><br><span class="line"># swapon &#x2F;swapfile</span><br><span class="line">以上步骤做完，再次运行命令：</span><br><span class="line"></span><br><span class="line"># swapon -s</span><br><span class="line"> </span><br><span class="line">你会发现返回的信息概要：</span><br><span class="line"></span><br><span class="line">1 Filename Type Size Used Priority</span><br><span class="line">2 &#x2F;swapfile file 524284 0 -1</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">如果要机器重启的时候自动挂载 Swap ，那么还需要修改 fstab 配置。用 vim 打开 &#x2F;etc&#x2F;fstab 文件，在其最后添加如下一行：</span><br><span class="line"></span><br><span class="line">&#x2F;swapfile swap swap defaults 0 0</span><br><span class="line">最后，赋予 Swap 文件适当的权限：</span><br><span class="line"></span><br><span class="line"># chown root:root &#x2F;swapfile </span><br><span class="line"># chmod 0600 &#x2F;swapfile</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.安装常用工具,配置阿里源</strong></p>
+<p>(个人习惯,在使用的主机上面配置这些常用工具)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># curl -o &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-7.repo</span><br><span class="line"># curl -o &#x2F;etc&#x2F;yum.repos.d&#x2F;epel.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;epel-7.repo</span><br><span class="line"># yum clean all</span><br><span class="line"># yum makecache fast</span><br><span class="line"></span><br><span class="line"># yum install -y wget ntpdate net-tools vim bash-completion ShellCheck</span><br><span class="line"># ntpdate -b ntp1.aliyun.com</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="安装软件包："><a href="#安装软件包：" class="headerlink" title="安装软件包："></a><strong>安装软件包：</strong></h1><p>参考官方：<a href="http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD" target="_blank" rel="noopener">http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD</a></p>
+<ul>
+<li>The following or later version of packages for Oracle Linux 7, and Red Hat Enterprise Linux 7 must be installed:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">binutils-2.23.52.0.1-12.el7.x86_64 </span><br><span class="line">compat-libcap1-1.10-3.el7.x86_64 </span><br><span class="line">compat-libstdc++-33-3.2.3-71.el7.i686</span><br><span class="line">compat-libstdc++-33-3.2.3-71.el7.x86_64</span><br><span class="line">gcc-4.8.2-3.el7.x86_64 </span><br><span class="line">gcc-c++-4.8.2-3.el7.x86_64 </span><br><span class="line">glibc-2.17-36.el7.i686 </span><br><span class="line">glibc-2.17-36.el7.x86_64 </span><br><span class="line">glibc-devel-2.17-36.el7.i686 </span><br><span class="line">glibc-devel-2.17-36.el7.x86_64 </span><br><span class="line">ksh</span><br><span class="line">libaio-0.3.109-9.el7.i686 </span><br><span class="line">libaio-0.3.109-9.el7.x86_64 </span><br><span class="line">libaio-devel-0.3.109-9.el7.i686 </span><br><span class="line">libaio-devel-0.3.109-9.el7.x86_64 </span><br><span class="line">libgcc-4.8.2-3.el7.i686 </span><br><span class="line">libgcc-4.8.2-3.el7.x86_64 </span><br><span class="line">libstdc++-4.8.2-3.el7.i686 </span><br><span class="line">libstdc++-4.8.2-3.el7.x86_64 </span><br><span class="line">libstdc++-devel-4.8.2-3.el7.i686 </span><br><span class="line">libstdc++-devel-4.8.2-3.el7.x86_64 </span><br><span class="line">libXi-1.7.2-1.el7.i686 </span><br><span class="line">libXi-1.7.2-1.el7.x86_64 </span><br><span class="line">libXtst-1.2.2-1.el7.i686 </span><br><span class="line">libXtst-1.2.2-1.el7.x86_64 </span><br><span class="line">make-3.82-19.el7.x86_64 </span><br><span class="line">sysstat-10.1.5-1.el7.x86_64</span><br><span class="line">unixODBC-2.3.1-6.el7.x86_64 or later</span><br><span class="line">unixODBC-2.3.1-6.el7.i686 or later</span><br><span class="line">unixODBC-devel-2.3.1-6.el7.x86_64 or later</span><br><span class="line">unixODBC-devel-2.3.1-6.el7.i686 or later</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">binutils-2.23.52.0.1-12.el7.x86_64 </span><br><span class="line">compat-libcap1-1.10-3.el7.x86_64 </span><br><span class="line">compat-libstdc++-33-3.2.3-71.el7.i686</span><br><span class="line">compat-libstdc++-33-3.2.3-71.el7.x86_64</span><br><span class="line">gcc-4.8.2-3.el7.x86_64 </span><br><span class="line">gcc-c++-4.8.2-3.el7.x86_64 </span><br><span class="line">glibc-2.17-36.el7.i686 </span><br><span class="line">glibc-2.17-36.el7.x86_64 </span><br><span class="line">glibc-devel-2.17-36.el7.i686 </span><br><span class="line">glibc-devel-2.17-36.el7.x86_64 </span><br><span class="line">ksh</span><br><span class="line">libaio-0.3.109-9.el7.i686 </span><br><span class="line">libaio-0.3.109-9.el7.x86_64 </span><br><span class="line">libaio-devel-0.3.109-9.el7.i686 </span><br><span class="line">libaio-devel-0.3.109-9.el7.x86_64 </span><br><span class="line">libgcc-4.8.2-3.el7.i686 </span><br><span class="line">libgcc-4.8.2-3.el7.x86_64 </span><br><span class="line">libstdc++-4.8.2-3.el7.i686 </span><br><span class="line">libstdc++-4.8.2-3.el7.x86_64 </span><br><span class="line">libstdc++-devel-4.8.2-3.el7.i686 </span><br><span class="line">libstdc++-devel-4.8.2-3.el7.x86_64 </span><br><span class="line">libXi-1.7.2-1.el7.i686 </span><br><span class="line">libXi-1.7.2-1.el7.x86_64 </span><br><span class="line">libXtst-1.2.2-1.el7.i686 </span><br><span class="line">libXtst-1.2.2-1.el7.x86_64 </span><br><span class="line">make-3.82-19.el7.x86_64 </span><br><span class="line">sysstat-10.1.5-1.el7.x86_64</span><br><span class="line">unixODBC-2.3.1-6.el7.x86_64 or later</span><br><span class="line">unixODBC-2.3.1-6.el7.i686 or later</span><br><span class="line">unixODBC-devel-2.3.1-6.el7.x86_64 or later</span><br><span class="line">unixODBC-devel-2.3.1-6.el7.i686 or later</span><br></pre></td></tr></table></figure>
+
+<p><strong>用yum进行安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33*i686 compat-libstdc++-33*.devel compat-libstdc++-33 compat-libstdc++-33*.devel gcc gcc-c++ glibc glibc*.i686 glibc-devel glibc-devel*.i686 ksh libaio libaio*.i686 libaio-devel libaio-devel*.devel libgcc libgcc*.i686 libstdc++ libstdc++*.i686 libstdc++-devel libstdc++-devel*.devel libXi libXi*.i686 libXtst libXtst*.i686 make sysstat unixODBC unixODBC*.i686 unixODBC-devel unixODBC-devel*.i686</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>检测是否31个包都有安装</strong></p>
+<p>开放源码绿色蓝色按钮样式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[root@cyylog ~]# rpm -q binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libXi libXtst make sysstat unixODBC unixODBC-devel</span><br><span class="line">binutils-2.23.52.0.1-55.el7.x86_64</span><br><span class="line">compat-libcap1-1.10-7.el7.x86_64</span><br><span class="line">compat-libstdc++-33-3.2.3-72.el7.x86_64</span><br><span class="line">compat-libstdc++-33-3.2.3-72.el7.i686</span><br><span class="line">gcc-4.8.5-4.el7.x86_64</span><br><span class="line">gcc-c++-4.8.5-4.el7.x86_64</span><br><span class="line">glibc-2.17-106.el7_2.8.x86_64</span><br><span class="line">glibc-2.17-106.el7_2.8.i686</span><br><span class="line">glibc-devel-2.17-106.el7_2.8.x86_64</span><br><span class="line">glibc-devel-2.17-106.el7_2.8.i686</span><br><span class="line">ksh-20120801-22.el7_1.3.x86_64</span><br><span class="line">libaio-0.3.109-13.el7.x86_64</span><br><span class="line">libaio-0.3.109-13.el7.i686</span><br><span class="line">libaio-devel-0.3.109-13.el7.x86_64</span><br><span class="line">libaio-devel-0.3.109-13.el7.i686</span><br><span class="line">libgcc-4.8.5-4.el7.x86_64</span><br><span class="line">libgcc-4.8.5-4.el7.i686</span><br><span class="line">libstdc++-4.8.5-4.el7.x86_64</span><br><span class="line">libstdc++-4.8.5-4.el7.i686</span><br><span class="line">libstdc++-devel-4.8.5-4.el7.x86_64</span><br><span class="line">libstdc++-devel-4.8.5-4.el7.i686</span><br><span class="line">libXi-1.7.2-2.1.el7.x86_64</span><br><span class="line">libXi-1.7.4-2.el7.i686</span><br><span class="line">libXtst-1.2.2-2.1.el7.x86_64</span><br><span class="line">libXtst-1.2.2-2.1.el7.i686</span><br><span class="line">make-3.82-21.el7.x86_64</span><br><span class="line">sysstat-10.1.5-7.el7.x86_64</span><br><span class="line">unixODBC-2.3.1-11.el7.x86_64</span><br><span class="line">unixODBC-2.3.1-11.el7.i686</span><br><span class="line">unixODBC-devel-2.3.1-11.el7.x86_64</span><br><span class="line">unixODBC-devel-2.3.1-11.el7.i686</span><br></pre></td></tr></table></figure>
+
+
+
+<p>版本号只能大于规定的版本，不能小于。</p>
+<p>创建oinstall和dba组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># groupadd oinstall</span><br><span class="line"># groupadd dba</span><br></pre></td></tr></table></figure>
+
+<p>创建oracle用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># useradd -g oinstall -G dba oracle</span><br></pre></td></tr></table></figure>
+
+<p>设置oracle用户密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># passwd oracle</span><br></pre></td></tr></table></figure>
+
+<p>验证创建是否正确</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cyylog ~]# id oracle</span><br><span class="line">uid&#x3D;1000(oracle) gid&#x3D;1000(oinstall) groups&#x3D;1000(oinstall),1001(dba)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="配置内核参数"><a href="#配置内核参数" class="headerlink" title="配置内核参数"></a>配置内核参数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@cyylog ~]# vim &#x2F;etc&#x2F;sysctl.conf </span><br><span class="line"></span><br><span class="line"># System default settings live in &#x2F;usr&#x2F;lib&#x2F;sysctl.d&#x2F;00-system.conf.</span><br><span class="line"># To override those settings, enter new settings here, or in an &#x2F;etc&#x2F;sysctl.d&#x2F;&lt;name&gt;.conf file</span><br><span class="line">#</span><br><span class="line"># For more information, see sysctl.conf(5) and sysctl.d(5).</span><br><span class="line">fs.aio-max-nr &#x3D; 1048576</span><br><span class="line">fs.file-max &#x3D; 6815744</span><br><span class="line">kernel.shmall &#x3D; 2097152</span><br><span class="line">kernel.shmmax &#x3D; 536870912 #最低：536870912，最大值：比物理内存小1个字节的值，建议超过物理内存的一半</span><br><span class="line">kernel.shmmni &#x3D; 4096</span><br><span class="line">kernel.sem &#x3D; 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range &#x3D; 9000 65500</span><br><span class="line">net.core.rmem_default &#x3D; 262144</span><br><span class="line">net.core.rmem_max &#x3D; 4194304</span><br><span class="line">net.core.wmem_default &#x3D; 262144</span><br><span class="line">net.core.wmem_max &#x3D; 1048576</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参数的值不能小于上面的配置，这是oracle官方建议的最小值，生产环境建议调整这些参数，以优化系统性能。</p>
+<p>修改后使之生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># sysctl -p</span><br></pre></td></tr></table></figure>
+
+
+
+<p>修改用户限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;security&#x2F;limits.conf</span><br><span class="line"></span><br><span class="line">#在末尾添加</span><br><span class="line">oracle soft nproc 2047</span><br><span class="line">oracle hard nproc 16384</span><br><span class="line">oracle soft nofile 1024</span><br><span class="line">oracle hard nofile 65536</span><br><span class="line">oracle soft stack 10240</span><br><span class="line">oracle hard stack 10240</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在/etc/pam.d/login 文件中，使用文本编辑器或vi命令增加或修改以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session required &#x2F;lib64&#x2F;security&#x2F;pam_limits.so</span><br><span class="line">session required pam_limits.so</span><br></pre></td></tr></table></figure>
+
+<p>在/etc/profile 文件中，使用文本编辑器或vi命令增加或修改以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if [ $USER &#x3D; &quot;oracle&quot; ]; then</span><br><span class="line"> if [ $SHELL &#x3D; &quot;&#x2F;bin&#x2F;ksh&quot; ]; then</span><br><span class="line"> ulimit -p 16384</span><br><span class="line"> ulimit -n 65536</span><br><span class="line"> else</span><br><span class="line"> ulimit -u 16384 -n 65536</span><br><span class="line"> fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使之生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+
+
+<p>创建安装目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p &#x2F;u01&#x2F;app&#x2F;</span><br><span class="line"># chown -R oracle:oinstall &#x2F;u01&#x2F;app&#x2F;</span><br><span class="line"># chmod -R 775 &#x2F;u01&#x2F;app&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>配置环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ vim ~&#x2F;.bash_profile </span><br><span class="line"></span><br><span class="line">export ORACLE_BASE&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle</span><br><span class="line">export ORACLE_SID&#x3D;dbsrv2</span><br></pre></td></tr></table></figure>
+
+<p>使之生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>解压oracle软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@cyylog src]# unzip linux.x64_11gR2_database_1of2.zip</span><br><span class="line">[root@cyylog src]# unzip linux.x64_11gR2_database_2of2.zip</span><br></pre></td></tr></table></figure>
+
+<p>复制响应文件模板</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ mkdir etc</span><br><span class="line">[oracle@cyylog ~]$ cp &#x2F;usr&#x2F;local&#x2F;src&#x2F;database&#x2F;response&#x2F;* &#x2F;home&#x2F;oracle&#x2F;etc&#x2F;</span><br><span class="line">[oracle@cyylog ~]$ ls etc</span><br><span class="line">dbca.rsp db_install.rsp netca.rsp</span><br></pre></td></tr></table></figure>
+
+<p>设置响应文件权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ su - root</span><br><span class="line"></span><br><span class="line">[root@cyylog ~]# chmod 700 &#x2F;home&#x2F;oracle&#x2F;etc&#x2F;*.rsp</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="静默安装Oracle软件"><a href="#静默安装Oracle软件" class="headerlink" title="静默安装Oracle软件"></a><strong>静默安装Oracle软件</strong></h1><p>su - oracle</p>
+<p>修改安装Oracle软件的响应文件/home/oracle/etc/db_install.rsp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">oracle.install.option&#x3D;INSTALL_DB_SWONLY &#x2F;&#x2F; 安装类型</span><br><span class="line">ORACLE_HOSTNAME&#x3D;oracledb &#x2F;&#x2F; 主机名称（hostname查询）</span><br><span class="line">UNIX_GROUP_NAME&#x3D;oinstall &#x2F;&#x2F; 安装组</span><br><span class="line">INVENTORY_LOCATION&#x3D;&#x2F;u01&#x2F;app&#x2F;oraInventory &#x2F;&#x2F;INVENTORY目录（不填就是默认值）</span><br><span class="line">SELECTED_LANGUAGES&#x3D;en,zh_CN,zh_TW &#x2F;&#x2F; 选择语言</span><br><span class="line">ORACLE_HOME&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1 &#x2F;&#x2F;oracle_home</span><br><span class="line">ORACLE_BASE&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle &#x2F;&#x2F;oracle_base</span><br><span class="line">oracle.install.db.InstallEdition&#x3D;EE 　　　　&#x2F;&#x2F; oracle版本</span><br><span class="line">oracle.install.db.isCustomInstall&#x3D;false 　　&#x2F;&#x2F;自定义安装，否，使用默认组件</span><br><span class="line">oracle.install.db.DBA_GROUP&#x3D;dba &#x2F;　　&#x2F; dba用户组</span><br><span class="line">oracle.install.db.OPER_GROUP&#x3D;oinstall &#x2F;&#x2F; oper用户组</span><br><span class="line">oracle.install.db.config.starterdb.type&#x3D;GENERAL_PURPOSE &#x2F;&#x2F;数据库类型</span><br><span class="line">oracle.install.db.config.starterdb.globalDBName&#x3D;orcl &#x2F;&#x2F;globalDBName</span><br><span class="line">oracle.install.db.config.starterdb.SID&#x3D;dbsrv2 &#x2F;&#x2F;SID</span><br><span class="line">oracle.install.db.config.starterdb.memoryLimit&#x3D;81920 &#x2F;&#x2F;自动管理内存的内存(M)</span><br><span class="line">oracle.install.db.config.starterdb.password.ALL&#x3D;oracle &#x2F;&#x2F;设定所有数据库用户使用同一个密码</span><br><span class="line">SECURITY_UPDATES_VIA_MYORACLESUPPORT&#x3D;false &#x2F;&#x2F;（手动写了false）</span><br><span class="line">DECLINE_SECURITY_UPDATES&#x3D;true 　　&#x2F;&#x2F;设置安全更新（貌似是有bug，这个一定要选true，否则会无限提醒邮件地址有问题，终止安装。PS：不管地址对不对）</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">oracle.install.option&#x3D;INSTALL_DB_SWONLY &#x2F;&#x2F; 安装类型</span><br><span class="line">ORACLE_HOSTNAME&#x3D;oracledb &#x2F;&#x2F; 主机名称（hostname查询）</span><br><span class="line">UNIX_GROUP_NAME&#x3D;oinstall &#x2F;&#x2F; 安装组</span><br><span class="line">INVENTORY_LOCATION&#x3D;&#x2F;u01&#x2F;app&#x2F;oraInventory &#x2F;&#x2F;INVENTORY目录（不填就是默认值）</span><br><span class="line">SELECTED_LANGUAGES&#x3D;en,zh_CN,zh_TW &#x2F;&#x2F; 选择语言</span><br><span class="line">ORACLE_HOME&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1 &#x2F;&#x2F;oracle_home</span><br><span class="line">ORACLE_BASE&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle &#x2F;&#x2F;oracle_base</span><br><span class="line">oracle.install.db.InstallEdition&#x3D;EE 　　　　&#x2F;&#x2F; oracle版本</span><br><span class="line">oracle.install.db.isCustomInstall&#x3D;false 　　&#x2F;&#x2F;自定义安装，否，使用默认组件</span><br><span class="line">oracle.install.db.DBA_GROUP&#x3D;dba &#x2F;　　&#x2F; dba用户组</span><br><span class="line">oracle.install.db.OPER_GROUP&#x3D;oinstall &#x2F;&#x2F; oper用户组</span><br><span class="line">oracle.install.db.config.starterdb.type&#x3D;GENERAL_PURPOSE &#x2F;&#x2F;数据库类型</span><br><span class="line">oracle.install.db.config.starterdb.globalDBName&#x3D;orcl &#x2F;&#x2F;globalDBName</span><br><span class="line">oracle.install.db.config.starterdb.SID&#x3D;dbsrv2 &#x2F;&#x2F;SID</span><br><span class="line">oracle.install.db.config.starterdb.memoryLimit&#x3D;81920 &#x2F;&#x2F;自动管理内存的内存(M)</span><br><span class="line">oracle.install.db.config.starterdb.password.ALL&#x3D;oracle &#x2F;&#x2F;设定所有数据库用户使用同一个密码</span><br><span class="line">SECURITY_UPDATES_VIA_MYORACLESUPPORT&#x3D;false &#x2F;&#x2F;（手动写了false）</span><br><span class="line">DECLINE_SECURITY_UPDATES&#x3D;true 　　&#x2F;&#x2F;设置安全更新（貌似是有bug，这个一定要选true，否则会无限提醒邮件地址有问题，终止安装。PS：不管地址对不对）</span><br></pre></td></tr></table></figure>
+
+
+
+<p>开始静默安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog database]$ .&#x2F;runInstaller -silent -responseFile &#x2F;home&#x2F;oracle&#x2F;etc&#x2F;db_install.rsp</span><br></pre></td></tr></table></figure>
+
+<p>新开一个终端 查看安装日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># tail -f &#x2F;u01&#x2F;app&#x2F;oraInventory&#x2F;logs&#x2F;installActions2016-08-31_06-56-29PM.log</span><br></pre></td></tr></table></figure>
+
+<p>出现类似如下提示表示安装完成：</p>
+<p>-———————————————————————–</p>
+<p>The following configuration scripts need to be executed as the “root” user. #!/bin/sh #Root scripts to run</p>
+<p>/u01/app/oraInventory/orainstRoot.sh /u01/app/oracle/product/11.2.0/db_1/root.sh To execute the configuration scripts:</p>
+<ol>
+<li>Open a terminal window</li>
+<li>Log in as “root”</li>
+<li>Run the scripts</li>
+<li>Return to this window and hit “Enter” key to continue</li>
+</ol>
+<p>Successfully Setup Software.</p>
+<p>-—————————————————————————-</p>
+<p>使用root用户执行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ su - root</span><br><span class="line"># &#x2F;u01&#x2F;app&#x2F;oraInventory&#x2F;orainstRoot.sh</span><br><span class="line"># &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1&#x2F;root.sh</span><br></pre></td></tr></table></figure>
+
+<p>增加或修改oracle的环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># su - oracle</span><br><span class="line"># vim ~&#x2F;.bash_profile</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#for oracle</span><br><span class="line">export ORACLE_BASE&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle</span><br><span class="line">export ORACLE_SID&#x3D;dbsrv2</span><br><span class="line">export ROACLE_PID&#x3D;ora11g</span><br><span class="line">#export NLS_LANG&#x3D;AMERICAN_AMERICA.AL32UTF8</span><br><span class="line">export LD_LIBRARY_PATH&#x3D;$ORACLE_HOME&#x2F;lib:&#x2F;usr&#x2F;lib</span><br><span class="line">export ORACLE_HOME&#x3D;&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1</span><br><span class="line">export PATH&#x3D;$PATH:$ORACLE_HOME&#x2F;bin</span><br><span class="line"></span><br><span class="line">export LANG&#x3D;&quot;zh_CN.UTF-8&quot;</span><br><span class="line">export NLS_LANG&#x3D;&quot;SIMPLIFIED CHINESE_CHINA.AL32UTF8&quot;</span><br><span class="line">export NLS_DATE_FORMAT&#x3D;&#39;yyyy-mm-dd hh24:mi:ss&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">刷新环境变量</span><br><span class="line"># source ~&#x2F;.bash_profile</span><br></pre></td></tr></table></figure>
+
+<p>配置监听程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ netca &#x2F;silent &#x2F;responsefile &#x2F;home&#x2F;oracle&#x2F;etc&#x2F;netca.rsp</span><br><span class="line"></span><br><span class="line">Parsing command line arguments:</span><br><span class="line">Parameter &quot;silent&quot; &#x3D; true</span><br><span class="line">Parameter &quot;responsefile&quot; &#x3D; &#x2F;home&#x2F;oracle&#x2F;etc&#x2F;netca.rsp</span><br><span class="line">Done parsing command line arguments.</span><br><span class="line">Oracle Net Services Configuration:</span><br><span class="line">Profile configuration complete.</span><br><span class="line">Oracle Net Listener Startup:</span><br><span class="line">Running Listener Control: </span><br><span class="line">&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1&#x2F;bin&#x2F;lsnrctl start LISTENER</span><br><span class="line">Listener Control complete.</span><br><span class="line">Listener started successfully.</span><br><span class="line">Listener configuration complete.</span><br><span class="line">Oracle Net Services configuration successful. The exit code is 0</span><br></pre></td></tr></table></figure>
+
+<p>启动监控程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ lsnrctl start</span><br><span class="line"></span><br><span class="line">LSNRCTL for Linux: Version 11.2.0.1.0 - Production on 01-SEP-2016 11:23:31</span><br><span class="line"></span><br><span class="line">Copyright (c) 1991, 2009, Oracle. All rights reserved.</span><br><span class="line"></span><br><span class="line">Starting &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1&#x2F;bin&#x2F;tnslsnr: please wait...</span><br><span class="line"></span><br><span class="line">TNSLSNR for Linux: Version 11.2.0.1.0 - Production</span><br><span class="line">System parameter file is &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1&#x2F;network&#x2F;admin&#x2F;listener.ora</span><br><span class="line">Log messages written to &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;diag&#x2F;tnslsnr&#x2F;cyylog&#x2F;listener&#x2F;alert&#x2F;log.xml</span><br><span class="line">Listening on: (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;ipc)(KEY&#x3D;EXTPROC1521)))</span><br><span class="line">Listening on: (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;cyylog)(PORT&#x3D;1521)))</span><br><span class="line"></span><br><span class="line">Connecting to (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;IPC)(KEY&#x3D;EXTPROC1521)))</span><br><span class="line">STATUS of the LISTENER</span><br><span class="line">------------------------</span><br><span class="line">Alias LISTENER</span><br><span class="line">Version TNSLSNR for Linux: Version 11.2.0.1.0 - Production</span><br><span class="line">Start Date 01-SEP-2016 11:23:31</span><br><span class="line">Uptime 0 days 0 hr. 0 min. 0 sec</span><br><span class="line">Trace Level off</span><br><span class="line">Security ON: Local OS Authentication</span><br><span class="line">SNMP OFF</span><br><span class="line">Listener Parameter File &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1&#x2F;network&#x2F;admin&#x2F;listener.ora</span><br><span class="line">Listener Log File &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;diag&#x2F;tnslsnr&#x2F;cyylog&#x2F;listener&#x2F;alert&#x2F;log.xml</span><br><span class="line">Listening Endpoints Summary...</span><br><span class="line"> (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;ipc)(KEY&#x3D;EXTPROC1521)))</span><br><span class="line"> (DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;cyylog)(PORT&#x3D;1521)))</span><br><span class="line">The listener supports no services</span><br><span class="line">The command completed successfully</span><br></pre></td></tr></table></figure>
+
+<p>静默dbca建库</p>
+<p>编辑应答文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ vi etc&#x2F;dbca.rsp</span><br><span class="line">[GENERAL]</span><br><span class="line">RESPONSEFILE_VERSION &#x3D; &quot;11.2.0&quot;</span><br><span class="line">OPERATION_TYPE &#x3D; &quot;createDatabase&quot;</span><br><span class="line">[CREATEDATABASE]</span><br><span class="line">GDBNAME &#x3D; &quot;dbsrv2&quot;</span><br><span class="line">SID &#x3D; &quot;dbsrv2&quot;</span><br><span class="line">TEMPLATENAME &#x3D; &quot;General_Purpose.dbc&quot;</span><br><span class="line">CHARACTERSET &#x3D; &quot;AL32UTF8&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>建库(我的finashell会闪屏,但是不影响使用，因为这个是因为无图形界面的情况)</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ dbca -silent -responseFile etc&#x2F;dbca.rsp</span><br><span class="line"></span><br><span class="line">Enter SYS user password: </span><br><span class="line"> </span><br><span class="line">Enter SYSTEM user password: </span><br><span class="line"> </span><br><span class="line">sh: &#x2F;bin&#x2F;ksh: No such file or directory</span><br><span class="line">sh: &#x2F;bin&#x2F;ksh: No such file or directory</span><br><span class="line">Copying database files</span><br><span class="line">1% complete</span><br><span class="line">3% complete</span><br><span class="line">11% complete</span><br><span class="line">18% complete</span><br><span class="line">26% complete</span><br><span class="line">37% complete</span><br><span class="line">Creating and starting Oracle instance</span><br><span class="line">40% complete</span><br><span class="line">45% complete</span><br><span class="line">50% complete</span><br><span class="line">55% complete</span><br><span class="line">56% complete</span><br><span class="line">57% complete</span><br><span class="line">60% complete</span><br><span class="line">62% complete</span><br><span class="line">Completing Database Creation</span><br><span class="line">66% complete</span><br><span class="line">70% complete</span><br><span class="line">73% complete</span><br><span class="line">74% complete</span><br><span class="line">85% complete</span><br><span class="line">96% complete</span><br><span class="line">100% complete</span><br><span class="line">Look at the log file Look at the log file &quot;&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;cfgtoollogs&#x2F;dbca&#x2F;orcl11g&#x2F;orcl11g.log&quot; for further details.</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ dbca -silent -responseFile etc&#x2F;dbca.rsp</span><br><span class="line"></span><br><span class="line">Enter SYS user password: </span><br><span class="line"> </span><br><span class="line">Enter SYSTEM user password: </span><br><span class="line"> </span><br><span class="line">sh: &#x2F;bin&#x2F;ksh: No such file or directory</span><br><span class="line">sh: &#x2F;bin&#x2F;ksh: No such file or directory</span><br><span class="line">Copying database files</span><br><span class="line">1% complete</span><br><span class="line">3% complete</span><br><span class="line">11% complete</span><br><span class="line">18% complete</span><br><span class="line">26% complete</span><br><span class="line">37% complete</span><br><span class="line">Creating and starting Oracle instance</span><br><span class="line">40% complete</span><br><span class="line">45% complete</span><br><span class="line">50% complete</span><br><span class="line">55% complete</span><br><span class="line">56% complete</span><br><span class="line">57% complete</span><br><span class="line">60% complete</span><br><span class="line">62% complete</span><br><span class="line">Completing Database Creation</span><br><span class="line">66% complete</span><br><span class="line">70% complete</span><br><span class="line">73% complete</span><br><span class="line">74% complete</span><br><span class="line">85% complete</span><br><span class="line">96% complete</span><br><span class="line">100% complete</span><br><span class="line">Look at the log file Look at the log file &quot;&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;cfgtoollogs&#x2F;dbca&#x2F;orcl11g&#x2F;orcl11g.log&quot; for further details.</span><br></pre></td></tr></table></figure>
+
+<p>查看输出日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ tailf &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;cfgtoollogs&#x2F;dbca&#x2F;silent.log</span><br><span class="line">Copying database files</span><br><span class="line">DBCA_PROGRESS : 1%</span><br><span class="line">DBCA_PROGRESS : 3%</span><br><span class="line">DBCA_PROGRESS : 11%</span><br><span class="line">DBCA_PROGRESS : 18%</span><br><span class="line">DBCA_PROGRESS : 26%</span><br><span class="line">DBCA_PROGRESS : 37%</span><br><span class="line">Creating and starting Oracle instance</span><br><span class="line">DBCA_PROGRESS : 40%</span><br><span class="line">DBCA_PROGRESS : 45%</span><br><span class="line">DBCA_PROGRESS : 50%</span><br><span class="line">DBCA_PROGRESS : 55%</span><br><span class="line">DBCA_PROGRESS : 56%</span><br><span class="line">DBCA_PROGRESS : 60%</span><br><span class="line">DBCA_PROGRESS : 62%</span><br><span class="line">Completing Database Creation</span><br><span class="line">DBCA_PROGRESS : 66%</span><br><span class="line">DBCA_PROGRESS : 70%</span><br><span class="line">DBCA_PROGRESS : 73%</span><br><span class="line">DBCA_PROGRESS : 85%</span><br><span class="line">DBCA_PROGRESS : 96%</span><br><span class="line">DBCA_PROGRESS : 100%</span><br><span class="line">Database creation complete. For details check the logfiles at:</span><br><span class="line"> &#x2F;u01&#x2F;app&#x2F;oracle&#x2F;cfgtoollogs&#x2F;dbca&#x2F;orcl11g.</span><br><span class="line">Database Information:</span><br><span class="line">Global Database Name:orcl11g.us.oracle.com</span><br><span class="line">System Identifier(SID):dbsrv2</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>至此完成数据库实例的创建。</strong></p>
+<p>-———————————————————————————-</p>
+<p>-———————————————————————————-</p>
+<p><strong>附：</strong></p>
+<p>删除实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@cyylog ~]$ dbca -silent -deleteDatabase -sourcedb dbsrv2</span><br></pre></td></tr></table></figure>
+
+<p>文章来源:<a href="https://www.cnblogs.com/zydev/p/5827207.html" target="_blank" rel="noopener">https://www.cnblogs.com/zydev/p/5827207.html</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.com/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/">https://cyylog.github.com/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Oracle/">
+                                    <span class="chip bg-color">Oracle</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/11/27/sql/oracle-she-zhi-kai-ji-zi-qi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Oracle设置开机自启">
+                        
+                        <span class="card-title">Oracle设置开机自启</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+步骤：
+1：查看ORACLE_HOME是否设置
+12$ echo $ORACLE_HOME&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1
+
+
+
+2：执行
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-11-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Oracle/">
+                        <span class="chip bg-color">Oracle</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/11/19/rong-qi/dockerfilee-002/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Docker_002">
+                        
+                        <span class="card-title">Docker_002</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+Dockerfile_redis_5.012345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-11-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
