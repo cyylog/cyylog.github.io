@@ -116,6 +116,8 @@
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看数据</span><br><span class="line">curl http://10.0.0.169:5000/v2/_catalog   (查看列表)</span><br><span class="line">curl http://10.0.0.169:5000/v2/mygo/manifests/v1   (查看redis镜像详情)</span><br><span class="line">curl http://10.0.0.169:5000/v2/mygo/tags/list</span><br></pre></td></tr></table></figure>
 
+<h6 id="修改runner"><a href="#修改runner" class="headerlink" title="修改runner"></a>修改runner</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner   \</span><br><span class="line">  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"> -v /usr/bin/docker:/usr/bin/docker \</span><br><span class="line"> -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \</span><br><span class="line">-v /usr/local/bin/kubectl:/usr/local/bin/kubectl \</span><br><span class="line">-v /home/cyy/kubectl/config:/kubeconfig \</span><br><span class="line">-e KUBECONFIG=/kubeconfig \</span><br><span class="line">  gitlab/gitlab-runner</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
