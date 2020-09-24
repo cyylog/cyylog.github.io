@@ -117,6 +117,31 @@
     
     
     <entry>
+      <title>搭建 NFS 服务</title>
+      <link href="2020/09/24/linux/bu-shu-nfs-fu-wu/"/>
+      <url>2020/09/24/linux/bu-shu-nfs-fu-wu/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><p>目的：部署 NFS 服务进行跨主机文件共享</p><p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p><h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><pre class=" language-shell"><code class="language-shell">1.系统版本：CentOS7.42.NFS版本：nfs-utils （使用当前最新版本）3.初始化系统环境4.关闭防火墙[root@localhost ~]#  systemctl stop iptables firewalld[root@localhost ~]#  systemctl disable iptables firewalld5.关闭SELinux[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config[root@localhost ~]#  setenforce 0           # 临时关闭SELinux</code></pre><h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><pre class=" language-shell"><code class="language-shell">    1、sudo yum -y install nfs-utils     2、配置    sudo vi /etc/sysconfig/nfs    加入     LOCKD_TCPPORT=30001 #TCP锁使用端口    LOCKD_UDPPORT=30002 #UDP锁使用端口    MOUNTD_PORT=30003 #挂载使用端口    STATD_PORT=30004 #状态使用端口</code></pre><h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><pre class=" language-shell"><code class="language-shell">1、sudo systemctl restart rpcbind.service 2、sudo systemctl restart nfs-server.service开机启动：1、sudo  systemctl enable rpcbind.service2、 sudo systemctl enable nfs-server.service</code></pre><h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><pre class=" language-shell"><code class="language-shell">编辑/etc/exports  sudo vi /etc/exports 写入如下内容   /home/cyy/goapi    10.0.0.0/24(rw,async,insecure,no_root_squash)</code></pre><h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table><thead><tr><th align="center">参数</th><th align="center">作用</th></tr></thead><tbody><tr><td align="center">ro</td><td align="center">只读</td></tr><tr><td align="center">rw</td><td align="center">读写</td></tr><tr><td align="center">root_squash</td><td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td></tr><tr><td align="center">no_root_squash</td><td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td></tr><tr><td align="center">all_squash</td><td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td></tr><tr><td align="center">sync</td><td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td></tr><tr><td align="center">async</td><td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td></tr><tr><td align="center">secure（默认）</td><td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td></tr><tr><td align="center">insecure</td><td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td></tr><tr><td align="center">anonuid</td><td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td></tr><tr><td align="center">anongid</td><td align="center">匿名用户的GID值</td></tr><tr><td align="center">no_subtree_check</td><td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td></tr></tbody></table><h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><pre class=" language-shell"><code class="language-shell">showmount -e localhost发现没有重启nfs服务  (sudo systemctl restart nfs-server.service)接下来  创建刚才的文件夹 </code></pre><h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><pre class=" language-shell"><code class="language-shell">sudo yum -y install nfs-utils 不需要启动nfs服务直接执行如下：showmount -e 10.0.0.145尝试进行挂载  mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi卸载只需 umount /home/cyy/goapi</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> NFS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>gitlab-ci 入门</title>
       <link href="2020/09/20/devops/gitlab-ci-ru-men/"/>
       <url>2020/09/20/devops/gitlab-ci-ru-men/</url>
@@ -134,31 +159,6 @@
         <tags>
             
             <tag> Gitlab </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>搭建 NFS 服务</title>
-      <link href="2020/09/16/linux/bu-shu-nfs-fu-wu/"/>
-      <url>2020/09/16/linux/bu-shu-nfs-fu-wu/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><p>目的：部署 NFS 服务进行跨主机文件共享</p><p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p><h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><pre class=" language-shell"><code class="language-shell">1.系统版本：CentOS7.42.NFS版本：nfs-utils （使用当前最新版本）3.初始化系统环境4.关闭防火墙[root@localhost ~]#  systemctl stop iptables firewalld[root@localhost ~]#  systemctl disable iptables firewalld5.关闭SELinux[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config[root@localhost ~]#  setenforce 0           # 临时关闭SELinux</code></pre><h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><pre class=" language-shell"><code class="language-shell">    1、sudo yum -y install nfs-utils     2、配置    sudo vi /etc/sysconfig/nfs    加入     LOCKD_TCPPORT=30001 #TCP锁使用端口    LOCKD_UDPPORT=30002 #UDP锁使用端口    MOUNTD_PORT=30003 #挂载使用端口    STATD_PORT=30004 #状态使用端口</code></pre><h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><pre class=" language-shell"><code class="language-shell">1、sudo systemctl restart rpcbind.service 2、sudo systemctl restart nfs-server.service开机启动：1、sudo  systemctl enable rpcbind.service2、 sudo systemctl enable nfs-server.service</code></pre><h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><pre class=" language-shell"><code class="language-shell">编辑/etc/exports  sudo vi /etc/exports 写入如下内容   /home/cyy/goapi    10.0.0.0/24(rw,async,insecure,no_root_squash)</code></pre><h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table><thead><tr><th align="center">参数</th><th align="center">作用</th></tr></thead><tbody><tr><td align="center">ro</td><td align="center">只读</td></tr><tr><td align="center">rw</td><td align="center">读写</td></tr><tr><td align="center">root_squash</td><td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td></tr><tr><td align="center">no_root_squash</td><td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td></tr><tr><td align="center">all_squash</td><td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td></tr><tr><td align="center">sync</td><td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td></tr><tr><td align="center">async</td><td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td></tr><tr><td align="center">secure（默认）</td><td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td></tr><tr><td align="center">insecure</td><td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td></tr><tr><td align="center">anonuid</td><td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td></tr><tr><td align="center">anongid</td><td align="center">匿名用户的GID值</td></tr><tr><td align="center">no_subtree_check</td><td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td></tr></tbody></table><h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><pre class=" language-shell"><code class="language-shell">showmount -e localhost发现没有重启nfs服务  (sudo systemctl restart nfs-server.service)接下来  创建刚才的文件夹 </code></pre><h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><pre class=" language-shell"><code class="language-shell">sudo yum -y install nfs-utils 不需要启动nfs服务直接执行如下：showmount -e 10.0.0.145尝试进行挂载  mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi卸载只需 umount /home/cyy/goapi</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> Linux </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> NFS </tag>
             
         </tags>
       

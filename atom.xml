@@ -154,6 +154,35 @@
   </entry>
   
   <entry>
+    <title>搭建 NFS 服务</title>
+    <link href="https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/"/>
+    <id>https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/</id>
+    <published>2020-09-23T16:55:39.000Z</published>
+    <updated>2020-09-24T12:57:54.644Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;目的：部署 NFS 服务进行跨主机文件共享&lt;/p&gt;
+&lt;p&gt;Network File System&lt;br&gt;      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。&lt;/p&gt;
+&lt;h3 id=&quot;1、环境准备&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>gitlab-ci 入门</title>
     <link href="https://cyylog.github.io/2020/09/20/devops/gitlab-ci-ru-men/"/>
     <id>https://cyylog.github.io/2020/09/20/devops/gitlab-ci-ru-men/</id>
@@ -175,35 +204,6 @@
     
     
     <category term="Gitlab" scheme="https://cyylog.github.io/tags/Gitlab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搭建 NFS 服务</title>
-    <link href="https://cyylog.github.io/2020/09/16/linux/bu-shu-nfs-fu-wu/"/>
-    <id>https://cyylog.github.io/2020/09/16/linux/bu-shu-nfs-fu-wu/</id>
-    <published>2020-09-15T16:55:39.000Z</published>
-    <updated>2020-09-24T06:45:18.456Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;目的：部署 NFS 服务进行跨主机文件共享&lt;/p&gt;
-&lt;p&gt;Network File System&lt;br&gt;      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。&lt;/p&gt;
-&lt;h3 id=&quot;1、环境准备&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
     
   </entry>
   
