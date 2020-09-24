@@ -159,7 +159,14 @@
       
         
         
-    <summary type="html">&lt;a</summary>
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;操作系统：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;进程、线程、协程有什么区别？4个线程执行3个文件句柄是共享这3个文件么？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script&gt;
+       </summary>
         
       
     
@@ -190,7 +197,11 @@
 &lt;ol&gt;
 &lt;li&gt;http的3次握手&lt;/li&gt;
 &lt;/ol&gt;
-&lt;ol</summary>
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;https的连接过程？双方使用的加密套件是由客户端决定的，还是服务端决定的？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script&gt;
+  </summary>
         
       
     
@@ -250,7 +261,11 @@
 &lt;ol&gt;
 &lt;li&gt;mysql事务的隔离级别&lt;/li&gt;
 &lt;/ol&gt;
-&lt;ol</summary>
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;什么是乐观锁和悲观锁？乐观锁的一致性怎么保证&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script&gt;
+       </summary>
         
       
     
@@ -314,31 +329,6 @@
   </entry>
   
   <entry>
-    <title>python之fabric模块</title>
-    <link href="https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
-    <id>https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
-    <published>2020-05-31T08:20:44.000Z</published>
-    <updated>2020-05-31T08:24:59.471Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
-    
-    
-    <category term="Python" scheme="https://cyylog.github.com/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Vue之入门篇_001</title>
     <link href="https://cyylog.github.com/2020/05/31/devops/vue-ru-men-zhi-001/"/>
     <id>https://cyylog.github.com/2020/05/31/devops/vue-ru-men-zhi-001/</id>
@@ -360,6 +350,31 @@
     
     
     <category term="Vue" scheme="https://cyylog.github.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python之fabric模块</title>
+    <link href="https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
+    <id>https://cyylog.github.com/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-05-31T08:24:59.471Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.com/categories/DevOps/"/>
+    
+    
+    <category term="Python" scheme="https://cyylog.github.com/tags/Python/"/>
     
   </entry>
   

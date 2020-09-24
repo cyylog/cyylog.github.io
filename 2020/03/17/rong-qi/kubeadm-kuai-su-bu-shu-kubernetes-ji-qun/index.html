@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -561,9 +561,11 @@
 
 <p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。</p>
 <p>这个工具能通过两条指令完成一个kubernetes集群的部署：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个 Master 节点</span><br><span class="line">$ kubeadm init</span><br><span class="line"></span><br><span class="line"># 将一个 Node 节点加入到当前集群中</span><br><span class="line">$ kubeadm join &lt;Master节点的IP和端口 &gt;</span><br></pre></td></tr></table></figure>
+<pre><code># 创建一个 Master 节点
+$ kubeadm init
 
-<h2 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
+# 将一个 Node 节点加入到当前集群中
+$ kubeadm join &lt;Master节点的IP和端口 &gt;</code></pre><h2 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
 <ul>
 <li>一台或多台机器，操作系统 CentOS7.x-86_x64</li>
 <li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多</li>
@@ -582,48 +584,116 @@
 <p>Kubernetes 架构图</p>
 <p><img src="http://p3.pstatp.com/large/pgc-image/8f8781176b8d4670b94214caa934d880" alt="kubeadm快速部署kubernetes集群"></p>
 <p>Kubernetes 架构图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">关闭防火墙：</span><br><span class="line">$ systemctl stop firewalld</span><br><span class="line">$ systemctl disable firewalld</span><br><span class="line"></span><br><span class="line">关闭selinux：</span><br><span class="line">$ sed -i &#39;s&#x2F;enforcing&#x2F;disabled&#x2F;&#39; &#x2F;etc&#x2F;selinux&#x2F;config </span><br><span class="line">$ setenforce 0</span><br><span class="line"></span><br><span class="line">关闭swap：</span><br><span class="line">$ swapoff -a  $ 临时</span><br><span class="line">$ vim &#x2F;etc&#x2F;fstab  $ 永久</span><br><span class="line"></span><br><span class="line">添加主机名与IP对应关系（记得设置主机名）：</span><br><span class="line">$ cat &#x2F;etc&#x2F;hosts</span><br><span class="line">192.168.31.63 k8s-master</span><br><span class="line">192.168.31.65 k8s-node1</span><br><span class="line">192.168.31.66 k8s-node2</span><br><span class="line"></span><br><span class="line">将桥接的IPv4流量传递到iptables的链：</span><br><span class="line">$ cat &gt; &#x2F;etc&#x2F;sysctl.d&#x2F;k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables &#x3D; 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables &#x3D; 1</span><br><span class="line">EOF</span><br><span class="line">$ sysctl --system</span><br></pre></td></tr></table></figure>
+<pre><code>关闭防火墙：
+$ systemctl stop firewalld
+$ systemctl disable firewalld
 
-<h2 id="4-所有节点安装Docker-kubeadm-kubelet"><a href="#4-所有节点安装Docker-kubeadm-kubelet" class="headerlink" title="4. 所有节点安装Docker/kubeadm/kubelet"></a>4. 所有节点安装Docker/kubeadm/kubelet</h2><p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。</p>
-<h3 id="4-1-安装Docker"><a href="#4-1-安装Docker" class="headerlink" title="4.1 安装Docker"></a>4.1 安装Docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo -O &#x2F;etc&#x2F;yum.repos.d&#x2F;docker-ce.repo</span><br><span class="line">$ yum -y install docker-ce-18.06.1.ce-3.el7</span><br><span class="line">$ systemctl enable docker &amp;&amp; systemctl start docker</span><br><span class="line">$ docker --version</span><br><span class="line">Docker version 18.06.1-ce, build e68fc7a</span><br></pre></td></tr></table></figure>
+关闭selinux：
+$ sed -i 's/enforcing/disabled/' /etc/selinux/config 
+$ setenforce 0
 
-<h3 id="4-2-添加阿里云YUM软件源"><a href="#4-2-添加阿里云YUM软件源" class="headerlink" title="4.2 添加阿里云YUM软件源"></a>4.2 添加阿里云YUM软件源</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat &gt; &#x2F;etc&#x2F;yum.repos.d&#x2F;kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name&#x3D;Kubernetes</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;repos&#x2F;kubernetes-el7-x86_64</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">repo_gpgcheck&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;yum-key.gpg https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kubernetes&#x2F;yum&#x2F;doc&#x2F;rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+关闭swap：
+$ swapoff -a  $ 临时
+$ vim /etc/fstab  $ 永久
 
-<h3 id="4-3-安装kubeadm，kubelet和kubectl"><a href="#4-3-安装kubeadm，kubelet和kubectl" class="headerlink" title="4.3 安装kubeadm，kubelet和kubectl"></a>4.3 安装kubeadm，kubelet和kubectl</h3><p>由于版本更新频繁，这里指定版本号部署：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y kubelet-1.14.0 kubeadm-1.14.0 kubectl-1.14.0</span><br><span class="line">$ systemctl enable kubelet</span><br></pre></td></tr></table></figure>
+添加主机名与IP对应关系（记得设置主机名）：
+$ cat /etc/hosts
+192.168.31.63 k8s-master
+192.168.31.65 k8s-node1
+192.168.31.66 k8s-node2
 
-<h2 id="5-部署Kubernetes-Master"><a href="#5-部署Kubernetes-Master" class="headerlink" title="5. 部署Kubernetes Master"></a>5. 部署Kubernetes Master</h2><p>在192.168.31.63（Master）执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ kubeadm init \</span><br><span class="line">  --apiserver-advertise-address&#x3D;192.168.31.63 \</span><br><span class="line">  --image-repository registry.aliyuncs.com&#x2F;google_containers \</span><br><span class="line">  --kubernetes-version v1.14.0 \</span><br><span class="line">  --service-cidr&#x3D;10.1.0.0&#x2F;16 \</span><br><span class="line">  --pod-network-cidr&#x3D;10.244.0.0&#x2F;16</span><br></pre></td></tr></table></figure>
-
-<p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址。</p>
+将桥接的IPv4流量传递到iptables的链：
+$ cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+$ sysctl --system</code></pre><h2 id="4-所有节点安装Docker-kubeadm-kubelet"><a href="#4-所有节点安装Docker-kubeadm-kubelet" class="headerlink" title="4. 所有节点安装Docker/kubeadm/kubelet"></a>4. 所有节点安装Docker/kubeadm/kubelet</h2><p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。</p>
+<h3 id="4-1-安装Docker"><a href="#4-1-安装Docker" class="headerlink" title="4.1 安装Docker"></a>4.1 安装Docker</h3><pre><code>$ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+$ yum -y install docker-ce-18.06.1.ce-3.el7
+$ systemctl enable docker &amp;&amp; systemctl start docker
+$ docker --version
+Docker version 18.06.1-ce, build e68fc7a</code></pre><h3 id="4-2-添加阿里云YUM软件源"><a href="#4-2-添加阿里云YUM软件源" class="headerlink" title="4.2 添加阿里云YUM软件源"></a>4.2 添加阿里云YUM软件源</h3><pre><code>$ cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF</code></pre><h3 id="4-3-安装kubeadm，kubelet和kubectl"><a href="#4-3-安装kubeadm，kubelet和kubectl" class="headerlink" title="4.3 安装kubeadm，kubelet和kubectl"></a>4.3 安装kubeadm，kubelet和kubectl</h3><p>由于版本更新频繁，这里指定版本号部署：</p>
+<pre><code>$ yum install -y kubelet-1.14.0 kubeadm-1.14.0 kubectl-1.14.0
+$ systemctl enable kubelet</code></pre><h2 id="5-部署Kubernetes-Master"><a href="#5-部署Kubernetes-Master" class="headerlink" title="5. 部署Kubernetes Master"></a>5. 部署Kubernetes Master</h2><p>在192.168.31.63（Master）执行。</p>
+<pre><code>$ kubeadm init \
+  --apiserver-advertise-address=192.168.31.63 \
+  --image-repository registry.aliyuncs.com/google_containers \
+  --kubernetes-version v1.14.0 \
+  --service-cidr=10.1.0.0/16 \
+  --pod-network-cidr=10.244.0.0/16</code></pre><p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址。</p>
 <p>使用kubectl工具：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $HOME&#x2F;.kube</span><br><span class="line">sudo cp -i &#x2F;etc&#x2F;kubernetes&#x2F;admin.conf $HOME&#x2F;.kube&#x2F;config</span><br><span class="line">sudo chown $(id -u):$(id -g) $HOME&#x2F;.kube&#x2F;config</span><br><span class="line">$ kubectl get nodes</span><br></pre></td></tr></table></figure>
-
-<h2 id="6-安装Pod网络插件（CNI）"><a href="#6-安装Pod网络插件（CNI）" class="headerlink" title="6. 安装Pod网络插件（CNI）"></a>6. 安装Pod网络插件（CNI）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;coreos&#x2F;flannel&#x2F;a70459be0084506e4ec919aa1c114638878db11b&#x2F;Documentation&#x2F;kube-flannel.yml</span><br></pre></td></tr></table></figure>
-
-<p>确保能够访问到quay.io这个registery。 master执行</p>
+<pre><code>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+$ kubectl get nodes</code></pre><h2 id="6-安装Pod网络插件（CNI）"><a href="#6-安装Pod网络插件（CNI）" class="headerlink" title="6. 安装Pod网络插件（CNI）"></a>6. 安装Pod网络插件（CNI）</h2><pre><code>$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml</code></pre><p>确保能够访问到quay.io这个registery。 master执行</p>
 <p># kubectl get pods -n kube-system</p>
 <h2 id="7-加入Kubernetes-Node"><a href="#7-加入Kubernetes-Node" class="headerlink" title="7. 加入Kubernetes Node"></a>7. 加入Kubernetes Node</h2><p>在192.168.31.65/66（Node）执行。</p>
 <p>向集群添加新节点，执行在kubeadm init输出的kubeadm join命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  kubeadm join 192.168.31.63:6443 --token l79g5t.6ov4jkddwqki1dxe --discovery-token-ca-cert-hash sha256:4f07f9068c543130461c9db368d62b4aabc22105451057f887defa35f47fa076</span><br></pre></td></tr></table></figure>
+<pre><code>$  kubeadm join 192.168.31.63:6443 --token l79g5t.6ov4jkddwqki1dxe --discovery-token-ca-cert-hash sha256:4f07f9068c543130461c9db368d62b4aabc22105451057f887defa35f47fa076</code></pre><h2 id="8-测试kubernetes集群"><a href="#8-测试kubernetes集群" class="headerlink" title="8. 测试kubernetes集群"></a>8. 测试kubernetes集群</h2><p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
+<pre><code>$ kubectl create deployment nginx --image=nginx
+$ kubectl expose deployment nginx --port=80 --type=NodePort
+$ kubectl get pod,svc
+$ kubectl get pod,svc -o wide</code></pre><p>访问地址：<a href="http://NodeIP:Port">http://NodeIP:Port</a></p>
+<h2 id="9-部署-Dashboard"><a href="#9-部署-Dashboard" class="headerlink" title="9. 部署 Dashboard"></a>9. 部署 Dashboard</h2><pre><code>$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 
-<h2 id="8-测试kubernetes集群"><a href="#8-测试kubernetes集群" class="headerlink" title="8. 测试kubernetes集群"></a>8. 测试kubernetes集群</h2><p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create deployment nginx --image&#x3D;nginx</span><br><span class="line">$ kubectl expose deployment nginx --port&#x3D;80 --type&#x3D;NodePort</span><br><span class="line">$ kubectl get pod,svc</span><br><span class="line">$ kubectl get pod,svc -o wide</span><br></pre></td></tr></table></figure>
-
-<p>访问地址：<a href="http://NodeIP:Port">http://NodeIP:Port</a></p>
-<h2 id="9-部署-Dashboard"><a href="#9-部署-Dashboard" class="headerlink" title="9. 部署 Dashboard"></a>9. 部署 Dashboard</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;dashboard&#x2F;v1.10.1&#x2F;src&#x2F;deploy&#x2F;recommended&#x2F;kubernetes-dashboard.yaml</span><br><span class="line"></span><br><span class="line">镜像下载因为网络的原因：</span><br><span class="line">镜像难以下载，需要修改以下两个地方</span><br><span class="line">        image: tigerfive&#x2F;kubernetes-dashboard-amd64:v1.10.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  ports:</span><br><span class="line">    - port: 443</span><br><span class="line">      targetPort: 8443</span><br></pre></td></tr></table></figure>
+镜像下载因为网络的原因：
+镜像难以下载，需要修改以下两个地方
+        image: tigerfive/kubernetes-dashboard-amd64:v1.10.1
 
 
-
-<p>默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">kind: Service</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    k8s-app: kubernetes-dashboard</span><br><span class="line">  name: kubernetes-dashboard</span><br><span class="line">  namespace: kube-system</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort</span><br><span class="line">  ports:</span><br><span class="line">    - port: 443</span><br><span class="line">      targetPort: 8443</span><br><span class="line">      nodePort: 30001</span><br><span class="line">  selector:</span><br><span class="line">    k8s-app: kubernetes-dashboard</span><br><span class="line">$ kubectl apply -f kubernetes-dashboard.yaml</span><br></pre></td></tr></table></figure>
-
-<p>访问地址：<a href="http://NodeIP:30001" target="_blank" rel="noopener">http://NodeIP:30001</a></p>
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+</code></pre><p>默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：</p>
+<pre><code>kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 30001
+  selector:
+    k8s-app: kubernetes-dashboard
+$ kubectl apply -f kubernetes-dashboard.yaml</code></pre><p>访问地址：<a href="http://NodeIP:30001" target="_blank" rel="noopener">http://NodeIP:30001</a></p>
 <p>创建service account并绑定默认cluster-admin管理员集群角色：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create serviceaccount dashboard-admin -n kube-system</span><br><span class="line">$ kubectl create clusterrolebinding dashboard-admin --clusterrole&#x3D;cluster-admin --serviceaccount&#x3D;kube-system:dashboard-admin</span><br><span class="line">$ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk &#39;&#x2F;dashboard-admin&#x2F;&#123;print $1&#125;&#39;)</span><br></pre></td></tr></table></figure>
-
-<p>使用输出的token登录Dashboard。</p>
-
+<pre><code>$ kubectl create serviceaccount dashboard-admin -n kube-system
+$ kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
+$ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk '/dashboard-admin/{print $1}')</code></pre><p>使用输出的token登录Dashboard。</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -698,10 +768,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -839,6 +912,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-03-17T00-14-19',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Tue Mar 17 2020 00:14:19 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1094,7 +1221,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1122,13 +1249,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1138,7 +1265,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1220,6 +1347,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

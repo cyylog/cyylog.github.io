@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -564,44 +564,225 @@
 <p>​    尽管游标能遍历结果中的所有行，但他一次只指向一行。</p>
 <p>​    游标的作用就是用于对查询数据库所返回的记录进行遍历，以便进行相应的操作。</p>
 <h1 id="【用法】"><a href="#【用法】" class="headerlink" title="【用法】"></a>【用法】</h1><p>​    一、声明一个游标: declare 游标名称 CURSOR for table;(这里的table可以是你查询出来的任意集合)<br>​    二、打开定义的游标:open 游标名称;<br>​    三、获得下一行数据:FETCH  游标名称 into testrangeid,versionid;<br>​    四、需要执行的语句(增删改查):这里视具体情况而定<br>​    五、释放游标:CLOSE 游标名称;<br>  注:mysql存储过程每一句后面必须用;结尾，使用的临时字段需要在定义游标之前进行声明。</p>
-<h1 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a>【实例】</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">-  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">--定义变量  </span></span><br><span class="line"><span class="keyword">declare</span> testrangeid <span class="built_in">BIGINT</span>;  </span><br><span class="line"><span class="keyword">declare</span> versionid <span class="built_in">BIGINT</span>;   </span><br><span class="line"><span class="keyword">declare</span> done <span class="built_in">int</span>;  </span><br><span class="line"><span class="comment">--创建游标，并存储数据  </span></span><br><span class="line"><span class="keyword">declare</span> cur_test <span class="keyword">CURSOR</span> <span class="keyword">for</span>   </span><br><span class="line">   <span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">as</span> testrangeid,version_id <span class="keyword">as</span> versionid <span class="keyword">from</span> tp_testrange;  </span><br><span class="line"><span class="comment">--游标中的内容执行完后将done设置为1  </span></span><br><span class="line"> <span class="keyword">DECLARE</span> CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> <span class="keyword">SET</span> done=<span class="number">1</span>;   </span><br><span class="line"><span class="comment">--打开游标  </span></span><br><span class="line">open cur_test;  </span><br><span class="line"><span class="comment">--执行循环  </span></span><br><span class="line">  posLoop:LOOP  </span><br><span class="line"><span class="comment">--判断是否结束循环  </span></span><br><span class="line">        IF done=1 THEN    </span><br><span class="line">      LEAVE posLoop;  </span><br><span class="line">    <span class="keyword">END</span> <span class="keyword">IF</span>;   </span><br><span class="line"><span class="comment">--取游标中的值  </span></span><br><span class="line">    FETCH  cur_test into testrangeid,versionid;  </span><br><span class="line"><span class="comment">--执行更新操作  </span></span><br><span class="line">    <span class="keyword">update</span> tp_data_execute <span class="keyword">set</span> version_id=versionid <span class="keyword">where</span> testrange_id = testrangeid;  </span><br><span class="line">  <span class="keyword">END</span> <span class="keyword">LOOP</span> posLoop;  </span><br><span class="line"><span class="comment">--释放游标  </span></span><br><span class="line">CLOSE cur_test;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line">-</span><br></pre></td></tr></table></figure>
+<h1 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a>【实例】</h1><pre class=" language-sql"><code class="language-sql"><span class="token operator">-</span>  
+<span class="token keyword">BEGIN</span>  
 
+<span class="token comment" spellcheck="true">--定义变量  </span>
+<span class="token keyword">declare</span> testrangeid <span class="token keyword">BIGINT</span><span class="token punctuation">;</span>  
+<span class="token keyword">declare</span> versionid <span class="token keyword">BIGINT</span><span class="token punctuation">;</span>   
+<span class="token keyword">declare</span> done <span class="token keyword">int</span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--创建游标，并存储数据  </span>
+<span class="token keyword">declare</span> cur_test <span class="token keyword">CURSOR</span> <span class="token keyword">for</span>   
+   <span class="token keyword">select</span> id <span class="token keyword">as</span> testrangeid<span class="token punctuation">,</span>version_id <span class="token keyword">as</span> versionid <span class="token keyword">from</span> tp_testrange<span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--游标中的内容执行完后将done设置为1  </span>
+ <span class="token keyword">DECLARE</span> <span class="token keyword">CONTINUE</span> <span class="token keyword">HANDLER</span> <span class="token keyword">FOR</span> <span class="token operator">NOT</span> FOUND <span class="token keyword">SET</span> done<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>   
+<span class="token comment" spellcheck="true">--打开游标  </span>
+<span class="token keyword">open</span> cur_test<span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--执行循环  </span>
+  posLoop:LOOP  
+<span class="token comment" spellcheck="true">--判断是否结束循环  </span>
+        <span class="token keyword">IF</span> done<span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">THEN</span>    
+      LEAVE posLoop<span class="token punctuation">;</span>  
+    <span class="token keyword">END</span> <span class="token keyword">IF</span><span class="token punctuation">;</span>   
+<span class="token comment" spellcheck="true">--取游标中的值  </span>
+    <span class="token keyword">FETCH</span>  cur_test <span class="token keyword">into</span> testrangeid<span class="token punctuation">,</span>versionid<span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--执行更新操作  </span>
+    <span class="token keyword">update</span> tp_data_execute <span class="token keyword">set</span> version_id<span class="token operator">=</span>versionid <span class="token keyword">where</span> testrange_id <span class="token operator">=</span> testrangeid<span class="token punctuation">;</span>  
+  <span class="token keyword">END</span> LOOP posLoop<span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--释放游标  </span>
+<span class="token keyword">CLOSE</span> cur_test<span class="token punctuation">;</span>  
+
+<span class="token keyword">END</span>  
+<span class="token operator">-</span>  </code></pre>
 <p> 例子2：</p>
 <p>我们现在要用存储过程做一个功能，统计iphone的总库存是多少，并把总数输出到控制台。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--在windows系统中写存储过程时，如果需要使用declare声明变量，需要添加这个关键字，否则会报错。  </span></span><br><span class="line">delimiter //  </span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> StatisticStore;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> StatisticStore()  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">    <span class="comment">--创建接收游标数据的变量  </span></span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;  </span><br><span class="line">    <span class="keyword">declare</span> n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">    <span class="comment">--创建总数变量  </span></span><br><span class="line">    <span class="keyword">declare</span> total <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  </span><br><span class="line">    <span class="comment">--创建结束标志变量  </span></span><br><span class="line">    <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    <span class="comment">--创建游标  </span></span><br><span class="line">    <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">count</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'iphone'</span>;  </span><br><span class="line">    <span class="comment">--指定游标循环结束时的返回值  </span></span><br><span class="line">    <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">    <span class="comment">--设置初始值  </span></span><br><span class="line">    <span class="keyword">set</span> total = <span class="number">0</span>;  </span><br><span class="line">    <span class="comment">--打开游标  </span></span><br><span class="line">    open cur;  </span><br><span class="line">    <span class="comment">--开始循环游标里的数据  </span></span><br><span class="line">    read_loop:loop  </span><br><span class="line">    <span class="comment">--根据游标当前指向的一条数据  </span></span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    <span class="comment">--判断游标的循环是否结束  </span></span><br><span class="line">    if done then  </span><br><span class="line">        leave read_loop;    <span class="comment">--跳出游标循环  </span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;  </span><br><span class="line">    <span class="comment">--获取一条数据时，将count值进行累加操作，这里可以做任意你想做的操作，  </span></span><br><span class="line">    <span class="keyword">set</span> total = total + c;  </span><br><span class="line">    <span class="comment">--结束游标循环  </span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">loop</span>;  </span><br><span class="line">    <span class="comment">--关闭游标  </span></span><br><span class="line">    close cur;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">--输出结果  </span></span><br><span class="line">    <span class="keyword">select</span> total;  </span><br><span class="line"><span class="keyword">END</span>;  </span><br><span class="line"><span class="comment">--调用存储过程  </span></span><br><span class="line"><span class="keyword">call</span> StatisticStore();</span><br></pre></td></tr></table></figure>
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--在windows系统中写存储过程时，如果需要使用declare声明变量，需要添加这个关键字，否则会报错。  </span>
+<span class="token keyword">delimiter</span> <span class="token comment" spellcheck="true">//  </span>
+<span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> StatisticStore<span class="token punctuation">;</span>  
+<span class="token keyword">CREATE</span> <span class="token keyword">PROCEDURE</span> StatisticStore<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+<span class="token keyword">BEGIN</span>  
+    <span class="token comment" spellcheck="true">--创建接收游标数据的变量  </span>
+    <span class="token keyword">declare</span> <span class="token number">c</span> <span class="token keyword">int</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--创建总数变量  </span>
+    <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--创建结束标志变量  </span>
+    <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--创建游标  </span>
+    <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>count <span class="token keyword">from</span> store <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'iphone'</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--指定游标循环结束时的返回值  </span>
+    <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--设置初始值  </span>
+    <span class="token keyword">set</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--打开游标  </span>
+    <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--开始循环游标里的数据  </span>
+    read_loop:loop  
+    <span class="token comment" spellcheck="true">--根据游标当前指向的一条数据  </span>
+    <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--判断游标的循环是否结束  </span>
+    <span class="token keyword">if</span> done <span class="token keyword">then</span>  
+        leave read_loop<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">--跳出游标循环  </span>
+    <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--获取一条数据时，将count值进行累加操作，这里可以做任意你想做的操作，  </span>
+    <span class="token keyword">set</span> total <span class="token operator">=</span> total <span class="token operator">+</span> <span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--结束游标循环  </span>
+    <span class="token keyword">end</span> loop<span class="token punctuation">;</span>  
+    <span class="token comment" spellcheck="true">--关闭游标  </span>
+    <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
 
+    <span class="token comment" spellcheck="true">--输出结果  </span>
+    <span class="token keyword">select</span> total<span class="token punctuation">;</span>  
+<span class="token keyword">END</span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--调用存储过程  </span>
+<span class="token keyword">call</span> StatisticStore<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  </code></pre>
 <p> fetch是获取游标当前指向的数据行，并将指针指向下一行，当游标已经指向最后一行时继续执行会造成游标溢出。<br>使用loop循环游标时，他本身是不会监控是否到最后一条数据了，像下面代码这种写法，就会造成死循环；</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">read_loop:loop  </span><br><span class="line">fetch cur into n,c;  </span><br><span class="line"><span class="keyword">set</span> total = total+c;  </span><br><span class="line"><span class="keyword">end</span> <span class="keyword">loop</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql">read_loop:loop  
+<span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+<span class="token keyword">set</span> total <span class="token operator">=</span> total<span class="token operator">+</span><span class="token number">c</span><span class="token punctuation">;</span>  
+<span class="token keyword">end</span> loop<span class="token punctuation">;</span>  </code></pre>
 <p>在MySql中，造成游标溢出时会引发mysql预定义的NOT FOUND错误，所以在上面使用下面的代码指定了当引发not found错误时定义一个continue 的事件，指定这个事件发生时修改done变量的值。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  </code></pre>
 <p>所以在循环时加上了下面这句代码：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--判断游标的循环是否结束  </span></span><br><span class="line">if done then  </span><br><span class="line">    leave read_loop;    <span class="comment">--跳出游标循环  </span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">--判断游标的循环是否结束  </span>
+<span class="token keyword">if</span> done <span class="token keyword">then</span>  
+    leave read_loop<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">--跳出游标循环  </span>
+<span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  </code></pre>
 <p>如果done的值是true，就结束循环。继续执行下面的代码</p>
 <p>使用方式</p>
 <p>游标有三种使用方式：<br>第一种就是上面的实现，使用loop循环；<br>第二种方式如下，使用while循环：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> StatisticStore1;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> StatisticStore1()  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;  </span><br><span class="line">    <span class="keyword">declare</span> n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">    <span class="keyword">declare</span> total <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">count</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'iphone'</span>;  </span><br><span class="line">    <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">    <span class="keyword">set</span> total = <span class="number">0</span>;  </span><br><span class="line">    open cur;  </span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    while(not done) <span class="keyword">do</span>  </span><br><span class="line">        <span class="keyword">set</span> total = total + c;  </span><br><span class="line">        fetch cur into n,c;  </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">while</span>;  </span><br><span class="line">      </span><br><span class="line">    close cur;  </span><br><span class="line">    <span class="keyword">select</span> total;  </span><br><span class="line"><span class="keyword">END</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">call</span> StatisticStore1();</span><br></pre></td></tr></table></figure>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> StatisticStore1<span class="token punctuation">;</span>  
+<span class="token keyword">CREATE</span> <span class="token keyword">PROCEDURE</span> StatisticStore1<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+<span class="token keyword">BEGIN</span>  
+    <span class="token keyword">declare</span> <span class="token number">c</span> <span class="token keyword">int</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>count <span class="token keyword">from</span> store <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'iphone'</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+    <span class="token keyword">set</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+    <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">not</span> done<span class="token punctuation">)</span> <span class="token keyword">do</span>  
+        <span class="token keyword">set</span> total <span class="token operator">=</span> total <span class="token operator">+</span> <span class="token number">c</span><span class="token punctuation">;</span>  
+        <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token keyword">end</span> <span class="token keyword">while</span><span class="token punctuation">;</span>  
 
+    <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
+    <span class="token keyword">select</span> total<span class="token punctuation">;</span>  
+<span class="token keyword">END</span><span class="token punctuation">;</span>  
 
-
+<span class="token keyword">call</span> StatisticStore1<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  </code></pre>
 <p>第三种方式是使用repeat执行：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> StatisticStore2;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> StatisticStore2()  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">    <span class="keyword">declare</span> c <span class="built_in">int</span>;  </span><br><span class="line">    <span class="keyword">declare</span> n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">    <span class="keyword">declare</span> total <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">count</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'iphone'</span>;  </span><br><span class="line">    <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">    <span class="keyword">set</span> total = <span class="number">0</span>;  </span><br><span class="line">    open cur;  </span><br><span class="line">    repeat  </span><br><span class="line">    fetch cur into n,c;  </span><br><span class="line">    if not done then  </span><br><span class="line">        <span class="keyword">set</span> total = total + c;  </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;  </span><br><span class="line">    until done <span class="keyword">end</span> <span class="keyword">repeat</span>;  </span><br><span class="line">    close cur;  </span><br><span class="line">    <span class="keyword">select</span> total;  </span><br><span class="line"><span class="keyword">END</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">call</span> StatisticStore2();</span><br></pre></td></tr></table></figure>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> StatisticStore2<span class="token punctuation">;</span>  
+<span class="token keyword">CREATE</span> <span class="token keyword">PROCEDURE</span> StatisticStore2<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+<span class="token keyword">BEGIN</span>  
+    <span class="token keyword">declare</span> <span class="token number">c</span> <span class="token keyword">int</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>count <span class="token keyword">from</span> store <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'iphone'</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+    <span class="token keyword">set</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+    <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+    repeat  
+    <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token keyword">if</span> <span class="token operator">not</span> done <span class="token keyword">then</span>  
+        <span class="token keyword">set</span> total <span class="token operator">=</span> total <span class="token operator">+</span> <span class="token number">c</span><span class="token punctuation">;</span>  
+    <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  
+    until done <span class="token keyword">end</span> repeat<span class="token punctuation">;</span>  
+    <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
+    <span class="token keyword">select</span> total<span class="token punctuation">;</span>  
+<span class="token keyword">END</span><span class="token punctuation">;</span>  
 
-
-
+<span class="token keyword">call</span> StatisticStore2<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h3 id="游标嵌套"><a href="#游标嵌套" class="headerlink" title="游标嵌套"></a>游标嵌套</h3><p>在mysql中，每个begin end 块都是一个独立的scope区域，由于MySql中同一个error的事件只能定义一次，如果多定义的话在编译时会提示Duplicate handler declared in the same block。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">procedure</span> <span class="keyword">if</span> <span class="keyword">exists</span> StatisticStore3;  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> StatisticStore3()  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">    <span class="keyword">declare</span> _n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">    <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">    <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">name</span>;  </span><br><span class="line">    <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">    open cur;  </span><br><span class="line">    read_loop:loop  </span><br><span class="line">    fetch cur into _n;  </span><br><span class="line">    if done then  </span><br><span class="line">        leave read_loop;  </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">if</span>;  </span><br><span class="line">    <span class="keyword">begin</span>  </span><br><span class="line">        <span class="keyword">declare</span> c <span class="built_in">int</span>;  </span><br><span class="line">        <span class="keyword">declare</span> n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">        <span class="keyword">declare</span> total <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">        <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">count</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'iphone'</span>;  </span><br><span class="line">        <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">        <span class="keyword">set</span> total = <span class="number">0</span>;  </span><br><span class="line">        open cur;  </span><br><span class="line">        iphone_loop:loop  </span><br><span class="line">        fetch cur into n,c;  </span><br><span class="line">        if done then  </span><br><span class="line">            leave iphone_loop;  </span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">if</span>;  </span><br><span class="line">        <span class="keyword">set</span> total = total + c;  </span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">loop</span>;  </span><br><span class="line">        close cur;  </span><br><span class="line">        <span class="keyword">select</span> _n,n,total;  </span><br><span class="line">    <span class="keyword">end</span>;  </span><br><span class="line">    <span class="keyword">begin</span>  </span><br><span class="line">            <span class="keyword">declare</span> c <span class="built_in">int</span>;  </span><br><span class="line">            <span class="keyword">declare</span> n <span class="built_in">varchar</span>(<span class="number">20</span>);  </span><br><span class="line">            <span class="keyword">declare</span> total <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">0</span>;  </span><br><span class="line">            <span class="keyword">declare</span> done <span class="built_in">int</span> <span class="keyword">default</span> <span class="literal">false</span>;  </span><br><span class="line">            <span class="keyword">declare</span> cur <span class="keyword">cursor</span> <span class="keyword">for</span> <span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">count</span> <span class="keyword">from</span> <span class="keyword">store</span> <span class="keyword">where</span> <span class="keyword">name</span> = <span class="string">'android'</span>;  </span><br><span class="line">            <span class="keyword">declare</span> continue <span class="keyword">HANDLER</span> <span class="keyword">for</span> <span class="keyword">not</span> <span class="keyword">found</span> <span class="keyword">set</span> done = <span class="literal">true</span>;  </span><br><span class="line">            <span class="keyword">set</span> total = <span class="number">0</span>;  </span><br><span class="line">            open cur;  </span><br><span class="line">            android_loop:loop  </span><br><span class="line">            fetch cur into n,c;  </span><br><span class="line">            if done then  </span><br><span class="line">                leave android_loop;  </span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">if</span>;  </span><br><span class="line">            <span class="keyword">set</span> total = total + c;  </span><br><span class="line">            <span class="keyword">end</span> <span class="keyword">loop</span>;  </span><br><span class="line">            close cur;  </span><br><span class="line">        <span class="keyword">select</span> _n,n,total;  </span><br><span class="line">    <span class="keyword">end</span>;  </span><br><span class="line">    <span class="keyword">begin</span>  </span><br><span class="line">      </span><br><span class="line">    <span class="keyword">end</span>;  </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">loop</span>;  </span><br><span class="line">    close cur;  </span><br><span class="line"><span class="keyword">END</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">call</span> StatisticStore3();</span><br></pre></td></tr></table></figure>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> StatisticStore3<span class="token punctuation">;</span>  
+<span class="token keyword">CREATE</span> <span class="token keyword">PROCEDURE</span> StatisticStore3<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+<span class="token keyword">BEGIN</span>  
+    <span class="token keyword">declare</span> _n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name <span class="token keyword">from</span> store <span class="token keyword">group</span> <span class="token keyword">by</span> name<span class="token punctuation">;</span>  
+    <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+    <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+    read_loop:loop  
+    <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> _n<span class="token punctuation">;</span>  
+    <span class="token keyword">if</span> done <span class="token keyword">then</span>  
+        leave read_loop<span class="token punctuation">;</span>  
+    <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  
+    <span class="token keyword">begin</span>  
+        <span class="token keyword">declare</span> <span class="token number">c</span> <span class="token keyword">int</span><span class="token punctuation">;</span>  
+        <span class="token keyword">declare</span> n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+        <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+        <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>count <span class="token keyword">from</span> store <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'iphone'</span><span class="token punctuation">;</span>  
+        <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+        <span class="token keyword">set</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+        <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+        iphone_loop:loop  
+        <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+        <span class="token keyword">if</span> done <span class="token keyword">then</span>  
+            leave iphone_loop<span class="token punctuation">;</span>  
+        <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  
+        <span class="token keyword">set</span> total <span class="token operator">=</span> total <span class="token operator">+</span> <span class="token number">c</span><span class="token punctuation">;</span>  
+        <span class="token keyword">end</span> loop<span class="token punctuation">;</span>  
+        <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
+        <span class="token keyword">select</span> _n<span class="token punctuation">,</span>n<span class="token punctuation">,</span>total<span class="token punctuation">;</span>  
+    <span class="token keyword">end</span><span class="token punctuation">;</span>  
+    <span class="token keyword">begin</span>  
+            <span class="token keyword">declare</span> <span class="token number">c</span> <span class="token keyword">int</span><span class="token punctuation">;</span>  
+            <span class="token keyword">declare</span> n <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+            <span class="token keyword">declare</span> total <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+            <span class="token keyword">declare</span> done <span class="token keyword">int</span> <span class="token keyword">default</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+            <span class="token keyword">declare</span> cur <span class="token keyword">cursor</span> <span class="token keyword">for</span> <span class="token keyword">select</span> name<span class="token punctuation">,</span>count <span class="token keyword">from</span> store <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'android'</span><span class="token punctuation">;</span>  
+            <span class="token keyword">declare</span> <span class="token keyword">continue</span> <span class="token keyword">HANDLER</span> <span class="token keyword">for</span> <span class="token operator">not</span> found <span class="token keyword">set</span> done <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+            <span class="token keyword">set</span> total <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
+            <span class="token keyword">open</span> cur<span class="token punctuation">;</span>  
+            android_loop:loop  
+            <span class="token keyword">fetch</span> cur <span class="token keyword">into</span> n<span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  
+            <span class="token keyword">if</span> done <span class="token keyword">then</span>  
+                leave android_loop<span class="token punctuation">;</span>  
+            <span class="token keyword">end</span> <span class="token keyword">if</span><span class="token punctuation">;</span>  
+            <span class="token keyword">set</span> total <span class="token operator">=</span> total <span class="token operator">+</span> <span class="token number">c</span><span class="token punctuation">;</span>  
+            <span class="token keyword">end</span> loop<span class="token punctuation">;</span>  
+            <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
+        <span class="token keyword">select</span> _n<span class="token punctuation">,</span>n<span class="token punctuation">,</span>total<span class="token punctuation">;</span>  
+    <span class="token keyword">end</span><span class="token punctuation">;</span>  
+    <span class="token keyword">begin</span>  
 
+    <span class="token keyword">end</span><span class="token punctuation">;</span>  
+    <span class="token keyword">end</span> loop<span class="token punctuation">;</span>  
+    <span class="token keyword">close</span> cur<span class="token punctuation">;</span>  
+<span class="token keyword">END</span><span class="token punctuation">;</span>  
 
-
+<span class="token keyword">call</span> StatisticStore3<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  </code></pre>
 <p>上面就是实现一个嵌套循环，当然这个例子比较牵强。凑合看看就行。</p>
 <h3 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h3><p>Mysql 支持动态SQL的功能</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> @sqlStr=<span class="string">'select * from table where condition1 = ?'</span>;  </span><br><span class="line"><span class="keyword">prepare</span> s1 <span class="keyword">for</span> @sqlStr;  </span><br><span class="line"><span class="comment">--如果有多个参数用逗号分隔  </span></span><br><span class="line"><span class="keyword">execute</span> s1 <span class="keyword">using</span> @condition1;  </span><br><span class="line"><span class="comment">--手工释放，或者是 connection 关闭时， server 自动回收  </span></span><br><span class="line"><span class="keyword">deallocate</span> <span class="keyword">prepare</span> s1;</span><br></pre></td></tr></table></figure>
-
-
-
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token variable">@sqlStr</span><span class="token operator">=</span><span class="token string">'select * from table where condition1 = ?'</span><span class="token punctuation">;</span>  
+prepare s1 <span class="token keyword">for</span> <span class="token variable">@sqlStr</span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--如果有多个参数用逗号分隔  </span>
+<span class="token keyword">execute</span> s1 <span class="token keyword">using</span> <span class="token variable">@condition1</span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true">--手工释放，或者是 connection 关闭时， server 自动回收  </span>
+<span class="token keyword">deallocate</span> prepare s1<span class="token punctuation">;</span>  </code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -676,10 +857,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -817,6 +1001,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-07-16T11-54-04',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Thu Jul 16 2020 11:54:04 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -861,6 +1099,8 @@ mysql事务的隔离级别
 什么是乐观锁和悲观锁？乐观锁的一致性怎么保证
 
 
+        document.querySelectorAll('.github-emoji')
+          .forEac
                         
                     </div>
                     <div class="publish-info">
@@ -1078,7 +1318,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1106,13 +1346,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1122,7 +1362,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1204,6 +1444,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

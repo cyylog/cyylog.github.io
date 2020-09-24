@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -653,24 +653,39 @@
 <h3 id="2-7-提交日志"><a href="#2-7-提交日志" class="headerlink" title="2.7 提交日志"></a><strong>2.7 提交日志</strong></h3><p>　　<strong>Kafka可以作为分布式系统的一种外部提交日志</strong>。该日志有助于在节点之间复制数据，并充当故障节点恢复其数据的重新同步机制。Kafka中的日志压缩功能有助于支持此用法。在这种用法中，Kafka类似于<a href="https://bookkeeper.apache.org/" target="_blank" rel="noopener">Apache BookKeeper</a>项目。</p>
 <h2 id="3、kafka安装"><a href="#3、kafka安装" class="headerlink" title="3、kafka安装"></a><strong>3、kafka安装</strong></h2><h3 id="3-1-下载安装"><a href="#3-1-下载安装" class="headerlink" title="3.1 下载安装"></a><strong>3.1 下载安装</strong></h3><p>到官网<a href="http://kafka.apache.org/downloads.html" target="_blank" rel="noopener">http://kafka.apache.org/downloads.html</a>下载想要的版本；我这里下载的最新稳定版2.1.0</p>
 <p>注：由于Kafka控制台脚本对于基于Unix和Windows的平台是不同的，因此在Windows平台上使用bin\windows\ 而不是bin/ 将脚本扩展名更改为.bat。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# wget http:&#x2F;&#x2F;mirrors.shu.edu.cn&#x2F;apache&#x2F;kafka&#x2F;2.1.0&#x2F;kafka_2.11-2.1.0.tgz</span><br><span class="line">[root@along ~]# tar -C &#x2F;data&#x2F; -xvf kafka_2.11-2.1.0.tgz</span><br><span class="line">[root@along ~]# cd &#x2F;data&#x2F;kafka_2.11-2.1.0&#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# wget http://mirrors.shu.edu.cn/apache/kafka/2.1.0/kafka_2.11-2.1.0.tgz
+[root@along ~]# tar -C /data/ -xvf kafka_2.11-2.1.0.tgz
+[root@along ~]# cd /data/kafka_2.11-2.1.0/</code></pre><p>　　</p>
 <h3 id="3-2-配置启动zookeeper"><a href="#3-2-配置启动zookeeper" class="headerlink" title="3.2 配置启动zookeeper"></a><strong>3.2 配置启动zookeeper</strong></h3><p>　　kafka正常运行，必须配置zookeeper，否则无论是kafka集群还是客户端的生存者和消费者都无法正常的工作的；所以需要配置启动zookeeper服务。</p>
 <p>（1）zookeeper需要java环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# yum -y install java-1.8.0</span><br></pre></td></tr></table></figure>
-
-
-
-<p>（2）这里kafka下载包已经包括zookeeper服务，所以只需修改配置文件，启动即可。</p>
+<pre><code>[root@along ~]# yum -y install java-1.8.0</code></pre><p>（2）这里kafka下载包已经包括zookeeper服务，所以只需修改配置文件，启动即可。</p>
 <p>如果需要下载指定zookeeper版本；可以单独去zookeeper官网<a href="http://mirrors.shu.edu.cn/apache/zookeeper/" target="_blank" rel="noopener">http://mirrors.shu.edu.cn/apache/zookeeper/</a>下载指定版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# cd &#x2F;data&#x2F;kafka_2.11-2.1.0&#x2F;</span><br><span class="line">[root@along kafka_2.11-2.1.0]# grep &quot;^[^#]&quot; config&#x2F;zookeeper.properties </span><br><span class="line">dataDir&#x3D;&#x2F;tmp&#x2F;zookeeper		#数据存储目录</span><br><span class="line">clientPort&#x3D;2181   			#zookeeper端口</span><br><span class="line">maxClientCnxns&#x3D;0</span><br></pre></td></tr></table></figure>
-
-<p>注：可自行添加修改zookeeper配置</p>
+<pre><code>[root@along ~]# cd /data/kafka_2.11-2.1.0/
+[root@along kafka_2.11-2.1.0]# grep "^[^#]" config/zookeeper.properties 
+dataDir=/tmp/zookeeper        #数据存储目录
+clientPort=2181               #zookeeper端口
+maxClientCnxns=0</code></pre><p>注：可自行添加修改zookeeper配置</p>
 <h3 id="3-3-配置kafka"><a href="#3-3-配置kafka" class="headerlink" title="3.3 配置kafka"></a><strong>3.3 配置kafka</strong></h3><p>（1）修改配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@along kafka_2.11-2.1.0]# grep &quot;^[^#]&quot; config&#x2F;server.properties </span><br><span class="line">broker.id&#x3D;0 </span><br><span class="line">listeners&#x3D;PLAINTEXT:&#x2F;&#x2F;localhost:9092</span><br><span class="line">num.network.threads&#x3D;3 </span><br><span class="line">num.io.threads&#x3D;8</span><br><span class="line">socket.send.buffer.bytes&#x3D;102400</span><br><span class="line">socket.receive.buffer.bytes&#x3D;102400</span><br><span class="line">socket.request.max.bytes&#x3D;104857600</span><br><span class="line">log.dirs&#x3D;&#x2F;tmp&#x2F;kafka-logs</span><br><span class="line">num.partitions&#x3D;1</span><br><span class="line">num.recovery.threads.per.data.dir&#x3D;1</span><br><span class="line">offsets.topic.replication.factor&#x3D;1</span><br><span class="line">transaction.state.log.replication.factor&#x3D;1</span><br><span class="line">transaction.state.log.min.isr&#x3D;1</span><br><span class="line">log.retention.hours&#x3D;168</span><br><span class="line">log.segment.bytes&#x3D;1073741824</span><br><span class="line">log.retention.check.interval.ms&#x3D;300000</span><br><span class="line">zookeeper.connect&#x3D;localhost:2181</span><br><span class="line">zookeeper.connection.timeout.ms&#x3D;6000</span><br><span class="line">group.initial.rebalance.delay.ms&#x3D;0</span><br></pre></td></tr></table></figure>
-
-<p>注：可根据自己需求修改配置文件</p>
+<pre><code>[root@along kafka_2.11-2.1.0]# grep "^[^#]" config/server.properties 
+broker.id=0 
+listeners=PLAINTEXT://localhost:9092
+num.network.threads=3 
+num.io.threads=8
+socket.send.buffer.bytes=102400
+socket.receive.buffer.bytes=102400
+socket.request.max.bytes=104857600
+log.dirs=/tmp/kafka-logs
+num.partitions=1
+num.recovery.threads.per.data.dir=1
+offsets.topic.replication.factor=1
+transaction.state.log.replication.factor=1
+transaction.state.log.min.isr=1
+log.retention.hours=168
+log.segment.bytes=1073741824
+log.retention.check.interval.ms=300000
+zookeeper.connect=localhost:2181
+zookeeper.connection.timeout.ms=6000
+group.initial.rebalance.delay.ms=0</code></pre><p>注：可根据自己需求修改配置文件</p>
 <ul>
 <li>broker.id：唯一标识ID</li>
 <li>listeners=PLAINTEXT://localhost:9092：kafka服务监听地址和端口</li>
@@ -678,55 +693,130 @@
 <li>zookeeper.connect：指定zookeeper服务</li>
 </ul>
 <p>（2）配置环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# vim &#x2F;etc&#x2F;profile.d&#x2F;kafka.sh</span><br><span class="line">export KAFKA_HOME&#x3D;&quot;&#x2F;data&#x2F;kafka_2.11-2.1.0&quot;</span><br><span class="line">export PATH&#x3D;&quot;$&#123;KAFKA_HOME&#125;&#x2F;bin:$PATH&quot;</span><br><span class="line">[root@along ~]# source &#x2F;etc&#x2F;profile.d&#x2F;kafka.sh</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# vim /etc/profile.d/kafka.sh
+export KAFKA_HOME="/data/kafka_2.11-2.1.0"
+export PATH="${KAFKA_HOME}/bin:$PATH"
+[root@along ~]# source /etc/profile.d/kafka.sh</code></pre><p>　　</p>
 <p>（3）配置服务启动脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# vim /etc/init.d/kafka</span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> chkconfig: 345 99 01</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> description: Kafka</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> File : Kafka</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Description: Starts and stops the Kafka server</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"></span><br><span class="line">source /etc/rc.d/init.d/functions </span><br><span class="line"></span><br><span class="line">KAFKA_HOME=/data/kafka_2.11-2.1.0</span><br><span class="line">KAFKA_USER=root</span><br><span class="line">export LOG_DIR=/tmp/kafka-logs </span><br><span class="line"></span><br><span class="line">[ -e /etc/sysconfig/kafka ] &amp;&amp; . /etc/sysconfig/kafka </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> See how we were called.</span></span><br><span class="line">case "$1" in</span><br><span class="line"></span><br><span class="line">  start)</span><br><span class="line">    echo -n "Starting Kafka:"</span><br><span class="line">    /sbin/runuser -s /bin/sh $KAFKA_USER -c "nohup $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties &gt; $LOG_DIR/server.out 2&gt; $LOG_DIR/server.err &amp;"</span><br><span class="line">    echo " done."</span><br><span class="line">    exit 0</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  stop)</span><br><span class="line">    echo -n "Stopping Kafka: "</span><br><span class="line">    /sbin/runuser -s /bin/sh $KAFKA_USER  -c "ps -ef | grep kafka.Kafka | grep -v grep | awk '&#123;print \$2&#125;' | xargs kill"</span><br><span class="line">    echo " done."</span><br><span class="line">    exit 0</span><br><span class="line">    ;;</span><br><span class="line">  hardstop)</span><br><span class="line">    echo -n "Stopping (hard) Kafka: "</span><br><span class="line">    /sbin/runuser -s /bin/sh $KAFKA_USER  -c "ps -ef | grep kafka.Kafka | grep -v grep | awk '&#123;print \$2&#125;' | xargs kill -9"</span><br><span class="line">    echo " done."</span><br><span class="line">    exit 0</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  status)</span><br><span class="line">    c_pid=`ps -ef | grep kafka.Kafka | grep -v grep | awk '&#123;print $2&#125;'`</span><br><span class="line">    if [ "$c_pid" = "" ] ; then</span><br><span class="line">      echo "Stopped"</span><br><span class="line">      exit 3</span><br><span class="line">    else</span><br><span class="line">      echo "Running $c_pid"</span><br><span class="line">      exit 0</span><br><span class="line">    fi</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  restart)</span><br><span class="line">    stop</span><br><span class="line">    start</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">  *)</span><br><span class="line">    echo "Usage: kafka &#123;start|stop|hardstop|status|restart&#125;"</span><br><span class="line">    exit 1</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">[root@along ~]# vim /etc/init.d/kafka
+#!/bin/sh
+#
+# chkconfig: 345 99 01
+# description: Kafka
+#
+# File : Kafka
+#
+# Description: Starts and stops the Kafka server
+# 
 
+source /etc/rc.d/init.d/functions 
+
+KAFKA_HOME=/data/kafka_2.11-2.1.0
+KAFKA_USER=root
+export LOG_DIR=/tmp/kafka-logs 
+
+[ -e /etc/sysconfig/kafka ] && . /etc/sysconfig/kafka 
+
+# See how we were called.
+case "$1" in
+
+  start)
+    echo -n "Starting Kafka:"
+    /sbin/runuser -s /bin/sh $KAFKA_USER -c "nohup $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties > $LOG_DIR/server.out 2> $LOG_DIR/server.err &"
+    echo " done."
+    exit 0
+    ;;
+
+  stop)
+    echo -n "Stopping Kafka: "
+    /sbin/runuser -s /bin/sh $KAFKA_USER  -c "ps -ef | grep kafka.Kafka | grep -v grep | awk '{print \$2}' | xargs kill"
+    echo " done."
+    exit 0
+    ;;
+  hardstop)
+    echo -n "Stopping (hard) Kafka: "
+    /sbin/runuser -s /bin/sh $KAFKA_USER  -c "ps -ef | grep kafka.Kafka | grep -v grep | awk '{print \$2}' | xargs kill -9"
+    echo " done."
+    exit 0
+    ;;
+
+  status)
+    c_pid=`ps -ef | grep kafka.Kafka | grep -v grep | awk '{print $2}'`
+    if [ "$c_pid" = "" ] ; then
+      echo "Stopped"
+      exit 3
+    else
+      echo "Running $c_pid"
+      exit 0
+    fi
+    ;;
+
+  restart)
+    stop
+    start
+    ;;
+
+  *)
+    echo "Usage: kafka {start|stop|hardstop|status|restart}"
+    exit 1
+    ;;
+
+esac</code></pre>
 <p>　chmod +x kafka </p>
 <p>​    chkconfig –add kafka  添加到服务器中</p>
 <p>​    chkconfig kafka on 设置开机自动启动　</p>
 <h3 id="3-4-启动kafka服务"><a href="#3-4-启动kafka服务" class="headerlink" title="3.4 启动kafka服务"></a><strong>3.4 启动kafka服务</strong></h3><p>（1）后台启动zookeeper服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# nohup zookeeper-server-start.sh /data/kafka_2.11-2.1.0/config/zookeeper.properties &amp;</span><br></pre></td></tr></table></figure>
-
-
-
+<pre class=" language-shell"><code class="language-shell">[root@along ~]# nohup zookeeper-server-start.sh /data/kafka_2.11-2.1.0/config/zookeeper.properties &</code></pre>
 <p>（2）启动kafka服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# service kafka start</span><br><span class="line">Starting kafka (via systemctl):                            [  OK  ][root@along ~]# service kafka status</span><br><span class="line">Running 86018</span><br><span class="line">[root@along ~]# ss -nutl</span><br><span class="line">Netid State      Recv-Q Send-Q     Local Address:Port                    Peer Address:Port                              </span><br><span class="line">tcp   LISTEN     0      50                    :::9092                              :::*                 </span><br><span class="line">tcp   LISTEN     0      50                    :::2181                              :::*</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">[root@along ~]# service kafka start
+Starting kafka (via systemctl):                            [  OK  ][root@along ~]# service kafka status
+Running 86018
+[root@along ~]# ss -nutl
+Netid State      Recv-Q Send-Q     Local Address:Port                    Peer Address:Port                              
+tcp   LISTEN     0      50                    :::9092                              :::*                 
+tcp   LISTEN     0      50                    :::2181                              :::*</code></pre>
 <p>　　</p>
 <h2 id="4、kafka使用简单入门"><a href="#4、kafka使用简单入门" class="headerlink" title="4、kafka使用简单入门"></a><strong>4、kafka使用简单入门</strong></h2><h3 id="4-1-创建主题topics"><a href="#4-1-创建主题topics" class="headerlink" title="4.1 创建主题topics"></a><strong>4.1 创建主题topics</strong></h3><p>创建一个名为“along”的主题，它只包含一个分区，只有一个副本：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic along Created topic "along".</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">[root@along ~]# kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic along Created topic "along".</code></pre>
 <p>如果我们运行list topic命令，我们现在可以看到该主题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --list --zookeeper localhost:2181 along</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">[root@along ~]# kafka-topics.sh --list --zookeeper localhost:2181 along</code></pre>
 <p>　　</p>
 <h3 id="4-2-发送一些消息"><a href="#4-2-发送一些消息" class="headerlink" title="4.2 发送一些消息"></a><strong>4.2 发送一些消息</strong></h3><p>Kafka附带一个命令行客户端，它将从文件或标准输入中获取输入，并将其作为消息发送到Kafka集群。默认情况下，每行将作为单独的消息发送。</p>
 <p>运行生产者，然后在控制台中键入一些消息以发送到服务器。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-producer.sh --broker-list localhost:9092 --topic along</span><br><span class="line">&gt;This is a message</span><br><span class="line">&gt;This is another message</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-console-producer.sh --broker-list localhost:9092 --topic along
+&gt;This is a message
+&gt;This is another message</code></pre><p>　　</p>
 <h3 id="4-3-启动消费者"><a href="#4-3-启动消费者" class="headerlink" title="4.3 启动消费者"></a><strong>4.3 启动消费者</strong></h3><p>Kafka还有一个命令行使用者，它会将消息转储到标准输出。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic along --from-beginning </span><br><span class="line">This is a message </span><br><span class="line">This is another message</span><br></pre></td></tr></table></figure>
-
-<p>所有命令行工具都有其他选项; 运行不带参数的命令将显示更详细地记录它们的使用信息。</p>
+<pre><code>[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic along --from-beginning 
+This is a message 
+This is another message</code></pre><p>所有命令行工具都有其他选项; 运行不带参数的命令将显示更详细地记录它们的使用信息。</p>
 <h2 id="5、设置多代理kafka群集"><a href="#5、设置多代理kafka群集" class="headerlink" title="5、设置多代理kafka群集"></a><strong>5、设置多代理kafka群集</strong></h2><p>　　到目前为止，我们一直在与一个broker运行，但这并不好玩。对于Kafka，单个代理只是一个大小为1的集群，因此除了启动一些代理实例之外没有太多变化。但是为了感受它，让我们将我们的集群扩展到三个节点（仍然在我们的本地机器上）。</p>
-<h3 id="5-1-准备配置文件"><a href="#5-1-准备配置文件" class="headerlink" title="5.1 准备配置文件"></a><strong>5.1 准备配置文件</strong></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@along kafka_2.11-2.1.0]# cd /data/kafka_2.11-2.1.0/</span><br><span class="line">[root@along kafka_2.11-2.1.0]# cp config/server.properties config/server-1.properties</span><br><span class="line">[root@along kafka_2.11-2.1.0]# cp config/server.properties config/server-2.properties</span><br><span class="line">[root@along kafka_2.11-2.1.0]# vim config/server-1.properties    </span><br><span class="line">broker.id=1    </span><br><span class="line">listeners=PLAINTEXT://:9093</span><br><span class="line">log.dirs=/tmp/kafka-logs-1</span><br><span class="line">[root@along kafka_2.11-2.1.0]# vim config/server-2.properties</span><br><span class="line">broker.id=2</span><br><span class="line">listeners=PLAINTEXT://:9094</span><br><span class="line">log.dirs=/tmp/kafka-logs-2</span><br></pre></td></tr></table></figure>
-
+<h3 id="5-1-准备配置文件"><a href="#5-1-准备配置文件" class="headerlink" title="5.1 准备配置文件"></a><strong>5.1 准备配置文件</strong></h3><pre class=" language-shell"><code class="language-shell">[root@along kafka_2.11-2.1.0]# cd /data/kafka_2.11-2.1.0/
+[root@along kafka_2.11-2.1.0]# cp config/server.properties config/server-1.properties
+[root@along kafka_2.11-2.1.0]# cp config/server.properties config/server-2.properties
+[root@along kafka_2.11-2.1.0]# vim config/server-1.properties    
+broker.id=1    
+listeners=PLAINTEXT://:9093
+log.dirs=/tmp/kafka-logs-1
+[root@along kafka_2.11-2.1.0]# vim config/server-2.properties
+broker.id=2
+listeners=PLAINTEXT://:9094
+log.dirs=/tmp/kafka-logs-2</code></pre>
 <p>注：该<strong>broker.id</strong> 属性是群集中每个节点的<strong>唯一</strong>且永久的名称。我们必须覆盖端口和日志目录，因为我们在同一台机器上运行这些，并且我们希望让所有代理尝试在同一端口上注册或覆盖彼此的数据。</p>
-<h3 id="5-2-开启集群另2个kafka服务"><a href="#5-2-开启集群另2个kafka服务" class="headerlink" title="5.2 开启集群另2个kafka服务"></a><strong>5.2 开启集群另2个kafka服务</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# nohup kafka-server-start.sh &#x2F;data&#x2F;kafka_2.11-2.1.0&#x2F;config&#x2F;server-1.properties &amp;</span><br><span class="line">[root@along ~]# nohup kafka-server-start.sh &#x2F;data&#x2F;kafka_2.11-2.1.0&#x2F;config&#x2F;server-2.properties &amp;</span><br><span class="line">[root@along ~]# ss -nutl</span><br><span class="line">Netid State      Recv-Q Send-Q     Local Address:Port                    Peer Address:Port                          </span><br><span class="line">tcp   LISTEN     0      50      ::ffff:127.0.0.1:9092                              :::*                 </span><br><span class="line">tcp   LISTEN     0      50      ::ffff:127.0.0.1:9093                              :::*                                </span><br><span class="line">tcp   LISTEN     0      50      ::ffff:127.0.0.1:9094                              :::*</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<h3 id="5-2-开启集群另2个kafka服务"><a href="#5-2-开启集群另2个kafka服务" class="headerlink" title="5.2 开启集群另2个kafka服务"></a><strong>5.2 开启集群另2个kafka服务</strong></h3><pre><code>[root@along ~]# nohup kafka-server-start.sh /data/kafka_2.11-2.1.0/config/server-1.properties &amp;
+[root@along ~]# nohup kafka-server-start.sh /data/kafka_2.11-2.1.0/config/server-2.properties &amp;
+[root@along ~]# ss -nutl
+Netid State      Recv-Q Send-Q     Local Address:Port                    Peer Address:Port                          
+tcp   LISTEN     0      50      ::ffff:127.0.0.1:9092                              :::*                 
+tcp   LISTEN     0      50      ::ffff:127.0.0.1:9093                              :::*                                
+tcp   LISTEN     0      50      ::ffff:127.0.0.1:9094                              :::*</code></pre><p>　　</p>
 <h3 id="5-3-在集群中进行操作"><a href="#5-3-在集群中进行操作" class="headerlink" title="5.3 在集群中进行操作"></a><strong>5.3 在集群中进行操作</strong></h3><p>（1）现在创建一个复制因子为3的新主题my-replicated-topic</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic </span><br><span class="line">Created topic &quot;my-replicated-topic&quot;.</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic 
+Created topic "my-replicated-topic".</code></pre><p>　　</p>
 <p>（2）在一个集群中，运行“describe topics”命令查看哪个broker正在做什么</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic </span><br><span class="line">Topic:my-replicated-topic   PartitionCount:1    ReplicationFactor:3 Configs:</span><br><span class="line">Topic: my-replicated-topic  Partition: 0    Leader: 2   Replicas: 2,0,1 Isr: 2,0,1</span><br></pre></td></tr></table></figure>
-
-<p>注释：第一行给出了所有分区的摘要，每个附加行提供有关一个分区的信息。由于我们只有一个分区用于此主题，因此只有一行。</p>
+<pre><code>[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic 
+Topic:my-replicated-topic   PartitionCount:1    ReplicationFactor:3 Configs:
+Topic: my-replicated-topic  Partition: 0    Leader: 2   Replicas: 2,0,1 Isr: 2,0,1</code></pre><p>注释：第一行给出了所有分区的摘要，每个附加行提供有关一个分区的信息。由于我们只有一个分区用于此主题，因此只有一行。</p>
 <ul>
 <li>“leader”是负责给定分区的所有读取和写入的节点。每个节点将成为随机选择的分区部分的领导者。</li>
 <li>“replicas”是复制此分区日志的节点列表，无论它们是否为领导者，或者即使它们当前处于活动状态。</li>
@@ -734,60 +824,87 @@
 </ul>
 <p>请注意，Leader: 2，在我的示例中，节点2 是该主题的唯一分区的Leader。</p>
 <p>（3）可以在我们创建的原始主题上运行相同的命令，以查看它的位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic along </span><br><span class="line">Topic:along PartitionCount:1    ReplicationFactor:1 Configs:   </span><br><span class="line">Topic: along    Partition: 0    Leader: 0   Replicas: 0 Isr: 0</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic along 
+Topic:along PartitionCount:1    ReplicationFactor:1 Configs:   
+Topic: along    Partition: 0    Leader: 0   Replicas: 0 Isr: 0</code></pre><p>　　</p>
 <p>（4）向我们的新主题发布一些消息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-producer.sh --broker-list localhost:9092 --topic my-replicated-topic</span><br><span class="line">&gt;my test message 1</span><br><span class="line">&gt;my test message 2</span><br><span class="line">&gt;^C</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-console-producer.sh --broker-list localhost:9092 --topic my-replicated-topic
+&gt;my test message 1
+&gt;my test message 2
+&gt;^C</code></pre><p>　　</p>
 <p>（5）现在让我们使用这些消息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic my-replicated-topic</span><br><span class="line">my test message 1</span><br><span class="line">my test message 2</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic my-replicated-topic
+my test message 1
+my test message 2</code></pre><p>　　</p>
 <h3 id="5-4-测试集群的容错性"><a href="#5-4-测试集群的容错性" class="headerlink" title="5.4 测试集群的容错性"></a><strong>5.4 测试集群的容错性</strong></h3><p>（1）现在让我们测试一下容错性。Broker 2 充当leader 所以让我们杀了它：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# ps aux | grep server-2.properties |awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">106737</span><br><span class="line">[root@along ~]# kill -9 106737</span><br><span class="line">[root@along ~]# ss -nutl</span><br><span class="line">tcp   LISTEN     0      50      ::ffff:127.0.0.1:9092                              :::*                       </span><br><span class="line">tcp   LISTEN     0      50      ::ffff:127.0.0.1:9093                              :::*</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# ps aux | grep server-2.properties |awk '{print $2}'
+106737
+[root@along ~]# kill -9 106737
+[root@along ~]# ss -nutl
+tcp   LISTEN     0      50      ::ffff:127.0.0.1:9092                              :::*                       
+tcp   LISTEN     0      50      ::ffff:127.0.0.1:9093                              :::*</code></pre><p>　　</p>
 <p>（2）leader 已切换到其中一个从属节点，节点2不再位于同步副本集中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic </span><br><span class="line">Topic:my-replicated-topic   PartitionCount:1    ReplicationFactor:3 </span><br><span class="line">Configs:    </span><br><span class="line">Topic: my-replicated-topic  Partition: 0    Leader: 0   Replicas: 2,0,1 Isr: 0,1</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic 
+Topic:my-replicated-topic   PartitionCount:1    ReplicationFactor:3 
+Configs:    
+Topic: my-replicated-topic  Partition: 0    Leader: 0   Replicas: 2,0,1 Isr: 0,1</code></pre><p>　　</p>
 <p>（3）即使最初接受写入的leader 已经失败，这些消息仍可供消费：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic my-replicated-topic</span><br><span class="line">my test message 1</span><br><span class="line">my test message 2</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --from-beginning --topic my-replicated-topic
+my test message 1
+my test message 2</code></pre><p>　　</p>
 <h2 id="6、-使用Kafka-Connect导入-导出数据"><a href="#6、-使用Kafka-Connect导入-导出数据" class="headerlink" title="6、**使用Kafka Connect导入/导出数据**"></a><strong>6、**</strong>使用Kafka Connect导入/导出数据**</h2><p>　　从控制台写入数据并将其写回控制台是一个方便的起点，但有时候可能希望使用<strong>其他来源的数据或将数据从Kafka导出到其他系统</strong>。对于许多系统，您可以<strong>使用Kafka Connect导入或导出数据</strong>，而不是编写自定义集成代码。</p>
 <p>　　<strong>Kafka Connect是Kafka附带的工具，用于向Kafka导入和导出数据</strong>。它是一个可扩展的工具，运行连接器，实现与外部系统交互的自定义逻辑。在本快速入门中，我们将了解如何使用简单的连接器运行Kafka Connect，这些连接器将数据从文件导入Kafka主题并将数据从Kafka主题导出到文件。</p>
 <p>（1）首先创建一些种子数据进行测试：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# echo -e &quot;foo\nbar&quot; &gt; test.txt</span><br></pre></td></tr></table></figure>
-
-<p>或者在Windows上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; echo foo&gt; test.txt&gt; echo bar&gt;&gt; test.txt</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# echo -e "foo\nbar" &gt; test.txt</code></pre><p>或者在Windows上：</p>
+<pre><code>&gt; echo foo&gt; test.txt&gt; echo bar&gt;&gt; test.txt</code></pre><p>　　</p>
 <p>（2）接下来，<strong>启动两个以独立模式运行的连接器</strong>，这意味着它们在单个本地专用进程中运行。提供三个配置文件作为参数。</p>
 <ul>
 <li>第一个始终是Kafka Connect流程的配置，包含常见配置，例如要连接的Kafka代理和数据的序列化格式。</li>
 <li>其余配置文件均指定要创建的连接器。这些文件包括唯一的连接器名称，要实例化的连接器类以及连接器所需的任何其他配置。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# connect-standalone.sh config&#x2F;connect-standalone.properties config&#x2F;connect-file-source.properties config&#x2F;connect-file-sink.properties</span><br><span class="line">[2019-01-16 16:16:31,884] INFO Kafka Connect standalone worker initializing ... (org.apache.kafka.connect.cli.ConnectStandalone:67)</span><br><span class="line">[2019-01-16 16:16:31,903] INFO WorkerInfo values:</span><br><span class="line">... </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>　　注：Kafka附带的这些示例配置文件使用您之前启动的默认本地群集配置并创建两个连接器：第一个是源连接器，它从输入文件读取行并生成每个Kafka主题，第二个是宿连接器从Kafka主题读取消息并将每个消息生成为输出文件中的一行。</p>
+<pre><code>[root@along ~]# connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
+[2019-01-16 16:16:31,884] INFO Kafka Connect standalone worker initializing ... (org.apache.kafka.connect.cli.ConnectStandalone:67)
+[2019-01-16 16:16:31,903] INFO WorkerInfo values:
+... 
+...</code></pre><p>　　注：Kafka附带的这些示例配置文件使用您之前启动的默认本地群集配置并创建两个连接器：第一个是源连接器，它从输入文件读取行并生成每个Kafka主题，第二个是宿连接器从Kafka主题读取消息并将每个消息生成为输出文件中的一行。</p>
 <p>（3）验证是否导入成功（另起终端）</p>
 <p>在启动过程中，您将看到许多日志消息，包括一些指示正在实例化连接器的日志消息。</p>
 <p>① 一旦Kafka Connect进程启动，源连接器应该开始从test.txt主题读取行并将其生成到主题connect-test，并且接收器连接器应该开始从主题读取消息connect-test 并将它们写入文件test.sink.txt。我们可以通过检查输出文件的内容来验证数据是否已通过整个管道传递：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# cat test.sink.txt</span><br><span class="line">foo</span><br><span class="line">bar</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# cat test.sink.txt
+foo
+bar</code></pre><p>　　</p>
 <p>② 请注意，数据存储在Kafka主题中connect-test，因此我们还可以运行控制台使用者来查看主题中的数据（或使用自定义使用者代码来处理它）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning</span><br><span class="line">&#123;&quot;schema&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false&#125;,&quot;payload&quot;:&quot;foo&quot;&#125;</span><br><span class="line">&#123;&quot;schema&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false&#125;,&quot;payload&quot;:&quot;bar&quot;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>　　</p>
+<pre><code>[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
+{"schema":{"type":"string","optional":false},"payload":"foo"}
+{"schema":{"type":"string","optional":false},"payload":"bar"}</code></pre><p>　　</p>
 <p>（4）继续追加数据，验证</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@along ~]# echo Another line&gt;&gt; test.txt   </span><br><span class="line">[root@along ~]# cat test.sink.txt</span><br><span class="line">foo</span><br><span class="line">bar</span><br><span class="line">Another line</span><br><span class="line">[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning</span><br><span class="line">&#123;&quot;schema&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false&#125;,&quot;payload&quot;:&quot;foo&quot;&#125;</span><br><span class="line">&#123;&quot;schema&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false&#125;,&quot;payload&quot;:&quot;bar&quot;&#125;</span><br><span class="line">&#123;&quot;schema&quot;:&#123;&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false&#125;,&quot;payload&quot;:&quot;Another line&quot;&#125;</span><br></pre></td></tr></table></figure>
-
-
+<pre><code>[root@along ~]# echo Another line&gt;&gt; test.txt   
+[root@along ~]# cat test.sink.txt
+foo
+bar
+Another line
+[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
+{"schema":{"type":"string","optional":false},"payload":"foo"}
+{"schema":{"type":"string","optional":false},"payload":"bar"}
+{"schema":{"type":"string","optional":false},"payload":"Another line"}</code></pre><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -862,10 +979,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -1003,6 +1123,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-04-26T01-11-26',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Apr 26 2019 01:11:26 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1037,9 +1211,8 @@
                         
                             
 
-Nginx 平滑升级1、查看现有的 nginx 编译参数1[root@web ~]#/usr/local/nginx/sbin/nginx -V
-
-按照原来的编译参数安装 nginx 的方法进行安装，只需要到 make，千万不要 mak
+Nginx 平滑升级1、查看现有的 nginx 编译参数[root@web ~]#/usr/local/nginx/sbin/nginx -V
+按照原来的编译参数安装 nginx 的方法进行安装，只需要到 make，千万不要 make 
                         
                     </div>
                     <div class="publish-info">
@@ -1260,7 +1433,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1288,13 +1461,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1304,7 +1477,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1386,6 +1559,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

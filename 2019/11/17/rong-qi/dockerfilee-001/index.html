@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,13 +559,217 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h4 id="Docker-MySQL-5-7"><a href="#Docker-MySQL-5-7" class="headerlink" title="Docker_MySQL 5.7"></a>Docker_MySQL 5.7</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> debian:buster-slim</span><br><span class="line"></span><br><span class="line"><span class="comment"># add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> groupadd -r mysql &amp;&amp; useradd -r -g mysql mysql</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-recommends gnupg dirmngr &amp;&amp; rm -rf /var/lib/apt/lists/*</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># add gosu for easy step-down from root</span></span><br><span class="line"><span class="keyword">ENV</span> GOSU_VERSION <span class="number">1.7</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">	&amp;&amp; apt-get update &amp;&amp; apt-get install -y --no-install-recommends ca-certificates wget &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="bash">	&amp;&amp; wget -O /usr/<span class="built_in">local</span>/bin/gosu <span class="string">"https://github.com/tianon/gosu/releases/download/<span class="variable">$GOSU_VERSION</span>/gosu-<span class="variable">$(dpkg --print-architecture)</span>"</span> \</span></span><br><span class="line"><span class="bash">	&amp;&amp; wget -O /usr/<span class="built_in">local</span>/bin/gosu.asc <span class="string">"https://github.com/tianon/gosu/releases/download/<span class="variable">$GOSU_VERSION</span>/gosu-<span class="variable">$(dpkg --print-architecture)</span>.asc"</span> \</span></span><br><span class="line"><span class="bash">	&amp;&amp; <span class="built_in">export</span> GNUPGHOME=<span class="string">"<span class="variable">$(mktemp -d)</span>"</span> \</span></span><br><span class="line"><span class="bash">	&amp;&amp; gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \</span></span><br><span class="line"><span class="bash">	&amp;&amp; gpg --batch --verify /usr/<span class="built_in">local</span>/bin/gosu.asc /usr/<span class="built_in">local</span>/bin/gosu \</span></span><br><span class="line"><span class="bash">	&amp;&amp; gpgconf --<span class="built_in">kill</span> all \</span></span><br><span class="line"><span class="bash">	&amp;&amp; rm -rf <span class="string">"<span class="variable">$GNUPGHOME</span>"</span> /usr/<span class="built_in">local</span>/bin/gosu.asc \</span></span><br><span class="line"><span class="bash">	&amp;&amp; chmod +x /usr/<span class="built_in">local</span>/bin/gosu \</span></span><br><span class="line"><span class="bash">	&amp;&amp; gosu nobody <span class="literal">true</span> \</span></span><br><span class="line"><span class="bash">	&amp;&amp; apt-get purge -y --auto-remove ca-certificates wget</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /docker-entrypoint-initdb.d</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-recommends \</span></span><br><span class="line"><span class="bash"><span class="comment"># for MYSQL_RANDOM_ROOT_PASSWORD</span></span></span><br><span class="line">		pwgen \</span><br><span class="line"><span class="comment"># for mysql_ssl_rsa_setup</span></span><br><span class="line">		openssl \</span><br><span class="line"><span class="comment"># FATAL ERROR: please install the following Perl modules before executing /usr/local/mysql/scripts/mysql_install_db:</span></span><br><span class="line"><span class="comment"># File::Basename</span></span><br><span class="line"><span class="comment"># File::Copy</span></span><br><span class="line"><span class="comment"># Sys::Hostname</span></span><br><span class="line"><span class="comment"># Data::Dumper</span></span><br><span class="line">		perl \</span><br><span class="line"><span class="comment"># install "xz-utils" for .sql.xz docker-entrypoint-initdb.d files</span></span><br><span class="line">		xz-utils \</span><br><span class="line">	&amp;&amp; rm -rf /var/lib/apt/lists/*</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -ex; \</span></span><br><span class="line"><span class="bash"><span class="comment"># gpg: key 5072E1F5: public key "MySQL Release Engineering &lt;mysql-build@oss.oracle.com&gt;" imported</span></span></span><br><span class="line">	key=<span class="string">'A4A9406876FCBD3C456770C88C718D3B5072E1F5'</span>; \</span><br><span class="line">	export GNUPGHOME=<span class="string">"$(mktemp -d)"</span>; \</span><br><span class="line">	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys <span class="string">"$key"</span>; \</span><br><span class="line">	gpg --batch --export <span class="string">"$key"</span> &gt; /etc/apt/trusted.gpg.d/mysql.gpg; \</span><br><span class="line">	gpgconf --kill all; \</span><br><span class="line">	rm -rf <span class="string">"$GNUPGHOME"</span>; \</span><br><span class="line">	apt-key list &gt; /dev/null</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> MYSQL_MAJOR <span class="number">5.7</span></span><br><span class="line"><span class="keyword">ENV</span> MYSQL_VERSION <span class="number">5.7</span>.<span class="number">29</span>-<span class="number">1</span>debian10</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb http://repo.mysql.com/apt/debian/ buster mysql-<span class="variable">$&#123;MYSQL_MAJOR&#125;</span>"</span> &gt; /etc/apt/sources.list.d/mysql.list</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)</span></span><br><span class="line"><span class="comment"># also, we set debconf keys to make APT a little quieter</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> &#123; \</span></span><br><span class="line"><span class="bash">		<span class="built_in">echo</span> mysql-community-server mysql-community-server/data-dir select <span class="string">''</span>; \</span></span><br><span class="line"><span class="bash">		<span class="built_in">echo</span> mysql-community-server mysql-community-server/root-pass password <span class="string">''</span>; \</span></span><br><span class="line"><span class="bash">		<span class="built_in">echo</span> mysql-community-server mysql-community-server/re-root-pass password <span class="string">''</span>; \</span></span><br><span class="line"><span class="bash">		<span class="built_in">echo</span> mysql-community-server mysql-community-server/remove-test-db select <span class="literal">false</span>; \</span></span><br><span class="line"><span class="bash">	&#125; | debconf-set-selections \</span></span><br><span class="line"><span class="bash">	&amp;&amp; apt-get update &amp;&amp; apt-get install -y mysql-server=<span class="string">"<span class="variable">$&#123;MYSQL_VERSION&#125;</span>"</span> &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="bash">	&amp;&amp; rm -rf /var/lib/mysql &amp;&amp; mkdir -p /var/lib/mysql /var/run/mysqld \</span></span><br><span class="line"><span class="bash">	&amp;&amp; chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \</span></span><br><span class="line"><span class="bash"><span class="comment"># ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime</span></span></span><br><span class="line">	&amp;&amp; chmod <span class="number">777</span> /var/<span class="keyword">run</span><span class="bash">/mysqld \</span></span><br><span class="line"><span class="bash"><span class="comment"># comment out a few problematic configuration values</span></span></span><br><span class="line">	&amp;&amp; find /etc/mysql/ -name <span class="string">'*.cnf'</span> -print0 \</span><br><span class="line">		| xargs -<span class="number">0</span> grep -lZE <span class="string">'^(bind-address|log)'</span> \</span><br><span class="line">		| xargs -rt -<span class="number">0</span> sed -Ei <span class="string">'s/^(bind-address|log)/#&amp;/'</span> \</span><br><span class="line"><span class="comment"># don't reverse lookup hostnames, they are usually another container</span></span><br><span class="line">	&amp;&amp; echo <span class="string">'[mysqld]\nskip-host-cache\nskip-name-resolve'</span> &gt; /etc/mysql/conf.d/docker.cnf</span><br><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /var/lib/mysql</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> docker-entrypoint.sh /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> ln -s usr/<span class="built_in">local</span>/bin/docker-entrypoint.sh /entrypoint.sh <span class="comment"># backwards compat</span></span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"docker-entrypoint.sh"</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">3306</span> <span class="number">33060</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"mysqld"</span>]</span></span><br></pre></td></tr></table></figure>
+<h4 id="Docker-MySQL-5-7"><a href="#Docker-MySQL-5-7" class="headerlink" title="Docker_MySQL 5.7"></a>Docker_MySQL 5.7</h4><pre class=" language-dockerfile"><code class="language-dockerfile">FROM debian:buster-slim
 
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+RUN groupadd -r mysql && useradd -r -g mysql mysql
 
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg dirmngr && rm -rf /var/lib/apt/lists/*
 
-<h4 id="Docker-NGINX-1-17-9"><a href="#Docker-NGINX-1-17-9" class="headerlink" title="Docker_NGINX_1.17.9"></a>Docker_NGINX_1.17.9</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> alpine:<span class="number">3.10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer=<span class="string">"NGINX Docker Maintainers &lt;docker-maint@nginx.com&gt;"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> NGINX_VERSION <span class="number">1.17</span>.<span class="number">9</span></span><br><span class="line"><span class="keyword">ENV</span> NJS_VERSION   <span class="number">0.3</span>.<span class="number">9</span></span><br><span class="line"><span class="keyword">ENV</span> PKG_RELEASE   <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash"><span class="comment"># create nginx user/group first, to be consistent throughout docker variants</span></span></span><br><span class="line">    &amp;&amp; addgroup -g <span class="number">101</span> -S nginx \</span><br><span class="line">    &amp;&amp; adduser -S -D -H -u <span class="number">101</span> -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \</span><br><span class="line">    &amp;&amp; apkArch=<span class="string">"$(cat /etc/apk/arch)"</span> \</span><br><span class="line">    &amp;&amp; nginxPackages=<span class="string">" \</span></span><br><span class="line"><span class="string">        nginx=$&#123;NGINX_VERSION&#125;-r$&#123;PKG_RELEASE&#125; \</span></span><br><span class="line"><span class="string">        nginx-module-xslt=$&#123;NGINX_VERSION&#125;-r$&#123;PKG_RELEASE&#125; \</span></span><br><span class="line"><span class="string">        nginx-module-geoip=$&#123;NGINX_VERSION&#125;-r$&#123;PKG_RELEASE&#125; \</span></span><br><span class="line"><span class="string">        nginx-module-image-filter=$&#123;NGINX_VERSION&#125;-r$&#123;PKG_RELEASE&#125; \</span></span><br><span class="line"><span class="string">        nginx-module-njs=$&#123;NGINX_VERSION&#125;.$&#123;NJS_VERSION&#125;-r$&#123;PKG_RELEASE&#125; \</span></span><br><span class="line"><span class="string">    "</span> \</span><br><span class="line">    &amp;&amp; case <span class="string">"$apkArch"</span> in \</span><br><span class="line">        x86_64) \</span><br><span class="line"><span class="comment"># arches officially built by upstream</span></span><br><span class="line">            set -x \</span><br><span class="line">            &amp;&amp; KEY_SHA512=<span class="string">"e7fa8303923d9b95db37a77ad46c68fd4755ff935d0a534d26eba83de193c76166c68bfe7f65471bf8881004ef4aa6df3e34689c305662750c0172fca5d8552a *stdin"</span> \</span><br><span class="line">            &amp;&amp; apk <span class="keyword">add</span><span class="bash"> --no-cache --virtual .cert-deps \</span></span><br><span class="line"><span class="bash">                openssl \</span></span><br><span class="line"><span class="bash">            &amp;&amp; wget -O /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \</span></span><br><span class="line"><span class="bash">            &amp;&amp; <span class="keyword">if</span> [ <span class="string">"<span class="variable">$(openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout | openssl sha512 -r)</span>"</span> = <span class="string">"<span class="variable">$KEY_SHA512</span>"</span> ]; <span class="keyword">then</span> \</span></span><br><span class="line"><span class="bash">                <span class="built_in">echo</span> <span class="string">"key verification succeeded!"</span>; \</span></span><br><span class="line"><span class="bash">                mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/; \</span></span><br><span class="line"><span class="bash">            <span class="keyword">else</span> \</span></span><br><span class="line"><span class="bash">                <span class="built_in">echo</span> <span class="string">"key verification failed!"</span>; \</span></span><br><span class="line"><span class="bash">                <span class="built_in">exit</span> 1; \</span></span><br><span class="line"><span class="bash">            <span class="keyword">fi</span> \</span></span><br><span class="line"><span class="bash">            &amp;&amp; apk del .cert-deps \</span></span><br><span class="line"><span class="bash">            &amp;&amp; apk add -X <span class="string">"https://nginx.org/packages/mainline/alpine/v<span class="variable">$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)</span>/main"</span> --no-cache <span class="variable">$nginxPackages</span> \</span></span><br><span class="line"><span class="bash">            ;; \</span></span><br><span class="line"><span class="bash">        *) \</span></span><br><span class="line"><span class="bash"><span class="comment"># we're on an architecture upstream doesn't officially build for</span></span></span><br><span class="line"><span class="comment"># let's build binaries from the published packaging sources</span></span><br><span class="line">            set -x \</span><br><span class="line">            &amp;&amp; tempDir=<span class="string">"$(mktemp -d)"</span> \</span><br><span class="line">            &amp;&amp; chown nobody:nobody $tempDir \</span><br><span class="line">            &amp;&amp; apk <span class="keyword">add</span><span class="bash"> --no-cache --virtual .build-deps \</span></span><br><span class="line"><span class="bash">                gcc \</span></span><br><span class="line"><span class="bash">                libc-dev \</span></span><br><span class="line"><span class="bash">                make \</span></span><br><span class="line"><span class="bash">                openssl-dev \</span></span><br><span class="line"><span class="bash">                pcre-dev \</span></span><br><span class="line"><span class="bash">                zlib-dev \</span></span><br><span class="line"><span class="bash">                linux-headers \</span></span><br><span class="line"><span class="bash">                libxslt-dev \</span></span><br><span class="line"><span class="bash">                gd-dev \</span></span><br><span class="line"><span class="bash">                geoip-dev \</span></span><br><span class="line"><span class="bash">                perl-dev \</span></span><br><span class="line"><span class="bash">                libedit-dev \</span></span><br><span class="line"><span class="bash">                mercurial \</span></span><br><span class="line"><span class="bash">                bash \</span></span><br><span class="line"><span class="bash">                alpine-sdk \</span></span><br><span class="line"><span class="bash">                findutils \</span></span><br><span class="line"><span class="bash">            &amp;&amp; su nobody -s /bin/sh -c <span class="string">" \</span></span></span><br><span class="line"><span class="bash">                <span class="built_in">export</span> HOME=<span class="variable">$&#123;tempDir&#125;</span> \</span></span><br><span class="line"><span class="bash">                &amp;&amp; <span class="built_in">cd</span> <span class="variable">$&#123;tempDir&#125;</span> \</span></span><br><span class="line"><span class="bash">                &amp;&amp; hg <span class="built_in">clone</span> https://hg.nginx.org/pkg-oss \</span></span><br><span class="line"><span class="bash">                &amp;&amp; <span class="built_in">cd</span> pkg-oss \</span></span><br><span class="line"><span class="bash">                &amp;&amp; hg up <span class="variable">$&#123;NGINX_VERSION&#125;</span>-<span class="variable">$&#123;PKG_RELEASE&#125;</span> \</span></span><br><span class="line"><span class="bash">                &amp;&amp; <span class="built_in">cd</span> alpine \</span></span><br><span class="line"><span class="bash">                &amp;&amp; make all \</span></span><br><span class="line"><span class="bash">                &amp;&amp; apk index -o <span class="variable">$&#123;tempDir&#125;</span>/packages/alpine/<span class="variable">$&#123;apkArch&#125;</span>/APKINDEX.tar.gz <span class="variable">$&#123;tempDir&#125;</span>/packages/alpine/<span class="variable">$&#123;apkArch&#125;</span>/*.apk \</span></span><br><span class="line"><span class="bash">                &amp;&amp; abuild-sign -k <span class="variable">$&#123;tempDir&#125;</span>/.abuild/abuild-key.rsa <span class="variable">$&#123;tempDir&#125;</span>/packages/alpine/<span class="variable">$&#123;apkArch&#125;</span>/APKINDEX.tar.gz \</span></span><br><span class="line"><span class="bash">                <span class="string">" \</span></span></span><br><span class="line"><span class="bash">            &amp;&amp; cp <span class="variable">$&#123;tempDir&#125;</span>/.abuild/abuild-key.rsa.pub /etc/apk/keys/ \</span></span><br><span class="line"><span class="bash">            &amp;&amp; apk del .build-deps \</span></span><br><span class="line"><span class="bash">            &amp;&amp; apk add -X <span class="variable">$&#123;tempDir&#125;</span>/packages/alpine/ --no-cache <span class="variable">$nginxPackages</span> \</span></span><br><span class="line"><span class="bash">            ;; \</span></span><br><span class="line"><span class="bash">    <span class="keyword">esac</span> \</span></span><br><span class="line"><span class="bash"><span class="comment"># if we have leftovers from building, let's purge them (including extra, unnecessary build deps)</span></span></span><br><span class="line">    &amp;&amp; if [ -n <span class="string">"$tempDir"</span> ]; then rm -rf <span class="string">"$tempDir"</span>; fi \</span><br><span class="line">    &amp;&amp; if [ -n <span class="string">"/etc/apk/keys/abuild-key.rsa.pub"</span> ]; then rm -f /etc/apk/keys/abuild-key.rsa.pub; fi \</span><br><span class="line">    &amp;&amp; if [ -n <span class="string">"/etc/apk/keys/nginx_signing.rsa.pub"</span> ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi \</span><br><span class="line"><span class="comment"># Bring in gettext so we can get `envsubst`, then throw</span></span><br><span class="line"><span class="comment"># the rest away. To do this, we need to install `gettext`</span></span><br><span class="line"><span class="comment"># then move `envsubst` out of the way so `gettext` can</span></span><br><span class="line"><span class="comment"># be deleted completely, then move `envsubst` back.</span></span><br><span class="line">    &amp;&amp; apk <span class="keyword">add</span><span class="bash"> --no-cache --virtual .gettext gettext \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mv /usr/bin/envsubst /tmp/ \</span></span><br><span class="line"><span class="bash">    \</span></span><br><span class="line"><span class="bash">    &amp;&amp; runDeps=<span class="string">"<span class="variable">$( \</span></span></span></span><br><span class="line"><span class="bash">        scanelf --needed --nobanner /tmp/envsubst \</span></span><br><span class="line"><span class="bash">            | awk <span class="string">'&#123; gsub(/,/, "\nso:", $2); print "so:" $2 &#125;'</span> \</span></span><br><span class="line"><span class="bash">            | sort -u \</span></span><br><span class="line"><span class="bash">            | xargs -r apk info --installed \</span></span><br><span class="line"><span class="bash">            | sort -u \</span></span><br><span class="line"><span class="bash">    )<span class="string">" \</span></span></span><br><span class="line"><span class="bash">    &amp;&amp; apk add --no-cache <span class="variable">$runDeps</span> \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apk del .gettext \</span></span><br><span class="line"><span class="bash">    &amp;&amp; mv /tmp/envsubst /usr/<span class="built_in">local</span>/bin/ \</span></span><br><span class="line"><span class="bash"><span class="comment"># Bring in tzdata so users could set the timezones through the environment</span></span></span><br><span class="line"><span class="comment"># variables</span></span><br><span class="line">    &amp;&amp; apk <span class="keyword">add</span><span class="bash"> --no-cache tzdata \</span></span><br><span class="line"><span class="bash"><span class="comment"># forward request and error logs to docker log collector</span></span></span><br><span class="line">    &amp;&amp; ln -sf /dev/stdout /var/log/nginx/access.log \</span><br><span class="line">    &amp;&amp; ln -sf /dev/stderr /var/log/nginx/error.log</span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">STOPSIGNAL</span> SIGTERM</span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"nginx"</span>, <span class="string">"-g"</span>, <span class="string">"daemon off;"</span>]</span></span><br></pre></td></tr></table></figure>
+# add gosu for easy step-down from root
+ENV GOSU_VERSION 1.7
+RUN set -x \
+    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+    && gpgconf --kill all \
+    && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true \
+    && apt-get purge -y --auto-remove ca-certificates wget
 
+RUN mkdir /docker-entrypoint-initdb.d
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+# for MYSQL_RANDOM_ROOT_PASSWORD
+        pwgen \
+# for mysql_ssl_rsa_setup
+        openssl \
+# FATAL ERROR: please install the following Perl modules before executing /usr/local/mysql/scripts/mysql_install_db:
+# File::Basename
+# File::Copy
+# Sys::Hostname
+# Data::Dumper
+        perl \
+# install "xz-utils" for .sql.xz docker-entrypoint-initdb.d files
+        xz-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN set -ex; \
+# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+    key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+    gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; \
+    gpgconf --kill all; \
+    rm -rf "$GNUPGHOME"; \
+    apt-key list > /dev/null
+
+ENV MYSQL_MAJOR 5.7
+ENV MYSQL_VERSION 5.7.29-1debian10
+
+RUN echo "deb http://repo.mysql.com/apt/debian/ buster mysql-${MYSQL_MAJOR}" > /etc/apt/sources.list.d/mysql.list
+
+# the "/var/lib/mysql" stuff here is because the mysql-server postinst doesn't have an explicit way to disable the mysql_install_db codepath besides having a database already "configured" (ie, stuff in /var/lib/mysql/mysql)
+# also, we set debconf keys to make APT a little quieter
+RUN { \
+        echo mysql-community-server mysql-community-server/data-dir select ''; \
+        echo mysql-community-server mysql-community-server/root-pass password ''; \
+        echo mysql-community-server mysql-community-server/re-root-pass password ''; \
+        echo mysql-community-server mysql-community-server/remove-test-db select false; \
+    } | debconf-set-selections \
+    && apt-get update && apt-get install -y mysql-server="${MYSQL_VERSION}" && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld \
+    && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
+# ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
+    && chmod 777 /var/run/mysqld \
+# comment out a few problematic configuration values
+    && find /etc/mysql/ -name '*.cnf' -print0 \
+        | xargs -0 grep -lZE '^(bind-address|log)' \
+        | xargs -rt -0 sed -Ei 's/^(bind-address|log)/#&/' \
+# don't reverse lookup hostnames, they are usually another container
+    && echo '[mysqld]\nskip-host-cache\nskip-name-resolve' > /etc/mysql/conf.d/docker.cnf
+
+VOLUME /var/lib/mysql
+
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh # backwards compat
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 3306 33060
+CMD ["mysqld"]</code></pre>
+<h4 id="Docker-NGINX-1-17-9"><a href="#Docker-NGINX-1-17-9" class="headerlink" title="Docker_NGINX_1.17.9"></a>Docker_NGINX_1.17.9</h4><pre class=" language-dockerfile"><code class="language-dockerfile">FROM alpine:3.10
+
+LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
+
+ENV NGINX_VERSION 1.17.9
+ENV NJS_VERSION   0.3.9
+ENV PKG_RELEASE   1
+
+RUN set -x \
+# create nginx user/group first, to be consistent throughout docker variants
+    && addgroup -g 101 -S nginx \
+    && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
+    && apkArch="$(cat /etc/apk/arch)" \
+    && nginxPackages=" \
+        nginx=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-xslt=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-geoip=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-image-filter=${NGINX_VERSION}-r${PKG_RELEASE} \
+        nginx-module-njs=${NGINX_VERSION}.${NJS_VERSION}-r${PKG_RELEASE} \
+    " \
+    && case "$apkArch" in \
+        x86_64) \
+# arches officially built by upstream
+            set -x \
+            && KEY_SHA512="e7fa8303923d9b95db37a77ad46c68fd4755ff935d0a534d26eba83de193c76166c68bfe7f65471bf8881004ef4aa6df3e34689c305662750c0172fca5d8552a *stdin" \
+            && apk add --no-cache --virtual .cert-deps \
+                openssl \
+            && wget -O /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
+            && if [ "$(openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout | openssl sha512 -r)" = "$KEY_SHA512" ]; then \
+                echo "key verification succeeded!"; \
+                mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/; \
+            else \
+                echo "key verification failed!"; \
+                exit 1; \
+            fi \
+            && apk del .cert-deps \
+            && apk add -X "https://nginx.org/packages/mainline/alpine/v$(egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" --no-cache $nginxPackages \
+            ;; \
+        *) \
+# we're on an architecture upstream doesn't officially build for
+# let's build binaries from the published packaging sources
+            set -x \
+            && tempDir="$(mktemp -d)" \
+            && chown nobody:nobody $tempDir \
+            && apk add --no-cache --virtual .build-deps \
+                gcc \
+                libc-dev \
+                make \
+                openssl-dev \
+                pcre-dev \
+                zlib-dev \
+                linux-headers \
+                libxslt-dev \
+                gd-dev \
+                geoip-dev \
+                perl-dev \
+                libedit-dev \
+                mercurial \
+                bash \
+                alpine-sdk \
+                findutils \
+            && su nobody -s /bin/sh -c " \
+                export HOME=${tempDir} \
+                && cd ${tempDir} \
+                && hg clone https://hg.nginx.org/pkg-oss \
+                && cd pkg-oss \
+                && hg up ${NGINX_VERSION}-${PKG_RELEASE} \
+                && cd alpine \
+                && make all \
+                && apk index -o ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz ${tempDir}/packages/alpine/${apkArch}/*.apk \
+                && abuild-sign -k ${tempDir}/.abuild/abuild-key.rsa ${tempDir}/packages/alpine/${apkArch}/APKINDEX.tar.gz \
+                " \
+            && cp ${tempDir}/.abuild/abuild-key.rsa.pub /etc/apk/keys/ \
+            && apk del .build-deps \
+            && apk add -X ${tempDir}/packages/alpine/ --no-cache $nginxPackages \
+            ;; \
+    esac \
+# if we have leftovers from building, let's purge them (including extra, unnecessary build deps)
+    && if [ -n "$tempDir" ]; then rm -rf "$tempDir"; fi \
+    && if [ -n "/etc/apk/keys/abuild-key.rsa.pub" ]; then rm -f /etc/apk/keys/abuild-key.rsa.pub; fi \
+    && if [ -n "/etc/apk/keys/nginx_signing.rsa.pub" ]; then rm -f /etc/apk/keys/nginx_signing.rsa.pub; fi \
+# Bring in gettext so we can get `envsubst`, then throw
+# the rest away. To do this, we need to install `gettext`
+# then move `envsubst` out of the way so `gettext` can
+# be deleted completely, then move `envsubst` back.
+    && apk add --no-cache --virtual .gettext gettext \
+    && mv /usr/bin/envsubst /tmp/ \
+    \
+    && runDeps="$( \
+        scanelf --needed --nobanner /tmp/envsubst \
+            | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+            | sort -u \
+            | xargs -r apk info --installed \
+            | sort -u \
+    )" \
+    && apk add --no-cache $runDeps \
+    && apk del .gettext \
+    && mv /tmp/envsubst /usr/local/bin/ \
+# Bring in tzdata so users could set the timezones through the environment
+# variables
+    && apk add --no-cache tzdata \
+# forward request and error logs to docker log collector
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
+
+EXPOSE 80
+
+STOPSIGNAL SIGTERM
+
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -640,10 +844,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -781,6 +988,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-11-17T22-16-23',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sun Nov 17 2019 22:16:23 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -815,7 +1076,9 @@
                         
                             
 
-Dockerfile_redis_5.012345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535
+Dockerfile_redis_5.0FROM debian:buster-slim
+
+# add our user and group first to make sure their IDs get assigned consis
                         
                     </div>
                     <div class="publish-info">
@@ -866,7 +1129,10 @@ Dockerfile_redis_5.0123456789101112131415161718192021222324252627282930313233343
                         
                             
 
-Dockerfile构建镜像12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565
+Dockerfile构建镜像通过Dockerfile创建镜像
+虽然可以自己制作 rootfs(见'容器文件系统那些事儿')，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
+
+docker build命令用于根据给定的
                         
                     </div>
                     <div class="publish-info">
@@ -1035,7 +1301,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1063,13 +1329,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1079,7 +1345,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1161,6 +1427,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

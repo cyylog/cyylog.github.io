@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -562,10 +562,21 @@
 
 
 <h2 id="Zabbix-邮件报警"><a href="#Zabbix-邮件报警" class="headerlink" title="Zabbix 邮件报警"></a>Zabbix 邮件报警</h2><h4 id="前期准备工作："><a href="#前期准备工作：" class="headerlink" title="前期准备工作："></a>前期准备工作：</h4><p>电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件</p>
-<h5 id="server端安装配置邮件服务器"><a href="#server端安装配置邮件服务器" class="headerlink" title="server端安装配置邮件服务器"></a><strong>server端安装配置邮件服务器</strong></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]# yum -y install mailx</span><br><span class="line"></span><br><span class="line">[root@master ~]# mailx -V</span><br><span class="line">12.5 7/5/10</span><br></pre></td></tr></table></figure>
+<h5 id="server端安装配置邮件服务器"><a href="#server端安装配置邮件服务器" class="headerlink" title="server端安装配置邮件服务器"></a><strong>server端安装配置邮件服务器</strong></h5><pre class=" language-shell"><code class="language-shell">[root@master ~]# yum -y install mailx
 
-<h5 id="配置公网邮箱信息：发邮件："><a href="#配置公网邮箱信息：发邮件：" class="headerlink" title="配置公网邮箱信息：发邮件："></a><strong>配置公网邮箱信息</strong>：发邮件：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@master ~]#  vim /etc/mail.rc	#追加以下内容</span><br><span class="line"></span><br><span class="line">set from=cyylog@163.com	#（邮箱地址） </span><br><span class="line">set smtp=smtp.163.com	#smtp服务器） 发邮件服务器 ---163默认</span><br><span class="line">set smtp-auth-user=cyylog@163.com	#(用户名) </span><br><span class="line">set smtp-auth-password=Password	#（邮箱密码）授权之后的密码</span><br><span class="line">set smtp-auth=login			#默认</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####	测试</span></span></span><br><span class="line">[root@master ~]# echo "test mail from zabbix.server.com" |mail -s "test mail" cyylog@163.com</span><br></pre></td></tr></table></figure>
+[root@master ~]# mailx -V
+12.5 7/5/10
+</code></pre>
+<h5 id="配置公网邮箱信息：发邮件："><a href="#配置公网邮箱信息：发邮件：" class="headerlink" title="配置公网邮箱信息：发邮件："></a><strong>配置公网邮箱信息</strong>：发邮件：</h5><pre class=" language-shell"><code class="language-shell">[root@master ~]#  vim /etc/mail.rc    #追加以下内容
 
+set from=cyylog@163.com    #（邮箱地址） 
+set smtp=smtp.163.com    #smtp服务器） 发邮件服务器 ---163默认
+set smtp-auth-user=cyylog@163.com    #(用户名) 
+set smtp-auth-password=Password    #（邮箱密码）授权之后的密码
+set smtp-auth=login            #默认
+
+######    测试
+[root@master ~]# echo "test mail from zabbix.server.com" |mail -s "test mail" cyylog@163.com</code></pre>
 <h6 id="然后163邮箱就会收到信息"><a href="#然后163邮箱就会收到信息" class="headerlink" title="然后163邮箱就会收到信息"></a>然后163邮箱就会收到信息</h6><p><img src="https://s1.ax1x.com/2020/05/23/Yv2C6g.png" alt="Yv2C6g.png"></p>
 <h4 id="报警媒体的配置"><a href="#报警媒体的配置" class="headerlink" title="报警媒体的配置:"></a>报警媒体的配置:</h4><p>首先需要配置 Zabbix 的邮件功能。<br>点击 管理-&gt;报警媒介类型-&gt;创建媒体类型</p>
 <p><img src="https://s1.ax1x.com/2020/05/23/YvWEWV.png" alt="YvWEWV.png"></p>
@@ -573,8 +584,27 @@
 <p>名称：sendmail //名称任意<br>类型：脚本<br>脚本名称：sendmail.sh<br>脚本参数： //一定要写，否则可能发送不成功<br>{ALERT.SENDTO} //照填，收件人变量<br>{ALERT.SUBJECT} //照填，邮件主题变量，变量值来源于‘动作’中的‘默认接收人’<br>{ALERT.MESSAGE} //照填，邮件正文变量，变量值来源于‘动作’中的‘默认信息’</p>
 <p><strong>配置完成后,不要忘记点击存档,保存你的配置。</strong></p>
 <p><img src="https://s1.ax1x.com/2020/05/23/YvWRmQ.png" alt="YvWRmQ.png"></p>
-<h6 id="修改zabbix服务端配置文件＆编写脚本："><a href="#修改zabbix服务端配置文件＆编写脚本：" class="headerlink" title="修改zabbix服务端配置文件＆编写脚本："></a>修改zabbix服务端配置文件＆编写脚本：</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看指定脚本的存储路径:</span></span><br><span class="line"></span><br><span class="line">[root@master ~]# vim /etc/zabbix/zabbix_server.conf</span><br><span class="line"></span><br><span class="line">AlertScriptsPath=/usr/lib/zabbix/alertscripts</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">编写邮件脚本:</span><br><span class="line">[root@master alertscripts]# cd /usr/lib/zabbix/alertscripts</span><br><span class="line">[root@master alertscripts]# vim sendmail.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh </span></span><br><span class="line"><span class="meta">#</span><span class="bash">export.UTF-8 -----字符集可以删除掉</span></span><br><span class="line"><span class="meta">#</span><span class="bash">send mail</span></span><br><span class="line">messages=echo $3 | tr '\r\n' '\n'</span><br><span class="line">subject=echo $2 | tr '\r\n' '\n'</span><br><span class="line">echo "$&#123;messages&#125;" | mail -s "$&#123;subject&#125;" $1 &gt;&gt;/tmp/mailx.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">修改权限：</span><br><span class="line">[root@master alertscripts]# chmod u+x sendmail.sh &amp;&amp; chown zabbix.zabbix sendmail.sh</span><br></pre></td></tr></table></figure>
+<h6 id="修改zabbix服务端配置文件＆编写脚本："><a href="#修改zabbix服务端配置文件＆编写脚本：" class="headerlink" title="修改zabbix服务端配置文件＆编写脚本："></a>修改zabbix服务端配置文件＆编写脚本：</h6><pre class=" language-shell"><code class="language-shell"># 查看指定脚本的存储路径:
 
+[root@master ~]# vim /etc/zabbix/zabbix_server.conf
+
+AlertScriptsPath=/usr/lib/zabbix/alertscripts
+
+
+编写邮件脚本:
+[root@master alertscripts]# cd /usr/lib/zabbix/alertscripts
+[root@master alertscripts]# vim sendmail.sh 
+
+#!/bin/sh 
+#export.UTF-8 -----字符集可以删除掉
+#send mail
+messages=echo $3 | tr '\r\n' '\n'
+subject=echo $2 | tr '\r\n' '\n'
+echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
+
+
+修改权限：
+[root@master alertscripts]# chmod u+x sendmail.sh && chown zabbix.zabbix sendmail.sh</code></pre>
 <p>创建的脚本名称要和定义的脚本名称一样</p>
 <p><strong>修改admin用户的报警媒介：</strong><br>用户默认是没有设置报警媒介的，设置后就可以接收报警消息了。</p>
 <p><img src="https://s1.ax1x.com/2020/05/23/YvIrM6.png" alt="YvIrM6.png"></p>
@@ -589,29 +619,85 @@
 <p><strong>动作的配置</strong>:<br>点击:配置-&gt;动作-&gt;事件源下拉菜单中选择触发器-&gt;创建动作<br>可以在内容中使用 Zabbix 内置宏,邮件发出时会自动将宏替换成对应的值。 </p>
 <p>名称：<br>任意写</p>
 <p>默认接收人：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">故障级别：&#123;TRIGGER.STATUS&#125;。服务器：【&#123;HOSTNAME1&#125; 】 发生：&#123;TRIGGER.NAME&#125; 故障！ </span><br><span class="line">注：默认接收人：相当于邮件的主题</span><br><span class="line"></span><br><span class="line">默认信息：邮件的主题</span><br><span class="line">告警主机：&#123;HOSTNAME1&#125; </span><br><span class="line">告警时间：&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;</span><br><span class="line">告警等级：&#123;TRIGGER.SEVERITY&#125; </span><br><span class="line">告警信息：&#123;TRIGGER.NAME&#125;</span><br><span class="line">告警项目：&#123;TRIGGER.KEY1&#125; </span><br><span class="line">问题详情：&#123;ITEM.NAME&#125;：&#123;ITEM.VALUE&#125;</span><br><span class="line">当前状态：&#123;TRIGGER.STATUS&#125;：&#123;ITEM.VALUE1&#125; </span><br><span class="line">事件ID：&#123;EVENT.ID&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>故障级别：{TRIGGER.STATUS}。服务器：【{HOSTNAME1} 】 发生：{TRIGGER.NAME} 故障！ 
+注：默认接收人：相当于邮件的主题
 
-<p>恢复邮件：<br>恢复主题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">服务器：【&#123;HOSTNAME1&#125;】故障已恢复。故障原因：&#123;TRIGGER.NAME&#125; </span><br><span class="line">恢复信息：恢复邮件的正文。当故障恢复正常后也发邮件通知一下。</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/05/23/Yv7iG9.png" alt="Yv7iG9.png"></p>
+默认信息：邮件的主题
+告警主机：{HOSTNAME1} 
+告警时间：{EVENT.DATE} {EVENT.TIME}
+告警等级：{TRIGGER.SEVERITY} 
+告警信息：{TRIGGER.NAME}
+告警项目：{TRIGGER.KEY1} 
+问题详情：{ITEM.NAME}：{ITEM.VALUE}
+当前状态：{TRIGGER.STATUS}：{ITEM.VALUE1} 
+事件ID：{EVENT.ID}</code></pre><p>恢复邮件：<br>恢复主题：</p>
+<pre><code>服务器：【{HOSTNAME1}】故障已恢复。故障原因：{TRIGGER.NAME} 
+恢复信息：恢复邮件的正文。当故障恢复正常后也发邮件通知一下。 </code></pre><p><img src="https://s1.ax1x.com/2020/05/23/Yv7iG9.png" alt="Yv7iG9.png"></p>
 <p>点击:操作-&gt;编辑：</p>
 <p><img src="https://s1.ax1x.com/2020/05/23/Yv7kx1.png" alt="Yv7kx1.png"></p>
 <p>发送间隔：60秒<br>步骤：发送10次发送到：admin用户<br>仅使用：sendmail方式发送 —-脚本。 方式可以自行设置，根据实际工作要求</p>
 <p><img src="https://s1.ax1x.com/2020/05/23/Yv7QGd.png" alt="Yv7QGd.png"></p>
 <p>需要特别解释一下的是“步骤”部分的配置。所谓步骤是指报警可以有多个步骤,做不同的报警。例如,自从 1 到 3,就是指报警的步骤有三个。步骤持续时间就是一定时间后如果监控人员仍未响应报警就进入下一个报警步骤。<br>例如,发邮件给你报警,如果60 秒后你没响应,那就发 jabber 信息提醒你。如果 60 秒后还没响应,那就发短信给你。要是还没响应,就没有然后了。你可以形象的把它理解为 Zabbix 的一哭二闹三上吊。<br>到此,一个邮件报警功能就配置完毕了。如果你想立即看到结果,可以修改触发器的条件,将条件的阀值设置为 N&gt;0.0003。你马上就会收到 Zabbix 发来的报警邮件了。</p>
 <h4 id="补充：邮件美化"><a href="#补充：邮件美化" class="headerlink" title="补充：邮件美化"></a>补充：邮件美化</h4><p>（修改默认信息）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>  <span class="attr">bordercolor</span>=<span class="string">"black"</span> <span class="attr">cellspacing</span>=<span class="string">"0px"</span> <span class="attr">cellpadding</span>=<span class="string">"4px"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span> &gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>告警主机<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span> <span class="attr">bgcolor</span>=<span class="string">"#FF3333"</span>&gt;</span>&#123;HOSTNAME1&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>告警时间<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;EVENT.DATE&#125; &#123;EVENT.TIME&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>告警等级<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;TRIGGER.SEVERITY&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>告警信息<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;TRIGGER.NAME&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>告警项目<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;TRIGGER.KEY1&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span> &gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>问题详情<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span> <span class="attr">bgcolor</span>=<span class="string">"#FF3333"</span>&gt;</span>&#123;ITEM.NAME&#125;:<span class="symbol">&amp;nbsp;</span>&#123;ITEM.VALUE&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>当前状态<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;TRIGGER.STATUS&#125;:<span class="symbol">&amp;nbsp;</span>&#123;ITEM.VALUE1&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>事件ID<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;EVENT.ID&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"> <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>  <span class="token attr-name">bordercolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">cellspacing</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0px<span class="token punctuation">"</span></span> <span class="token attr-name">cellpadding</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>4px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
 
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警主机<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{HOSTNAME1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
 
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警时间<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.DATE} {EVENT.TIME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
 
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警等级<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.SEVERITY}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
 
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警信息<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.NAME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
 
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.KEY1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>问题详情<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{ITEM.NAME}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>当前状态<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.STATUS}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>事件ID<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.ID}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
 
-
-
-
-
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span></code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -686,10 +772,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -827,6 +916,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-07-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Jul 05 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -921,7 +1064,9 @@
                         
                             
 
-所需要的依赖及安装MySQL的包1234# yum -y update# yum -y groupinstall "Development Tools"# yum -y install gcc gcc-c++ ncurses ncurs
+所需要的依赖及安装MySQL的包# yum -y update
+# yum -y groupinstall "Development Tools"
+# yum -y install gcc gcc-c++ ncurses ncurses
                         
                     </div>
                     <div class="publish-info">
@@ -1090,7 +1235,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1118,13 +1263,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1134,7 +1279,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1216,6 +1361,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

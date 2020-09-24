@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,26 +559,97 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h3 id="JVM-运维实用排障工具"><a href="#JVM-运维实用排障工具" class="headerlink" title="JVM 运维实用排障工具"></a>JVM 运维实用排障工具</h3><h4 id="1、jps"><a href="#1、jps" class="headerlink" title="1、jps"></a>1、jps</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用来查看Java进程的具体状态, 包括进程ID，进程启动的路径及启动参数等等，与unix上的ps类似，只不过jps是用来显示java进程，可以把jps理解为ps的一个子集。</span><br><span class="line">常用参数如下:</span><br><span class="line">-q：忽略输出的类名、Jar名以及传递给main方法的参数，只输出pid</span><br><span class="line">-m：输出传递给main方法的参数，如果是内嵌的JVM则输出为null</span><br><span class="line">-l：输出完全的包名，应用主类名，jar的完全路径名</span><br><span class="line">-v：输出传给jvm的参数</span><br><span class="line"></span><br><span class="line">注意: 使用jps 时的运行账户要和JVM 虚拟机启动的账户一致。若启动JVM虚拟机是运行的账户为www，那使用jps指令时，也要使用www 用户去指定。 sudo -u www jps</span><br></pre></td></tr></table></figure>
+<h3 id="JVM-运维实用排障工具"><a href="#JVM-运维实用排障工具" class="headerlink" title="JVM 运维实用排障工具"></a>JVM 运维实用排障工具</h3><h4 id="1、jps"><a href="#1、jps" class="headerlink" title="1、jps"></a>1、jps</h4><pre><code>用来查看Java进程的具体状态, 包括进程ID，进程启动的路径及启动参数等等，与unix上的ps类似，只不过jps是用来显示java进程，可以把jps理解为ps的一个子集。
+常用参数如下:
+-q：忽略输出的类名、Jar名以及传递给main方法的参数，只输出pid
+-m：输出传递给main方法的参数，如果是内嵌的JVM则输出为null
+-l：输出完全的包名，应用主类名，jar的完全路径名
+-v：输出传给jvm的参数
 
+注意: 使用jps 时的运行账户要和JVM 虚拟机启动的账户一致。若启动JVM虚拟机是运行的账户为www，那使用jps指令时，也要使用www 用户去指定。 sudo -u www jps</code></pre><p>Example</p>
+<pre class=" language-shell"><code class="language-shell">// 查看已经运行的JVM 进程的实际启动参数
+[root@mouse03 bin]# jps  -v
+38372 Jps -Dapplication.home=/usr/local/jdk -Xms8m
+38360 Bootstrap -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</code></pre>
+<h4 id="2、jstack"><a href="#2、jstack" class="headerlink" title="2、jstack"></a>2、jstack</h4><pre><code>jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息。如果现在运行的java程序呈现hung的状态，jstack是非常有用的。此信息通常在运维的过程中被保存起来(保存故障现场)，以供RD们去分析故障。
+常用参数如下:
+jstack &lt;pid&gt;
+jstack [-l] &lt;pid&gt; //长列表. 打印关于锁的附加信息
+jstack [-F] &lt;pid&gt; //当’jstack [-l] pid’没有响应的时候强制打印栈信息</code></pre><p>Example</p>
+<pre class=" language-shell"><code class="language-shell">// 打印JVM 的堆栈信息，以供问题排查
+[root@mouse03 ~]# jstack -F 38360 > /tmp/jstack.log</code></pre>
+<h4 id="3、jinfo"><a href="#3、jinfo" class="headerlink" title="3、jinfo"></a>3、jinfo</h4><pre><code>可以查看或修改运行时的JVM进程的参数。
+常用参数:
+jinfo [option] pid
+
+where &lt;option&gt; is one of:
+    -flag &lt;name&gt;         to print the value of the named VM flag
+    -flag [+|-]&lt;name&gt;    to enable or disable the named VM flag
+    -flag &lt;name&gt;=&lt;value&gt; to set the named VM flag to the given value
+    -flags               to print VM flags</code></pre><p>Example</p>
+<pre class=" language-shell"><code class="language-shell">// 根据 PID 查看目前分配的最大堆栈
+[root@mouse03 ~]# jinfo -flag MaxHeapSize 38360
+-XX:MaxHeapSize=4294967296
+// 动态更改 JVM 的最大堆栈值
+[root@mouse03 ~]# jinfo -flag MaxHeapSize=4294967296  38360
+Exception in thread "main" com.sun.tools.attach.AttachOperationFailedException: flag 'MaxHeapSize' cannot be changed
+
+    at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:229)
+    at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)
+    at sun.tools.attach.HotSpotVirtualMachine.setFlag(HotSpotVirtualMachine.java:234)
+    at sun.tools.jinfo.JInfo.flag(JInfo.java:134)
+    at sun.tools.jinfo.JInfo.main(JInfo.java:81)
+
+// jinfo 并不能动态的改变所有的JVM 参数。 那到底有哪些参数能够被动态的改变呢?
+// java -XX:+PrintFlagsFinal -version 答应JVM 的所有参数
+// java -XX:+PrintFlagsFinal -version | grep manageable
+
+[root@mouse03 ~]# java -XX:+PrintFlagsFinal -version | grep manageable
+     intx CMSAbortablePrecleanWaitMillis            = 100                                 {manageable}
+     intx CMSTriggerInterval                        = -1                                  {manageable}
+     intx CMSWaitDuration                           = 2000                                {manageable}
+     bool HeapDumpAfterFullGC                       = false                               {manageable}
+     bool HeapDumpBeforeFullGC                      = false                               {manageable}
+     bool HeapDumpOnOutOfMemoryError                = false                               {manageable}
+    ccstr HeapDumpPath                              =                                     {manageable}
+    uintx MaxHeapFreeRatio                          = 70                                  {manageable}
+    uintx MinHeapFreeRatio                          = 40                                  {manageable}
+     bool PrintClassHistogram                       = false                               {manageable}
+     bool PrintClassHistogramAfterFullGC            = false                               {manageable}
+     bool PrintClassHistogramBeforeFullGC           = false                               {manageable}
+     bool PrintConcurrentLocks                      = false                               {manageable}
+     bool PrintGC                                   = false                               {manageable}
+     bool PrintGCDateStamps                         = false                               {manageable}
+     bool PrintGCDetails                            = false                               {manageable}
+     bool PrintGCID                                 = false                               {manageable}
+     bool PrintGCTimeStamps                         = false                               {manageable}
+
+// 也只有以上这些值才能够动态的被改变
+[root@mouse03 ~]# jinfo -flag CMSWaitDuration=1900  38360
+# 查看， jinfo -flags 查看 JVM 的 flags 
+[root@mouse03 ~]# jinfo -flags 38360
+Attaching to process ID 38360, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.91-b14
+Non-default VM flags: -XX:CICompilerCount=2 -XX:CMSWaitDuration=1900 -XX:InitialHeapSize=4294967296 -XX:MaxHeapSize=4294967296 -XX:MaxNewSize=1431633920 -XX:MinHeapDeltaBytes=196608 -XX:NewSize=1431633920 -XX:OldSize=2863333376 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps
+Command line:  -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</code></pre>
+<h4 id="4、jstat"><a href="#4、jstat" class="headerlink" title="4、jstat"></a>4、jstat</h4><pre class=" language-shell"><code class="language-shell">// 监控JVM 的状态，常用指令:
+# jstat -gc 113059 1000 10 // 打印PID 为 113059 JVM 状态，一共打印10次，每次间隔时间为1s(1000ms)
+// 注 jstat 的用法超级强大， 我们这里只是列举出列其中一个简单的应用。</code></pre>
 <p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 查看已经运行的JVM 进程的实际启动参数</span><br><span class="line">[root@mouse03 bin]# jps  -v</span><br><span class="line">38372 Jps -Dapplication.home=/usr/local/jdk -Xms8m</span><br><span class="line">38360 Bootstrap -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
-
-<h4 id="2、jstack"><a href="#2、jstack" class="headerlink" title="2、jstack"></a>2、jstack</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息。如果现在运行的java程序呈现hung的状态，jstack是非常有用的。此信息通常在运维的过程中被保存起来(保存故障现场)，以供RD们去分析故障。</span><br><span class="line">常用参数如下:</span><br><span class="line">jstack &lt;pid&gt;</span><br><span class="line">jstack [-l] &lt;pid&gt; &#x2F;&#x2F;长列表. 打印关于锁的附加信息</span><br><span class="line">jstack [-F] &lt;pid&gt; &#x2F;&#x2F;当’jstack [-l] pid’没有响应的时候强制打印栈信息</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 打印JVM 的堆栈信息，以供问题排查</span><br><span class="line">[root@mouse03 ~]# jstack -F 38360 &gt; /tmp/jstack.log</span><br></pre></td></tr></table></figure>
-
-<h4 id="3、jinfo"><a href="#3、jinfo" class="headerlink" title="3、jinfo"></a>3、jinfo</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">可以查看或修改运行时的JVM进程的参数。</span><br><span class="line">常用参数:</span><br><span class="line">jinfo [option] pid</span><br><span class="line">    </span><br><span class="line">where &lt;option&gt; is one of:</span><br><span class="line">    -flag &lt;name&gt;         to print the value of the named VM flag</span><br><span class="line">    -flag [+|-]&lt;name&gt;    to enable or disable the named VM flag</span><br><span class="line">    -flag &lt;name&gt;&#x3D;&lt;value&gt; to set the named VM flag to the given value</span><br><span class="line">    -flags               to print VM flags</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// 根据 PID 查看目前分配的最大堆栈</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize 38360</span><br><span class="line">-XX:MaxHeapSize=4294967296</span><br><span class="line">// 动态更改 JVM 的最大堆栈值</span><br><span class="line">[root@mouse03 ~]# jinfo -flag MaxHeapSize=4294967296  38360</span><br><span class="line">Exception in thread "main" com.sun.tools.attach.AttachOperationFailedException: flag 'MaxHeapSize' cannot be changed</span><br><span class="line"></span><br><span class="line">	at sun.tools.attach.LinuxVirtualMachine.execute(LinuxVirtualMachine.java:229)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.executeCommand(HotSpotVirtualMachine.java:261)</span><br><span class="line">	at sun.tools.attach.HotSpotVirtualMachine.setFlag(HotSpotVirtualMachine.java:234)</span><br><span class="line">	at sun.tools.jinfo.JInfo.flag(JInfo.java:134)</span><br><span class="line">	at sun.tools.jinfo.JInfo.main(JInfo.java:81)</span><br><span class="line"></span><br><span class="line">// jinfo 并不能动态的改变所有的JVM 参数。 那到底有哪些参数能够被动态的改变呢?</span><br><span class="line">// java -XX:+PrintFlagsFinal -version 答应JVM 的所有参数</span><br><span class="line">// java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line"></span><br><span class="line">[root@mouse03 ~]# java -XX:+PrintFlagsFinal -version | grep manageable</span><br><span class="line">     intx CMSAbortablePrecleanWaitMillis            = 100                                 &#123;manageable&#125;</span><br><span class="line">     intx CMSTriggerInterval                        = -1                                  &#123;manageable&#125;</span><br><span class="line">     intx CMSWaitDuration                           = 2000                                &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpAfterFullGC                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpBeforeFullGC                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool HeapDumpOnOutOfMemoryError                = false                               &#123;manageable&#125;</span><br><span class="line">    ccstr HeapDumpPath                              =                                     &#123;manageable&#125;</span><br><span class="line">    uintx MaxHeapFreeRatio                          = 70                                  &#123;manageable&#125;</span><br><span class="line">    uintx MinHeapFreeRatio                          = 40                                  &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogram                       = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramAfterFullGC            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintClassHistogramBeforeFullGC           = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintConcurrentLocks                      = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGC                                   = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDateStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCDetails                            = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCID                                 = false                               &#123;manageable&#125;</span><br><span class="line">     bool PrintGCTimeStamps                         = false                               &#123;manageable&#125;</span><br><span class="line">     </span><br><span class="line">// 也只有以上这些值才能够动态的被改变</span><br><span class="line">[root@mouse03 ~]# jinfo -flag CMSWaitDuration=1900  38360</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看， jinfo -flags 查看 JVM 的 flags </span></span><br><span class="line">[root@mouse03 ~]# jinfo -flags 38360</span><br><span class="line">Attaching to process ID 38360, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.91-b14</span><br><span class="line">Non-default VM flags: -XX:CICompilerCount=2 -XX:CMSWaitDuration=1900 -XX:InitialHeapSize=4294967296 -XX:MaxHeapSize=4294967296 -XX:MaxNewSize=1431633920 -XX:MinHeapDeltaBytes=196608 -XX:NewSize=1431633920 -XX:OldSize=2863333376 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps</span><br><span class="line">Command line:  -Djava.util.logging.config.file=/data0/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Xms4096m -Xmx4096m -XX:PermSize=1024m -XX:MaxPermSize=2048m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -Dcatalina.base=/data0/tomcat -Dcatalina.home=/data0/tomcat -Djava.io.tmpdir=/data0/tomcat/temp</span><br></pre></td></tr></table></figure>
-
-<h4 id="4、jstat"><a href="#4、jstat" class="headerlink" title="4、jstat"></a>4、jstat</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 监控JVM 的状态，常用指令:</span><br><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10 // 打印PID 为 113059 JVM 状态，一共打印10次，每次间隔时间为1s(1000ms)</span></span><br><span class="line">// 注 jstat 的用法超级强大， 我们这里只是列举出列其中一个简单的应用。</span><br></pre></td></tr></table></figure>
-
-<p>Example</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> jstat -gc 113059 1000 10</span></span><br><span class="line"> S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">195904.0 195904.0  0.0   21610.3 1567680.0 1516721.9 8526272.0  3557507.8  1048576.0 163148.4   2577   92.033   0      0.000   92.033</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 142541.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 266338.1 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 413941.8 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 642390.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 813957.3 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 984223.2 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1155472.7 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0 23600.9  0.0   1567680.0 1399228.5 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060</span><br><span class="line">195904.0 195904.0  0.0   23866.6 1567680.0 38005.6  8526272.0  3559196.7  1048576.0 163148.4   2579   92.092   0      0.000   92.092</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell"># jstat -gc 113059 1000 10
+ S0C    S1C    S0U    S1U      EC       EU        OC         OU       PC     PU    YGC     YGCT    FGC    FGCT     GCT
+195904.0 195904.0  0.0   21610.3 1567680.0 1516721.9 8526272.0  3557507.8  1048576.0 163148.4   2577   92.033   0      0.000   92.033
+195904.0 195904.0 23600.9  0.0   1567680.0 142541.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 266338.1 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 413941.8 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 642390.6 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 813957.3 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 984223.2 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 1155472.7 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0 23600.9  0.0   1567680.0 1399228.5 8526272.0  3558435.8  1048576.0 163148.4   2578   92.060   0      0.000   92.060
+195904.0 195904.0  0.0   23866.6 1567680.0 38005.6  8526272.0  3559196.7  1048576.0 163148.4   2579   92.092   0      0.000   92.092</code></pre>
 <p><strong>字段意义如下</strong></p>
 <table>
 <thead>
@@ -648,21 +719,50 @@
 <td>T从应用程序启动到采样时用于垃圾回收的总时间(单位秒)，它的值等于YGC+FGC</td>
 </tr>
 </tbody></table>
-<h4 id="5、jvmtop"><a href="#5、jvmtop" class="headerlink" title="5、jvmtop"></a>5、jvmtop</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">以上介绍的jps、jstack、jinfo等都是安装JDK 时自带的系统分析工具，而jvmtop是一款开源的JVM工具。</span><br><span class="line">它的下载地址如下: https:&#x2F;&#x2F;github.com&#x2F;patric-r&#x2F;jvmtop</span><br><span class="line">顾名思义，它是一个只针对JVM的工具，展示的方式和unix的top命令相似.</span><br><span class="line">jvmtop 提供了两个视图，一个是概览视图，可以展示出当前机器的所有的 JVM 的情况. 还有一个视图是详情视图，展示一个 JVM 的详细情况.</span><br></pre></td></tr></table></figure>
-
-<p><strong>概览视图</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/05/21/YHC9BV.png" alt="YHC9BV.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义分别如下：</span><br><span class="line">PID：进程 ID</span><br><span class="line">MAIN-CLASS：main 类的名字</span><br><span class="line">HPCUR：当前被使用的 heap 的大小</span><br><span class="line">HPMAX：最大可用的 heap 的大小</span><br><span class="line">NHCUR：当前被使用的非 heap 大小（比如：perm gen）</span><br><span class="line">NHMAX：最大可用的非 heap 大小</span><br><span class="line">CPU：CPU 的使用情况</span><br><span class="line">GC：消耗在 GC 上的时间比例</span><br><span class="line">VM：JVM 的提供者，大版本号，小版本号，图中的意思是 Apple 提供的 JDK 6U51 版本。</span><br><span class="line">USERNAME：当前的用户名</span><br><span class="line">#T：线程数量</span><br><span class="line">DL：是否有现成发生死锁</span><br></pre></td></tr></table></figure>
-
-<p><strong>详情视图</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvmtop.sh &lt;pid&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://s1.ax1x.com/2020/05/21/YHCiAU.png" alt="YHCiAU.png"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">其中，各个字段的意义如下：</span><br><span class="line">TID：线程 ID</span><br><span class="line">NAME：线程名</span><br><span class="line">STATE：线程状态</span><br><span class="line">CPU：线程当前的 CPU 占用情况</span><br><span class="line">TOTALCPU：从线程被创建开始总体的 CPU 占用情况</span><br><span class="line">BLOCKBY：阻塞这个线程的线程 ID</span><br></pre></td></tr></table></figure>
-
-
+<h4 id="5、jvmtop"><a href="#5、jvmtop" class="headerlink" title="5、jvmtop"></a>5、jvmtop</h4><pre><code>以上介绍的jps、jstack、jinfo等都是安装JDK 时自带的系统分析工具，而jvmtop是一款开源的JVM工具。
+它的下载地址如下: https://github.com/patric-r/jvmtop
+顾名思义，它是一个只针对JVM的工具，展示的方式和unix的top命令相似.
+jvmtop 提供了两个视图，一个是概览视图，可以展示出当前机器的所有的 JVM 的情况. 还有一个视图是详情视图，展示一个 JVM 的详细情况.</code></pre><p><strong>概览视图</strong></p>
+<pre><code>jvmtop.sh</code></pre><p><img src="https://s1.ax1x.com/2020/05/21/YHC9BV.png" alt="YHC9BV.png"></p>
+<pre><code>其中，各个字段的意义分别如下：
+PID：进程 ID
+MAIN-CLASS：main 类的名字
+HPCUR：当前被使用的 heap 的大小
+HPMAX：最大可用的 heap 的大小
+NHCUR：当前被使用的非 heap 大小（比如：perm gen）
+NHMAX：最大可用的非 heap 大小
+CPU：CPU 的使用情况
+GC：消耗在 GC 上的时间比例
+VM：JVM 的提供者，大版本号，小版本号，图中的意思是 Apple 提供的 JDK 6U51 版本。
+USERNAME：当前的用户名
+#T：线程数量
+DL：是否有现成发生死锁</code></pre><p><strong>详情视图</strong></p>
+<pre><code>jvmtop.sh &lt;pid&gt;</code></pre><p><img src="https://s1.ax1x.com/2020/05/21/YHCiAU.png" alt="YHCiAU.png"></p>
+<pre><code>其中，各个字段的意义如下：
+TID：线程 ID
+NAME：线程名
+STATE：线程状态
+CPU：线程当前的 CPU 占用情况
+TOTALCPU：从线程被创建开始总体的 CPU 占用情况
+BLOCKBY：阻塞这个线程的线程 ID</code></pre><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -737,10 +837,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -878,6 +981,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-04-02T00-36-51',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Thu Apr 02 2020 00:36:51 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1148,7 +1305,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1176,13 +1333,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1192,7 +1349,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1274,6 +1431,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

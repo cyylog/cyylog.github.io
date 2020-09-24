@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -576,15 +576,26 @@
 </tbody></table>
 <h5 id="可用参数"><a href="#可用参数" class="headerlink" title="可用参数"></a>可用参数</h5><ul>
 <li><p>string</p>
-<p>字符串类型的参数, 例如: <code>parameters { string(name: &#39;DEPLOY_ENV&#39;, defaultValue: &#39;staging&#39;, description: &#39;&#39;) }</code></p>
+<p>字符串类型的参数, 例如: <code>parameters { string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '') }</code></p>
 </li>
 <li><p>booleanParam</p>
-<p>布尔参数, 例如: <code>parameters { booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: true, description: &#39;&#39;) }</code></p>
+<p>布尔参数, 例如: <code>parameters { booleanParam(name: 'DEBUG_BUILD', defaultValue: true, description: '') }</code></p>
 </li>
 </ul>
 <h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    parameters &#123;</span><br><span class="line">        string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello $&#123;params.PERSON&#125;"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    parameters <span class="token punctuation">{</span>
+        <span class="token function">string</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token string">'PERSON'</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token string">'Mr Jenkins'</span><span class="token punctuation">,</span> description<span class="token punctuation">:</span> <span class="token string">'Who should I say hello to?'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">"Hello ${params.PERSON}"</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <table>
 <thead>
 <tr>
@@ -616,13 +627,13 @@
 </tbody></table>
 <ul>
 <li><p>cron</p>
-<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron(&#39;H */4 * * 1-5&#39;) }</code></p>
+<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron('H */4 * * 1-5') }</code></p>
 </li>
 <li><p>pollSCM</p>
-<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM(&#39;H */4 * * 1-5&#39;) }</code></p>
+<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM('H */4 * * 1-5') }</code></p>
 </li>
 <li><p>upstream</p>
-<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: &#39;job1,job2&#39;, threshold: hudson.model.Result.SUCCESS) }</code></p>
+<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS) }</code></p>
 </li>
 </ul>
 <table>
@@ -638,8 +649,19 @@
 </tr>
 </tbody></table>
 <h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    triggers &#123;</span><br><span class="line">        cron(<span class="string">'H */4 * * 1-5'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    triggers <span class="token punctuation">{</span>
+        <span class="token function">cron</span><span class="token punctuation">(</span><span class="token string">'H */4 * * 1-5'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="stage"><a href="#stage" class="headerlink" title="stage"></a>stage</h4><p><code>stage</code> 指令在 <code>stages</code> 部分进行，应该包含一个 实际上, 流水巷所做的所有实际工作都将封装进一个或多个 <code>stage</code> 指令中。</p>
 <table>
 <thead>
@@ -658,8 +680,16 @@
 </tr>
 </tbody></table>
 <h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><p>定义自动安装和放置 <code>PATH</code> 的工具的一部分。如果 <code>agent none</code> 指定，则忽略该操作。</p>
 <table>
 <thead>
@@ -683,8 +713,19 @@
 <li>gradle</li>
 </ul>
 <h5 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    tools &#123;</span><br><span class="line">        maven <span class="string">'apache-maven-3.0.1'</span> </span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh <span class="string">'mvn --version'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    tools <span class="token punctuation">{</span>
+        maven <span class="token string">'apache-maven-3.0.1'</span> 
+    <span class="token punctuation">}</span>
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                sh <span class="token string">'mvn --version'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <table>
 <thead>
 <tr>
@@ -719,8 +760,24 @@
 </li>
 </ul>
 <h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            input &#123;</span><br><span class="line">                message <span class="string">"Should we continue?"</span></span><br><span class="line">                ok <span class="string">"Yes, we should."</span></span><br><span class="line">                submitter <span class="string">"alice,bob"</span></span><br><span class="line">                parameters &#123;</span><br><span class="line">                    string(<span class="string">name:</span> <span class="string">'PERSON'</span>, <span class="string">defaultValue:</span> <span class="string">'Mr Jenkins'</span>, <span class="string">description:</span> <span class="string">'Who should I say hello to?'</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">"Hello, $&#123;PERSON&#125;, nice to meet you."</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            input <span class="token punctuation">{</span>
+                message <span class="token string">"Should we continue?"</span>
+                ok <span class="token string">"Yes, we should."</span>
+                submitter <span class="token string">"alice,bob"</span>
+                parameters <span class="token punctuation">{</span>
+                    <span class="token function">string</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token string">'PERSON'</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token string">'Mr Jenkins'</span><span class="token punctuation">,</span> description<span class="token punctuation">:</span> <span class="token string">'Who should I say hello to?'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">"Hello, ${PERSON}, nice to meet you."</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h4 id="when"><a href="#when" class="headerlink" title="when"></a>when</h4><p><code>when</code> 指令允许流水线根据给定的条件决定是否应该执行阶段。 <code>when</code> 指令必须包含至少一个条件。 如果 <code>when</code> 指令包含多个条件, 所有的子条件必须返回True，阶段才能执行。 这与子条件在 <code>allOf</code> 条件下嵌套的情况相同 (参见下面的<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#when-example" target="_blank" rel="noopener">示例</a>)。</p>
 <p>使用诸如 <code>not</code>, <code>allOf</code>, 或 <code>anyOf</code> 的嵌套条件可以构建更复杂的条件结构 can be built 嵌套条件刻意潜逃到任意深度。</p>
 <table>
@@ -741,62 +798,237 @@
 </tbody></table>
 <h5 id="内置条件"><a href="#内置条件" class="headerlink" title="内置条件"></a>内置条件</h5><ul>
 <li><p>branch</p>
-<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch &#39;master&#39; }</code>。注意，这只适用于多分支流水线。</p>
+<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch 'master' }</code>。注意，这只适用于多分支流水线。</p>
 </li>
 <li><p>environment</p>
-<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; }</code></p>
+<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: 'DEPLOY_TO', value: 'production' }</code></p>
 </li>
 <li><p>expression</p>
 <p>当指定的Groovy表达式评估为true时，执行这个阶段, 例如: <code>when { expression { return params.DEBUG_BUILD } }</code></p>
 </li>
 <li><p>not</p>
-<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch &#39;master&#39; } }</code></p>
+<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch 'master' } }</code></p>
 </li>
 <li><p>allOf</p>
-<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch &#39;master&#39;; environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; } }</code></p>
+<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch 'master'; environment name: 'DEPLOY_TO', value: 'production' } }</code></p>
 </li>
 <li><p>anyOf</p>
-<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch &#39;master&#39;; branch &#39;staging&#39; } }</code></p>
+<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch 'master'; branch 'staging' } }</code></p>
 </li>
 </ul>
 <h5 id="在进入-stage-的-agent-前评估-when"><a href="#在进入-stage-的-agent-前评估-when" class="headerlink" title="在进入 stage 的 agent 前评估 when"></a>在进入 <code>stage</code> 的 <code>agent</code> 前评估 <code>when</code></h5><p>默认情况下, 如果定义了某个阶段的代理，在进入该<code>stage</code> 的 <code>agent</code> 后该 <code>stage</code> 的 <code>when</code> 条件将会被评估。但是, 可以通过在 <code>when</code> 块中指定 <code>beforeAgent</code> 选项来更改此选项。 如果 <code>beforeAgent</code> 被设置为 <code>true</code>, 那么就会首先对 <code>when</code> 条件进行评估 , 并且只有在 <code>when</code> 条件验证为真时才会进入 <code>agent</code> 。</p>
 <h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                branch <span class="token string">'production'</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                branch <span class="token string">'production'</span>
+                environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'production'</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                allOf &#123;</span><br><span class="line">                    branch <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                allOf <span class="token punctuation">{</span>
+                    branch <span class="token string">'production'</span>
+                    environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'production'</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                branch <span class="token string">'production'</span>
+                anyOf <span class="token punctuation">{</span>
+                    environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'production'</span>
+                    environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'staging'</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                expression &#123; BRANCH_NAME ==~ <span class="regexp">/(production|staging)/</span> &#125;</span><br><span class="line">                anyOf &#123;</span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'production'</span></span><br><span class="line">                    environment <span class="string">name:</span> <span class="string">'DEPLOY_TO'</span>, <span class="string">value:</span> <span class="string">'staging'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                expression <span class="token punctuation">{</span> BRANCH_NAME <span class="token operator">==~</span> <span class="token string">/(production|staging)/</span> <span class="token punctuation">}</span>
+                anyOf <span class="token punctuation">{</span>
+                    environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'production'</span>
+                    environment name<span class="token punctuation">:</span> <span class="token string">'DEPLOY_TO'</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> <span class="token string">'staging'</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent none</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example Build'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Example Deploy'</span>) &#123;</span><br><span class="line">            agent &#123;</span><br><span class="line">                label <span class="string">"some-label"</span></span><br><span class="line">            &#125;</span><br><span class="line">            when &#123;</span><br><span class="line">                beforeAgent <span class="literal">true</span></span><br><span class="line">                branch <span class="string">'production'</span></span><br><span class="line">            &#125;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Deploying'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent none
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            agent <span class="token punctuation">{</span>
+                label <span class="token string">"some-label"</span>
+            <span class="token punctuation">}</span>
+            when <span class="token punctuation">{</span>
+                beforeAgent <span class="token boolean">true</span>
+                branch <span class="token string">'production'</span>
+            <span class="token punctuation">}</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Deploying'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><p>声明式流水线的阶段可以在他们内部声明多隔嵌套阶段, 它们将并行执行。 注意，一个阶段必须只有一个 <code>steps</code> 或 <code>parallel</code> 的阶段。 嵌套阶段本身不能包含进一步的 <code>parallel</code> 阶段, 但是其他的阶段的行为与任何其他 <code>stage</code> 相同。任何包含 <code>parallel</code> 的阶段不能包含 <code>agent</code> 或 <code>tools</code> 阶段, 因为他们没有相关 <code>steps</code>。</p>
 <p>另外, 通过添加 <code>failFast true</code> 到包含 <code>parallel</code>的 <code>stage</code> 中， 当其中一个进程失败时，你可以强制所有的 <code>parallel</code> 阶段都被终止。</p>
 <h4 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h4><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Non-Parallel Stage'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'This stage will be executed first.'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(<span class="string">'Parallel Stage'</span>) &#123;</span><br><span class="line">            when &#123;</span><br><span class="line">                branch <span class="string">'master'</span></span><br><span class="line">            &#125;</span><br><span class="line">            failFast <span class="literal">true</span></span><br><span class="line">            parallel &#123;</span><br><span class="line">                stage(<span class="string">'Branch A'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-a"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch A"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                stage(<span class="string">'Branch B'</span>) &#123;</span><br><span class="line">                    agent &#123;</span><br><span class="line">                        label <span class="string">"for-branch-b"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    steps &#123;</span><br><span class="line">                        echo <span class="string">"On Branch B"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Non-Parallel Stage'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'This stage will be executed first.'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Parallel Stage'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            when <span class="token punctuation">{</span>
+                branch <span class="token string">'master'</span>
+            <span class="token punctuation">}</span>
+            failFast <span class="token boolean">true</span>
+            parallel <span class="token punctuation">{</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Branch A'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    agent <span class="token punctuation">{</span>
+                        label <span class="token string">"for-branch-a"</span>
+                    <span class="token punctuation">}</span>
+                    steps <span class="token punctuation">{</span>
+                        echo <span class="token string">"On Branch A"</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Branch B'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    agent <span class="token punctuation">{</span>
+                        label <span class="token string">"for-branch-b"</span>
+                    <span class="token punctuation">}</span>
+                    steps <span class="token punctuation">{</span>
+                        echo <span class="token string">"On Branch B"</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>声明式流水线可能使用在 <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a>中记录的所有可用的步骤, 它包含一个完整的步骤列表, 其中添加了下面列出的步骤，这些步骤只在声明式流水线中 <strong>only supported</strong> 。</p>
 <h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p><code>script</code> 步骤需要 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-pipeline" target="_blank" rel="noopener">[scripted-pipeline]</a>块并在声明式流水线中执行。 对于大多数用例来说,应该声明式流水线中的“脚本”步骤是不必要的， 但是它可以提供一个有用的”逃生出口”。 非平凡的规模和/或复杂性的 <code>script</code> 块应该被转移到 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a> 。</p>
 <h5 id="示例-7"><a href="#示例-7" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                echo <span class="string">'Hello World'</span></span><br><span class="line"></span><br><span class="line">                script &#123;</span><br><span class="line">                    <span class="keyword">def</span> browsers = [<span class="string">'chrome'</span>, <span class="string">'firefox'</span>]</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; browsers.size(); ++i) &#123;</span><br><span class="line">                        echo <span class="string">"Testing the $&#123;browsers[i]&#125; browser"</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-groovy"><code class="language-groovy">pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                echo <span class="token string">'Hello World'</span>
 
+                script <span class="token punctuation">{</span>
+                    <span class="token keyword">def</span> browsers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'chrome'</span><span class="token punctuation">,</span> <span class="token string">'firefox'</span><span class="token punctuation">]</span>
+                    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> browsers<span class="token operator">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        echo <span class="token string">"Testing the ${browsers[i]} browser"</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="脚本化流水线"><a href="#脚本化流水线" class="headerlink" title="脚本化流水线"></a>脚本化流水线</h2><p>脚本化流水线, 与<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#declarative-pipeline" target="_blank" rel="noopener">[declarative-pipeline]</a>一样的是, 是建立在底层流水线的子系统上的。与声明式不同的是, 脚本化流水线实际上是由 <a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">Groovy</a>构建的通用 DSL [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_2" target="_blank" rel="noopener">2</a>]。 Groovy 语言提供的大部分功能都可以用于脚本化流水线的用户。这意味着它是一个非常有表现力和灵活的工具，可以通过它编写持续交付流水线。</p>
 <h3 id="流控制"><a href="#流控制" class="headerlink" title="流控制"></a>流控制</h3><p>脚本化流水线从 <code>Jenkinsfile</code> 的顶部开始向下串行执行, 就像 Groovy 或其他语言中的大多数传统脚本一样。 因此，提供流控制取决于 Groovy 表达式, 比如 <code>if/else</code> 条件, 例如:</p>
 <p>Jenkinsfile (Scripted Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (env.BRANCH_NAME == <span class="string">'master'</span>) &#123;</span><br><span class="line">            echo <span class="string">'I only execute on the master branch'</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            echo <span class="string">'I execute elsewhere'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">node <span class="token punctuation">{</span>
+    <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>env<span class="token operator">.</span>BRANCH_NAME <span class="token operator">==</span> <span class="token string">'master'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            echo <span class="token string">'I only execute on the master branch'</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            echo <span class="token string">'I execute elsewhere'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <p>另一种方法是使用Groovy的异常处理支持来管理脚本化流水线流控制。当 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#scripted-steps" target="_blank" rel="noopener">步骤</a> 失败 ，无论什么原因，它们都会抛出一个异常。处理错误的行为必须使用Groovy中的 <code>try/catch/finally</code> 块 , 例如:</p>
 <p>Jenkinsfile (Scripted Pipeline)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">node &#123;</span><br><span class="line">    stage(<span class="string">'Example'</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sh <span class="string">'exit 1'</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (exc) &#123;</span><br><span class="line">            echo <span class="string">'Something failed, I should sound the klaxons!'</span></span><br><span class="line">            <span class="keyword">throw</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-groovy"><code class="language-groovy">node <span class="token punctuation">{</span>
+    <span class="token function">stage</span><span class="token punctuation">(</span><span class="token string">'Example'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            sh <span class="token string">'exit 1'</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">exc</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            echo <span class="token string">'Something failed, I should sound the klaxons!'</span>
+            <span class="token keyword">throw</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><p>正如 <a href="https://www.jenkins.io/zh/doc/book/pipeline/" target="_blank" rel="noopener">本章开始</a>所讨论的, 流水线最基础的部分是”步骤”。从根本上说, 步骤告诉 Jenkins要做 <em>what</em> ，并作为声明式和脚本化流水线已发的基本构建块。</p>
 <p>脚本化流水线 <strong>not</strong> 不引入任何特定于其语法的步骤; <a href="https://www.jenkins.io/doc/pipeline/steps" target="_blank" rel="noopener">流水线步骤引用</a> 包括流水线和插件提供的步骤的完整列表。</p>
 <h3 id="区别普通-Groovy"><a href="#区别普通-Groovy" class="headerlink" title="区别普通 Groovy"></a>区别普通 Groovy</h3><p>为了提供 <em>durability</em>, 这意味着运行流水线可以在Jenkins <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#../glossary#master" target="_blank" rel="noopener">master</a> 重启后继续运行，脚本化的流水线序列化数据到主服务器。由于这个设计需求, 一些Groovy 习惯用语，比如 <code>collection.each { item -&gt; /* perform operation */ }</code> 都不完全支持。详情参见 <a href="https://issues.jenkins-ci.org/browse/JENKINS-27421" target="_blank" rel="noopener">JENKINS-27421</a> 和 <a href="https://issues.jenkins-ci.org/browse/JENKINS-26481" target="_blank" rel="noopener">JENKINS-26481</a>。</p>
@@ -804,7 +1036,25 @@
 <p>由于它是一个功能齐全的编程环境, 脚本化流水线为Jenkins用户提供了 大量的灵活性性和可扩展性。 Groovy学习曲线通常不适合给定团队的所有成员, 因此创造了声明式流水线来为编写Jenkins流水线提供一种更简单、更有主见的语法。</p>
 <p>两者本质上是相同的流水线子系统。 underneath. 他们都是 “流水线即代码” 的持久实现。它们都能够使用构建到流水线中或插件提供的步骤。它们都能够使用 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a></p>
 <p>但是它们的区别在于语法和灵活性。 声明式限制了用户使用更严格和预定义的结构， 使其成为更简单的持续交付流水线的理想选择。 脚本化提供了很少的限制, 以至于对脚本和语法的唯一限制往往是由Groovy子集本身定义的，而不是任何特定于流水线的系统, 这使他成为权利用户和那些有更复杂需求的人的理想选择。 顾名思义, 声明式流水线鼓励 声明式编程模型。 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_3" target="_blank" rel="noopener">3</a>] 而脚本化流水线遵循一个更命令式的编程模型 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_4" target="_blank" rel="noopener">4</a>]</p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -879,10 +1129,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -1020,6 +1273,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-05-30T12-43-37',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat May 30 2020 12:43:37 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1052,7 +1359,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            循环调度执行cron1.1简介cron1crond的概念和crontab是不可分割的。crontab是一个命令，常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab
+                            循环调度执行cron1.1简介cron    crond的概念和crontab是不可分割的。crontab是一个命令，常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“cron
                         
                     </div>
                     <div class="publish-info">
@@ -1270,7 +1577,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1298,13 +1605,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1314,7 +1621,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1396,6 +1703,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

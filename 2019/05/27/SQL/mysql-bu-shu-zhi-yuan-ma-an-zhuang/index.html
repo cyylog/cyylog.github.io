@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,32 +559,209 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h4 id="所需要的依赖及安装MySQL的包"><a href="#所需要的依赖及安装MySQL的包" class="headerlink" title="所需要的依赖及安装MySQL的包"></a>所需要的依赖及安装MySQL的包</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum -y update</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum -y groupinstall <span class="string">"Development Tools"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yum -y install gcc gcc-c++ ncurses ncurses-devel bison libgcrypt perl make cmake</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.24.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h4 id="所需要的依赖及安装MySQL的包"><a href="#所需要的依赖及安装MySQL的包" class="headerlink" title="所需要的依赖及安装MySQL的包"></a>所需要的依赖及安装MySQL的包</h4><pre class=" language-shell"><code class="language-shell"># yum -y update
+# yum -y groupinstall "Development Tools"
+# yum -y install gcc gcc-c++ ncurses ncurses-devel bison libgcrypt perl make cmake
+# wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.24.tar.gz</code></pre>
+<h4 id="在系统中添加运行mysqld进程的用户mysql"><a href="#在系统中添加运行mysqld进程的用户mysql" class="headerlink" title="在系统中添加运行mysqld进程的用户mysql"></a>在系统中添加运行mysqld进程的用户mysql</h4><pre class=" language-shell"><code class="language-shell">[root@mysql_source ~]# groupadd mysql
+[root@mysql_source ~]# useradd -M -g mysql -s /sbin/nologin mysql</code></pre>
+<h4 id="在系统中添加自定义MySQL数据库目录及其他必要目录"><a href="#在系统中添加自定义MySQL数据库目录及其他必要目录" class="headerlink" title="在系统中添加自定义MySQL数据库目录及其他必要目录"></a>在系统中添加自定义MySQL数据库目录及其他必要目录</h4><pre class=" language-shell"><code class="language-shell">[root@mysql_source ~]# mkdir -p /usr/local/mysqld/{data,mysql,log,tmp}
+[root@mysql_source ~]# chown -R mysql:mysql /usr/local/mysqld/*</code></pre>
+<h4 id="将mysql-boost-5-7-24-tar-gz解压到当前目录-并执行部署操作"><a href="#将mysql-boost-5-7-24-tar-gz解压到当前目录-并执行部署操作" class="headerlink" title="将mysql-boost-5.7.24.tar.gz解压到当前目录,并执行部署操作"></a>将mysql-boost-5.7.24.tar.gz解压到当前目录,并执行部署操作</h4><pre class=" language-shell"><code class="language-shell">[root@mysql_source ~]# tar xf mysql-boost-5.7.24.tar.gz
+[root@mysql_source ~]# cd mysql-5.7.24
+[root@mysql_source mysql-5.7.24]# 
+$ cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysqld/mysql \
+-DMYSQL_DATADIR=/usr/local/mysqld/data \
+-DWITH_BOOST=/root/mysql-5.7.24/boost \
+-DDEFAULT_CHARSET=utf8
 
-<h4 id="在系统中添加运行mysqld进程的用户mysql"><a href="#在系统中添加运行mysqld进程的用户mysql" class="headerlink" title="在系统中添加运行mysqld进程的用户mysql"></a>在系统中添加运行mysqld进程的用户mysql</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source ~]# groupadd mysql</span><br><span class="line">[root@mysql_source ~]# useradd -M -g mysql -s /sbin/nologin mysql</span><br></pre></td></tr></table></figure>
+......
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /root/mysql-5.7.24
+[root@mysql_source mysql-5.7.24]# echo $?
+0
+[root@mysql_source mysql-5.7.24]# make -j `lscpu | awk 'NR==4{ print $2 }'`
 
-<h4 id="在系统中添加自定义MySQL数据库目录及其他必要目录"><a href="#在系统中添加自定义MySQL数据库目录及其他必要目录" class="headerlink" title="在系统中添加自定义MySQL数据库目录及其他必要目录"></a>在系统中添加自定义MySQL数据库目录及其他必要目录</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source ~]# mkdir -p /usr/local/mysqld/&#123;data,mysql,log,tmp&#125;</span><br><span class="line">[root@mysql_source ~]# chown -R mysql:mysql /usr/local/mysqld/*</span><br></pre></td></tr></table></figure>
+......
+[100%] Built target udf_example
+[root@mysql_source mysql-5.7.24]# echo $?
+0
+[root@mysql_source mysql-5.7.24]# make install
 
-<h4 id="将mysql-boost-5-7-24-tar-gz解压到当前目录-并执行部署操作"><a href="#将mysql-boost-5-7-24-tar-gz解压到当前目录-并执行部署操作" class="headerlink" title="将mysql-boost-5.7.24.tar.gz解压到当前目录,并执行部署操作"></a>将mysql-boost-5.7.24.tar.gz解压到当前目录,并执行部署操作</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source ~]# tar xf mysql-boost-5.7.24.tar.gz</span><br><span class="line">[root@mysql_source ~]# cd mysql-5.7.24</span><br><span class="line">[root@mysql_source mysql-5.7.24]# </span><br><span class="line"><span class="meta">$</span><span class="bash"> cmake . -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/mysqld/mysql \</span></span><br><span class="line">-DMYSQL_DATADIR=/usr/local/mysqld/data \</span><br><span class="line">-DWITH_BOOST=/root/mysql-5.7.24/boost \</span><br><span class="line">-DDEFAULT_CHARSET=utf8</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">-- Configuring done</span><br><span class="line">-- Generating done</span><br><span class="line">-- Build files have been written to: /root/mysql-5.7.24</span><br><span class="line">[root@mysql_source mysql-5.7.24]# echo $?</span><br><span class="line">0</span><br><span class="line">[root@mysql_source mysql-5.7.24]# make -j `lscpu | awk 'NR==4&#123; print $2 &#125;'`</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"><span class="meta">[100%</span><span class="bash">] Built target udf_example</span></span><br><span class="line">[root@mysql_source mysql-5.7.24]# echo $?</span><br><span class="line">0</span><br><span class="line">[root@mysql_source mysql-5.7.24]# make install</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line">-- Installing: /usr/local/mysqld/mysql/support-files/mysql.server</span><br><span class="line">[root@mysql_source mysql-5.7.24]# echo $?</span><br><span class="line">0</span><br><span class="line">[root@mysql_source mysql-5.7.24]#</span><br><span class="line">Congratulations Complete!</span><br></pre></td></tr></table></figure>
+......
+-- Installing: /usr/local/mysqld/mysql/support-files/mysql.server
+[root@mysql_source mysql-5.7.24]# echo $?
+0
+[root@mysql_source mysql-5.7.24]#
+Congratulations Complete!</code></pre>
+<h4 id="初始化MySQL安装配置"><a href="#初始化MySQL安装配置" class="headerlink" title="初始化MySQL安装配置"></a>初始化MySQL安装配置</h4><h5 id="1-提升MySQL命令为系统级别命令"><a href="#1-提升MySQL命令为系统级别命令" class="headerlink" title="1.提升MySQL命令为系统级别命令"></a>1.提升MySQL命令为系统级别命令</h5><pre class=" language-shell"><code class="language-shell">[root@mysql_source ~]# echo "export PATH=$PATH:/usr/local/mysqld/mysql/bin" >>/etc/profile
+[root@mysql_source ~]# source /etc/profile</code></pre>
+<h5 id="2-拷贝默认配置文件至-etc-my-cnf中"><a href="#2-拷贝默认配置文件至-etc-my-cnf中" class="headerlink" title="2.拷贝默认配置文件至/etc/my.cnf中"></a>2.拷贝默认配置文件至/etc/my.cnf中</h5><pre class=" language-shell"><code class="language-shell">[root@mysql_source mysql]# chown -R mysql.mysql /usr/local/mysqld/*
+[root@mysql_source ~]# cd /usr/local/mysqld/mysql/mysql-test/include
+[root@mysql_source include]# cp /etc/{my.cnf,my.cnf.bak}
+[root@mysql_source include]# cp default_mysqld.cnf /etc/my.cnf
+cp：是否覆盖"/etc/my.cnf"？ y
+[root@mysql_source include]# vim /etc/my.cnf
+[mysqld]
+basedir = /usr/local/mysqld/mysql
+datadir = /usr/local/mysqld/data
+tmpdir = /usr/local/mysqld/tmp
+socket = /usr/local/mysqld/tmp/mysql.sock
+pid_file = /usr/local/mysqld/tmp/mysqld.pid
+log_error = /usr/local/mysqld/log/mysql_error.log
+slow_query_log_file = /usr/local/mysqld/log/slow_warn.log
 
-<h4 id="初始化MySQL安装配置"><a href="#初始化MySQL安装配置" class="headerlink" title="初始化MySQL安装配置"></a>初始化MySQL安装配置</h4><h5 id="1-提升MySQL命令为系统级别命令"><a href="#1-提升MySQL命令为系统级别命令" class="headerlink" title="1.提升MySQL命令为系统级别命令"></a>1.提升MySQL命令为系统级别命令</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source ~]# echo "export PATH=$PATH:/usr/local/mysqld/mysql/bin" &gt;&gt;/etc/profile</span><br><span class="line">[root@mysql_source ~]# source /etc/profile</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-拷贝默认配置文件至-etc-my-cnf中"><a href="#2-拷贝默认配置文件至-etc-my-cnf中" class="headerlink" title="2.拷贝默认配置文件至/etc/my.cnf中"></a>2.拷贝默认配置文件至/etc/my.cnf中</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source mysql]# chown -R mysql.mysql /usr/local/mysqld/*</span><br><span class="line">[root@mysql_source ~]# cd /usr/local/mysqld/mysql/mysql-test/include</span><br><span class="line">[root@mysql_source include]# cp /etc/&#123;my.cnf,my.cnf.bak&#125;</span><br><span class="line">[root@mysql_source include]# cp default_mysqld.cnf /etc/my.cnf</span><br><span class="line">cp：是否覆盖"/etc/my.cnf"？ y</span><br><span class="line">[root@mysql_source include]# vim /etc/my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">basedir = /usr/local/mysqld/mysql</span><br><span class="line">datadir = /usr/local/mysqld/data</span><br><span class="line">tmpdir = /usr/local/mysqld/tmp</span><br><span class="line">socket = /usr/local/mysqld/tmp/mysql.sock</span><br><span class="line">pid_file = /usr/local/mysqld/tmp/mysqld.pid</span><br><span class="line">log_error = /usr/local/mysqld/log/mysql_error.log</span><br><span class="line">slow_query_log_file = /usr/local/mysqld/log/slow_warn.log</span><br><span class="line"></span><br><span class="line">server_id = 11</span><br><span class="line">user = mysql</span><br><span class="line">port = 3306</span><br><span class="line">bind-address = 0.0.0.0</span><br><span class="line">character-set-server = utf8</span><br><span class="line">default_storage_engine = InnoDB</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-执行数据库服务初始化操作"><a href="#3-执行数据库服务初始化操作" class="headerlink" title="3.执行数据库服务初始化操作"></a>3.执行数据库服务初始化操作</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source mysql]# mysqld --defaults-file=/etc/my.cnf --initialize --user='mysql'</span><br><span class="line">[root@mysql_source mysql]#</span><br></pre></td></tr></table></figure>
-
-<h5 id="4-启动mysqld服务"><a href="#4-启动mysqld服务" class="headerlink" title="4.启动mysqld服务"></a>4.启动mysqld服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source mysql]# mysqld_safe --defaults-file=/etc/my.cnf &amp;</span><br><span class="line">[1] 25705</span><br><span class="line">2018-12-28T09:19:35.334751Z mysqld_safe Logging to '/usr/local/mysqld/log/mysql_error.log'.</span><br><span class="line">2018-12-28T09:19:35.379829Z mysqld_safe Starting mysqld daemon with databases from /usr/local/mysqld/data</span><br></pre></td></tr></table></figure>
-
-<h5 id="5-设置mysql-socket软链接到mysql命令指定的目录中"><a href="#5-设置mysql-socket软链接到mysql命令指定的目录中" class="headerlink" title="5.设置mysql.socket软链接到mysql命令指定的目录中"></a>5.设置mysql.socket软链接到mysql命令指定的目录中</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source ～]# ln -s /usr/local/mysqld/tmp/mysql.sock /tmp/mysql.sock</span><br></pre></td></tr></table></figure>
-
+server_id = 11
+user = mysql
+port = 3306
+bind-address = 0.0.0.0
+character-set-server = utf8
+default_storage_engine = InnoDB</code></pre>
+<h5 id="3-执行数据库服务初始化操作"><a href="#3-执行数据库服务初始化操作" class="headerlink" title="3.执行数据库服务初始化操作"></a>3.执行数据库服务初始化操作</h5><pre class=" language-shell"><code class="language-shell">[root@mysql_source mysql]# mysqld --defaults-file=/etc/my.cnf --initialize --user='mysql'
+[root@mysql_source mysql]#</code></pre>
+<h5 id="4-启动mysqld服务"><a href="#4-启动mysqld服务" class="headerlink" title="4.启动mysqld服务"></a>4.启动mysqld服务</h5><pre class=" language-shell"><code class="language-shell">[root@mysql_source mysql]# mysqld_safe --defaults-file=/etc/my.cnf &
+[1] 25705
+2018-12-28T09:19:35.334751Z mysqld_safe Logging to '/usr/local/mysqld/log/mysql_error.log'.
+2018-12-28T09:19:35.379829Z mysqld_safe Starting mysqld daemon with databases from /usr/local/mysqld/data</code></pre>
+<h5 id="5-设置mysql-socket软链接到mysql命令指定的目录中"><a href="#5-设置mysql-socket软链接到mysql命令指定的目录中" class="headerlink" title="5.设置mysql.socket软链接到mysql命令指定的目录中"></a>5.设置mysql.socket软链接到mysql命令指定的目录中</h5><pre class=" language-shell"><code class="language-shell">[root@mysql_source ～]# ln -s /usr/local/mysqld/tmp/mysql.sock /tmp/mysql.sock</code></pre>
 <p>6.配置mysqld服务的管理工具</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source support-files]# cd /usr/local/mysqld/mysql/support-files</span><br><span class="line">[root@mysql_source support-files]# cp mysql.server /etc/init.d/mysqld</span><br><span class="line">[root@mysql_source support-files]# chkconfig --add mysqld</span><br><span class="line">[root@mysql_source support-files]# chkconfig mysqld on</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">[root@mysql_source support-files]# cd /usr/local/mysqld/mysql/support-files
+[root@mysql_source support-files]# cp mysql.server /etc/init.d/mysqld
+[root@mysql_source support-files]# chkconfig --add mysqld
+[root@mysql_source support-files]# chkconfig mysqld on</code></pre>
+<h4 id="登录数据库并进行更改密码"><a href="#登录数据库并进行更改密码" class="headerlink" title="登录数据库并进行更改密码"></a>登录数据库并进行更改密码</h4><pre class=" language-shell"><code class="language-shell">[root@mysql_source mysql]# grep "password" /usr/local/mysqld/log/mysql_error.log
+2018-12-28T09:18:34.214401Z 1 [Note] A temporary password is generated for root@localhost: ejhszb2:m3wJ
+[root@mysql_source tmp]# mysql -uroot -p"ejhszb2:m3wJ"
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.24-log
 
-<h4 id="登录数据库并进行更改密码"><a href="#登录数据库并进行更改密码" class="headerlink" title="登录数据库并进行更改密码"></a>登录数据库并进行更改密码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql_source mysql]# grep "password" /usr/local/mysqld/log/mysql_error.log</span><br><span class="line">2018-12-28T09:18:34.214401Z 1 [Note] A temporary password is generated for root@localhost: ejhszb2:m3wJ</span><br><span class="line">[root@mysql_source tmp]# mysql -uroot -p"ejhszb2:m3wJ"</span><br><span class="line">mysql: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.24-log</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">"(Cyylog..1228)"</span>;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">平常中常用的MySQL部署参数:&lt;参考使用&gt;</span><br><span class="line">    -DCMAKE_INSTALL_PREFIX=/usr/local/mysqld/mysql \</span><br><span class="line">    -DMYSQL_DATADIR=/usr/local/mysqld/data \</span><br><span class="line">    -DDOWNLOAD_BOOST=1 \</span><br><span class="line">    -DWITH_BOOST=/root/mysql-5.7.24/boost \</span><br><span class="line">    -DSYSCONFDIR=/etc \</span><br><span class="line">    -DWITH_INNOBASE_STORAGE_ENGINE=1 \</span><br><span class="line">    -DWITH_PARTITION_STORAGE_ENGINE=1 \</span><br><span class="line">    -DWITH_FEDERATED_STORAGE_ENGINE=1 \</span><br><span class="line">    -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \</span><br><span class="line">    -DWITH_MYISAM_STORAGE_ENGINE=1 \</span><br><span class="line">    -DENABLED_LOCAL_INFILE=1 \</span><br><span class="line">    -DENABLE_DTRACE=0 \</span><br><span class="line">    -DDEFAULT_CHARSET=utf8 \</span><br><span class="line">    -DDEFAULT_COLLATION=utf8_general_ci \</span><br><span class="line">    -DWITH_EMBEDDED_SERVER=1</span><br></pre></td></tr></table></figure>
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
 
-<h4 id="绕过验证密码登录-修改密码"><a href="#绕过验证密码登录-修改密码" class="headerlink" title="绕过验证密码登录 修改密码"></a>绕过验证密码登录 修改密码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">[root@mysql ~]# vim /etc/my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">skip-grant-tables=1</span><br><span class="line">[root@mysql ~]# systemctl restart mysqld</span><br><span class="line">[root@mysql ~]# mysql -uroot</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.24 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">"(Cyylog..1229)"</span>;</span></span><br><span class="line">ERROR 1290 (HY000): The MySQL server is running with the --skip-grant-tables option so it cannot execute this statement</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show databases;</span></span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> use mysql;</span></span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show tables;</span></span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">| user                      |</span><br><span class="line">+---------------------------+</span><br><span class="line">31 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select User,Host,authentication_string from user;</span></span><br><span class="line">+---------------+-----------+-------------------------------------------+</span><br><span class="line">| User          | Host      | authentication_string                     |</span><br><span class="line">+---------------+-----------+-------------------------------------------+</span><br><span class="line">| root          | localhost | *C4571A0C807D96143700250EC4BA41780025A97F |</span><br><span class="line">| mysql.session | localhost | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE |</span><br><span class="line">| mysql.sys     | localhost | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE |</span><br><span class="line">+---------------+-----------+-------------------------------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> update user <span class="built_in">set</span> authentication_string=password(<span class="string">'(Cyylog@@1229)'</span>) <span class="built_in">where</span> user=<span class="string">'root'</span>;</span></span><br><span class="line">Query OK, 1 row affected, 1 warning (0.00 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 1</span><br><span class="line"></span><br><span class="line">[root@mysql ~]# vim /etc/my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line"><span class="meta">#</span><span class="bash">skip-grant-tables=1</span></span><br><span class="line">[root@mysql ~]# systemctl restart mysqld</span><br><span class="line">[root@mysql ~]# mysql -uroot -p"(Cyylog@@1229)"</span><br><span class="line">mysql: [Warning] Using a password on the command line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 2</span><br><span class="line">Server version: 5.7.24 MySQL Community Server (GPL)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span></span><br></pre></td></tr></table></figure>
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> alter user 'root'@'localhost' identified by "(Cyylog..1228)";
 
 
+
+平常中常用的MySQL部署参数:<参考使用>
+    -DCMAKE_INSTALL_PREFIX=/usr/local/mysqld/mysql \
+    -DMYSQL_DATADIR=/usr/local/mysqld/data \
+    -DDOWNLOAD_BOOST=1 \
+    -DWITH_BOOST=/root/mysql-5.7.24/boost \
+    -DSYSCONFDIR=/etc \
+    -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+    -DWITH_PARTITION_STORAGE_ENGINE=1 \
+    -DWITH_FEDERATED_STORAGE_ENGINE=1 \
+    -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+    -DWITH_MYISAM_STORAGE_ENGINE=1 \
+    -DENABLED_LOCAL_INFILE=1 \
+    -DENABLE_DTRACE=0 \
+    -DDEFAULT_CHARSET=utf8 \
+    -DDEFAULT_COLLATION=utf8_general_ci \
+    -DWITH_EMBEDDED_SERVER=1</code></pre>
+<h4 id="绕过验证密码登录-修改密码"><a href="#绕过验证密码登录-修改密码" class="headerlink" title="绕过验证密码登录 修改密码"></a>绕过验证密码登录 修改密码</h4><pre class=" language-shell"><code class="language-shell">[root@mysql ~]# vim /etc/my.cnf
+[mysqld]
+skip-grant-tables=1
+[root@mysql ~]# systemctl restart mysqld
+[root@mysql ~]# mysql -uroot
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.24 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> alter user 'root'@'localhost' identified by "(Cyylog..1229)";
+ERROR 1290 (HY000): The MySQL server is running with the --skip-grant-tables option so it cannot execute this statement
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
+......
+......
+......
+| user                      |
++---------------------------+
+31 rows in set (0.00 sec)
+
+mysql> select User,Host,authentication_string from user;
++---------------+-----------+-------------------------------------------+
+| User          | Host      | authentication_string                     |
++---------------+-----------+-------------------------------------------+
+| root          | localhost | *C4571A0C807D96143700250EC4BA41780025A97F |
+| mysql.session | localhost | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE |
+| mysql.sys     | localhost | *THISISNOTAVALIDPASSWORDTHATCANBEUSEDHERE |
++---------------+-----------+-------------------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> update user set authentication_string=password('(Cyylog@@1229)') where user='root';
+Query OK, 1 row affected, 1 warning (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 1
+
+[root@mysql ~]# vim /etc/my.cnf
+[mysqld]
+#skip-grant-tables=1
+[root@mysql ~]# systemctl restart mysqld
+[root@mysql ~]# mysql -uroot -p"(Cyylog@@1229)"
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.24 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql></code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -659,10 +836,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -800,6 +980,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-05-27T22-53-26',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Mon May 27 2019 22:53:26 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -837,7 +1071,9 @@
 
 
 Zabbix 邮件报警前期准备工作：电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件
-server端安装配置邮件服务器1234[root@master ~]# yum -y install mailx[root@maste
+server端安装配置邮件服务器[root@master ~]# yum -y install mailx
+
+[root@master 
                         
                     </div>
                     <div class="publish-info">
@@ -888,9 +1124,8 @@ server端安装配置邮件服务器1234[root@master ~]# yum -y install mailx[ro
                         
                             
 
-Nginx 平滑升级1、查看现有的 nginx 编译参数1[root@web ~]#/usr/local/nginx/sbin/nginx -V
-
-按照原来的编译参数安装 nginx 的方法进行安装，只需要到 make，千万不要 mak
+Nginx 平滑升级1、查看现有的 nginx 编译参数[root@web ~]#/usr/local/nginx/sbin/nginx -V
+按照原来的编译参数安装 nginx 的方法进行安装，只需要到 make，千万不要 make 
                         
                     </div>
                     <div class="publish-info">
@@ -1059,7 +1294,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1087,13 +1322,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1103,7 +1338,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1185,6 +1420,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

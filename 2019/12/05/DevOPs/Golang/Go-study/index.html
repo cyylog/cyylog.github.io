@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,21 +559,92 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h3 id="mysql容器"><a href="#mysql容器" class="headerlink" title="mysql容器"></a>mysql容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">log-error&#x3D;&#x2F;mylog&#x2F;error.log</span><br><span class="line">slow_query_log &#x3D; on</span><br><span class="line">long_query_time&#x3D;2</span><br><span class="line">slow-query-log-file &#x3D;&#x2F;mylog&#x2F;slow.log</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run -it --rm --entrypoint&#x3D;&quot;&#x2F;bin&#x2F;bash&quot; mysql:5.7 -c &quot;cat &#x2F;etc&#x2F;group &quot;</span><br><span class="line"></span><br><span class="line">因为容器默认使用的是mysql用户。 因此我们需要把映射的文件夹修改owner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker run --name mysql -d   \</span><br><span class="line">-p 3306:3306  \</span><br><span class="line">-v &#x2F;home&#x2F;cyy&#x2F;mysql&#x2F;data:&#x2F;data \</span><br><span class="line">-v  &#x2F;home&#x2F;cyy&#x2F;mysql&#x2F;conf&#x2F;my.cnf:&#x2F;etc&#x2F;mysql&#x2F;my.cnf  \</span><br><span class="line">-v &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai:&#x2F;etc&#x2F;localtime \</span><br><span class="line">-v  &#x2F;home&#x2F;cyy&#x2F;mysql&#x2F;mylog:&#x2F;mylog  \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD&#x3D;123456   \</span><br><span class="line">mysql:5.7</span><br></pre></td></tr></table></figure>
+<h3 id="mysql容器"><a href="#mysql容器" class="headerlink" title="mysql容器"></a>mysql容器</h3><pre><code>[mysqld]
+log-error=/mylog/error.log
+slow_query_log = on
+long_query_time=2
+slow-query-log-file =/mylog/slow.log
 
 
+docker run -it --rm --entrypoint="/bin/bash" mysql:5.7 -c "cat /etc/group "
 
-<h3 id="alpine容器"><a href="#alpine容器" class="headerlink" title="alpine容器"></a>alpine容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker pull alpine </span><br><span class="line"></span><br><span class="line">docker run --name goserver  -d \</span><br><span class="line">-v /home/cyy/web:/server  \</span><br><span class="line">-v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \</span><br><span class="line">-w /server \</span><br><span class="line">alpine ./gin</span><br></pre></td></tr></table></figure>
-
-<h3 id="nginx容器"><a href="#nginx容器" class="headerlink" title="nginx容器"></a>nginx容器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull  nginx:alpine</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span>  nginx;</span><br><span class="line"><span class="attribute">worker_processes</span>  auto;</span><br><span class="line"><span class="attribute">error_log</span>  /var/log/nginx/error.log <span class="literal">warn</span>;</span><br><span class="line"><span class="attribute">pid</span>        /var/run/nginx.pid;</span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       /etc/nginx/mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line">     <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line">    </span><br><span class="line"><span class="attribute">upstream</span> gin  &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">172.17.0.4:8080</span>;  </span><br><span class="line">&#125;</span><br><span class="line"> server&#123;</span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_pass</span>  http://gin;</span><br><span class="line">        <span class="comment">#Proxy Settings</span></span><br><span class="line">        <span class="attribute">proxy_redirect</span>     <span class="literal">off</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>   Host             <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>   X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>   X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name ngx  \</span><br><span class="line">-v /home/cyy/ngx/nginx.conf:/etc/nginx/nginx.conf \</span><br><span class="line">-v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \</span><br><span class="line">-p 80:80  \</span><br><span class="line">nginx:alpine</span><br></pre></td></tr></table></figure>
-
-<h4 id="Redis-容器"><a href="#Redis-容器" class="headerlink" title="Redis 容器"></a>Redis 容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-servver</span><br></pre></td></tr></table></figure>
+因为容器默认使用的是mysql用户。 因此我们需要把映射的文件夹修改owner
 
 
+docker run --name mysql -d   \
+-p 3306:3306  \
+-v /home/cyy/mysql/data:/data \
+-v  /home/cyy/mysql/conf/my.cnf:/etc/mysql/my.cnf  \
+-v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
+-v  /home/cyy/mysql/mylog:/mylog  \
+-e MYSQL_ROOT_PASSWORD=123456   \
+mysql:5.7
+</code></pre><h3 id="alpine容器"><a href="#alpine容器" class="headerlink" title="alpine容器"></a>alpine容器</h3><pre class=" language-shell"><code class="language-shell">docker pull alpine 
+
+docker run --name goserver  -d \
+-v /home/cyy/web:/server  \
+-v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
+-w /server \
+alpine ./gin
+</code></pre>
+<h3 id="nginx容器"><a href="#nginx容器" class="headerlink" title="nginx容器"></a>nginx容器</h3><pre class=" language-shell"><code class="language-shell">docker pull  nginx:alpine 
+</code></pre>
+<pre class=" language-nginx"><code class="language-nginx"><span class="token keyword">user</span>  nginx<span class="token punctuation">;</span>
+<span class="token keyword">worker_processes</span>  auto<span class="token punctuation">;</span>
+<span class="token keyword">error_log</span>  <span class="token operator">/</span>var<span class="token operator">/</span>log<span class="token operator">/</span>nginx<span class="token operator">/</span>error<span class="token punctuation">.</span>log warn<span class="token punctuation">;</span>
+<span class="token keyword">pid</span>        <span class="token operator">/</span>var<span class="token operator">/</span>run<span class="token operator">/</span>nginx<span class="token punctuation">.</span><span class="token keyword">pid</span><span class="token punctuation">;</span>
+<span class="token keyword">events</span> <span class="token punctuation">{</span>
+    <span class="token keyword">worker_connections</span>  <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">http</span> <span class="token punctuation">{</span>
+    <span class="token keyword">include</span>       <span class="token operator">/</span>etc<span class="token operator">/</span>nginx<span class="token operator">/</span>mime<span class="token punctuation">.</span><span class="token keyword">types</span><span class="token punctuation">;</span>
+    <span class="token keyword">default_type</span>  application<span class="token operator">/</span>octet<span class="token operator">-</span>stream<span class="token punctuation">;</span>
+     <span class="token keyword">keepalive_timeout</span>  <span class="token number">65</span><span class="token punctuation">;</span>
+
+<span class="token keyword">upstream</span> gin  <span class="token punctuation">{</span>
+    <span class="token keyword">server</span> <span class="token number">172.17</span><span class="token punctuation">.</span><span class="token number">0.4</span><span class="token punctuation">:</span><span class="token number">8080</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+ <span class="token keyword">server</span><span class="token punctuation">{</span>
+    <span class="token keyword">listen</span> <span class="token number">80</span><span class="token punctuation">;</span>
+    <span class="token keyword">location</span> <span class="token operator">/</span> <span class="token punctuation">{</span>
+        <span class="token keyword">proxy_pass</span>  <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>gin<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">#Proxy Settings</span>
+        <span class="token keyword">proxy_redirect</span>     off<span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span>   Host             <span class="token variable">$host</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span>   X<span class="token operator">-</span>Real<span class="token operator">-</span>IP        <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+        <span class="token keyword">proxy_set_header</span>   X<span class="token operator">-</span>Forwarded<span class="token operator">-</span>For  <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-shell"><code class="language-shell">docker run -d --name ngx  \
+-v /home/cyy/ngx/nginx.conf:/etc/nginx/nginx.conf \
+-v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime \
+-p 80:80  \
+nginx:alpine
+</code></pre>
+<h4 id="Redis-容器"><a href="#Redis-容器" class="headerlink" title="Redis 容器"></a>Redis 容器</h4><pre class=" language-shell"><code class="language-shell">docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-servver</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -648,10 +719,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -789,6 +863,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-12-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Thu Dec 05 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -830,7 +958,7 @@ Zabbix 监控cyylog 2020-04-07 22:08:29
 Zabbix监控什么？
 监控项
 Zabbix常用监控项zabbix自带的常用监控项
-123456789agent.ping 检测客户端可达性、返回nothi
+agent.ping 检测客户端可达性、返回nothing表示不可达。1
                         
                     </div>
                     <div class="publish-info">
@@ -883,11 +1011,9 @@ Zabbix常用监控项zabbix自带的常用监控项
 
 步骤：
 1：查看ORACLE_HOME是否设置
-12$ echo $ORACLE_HOME&#x2F;u01&#x2F;app&#x2F;oracle&#x2F;product&#x2F;11.2.0&#x2F;db_1
-
-
-
-2：执行
+$ echo $ORACLE_HOME
+/u01/app/oracle/product/11.2.0/db_12：执行dbstart 数据库自带启动脚本
+[oracle@njdzjkdb 
                         
                     </div>
                     <div class="publish-info">
@@ -1056,7 +1182,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1084,13 +1210,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1100,7 +1226,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1182,6 +1308,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

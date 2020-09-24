@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -557,33 +557,188 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="gitlab-ci入门"><a href="#gitlab-ci入门" class="headerlink" title="gitlab-ci入门"></a>gitlab-ci入门</h4><h6 id="示范："><a href="#示范：" class="headerlink" title="示范："></a>示范：</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="bash"> -d --name gitlab-runner   \</span></span><br><span class="line"><span class="bash">  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \</span></span><br><span class="line"><span class="bash">  -v /var/run/docker.sock:/var/run/docker.sock \</span></span><br><span class="line"><span class="bash"> -v /usr/bin/docker:/usr/bin/docker \</span></span><br><span class="line"><span class="bash"> -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \</span></span><br><span class="line"><span class="bash">  gitlab/gitlab-runner</span></span><br><span class="line"></span><br><span class="line">在宿主机上执行 ：chmod <span class="number">666</span> /var/<span class="keyword">run</span><span class="bash">/docker.sock</span></span><br></pre></td></tr></table></figure>
+                <h4 id="gitlab-ci入门"><a href="#gitlab-ci入门" class="headerlink" title="gitlab-ci入门"></a>gitlab-ci入门</h4><h6 id="示范："><a href="#示范：" class="headerlink" title="示范："></a>示范：</h6><pre class=" language-dockerfile"><code class="language-dockerfile">docker run -d --name gitlab-runner   \
+  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+ -v /usr/bin/docker:/usr/bin/docker \
+ -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \
+  gitlab/gitlab-runner
 
+在宿主机上执行 ：chmod 666 /var/run/docker.sock</code></pre>
+<pre class=" language-yml"><code class="language-yml"># cat  .gitlab-ci.yml
+stages:
+  - test
+  - build
+job1:
+  stage: test
+  script:
+    - echo "it is test"
 
+job2:
+  stage: build
+  script:
+    - echo "it is build"</code></pre>
+<h6 id="各种参数说明"><a href="#各种参数说明" class="headerlink" title="各种参数说明"></a>各种参数说明</h6><pre class=" language-shell"><code class="language-shell">script             由Runner执行的Shell脚本。
+image              使用docker镜像，  image：name
+service            使用docker  services镜像, services：name
+before_script      执行作业前运行的脚本
+after_script       作业完成后运行的脚本
+stages             定义管道中的步骤，依次运行
+stage              定义管道中步骤的作业段
+only    　　        指定作业限制only:refs，only:kubernetes，only:variables，和only:changes
+tags               指定执行作业的runner
+allow_failure      允许job失败
 
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat  .gitlab-ci.yml</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">job1:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is test"</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">job2:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">"it is build"</span></span><br></pre></td></tr></table></figure>
+when               什么时候开始工作，
+  on_success       只有当前一个阶段的所有工作都成功时（或者因为它们被标记而被认为是成功的allow_failure）才执行工作 。这是默认值。
+  on_failure       仅当前一阶段的至少一个作业失败时才执行作业。
+  always           无论先前阶段的工作状态如何，都可以执行工作。
+  manual           手动执行作业
+  delayed          延迟作业。后面跟start_in,start_in 30minutes(延迟30分钟)，不加单位，默认为秒。最长可延迟1小时。
+environment     作业部署到的环境名称   #暂未搞清
 
-<h6 id="各种参数说明"><a href="#各种参数说明" class="headerlink" title="各种参数说明"></a>各种参数说明</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">script             由Runner执行的Shell脚本。</span><br><span class="line">image              使用docker镜像，  image：name</span><br><span class="line">service            使用docker  services镜像, services：name</span><br><span class="line">before_script      执行作业前运行的脚本</span><br><span class="line">after_script       作业完成后运行的脚本</span><br><span class="line">stages             定义管道中的步骤，依次运行</span><br><span class="line">stage              定义管道中步骤的作业段</span><br><span class="line">only    　　        指定作业限制only:refs，only:kubernetes，only:variables，和only:changes</span><br><span class="line">tags               指定执行作业的runner</span><br><span class="line">allow_failure      允许job失败</span><br><span class="line"> </span><br><span class="line">when               什么时候开始工作，</span><br><span class="line">  on_success       只有当前一个阶段的所有工作都成功时（或者因为它们被标记而被认为是成功的allow_failure）才执行工作 。这是默认值。</span><br><span class="line">  on_failure       仅当前一阶段的至少一个作业失败时才执行作业。</span><br><span class="line">  always           无论先前阶段的工作状态如何，都可以执行工作。</span><br><span class="line">  manual           手动执行作业</span><br><span class="line">  delayed          延迟作业。后面跟start_in,start_in 30minutes(延迟30分钟)，不加单位，默认为秒。最长可延迟1小时。</span><br><span class="line">environment     作业部署到的环境名称   #暂未搞清</span><br><span class="line"> </span><br><span class="line"> cache    </span><br><span class="line">　　key："$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG" #为每分支，每步骤启用缓存</span><br><span class="line">artifacts         job成功时附加到作业的文件或目录</span><br><span class="line">dependencies      此job依赖其他jobz,主要作用于作业优先级</span><br><span class="line">converage         给定作业代码覆盖率设置　　　　　　 </span><br><span class="line">retry             在发生故障时，可以自动重试作业的次数。</span><br><span class="line">parallel　　      应该并行运行多少个作业实例</span><br><span class="line">trigger          定义下游管道触发器</span><br><span class="line">include          允许此作业包含外部YAML</span><br><span class="line">extends          此作业将继承的配置项</span><br><span class="line">pages            上传作业结果用于gitlab pages</span><br><span class="line">variables        作业级别定义作业变量</span><br></pre></td></tr></table></figure>
+ cache    
+　　key："$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG" #为每分支，每步骤启用缓存
+artifacts         job成功时附加到作业的文件或目录
+dependencies      此job依赖其他jobz,主要作用于作业优先级
+converage         给定作业代码覆盖率设置　　　　　　 
+retry             在发生故障时，可以自动重试作业的次数。
+parallel　　      应该并行运行多少个作业实例
+trigger          定义下游管道触发器
+include          允许此作业包含外部YAML
+extends          此作业将继承的配置项
+pages            上传作业结果用于gitlab pages
+variables        作业级别定义作业变量
+</code></pre>
+<h6 id="案例-1-自动构建-go-程序"><a href="#案例-1-自动构建-go-程序" class="headerlink" title="案例 1  自动构建 go 程序"></a>案例 1  自动构建 go 程序</h6><pre class=" language-yam"><code class="language-yam">stages:
+  - test
+job1:
+  stage: test
+  script:
+    - docker build -t mygo:v1  .
+  tags:
+    - go</code></pre>
+<pre class=" language-dockerfile"><code class="language-dockerfile">FROM golang:1.14.4-alpine3.12
+RUN mkdir /src /app
 
-<h6 id="案例-1-自动构建-go-程序"><a href="#案例-1-自动构建-go-程序" class="headerlink" title="案例 1  自动构建 go 程序"></a>案例 1  自动构建 go 程序</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stages:</span><br><span class="line">  - test</span><br><span class="line">job1:</span><br><span class="line">  stage: test</span><br><span class="line">  script:</span><br><span class="line">    - docker build -t mygo:v1  .</span><br><span class="line">  tags:</span><br><span class="line">    - go</span><br></pre></td></tr></table></figure>
+ADD . ../src
+ENV GOPROXY="https://goproxy.io"
+RUN cd /src && ls && go build -o ../app/mygo main.go && cd /app && chmod +x mygo && cd /
+RUN rm src -fr
+WORKDIR /app
+ENTRYPOINT  ["/app/mygo"]
+</code></pre>
+<h6 id="压缩镜像"><a href="#压缩镜像" class="headerlink" title="压缩镜像"></a>压缩镜像</h6><pre class=" language-dockerfile"><code class="language-dockerfile">FROM golang:1.14.4-alpine3.12
+RUN mkdir /src /app
 
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> rm src -fr</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash">  [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+ADD . ../src
+ENV GOPROXY="https://goproxy.io"
+RUN cd /src && ls && go build -o ../app/mygo main.go && cd /app && chmod +x mygo && cd /
 
-<h6 id="压缩镜像"><a href="#压缩镜像" class="headerlink" title="压缩镜像"></a>压缩镜像</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /src /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . ../src</span></span><br><span class="line"><span class="keyword">ENV</span> GOPROXY=<span class="string">"https://goproxy.io"</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">cd</span> /src &amp;&amp; ls &amp;&amp; go build -o ../app/mygo main.go &amp;&amp; <span class="built_in">cd</span> /app &amp;&amp; chmod +x mygo &amp;&amp; <span class="built_in">cd</span> /</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> alpine:<span class="number">3.12</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> --from=0 /app/mygo /app</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"/app/mygo"</span>]</span></span><br></pre></td></tr></table></figure>
+FROM alpine:3.12
+RUN mkdir /app
+COPY --from=0 /app/mygo /app
+ENTRYPOINT ["/app/mygo"]</code></pre>
+<h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><pre class=" language-dockerfile"><code class="language-dockerfile">FROM golang:1.14.4-alpine3.12
+ADD . /src
+WORKDIR /src
+cmd ["go","test"]
+</code></pre>
+<pre class=" language-yml"><code class="language-yml">stages:
+  - test
+  - build
+GoTest:
+  stage: test
+  script:
+    - docker build -f DockerfileTest -t test-mygo:v1 .
+    - docker run --rm test-mygo:v1
+  after_script:
+    - docker rmi test-mygo:v1
+  tags:
+    - go
+GoBuild:
+  stage: build
+  script:
+    - docker build -t mygo:v1  .
+  after_script:
+    - docker rmi $(docker images -af "dangling=true" -q)
+  tags:
+    - go
+GoDeploy:   #使用私有镜像仓库
+    stage: deploy
+    script:
+      - docker tag  mygo:v1  10.0.0.169:5000/mygo:v1
+      - docker push 10.0.0.169:5000/mygo:v1
+    after_script:
+        - docker rmi 10.0.0.169:5000/mygo:v1
+        - docker rmi mygo:v1
+    tags:
+      - go
+</code></pre>
+<pre class=" language-shell"><code class="language-shell">查看数据
+curl http://10.0.0.169:5000/v2/_catalog   (查看列表)
+curl http://10.0.0.169:5000/v2/mygo/manifests/v1   (查看redis镜像详情)
+curl http://10.0.0.169:5000/v2/mygo/tags/list
+</code></pre>
+<h6 id="自动更新服务"><a href="#自动更新服务" class="headerlink" title="自动更新服务"></a>自动更新服务</h6><pre class=" language-shell"><code class="language-shell">docker run -d --name gitlab-runner   \
+  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+ -v /usr/bin/docker:/usr/bin/docker \
+ -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \
+-v /usr/local/bin/kubectl:/usr/local/bin/kubectl \
+-v /home/cyy/kubectl/config:/kubeconfig \
+-e KUBECONFIG=/kubeconfig \
+  gitlab/gitlab-runner
+</code></pre>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">stages</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> build
+  <span class="token punctuation">-</span> deploy
+  <span class="token punctuation">-</span> pub
 
+<span class="token key atrule">GoBuild</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> build
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> docker build <span class="token punctuation">-</span>t mygo<span class="token punctuation">:</span>v1  .
+  <span class="token key atrule">after_script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> docker rmi $(docker images <span class="token punctuation">-</span>af "dangling=true" <span class="token punctuation">-</span>q)
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> go
 
-
-<h6 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h6><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> golang:<span class="number">1.14</span>.<span class="number">4</span>-alpine3.<span class="number">12</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> . /src</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /src</span></span><br><span class="line"><span class="keyword">cmd</span><span class="bash"> [<span class="string">"go"</span>,<span class="string">"test"</span>]</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">test</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="attr">GoTest:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">test</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-f</span> <span class="string">DockerfileTest</span> <span class="string">-t</span> <span class="string">test-mygo:v1</span> <span class="string">.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">run</span> <span class="string">--rm</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">test-mygo:v1</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"><span class="attr">GoBuild:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">mygo:v1</span>  <span class="string">.</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$(docker</span> <span class="string">images</span> <span class="string">-af</span> <span class="string">"dangling=true"</span> <span class="string">-q)</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"><span class="attr">GoDeploy:</span>   <span class="comment">#使用私有镜像仓库</span></span><br><span class="line">    <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">    <span class="attr">script:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">docker</span> <span class="string">tag</span>  <span class="string">mygo:v1</span>  <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">docker</span> <span class="string">push</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">    <span class="attr">after_script:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">mygo:v1</span></span><br><span class="line">    <span class="attr">tags:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">go</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看数据</span><br><span class="line">curl http://10.0.0.169:5000/v2/_catalog   (查看列表)</span><br><span class="line">curl http://10.0.0.169:5000/v2/mygo/manifests/v1   (查看redis镜像详情)</span><br><span class="line">curl http://10.0.0.169:5000/v2/mygo/tags/list</span><br></pre></td></tr></table></figure>
-
-<h6 id="自动更新服务"><a href="#自动更新服务" class="headerlink" title="自动更新服务"></a>自动更新服务</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner   \</span><br><span class="line">  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \</span><br><span class="line">  -v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"> -v /usr/bin/docker:/usr/bin/docker \</span><br><span class="line"> -v /usr/lib64/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7  \</span><br><span class="line">-v /usr/local/bin/kubectl:/usr/local/bin/kubectl \</span><br><span class="line">-v /home/cyy/kubectl/config:/kubeconfig \</span><br><span class="line">-e KUBECONFIG=/kubeconfig \</span><br><span class="line">  gitlab/gitlab-runner</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pub</span></span><br><span class="line"></span><br><span class="line"><span class="attr">GoBuild:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">mygo:v1</span>  <span class="string">.</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$(docker</span> <span class="string">images</span> <span class="string">-af</span> <span class="string">"dangling=true"</span> <span class="string">-q)</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"></span><br><span class="line"><span class="attr">GoDeploy:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">tag</span>  <span class="string">mygo:v1</span>  <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">push</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.169</span><span class="string">:5000/mygo:v1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">rmi</span> <span class="string">mygo:v1</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br><span class="line"><span class="attr">GoPub:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">pub</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">kubectl</span> <span class="string">get</span> <span class="string">pod</span> <span class="string">-n</span> <span class="string">myweb|</span> <span class="string">grep</span> <span class="string">mygo</span> <span class="string">|</span> <span class="string">awk</span> <span class="string">'&#123;print $1&#125;'</span>  <span class="string">|</span> <span class="string">xargs</span> <span class="string">kubectl</span> <span class="string">delete</span> <span class="string">pod</span> <span class="string">-n</span> <span class="string">myweb</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span></span><br></pre></td></tr></table></figure>
-
-
+<span class="token key atrule">GoDeploy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> deploy
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> docker tag  mygo<span class="token punctuation">:</span>v1  10.0.0.169<span class="token punctuation">:</span>5000/mygo<span class="token punctuation">:</span>v1
+    <span class="token punctuation">-</span> docker push 10.0.0.169<span class="token punctuation">:</span>5000/mygo<span class="token punctuation">:</span>v1
+  <span class="token key atrule">after_script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> docker rmi 10.0.0.169<span class="token punctuation">:</span>5000/mygo<span class="token punctuation">:</span>v1
+    <span class="token punctuation">-</span> docker rmi mygo<span class="token punctuation">:</span>v1
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> go
+<span class="token key atrule">GoPub</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> pub
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> kubectl get pod <span class="token punctuation">-</span>n myweb<span class="token punctuation">|</span> grep mygo <span class="token punctuation">|</span> awk '<span class="token punctuation">{</span>print $1<span class="token punctuation">}</span>'  <span class="token punctuation">|</span> xargs kubectl delete pod <span class="token punctuation">-</span>n myweb
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> go</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -658,10 +813,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -799,6 +957,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-09-20T23-30-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sun Sep 20 2020 23:30:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -832,7 +1044,9 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            gitlab-ci入门示范：12345678docker run -d --name gitlab-runner   \  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \  -v /var/r
+                            gitlab-ci入门示范：docker run -d --name gitlab-runner   \
+  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \
+  -v /var/run/doc
                         
                     </div>
                     <div class="publish-info">
@@ -886,7 +1100,8 @@
 
 目的：部署 NFS 服务进行跨主机文件共享
 Network File System      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。
-1、环境准备1234567891.系统版本：CentOS7.42.NFS版本：nf
+1、环境准备1.系统版本：CentOS7.4
+2.NFS版本：nfs-utils 
                         
                     </div>
                     <div class="publish-info">
@@ -1055,7 +1270,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1083,13 +1298,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1099,7 +1314,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1181,6 +1396,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

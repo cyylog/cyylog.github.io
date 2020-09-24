@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -588,73 +588,249 @@
 <li>用户局部性修改</li>
 <li>进程局部性修改</li>
 </ul>
-<h5 id="3、系统全局性修该和用户局部性修改"><a href="#3、系统全局性修该和用户局部性修改" class="headerlink" title="3、系统全局性修该和用户局部性修改"></a>3、系统全局性修该和用户局部性修改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#vim &#x2F;etc&#x2F;security&#x2F;limits.conf</span><br></pre></td></tr></table></figure>
+<h5 id="3、系统全局性修该和用户局部性修改"><a href="#3、系统全局性修该和用户局部性修改" class="headerlink" title="3、系统全局性修该和用户局部性修改"></a>3、系统全局性修该和用户局部性修改</h5><pre><code>[root@server ~]#vim /etc/security/limits.conf</code></pre><p>在文件最下面找到</p>
+<pre><code>#*               soft    core            0
+#*               hard    rss             10000
+#@student        hard    nproc           20
+#@faculty        soft    nproc           20
+#@faculty        hard    nproc           50
+#ftp             hard    nproc           0
+#@student        -       maxlogins       4
 
-<p>在文件最下面找到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#*               soft    core            0</span><br><span class="line">#*               hard    rss             10000</span><br><span class="line">#@student        hard    nproc           20</span><br><span class="line">#@faculty        soft    nproc           20</span><br><span class="line">#@faculty        hard    nproc           50</span><br><span class="line">#ftp             hard    nproc           0</span><br><span class="line">#@student        -       maxlogins       4</span><br><span class="line"></span><br><span class="line">#root只是针对root这个用户来限制，soft只是发提醒，操作系统不会强制限制,一般的站点设置为一万左右就ok了</span><br><span class="line">root soft nofile 65535</span><br><span class="line">root hard nofile 65535</span><br><span class="line"># *代表通配符 所有的用户</span><br><span class="line">*    soft nofile 25535</span><br><span class="line">*    hard nofile 25535</span><br></pre></td></tr></table></figure>
+#root只是针对root这个用户来限制，soft只是发提醒，操作系统不会强制限制,一般的站点设置为一万左右就ok了
+root soft nofile 65535
+root hard nofile 65535
+# *代表通配符 所有的用户
+*    soft nofile 25535
+*    hard nofile 25535</code></pre><p>可以看到root和<em>，root代表是root用户，</em>代表的是所有用户，后面的数字就是文件句柄大小。大家可以根据个人业务来进行设置。</p>
+<h5 id="4、进程局部性修改"><a href="#4、进程局部性修改" class="headerlink" title="4、进程局部性修改"></a>4、进程局部性修改</h5><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf
+user  nginx;
+worker_processes  1;  
 
-<p>可以看到root和<em>，root代表是root用户，</em>代表的是所有用户，后面的数字就是文件句柄大小。大家可以根据个人业务来进行设置。</p>
-<h5 id="4、进程局部性修改"><a href="#4、进程局部性修改" class="headerlink" title="4、进程局部性修改"></a>4、进程局部性修改</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#vim &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">user  nginx;</span><br><span class="line">worker_processes  1;  </span><br><span class="line"></span><br><span class="line">error_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn;</span><br><span class="line">pid        &#x2F;var&#x2F;run&#x2F;nginx.pid;</span><br><span class="line"></span><br><span class="line">worker_rlimit_nofile 65535; #进程限制</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;</span><br><span class="line">                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on; </span><br><span class="line">    #tcp_nopush     on; </span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65; </span><br><span class="line"></span><br><span class="line">    #gzip  on; </span><br><span class="line"></span><br><span class="line">    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
 
-<p>worker_rlimit_nofile 是在进程上面进行限制。</p>
+worker_rlimit_nofile 65535; #进程限制
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$http_user_agent' '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" '
+                      '"$args" "$request_uri"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on; 
+    #tcp_nopush     on; 
+
+    keepalive_timeout  65; 
+
+    #gzip  on; 
+
+    include /etc/nginx/conf.d/*.conf;
+}</code></pre><p>worker_rlimit_nofile 是在进程上面进行限制。</p>
 <h5 id="5、cpu的亲和配置"><a href="#5、cpu的亲和配置" class="headerlink" title="5、cpu的亲和配置"></a>5、cpu的亲和配置</h5><p>cpu的亲和能够使nginx对于不同的work工作进程绑定到不同的cpu上面去。就能够减少在work间不断切换cpu，把进程通常不会在处理器之间频繁迁移，进程迁移的频率小，来减少性能损耗。nginx 亲和配置</p>
 <p>查看物理cpu</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#cat &#x2F;proc&#x2F;cpuinfo|grep &quot;physical id&quot;|sort |uniq|wc -l</span><br></pre></td></tr></table></figure>
+<pre><code>[root@server ~]#cat /proc/cpuinfo|grep "physical id"|sort |uniq|wc -l</code></pre><p>查看cpu核心数</p>
+<pre><code>[root@server ~]#cat /proc/cpuinfo|grep "cpu cores"|uniq</code></pre><p>查看cpu使用率</p>
+<pre><code>[root@server ~]#top  回车后按 1</code></pre><h5 id="6、配置worker-processes"><a href="#6、配置worker-processes" class="headerlink" title="6、配置worker_processes"></a>6、配置worker_processes</h5><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf</code></pre><p>将刚才查看到自己cpu * cpu核心就是worker_processes</p>
+<pre><code>worker_processes 2; #根据自己cpu核心数配置</code></pre><h5 id="7、cpu亲和配置"><a href="#7、cpu亲和配置" class="headerlink" title="7、cpu亲和配置"></a>7、cpu亲和配置</h5><p>假如小菜的配置是2cpu，每个cpu是8核。配置如下</p>
+<pre><code>worker_processes 16;
+worker_cpu_affinity 1010101010101010 0101010101010101;</code></pre><p>配置完成后可以通过下面命令查看nginx进程配置在哪个核上</p>
+<pre><code>[root@server ~]#ps -eo pid,args,psr |grep [n]ginx</code></pre><p>在nginx 1.9版本之后，就帮我们自动绑定了cpu;</p>
+<pre><code>worker_cpu_affinity auto;</code></pre><h4 id="5、nginx通用配置优化"><a href="#5、nginx通用配置优化" class="headerlink" title="5、nginx通用配置优化"></a>5、nginx通用配置优化</h4><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf
+#将nginx进程设置为普通用户，为了安全考虑
+user nginx; 
 
-<p>查看cpu核心数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#cat &#x2F;proc&#x2F;cpuinfo|grep &quot;cpu cores&quot;|uniq</span><br></pre></td></tr></table></figure>
+#当前启动的worker进程，官方建议是与系统核心数一直
+worker_processes 2;
+#方式一， 第一个work进程绑定第一个cpu核心，第二个work进程绑定到第二个cpu核心，依次内推 直到弟16个
+#wokrer_cpu_affinity 0000000000000000 0000000000000001 0000000000000010 0000000000000100 ... 1000000000000000
 
-<p>查看cpu使用率</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#top  回车后按 1</span><br></pre></td></tr></table></figure>
+#方式二，当 worker_processes 2 时，表明 第一work进程可以绑定第 2 4 6 8 10 12 14 16 核心，那么第二work进程就绑定 奇数核心
+#worker_cpu_affinity 1010101010101010 0101010101010101;
 
-<h5 id="6、配置worker-processes"><a href="#6、配置worker-processes" class="headerlink" title="6、配置worker_processes"></a>6、配置worker_processes</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#vim &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+#方式三，就是自动分配绑定
+worker_cpu_affinity auto;
 
-<p>将刚才查看到自己cpu * cpu核心就是worker_processes</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker_processes 2; #根据自己cpu核心数配置</span><br></pre></td></tr></table></figure>
+#日志配置成warn
+error_log /var/log/nginx/error.log warn; 
+pid /var/run/nginx.pid;
 
-<h5 id="7、cpu亲和配置"><a href="#7、cpu亲和配置" class="headerlink" title="7、cpu亲和配置"></a>7、cpu亲和配置</h5><p>假如小菜的配置是2cpu，每个cpu是8核。配置如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">worker_processes 16;</span><br><span class="line">worker_cpu_affinity 1010101010101010 0101010101010101;</span><br></pre></td></tr></table></figure>
+#针对 nginx 句柄的文件限制
+worker_rlimit_nofile 35535;
+#事件模型
+events {
+    #使用epoll内核模型
+    user epoll;
+    #每一个进程可以处理多少个连接，如果是多核可以将连接数调高 worker_processes * 1024
+    worker_connections 10240;
+}
 
-<p>配置完成后可以通过下面命令查看nginx进程配置在哪个核上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#ps -eo pid,args,psr |grep [n]ginx</span><br></pre></td></tr></table></figure>
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
-<p>在nginx 1.9版本之后，就帮我们自动绑定了cpu;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">worker_cpu_affinity auto;</span><br></pre></td></tr></table></figure>
+    charset utf-8;  #设置字符集
 
-<h4 id="5、nginx通用配置优化"><a href="#5、nginx通用配置优化" class="headerlink" title="5、nginx通用配置优化"></a>5、nginx通用配置优化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#vim &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">#将nginx进程设置为普通用户，为了安全考虑</span><br><span class="line">user nginx; </span><br><span class="line"></span><br><span class="line">#当前启动的worker进程，官方建议是与系统核心数一直</span><br><span class="line">worker_processes 2;</span><br><span class="line">#方式一， 第一个work进程绑定第一个cpu核心，第二个work进程绑定到第二个cpu核心，依次内推 直到弟16个</span><br><span class="line">#wokrer_cpu_affinity 0000000000000000 0000000000000001 0000000000000010 0000000000000100 ... 1000000000000000</span><br><span class="line"></span><br><span class="line">#方式二，当 worker_processes 2 时，表明 第一work进程可以绑定第 2 4 6 8 10 12 14 16 核心，那么第二work进程就绑定 奇数核心</span><br><span class="line">#worker_cpu_affinity 1010101010101010 0101010101010101;</span><br><span class="line"></span><br><span class="line">#方式三，就是自动分配绑定</span><br><span class="line">worker_cpu_affinity auto;</span><br><span class="line"></span><br><span class="line">#日志配置成warn</span><br><span class="line">error_log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn; </span><br><span class="line">pid &#x2F;var&#x2F;run&#x2F;nginx.pid;</span><br><span class="line"></span><br><span class="line">#针对 nginx 句柄的文件限制</span><br><span class="line">worker_rlimit_nofile 35535;</span><br><span class="line">#事件模型</span><br><span class="line">events &#123;</span><br><span class="line">    #使用epoll内核模型</span><br><span class="line">    user epoll;</span><br><span class="line">    #每一个进程可以处理多少个连接，如果是多核可以将连接数调高 worker_processes * 1024</span><br><span class="line">    worker_connections 10240;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    charset utf-8;  #设置字符集</span><br><span class="line"></span><br><span class="line">    #设置日志输出格式，根据自己的情况设置</span><br><span class="line">    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;</span><br><span class="line">                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;   #对静态资源的处理比较有效</span><br><span class="line">    #tcp_nopush     on;   #如果做静态资源服务器可以打开</span><br><span class="line">    #tcp_nodeny     on;   #当nginx做动态的服务时可以选择打开</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65; </span><br><span class="line"></span><br><span class="line">    ########</span><br><span class="line">    #Gzip module</span><br><span class="line">    gzip  on;    #文件压缩默认可以打开</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.&quot;; #对于有些浏览器不能识别压缩，需要过滤如ie6</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line"></span><br><span class="line">    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;*.conf;</span><br><span class="line">&#125;</span><br><span class="line">#查看 核心绑定的nginx work进程</span><br><span class="line">[root@server ~]#ps -eo pid,args,psr | grep [n]ginx</span><br></pre></td></tr></table></figure>
+    #设置日志输出格式，根据自己的情况设置
+    log_format  main  '$http_user_agent' '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" '
+                      '"$args" "$request_uri"';
 
-<h4 id="6、ab接口压力测试工具"><a href="#6、ab接口压力测试工具" class="headerlink" title="6、ab接口压力测试工具"></a>6、ab接口压力测试工具</h4><p>ab是Apache超文本传输协议(HTTP)的性能测试工具。其设计意图是描绘当前所安装的Apache的执行性能，主要是显示你安装的Apache每秒可以处理多少个请求。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 安装工具</span><br><span class="line">[root@server ~]#yum install httpd-tools</span><br><span class="line"></span><br><span class="line"># 使用</span><br><span class="line">[root@server ~]#ab -n 2000 -c 2 http:&#x2F;&#x2F;127.0.0.1&#x2F;index.html</span><br><span class="line">-n 总的请求数</span><br><span class="line">-c 并发数</span><br><span class="line">-k 是否开启长连接</span><br></pre></td></tr></table></figure>
+    access_log  /var/log/nginx/access.log  main;
 
-<h5 id="1、参数选项"><a href="#1、参数选项" class="headerlink" title="1、参数选项"></a>1、参数选项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">-n：即requests，用于指定压力测试总共的执行次数</span><br><span class="line">-c：即concurrency，用于指定的并发数</span><br><span class="line">-t：即timelimit，等待响应的最大时间(单位：秒)</span><br><span class="line">-b：即windowsize，TCP发送&#x2F;接收的缓冲大小(单位：字节)</span><br><span class="line">-p：即postfile，发送POST请求时需要上传的文件，此外还必须设置-T参数</span><br><span class="line">-u：即putfile，发送PUT请求时需要上传的文件，此外还必须设置-T参数</span><br><span class="line">-T：即content-type，用于设置Content-Type请求头信息，例如：application&#x2F;x-www-form-urlencoded，默认值为text&#x2F;plain</span><br><span class="line">-v：即verbosity，指定打印帮助信息的冗余级别</span><br><span class="line">-w：以HTML表格形式打印结果</span><br><span class="line">-i：使用HEAD请求代替GET请求</span><br><span class="line">-x：插入字符串作为table标签的属性</span><br><span class="line">-y：插入字符串作为tr标签的属性</span><br><span class="line">-z：插入字符串作为td标签的属性</span><br><span class="line">-C：添加cookie信息，例如：&quot;Apache&#x3D;1234&quot;(可以重复该参数选项以添加多个)</span><br><span class="line">-H：添加任意的请求头，例如：&quot;Accept-Encoding: gzip&quot;，请求头将会添加在现有的多个请求头之后(可以重复该参数选项以添加多个)</span><br><span class="line">-A：添加一个基本的网络认证信息，用户名和密码之间用英文冒号隔开</span><br><span class="line">-P：添加一个基本的代理认证信息，用户名和密码之间用英文冒号隔开</span><br><span class="line">-X：指定使用的和端口号，例如:&quot;126.10.10.3:88&quot;</span><br><span class="line">-V：打印版本号并退出</span><br><span class="line">-k：使用HTTP的KeepAlive特性</span><br><span class="line">-d：不显示百分比</span><br><span class="line">-S：不显示预估和警告信息</span><br><span class="line">-g：输出结果信息到gnuplot格式的文件中</span><br><span class="line">-e：输出结果信息到CSV格式的文件中</span><br><span class="line">-r：指定接收到错误信息时不退出程序</span><br><span class="line">-H：显示用法信息，其实就是ab -help</span><br></pre></td></tr></table></figure>
+    sendfile        on;   #对静态资源的处理比较有效
+    #tcp_nopush     on;   #如果做静态资源服务器可以打开
+    #tcp_nodeny     on;   #当nginx做动态的服务时可以选择打开
 
-<h5 id="2、内容解释"><a href="#2、内容解释" class="headerlink" title="2、内容解释"></a>2、内容解释</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Server Software:        nginx&#x2F;1.10.2 (服务器软件名称及版本信息)</span><br><span class="line">Server Hostname:        192.168.1.106(服务器主机名)</span><br><span class="line">Server Port:            80 (服务器端口)</span><br><span class="line">Document Path:          &#x2F;index1.html. (供测试的URL路径)</span><br><span class="line">Document Length:        3721 bytes (供测试的URL返回的文档大小)</span><br><span class="line">Concurrency Level:      1000 (并发数)</span><br><span class="line">Time taken for tests:   2.327 seconds (压力测试消耗的总时间)</span><br><span class="line">Complete requests:      5000 (的总次数)</span><br><span class="line">Failed requests:        688 (失败的请求数)</span><br><span class="line">Write errors:           0 (网络连接写入错误数)</span><br><span class="line">Total transferred:      17402975 bytes (传输的总数据量)</span><br><span class="line">HTML transferred:       16275725 bytes (HTML文档的总数据量)</span><br><span class="line">Requests per second:    2148.98 [#&#x2F;sec] (mean) (平均每秒的请求数) 这个是非常重要的参数数值，服务器的吞吐量 </span><br><span class="line">Time per request:       465.338 [ms] (mean) (所有并发用户(这里是1000)都请求一次的平均时间)</span><br><span class="line">Time  request:          0.247 [ms] (mean, across all concurrent requests) (单个用户请求一次的平均时间)</span><br><span class="line">Transfer rate:          7304.41 [Kbytes&#x2F;sec] received 每秒获取的数据长度 (传输速率，单位：KB&#x2F;s)</span><br><span class="line">...</span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%    347  ## 50%的请求在347ms内返回 </span><br><span class="line">  66%    401  ## 60%的请求在401ms内返回 </span><br><span class="line">  75%    431</span><br><span class="line">  80%    516</span><br><span class="line">  90%    600</span><br><span class="line">  95%    846</span><br><span class="line">  98%   1571</span><br><span class="line">  99%   1593</span><br><span class="line"> 100%   1619 (longest request)</span><br></pre></td></tr></table></figure>
+    keepalive_timeout  65; 
 
-<h5 id="3、示例演示"><a href="#3、示例演示" class="headerlink" title="3、示例演示"></a>3、示例演示</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]#ab -n 50 -c 20 http:&#x2F;&#x2F;walidream.com&#x2F;sub_module</span><br></pre></td></tr></table></figure>
+    ########
+    #Gzip module
+    gzip  on;    #文件压缩默认可以打开
+    gzip_disable "MSIE [1-6]\."; #对于有些浏览器不能识别压缩，需要过滤如ie6
+    gzip_http_version 1.1;
 
-<p>输出内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Server Software:        nginx&#x2F;1.14.1</span><br><span class="line">Server Hostname:        walidream.com</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          &#x2F;sub_module</span><br><span class="line">Document Length:        169 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      20</span><br><span class="line">Time taken for tests:   0.005 seconds</span><br><span class="line">Complete requests:      50</span><br><span class="line">Failed requests:        0</span><br><span class="line">Write errors:           0</span><br><span class="line">Non-2xx responses:      50</span><br><span class="line">Total transferred:      14900 bytes</span><br><span class="line">HTML transferred:       8450 bytes</span><br><span class="line">Requests per second:    9746.59 [#&#x2F;sec] (mean)</span><br><span class="line">Time per request:       2.052 [ms] (mean)</span><br><span class="line">Time per request:       0.103 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          2836.41 [Kbytes&#x2F;sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+&#x2F;-sd] median   max</span><br><span class="line">Connect:        0    0   0.1      0       1</span><br><span class="line">Processing:     1    1   0.3      1       2</span><br><span class="line">Waiting:        0    1   0.2      1       1</span><br><span class="line">Total:          1    2   0.3      2       2</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%      2</span><br><span class="line">  66%      2</span><br><span class="line">  75%      2</span><br><span class="line">  80%      2</span><br><span class="line">  90%      2</span><br><span class="line">  95%      2</span><br><span class="line">  98%      2</span><br><span class="line">  99%      2</span><br><span class="line"> 100%      2 (longest request)</span><br></pre></td></tr></table></figure>
+    include /etc/nginx/conf.d/*.conf;
+}
+#查看 核心绑定的nginx work进程
+[root@server ~]#ps -eo pid,args,psr | grep [n]ginx</code></pre><h4 id="6、ab接口压力测试工具"><a href="#6、ab接口压力测试工具" class="headerlink" title="6、ab接口压力测试工具"></a>6、ab接口压力测试工具</h4><p>ab是Apache超文本传输协议(HTTP)的性能测试工具。其设计意图是描绘当前所安装的Apache的执行性能，主要是显示你安装的Apache每秒可以处理多少个请求。</p>
+<pre><code># 安装工具
+[root@server ~]#yum install httpd-tools
 
-<h5 id="5、注意事项"><a href="#5、注意事项" class="headerlink" title="5、注意事项"></a>5、注意事项</h5><p>● 测试机与被测试机要分开</p>
+# 使用
+[root@server ~]#ab -n 2000 -c 2 http://127.0.0.1/index.html
+-n 总的请求数
+-c 并发数
+-k 是否开启长连接</code></pre><h5 id="1、参数选项"><a href="#1、参数选项" class="headerlink" title="1、参数选项"></a>1、参数选项</h5><pre><code>-n：即requests，用于指定压力测试总共的执行次数
+-c：即concurrency，用于指定的并发数
+-t：即timelimit，等待响应的最大时间(单位：秒)
+-b：即windowsize，TCP发送/接收的缓冲大小(单位：字节)
+-p：即postfile，发送POST请求时需要上传的文件，此外还必须设置-T参数
+-u：即putfile，发送PUT请求时需要上传的文件，此外还必须设置-T参数
+-T：即content-type，用于设置Content-Type请求头信息，例如：application/x-www-form-urlencoded，默认值为text/plain
+-v：即verbosity，指定打印帮助信息的冗余级别
+-w：以HTML表格形式打印结果
+-i：使用HEAD请求代替GET请求
+-x：插入字符串作为table标签的属性
+-y：插入字符串作为tr标签的属性
+-z：插入字符串作为td标签的属性
+-C：添加cookie信息，例如："Apache=1234"(可以重复该参数选项以添加多个)
+-H：添加任意的请求头，例如："Accept-Encoding: gzip"，请求头将会添加在现有的多个请求头之后(可以重复该参数选项以添加多个)
+-A：添加一个基本的网络认证信息，用户名和密码之间用英文冒号隔开
+-P：添加一个基本的代理认证信息，用户名和密码之间用英文冒号隔开
+-X：指定使用的和端口号，例如:"126.10.10.3:88"
+-V：打印版本号并退出
+-k：使用HTTP的KeepAlive特性
+-d：不显示百分比
+-S：不显示预估和警告信息
+-g：输出结果信息到gnuplot格式的文件中
+-e：输出结果信息到CSV格式的文件中
+-r：指定接收到错误信息时不退出程序
+-H：显示用法信息，其实就是ab -help</code></pre><h5 id="2、内容解释"><a href="#2、内容解释" class="headerlink" title="2、内容解释"></a>2、内容解释</h5><pre><code>Server Software:        nginx/1.10.2 (服务器软件名称及版本信息)
+Server Hostname:        192.168.1.106(服务器主机名)
+Server Port:            80 (服务器端口)
+Document Path:          /index1.html. (供测试的URL路径)
+Document Length:        3721 bytes (供测试的URL返回的文档大小)
+Concurrency Level:      1000 (并发数)
+Time taken for tests:   2.327 seconds (压力测试消耗的总时间)
+Complete requests:      5000 (的总次数)
+Failed requests:        688 (失败的请求数)
+Write errors:           0 (网络连接写入错误数)
+Total transferred:      17402975 bytes (传输的总数据量)
+HTML transferred:       16275725 bytes (HTML文档的总数据量)
+Requests per second:    2148.98 [#/sec] (mean) (平均每秒的请求数) 这个是非常重要的参数数值，服务器的吞吐量 
+Time per request:       465.338 [ms] (mean) (所有并发用户(这里是1000)都请求一次的平均时间)
+Time  request:          0.247 [ms] (mean, across all concurrent requests) (单个用户请求一次的平均时间)
+Transfer rate:          7304.41 [Kbytes/sec] received 每秒获取的数据长度 (传输速率，单位：KB/s)
+...
+Percentage of the requests served within a certain time (ms)
+  50%    347  ## 50%的请求在347ms内返回 
+  66%    401  ## 60%的请求在401ms内返回 
+  75%    431
+  80%    516
+  90%    600
+  95%    846
+  98%   1571
+  99%   1593
+ 100%   1619 (longest request)</code></pre><h5 id="3、示例演示"><a href="#3、示例演示" class="headerlink" title="3、示例演示"></a>3、示例演示</h5><pre><code>[root@server ~]#ab -n 50 -c 20 http://walidream.com/sub_module</code></pre><p>输出内容</p>
+<pre><code>Server Software:        nginx/1.14.1
+Server Hostname:        walidream.com
+Server Port:            80
+
+Document Path:          /sub_module
+Document Length:        169 bytes
+
+Concurrency Level:      20
+Time taken for tests:   0.005 seconds
+Complete requests:      50
+Failed requests:        0
+Write errors:           0
+Non-2xx responses:      50
+Total transferred:      14900 bytes
+HTML transferred:       8450 bytes
+Requests per second:    9746.59 [#/sec] (mean)
+Time per request:       2.052 [ms] (mean)
+Time per request:       0.103 [ms] (mean, across all concurrent requests)
+Transfer rate:          2836.41 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     1    1   0.3      1       2
+Waiting:        0    1   0.2      1       1
+Total:          1    2   0.3      2       2
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      2
+  98%      2
+  99%      2
+ 100%      2 (longest request)</code></pre><h5 id="5、注意事项"><a href="#5、注意事项" class="headerlink" title="5、注意事项"></a>5、注意事项</h5><p>● 测试机与被测试机要分开</p>
 <p>● 不要对线上的服务器做压力测试</p>
 <p>● 观察测试工具ab所在机器，以及被测试的前端机的CPU、内存、网络等都不超过最高限度的75%</p>
 <h5 id="6、ab性能指标"><a href="#6、ab性能指标" class="headerlink" title="6、ab性能指标"></a>6、ab性能指标</h5><h6 id="1、吞吐率（Requests-per-second）"><a href="#1、吞吐率（Requests-per-second）" class="headerlink" title="1、吞吐率（Requests per second）"></a>1、吞吐率（Requests per second）</h6><p>服务器并发处理能力的量化描述，单位是reqs/s，指的是在某个并发用户数下单位时间内处理的请求数。某个并发用户数下单位时间内能处理的最大请求数，称之为最大吞吐率。记住：吞吐率是基于并发用户数的。这句话代表了两个含义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">● 吞吐率和并发用户数相关</span><br><span class="line"></span><br><span class="line">● 不同的并发用户数下，吞吐率一般是不同的</span><br></pre></td></tr></table></figure>
+<pre><code>● 吞吐率和并发用户数相关
 
-<p>计算公式：总请求数/处理完成这些请求数所花费的时间，即</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Request per second&#x3D;Complete requests&#x2F;Time taken for tests</span><br></pre></td></tr></table></figure>
-
-<p>必须要说明的是，这个数值表示当前机器的整体性能，值越大越好</p>
+● 不同的并发用户数下，吞吐率一般是不同的</code></pre><p>计算公式：总请求数/处理完成这些请求数所花费的时间，即</p>
+<pre><code>Request per second=Complete requests/Time taken for tests</code></pre><p>必须要说明的是，这个数值表示当前机器的整体性能，值越大越好</p>
 <h6 id="2、并发连接数（The-number-of-concurrent-connections）"><a href="#2、并发连接数（The-number-of-concurrent-connections）" class="headerlink" title="2、并发连接数（The number of concurrent connections）"></a>2、并发连接数（The number of concurrent connections）</h6><p>并发连接数指的是某个时刻服务器所接受的请求数目，简单的讲，就是一个会话。</p>
 <h6 id="3、并发用户数（Concurrency-Level）"><a href="#3、并发用户数（Concurrency-Level）" class="headerlink" title="3、并发用户数（Concurrency Level）"></a>3、并发用户数（Concurrency Level）</h6><p>要注意区分这个概念和并发连接数之间的区别，一个用户可能同时会产生多个会话，也即连接数。在HTTP/1.1下，IE7支持两个并发连接，IE8支持6个并发连接，FireFox3支持4个并发连接，所以相应的，我们的并发用户数就得除以这个基数。</p>
 <h6 id="4-用户平均请求等待时间（Time-per-request）"><a href="#4-用户平均请求等待时间（Time-per-request）" class="headerlink" title="4.用户平均请求等待时间（Time per request）"></a>4.用户平均请求等待时间（Time per request）</h6><p>计算公式：处理完成所有请求数所花费的时间/（总请求数/并发用户数），即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Time per request&#x3D;Time taken for tests&#x2F;（Complete requests&#x2F;Concurrency Level）</span><br></pre></td></tr></table></figure>
-
-<h6 id="5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）"><a href="#5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）" class="headerlink" title="5.服务器平均请求等待时间（Time per request:across all concurrent requests）"></a>5.服务器平均请求等待时间（Time per request:across all concurrent requests）</h6><p>计算公式：处理完成所有请求数所花费的时间/总请求数，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Time taken for&#x2F;testsComplete requests</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，它是吞吐率的倒数。同时，它也等于用户平均请求等待时间/并发用户数，即</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Time per request&#x2F;Concurrency Level</span><br></pre></td></tr></table></figure>
+<pre><code>Time per request=Time taken for tests/（Complete requests/Concurrency Level）</code></pre><h6 id="5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）"><a href="#5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）" class="headerlink" title="5.服务器平均请求等待时间（Time per request:across all concurrent requests）"></a>5.服务器平均请求等待时间（Time per request:across all concurrent requests）</h6><p>计算公式：处理完成所有请求数所花费的时间/总请求数，即：</p>
+<pre><code>Time taken for/testsComplete requests</code></pre><p>可以看到，它是吞吐率的倒数。同时，它也等于用户平均请求等待时间/并发用户数，即</p>
+<pre><code>Time per request/Concurrency Level</code></pre><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -729,10 +905,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -870,6 +1049,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-08-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Mon Aug 05 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -961,7 +1194,9 @@ Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用�
 
 
 Zabbix 邮件报警前期准备工作：电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件
-server端安装配置邮件服务器1234[root@master ~]# yum -y install mailx[root@maste
+server端安装配置邮件服务器[root@master ~]# yum -y install mailx
+
+[root@master 
                         
                     </div>
                     <div class="publish-info">
@@ -1130,7 +1365,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1158,13 +1393,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1174,7 +1409,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1256,6 +1491,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

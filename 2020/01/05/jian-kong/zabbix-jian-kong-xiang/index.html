@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -566,21 +566,154 @@
 <h1 id="Zabbix监控什么？"><a href="#Zabbix监控什么？" class="headerlink" title="Zabbix监控什么？"></a>Zabbix监控什么？</h1><p><img src="http://p1.pstatp.com/large/pgc-image/1ee9df63b32b4108a8537cc27eb9252b" alt="Zabbix 监控"></p>
 <p>监控项</p>
 <h1 id="Zabbix常用监控项"><a href="#Zabbix常用监控项" class="headerlink" title="Zabbix常用监控项"></a>Zabbix常用监控项</h1><p><strong>zabbix自带的常用监控项</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">agent.ping 检测客户端可达性、返回nothing表示不可达。1表示可达</span><br><span class="line">system.cpu.load --检测cpu负载。返回浮点数</span><br><span class="line">system.cpu.util -- 检测cpu使用率。返回浮点数</span><br><span class="line">vfs.dev.read -- 检测硬盘读取数据，返回是sps.ops.bps浮点类型，需要定义1024倍</span><br><span class="line">vfs.dev.write -- 检测硬盘写入数据。返回是sps.ops.bps浮点类型，需要定义1024倍</span><br><span class="line">net.if.out[br0] --检测网卡流速、流出方向，时间间隔为60S</span><br><span class="line">net-if-in[br0] --检测网卡流速，流入方向（单位：字节） 时间间隔60S</span><br><span class="line">proc.num[]  目前系统中的进程总数，时间间隔60s</span><br><span class="line">proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</span><br></pre></td></tr></table></figure>
+<pre><code>agent.ping 检测客户端可达性、返回nothing表示不可达。1表示可达
+system.cpu.load --检测cpu负载。返回浮点数
+system.cpu.util -- 检测cpu使用率。返回浮点数
+vfs.dev.read -- 检测硬盘读取数据，返回是sps.ops.bps浮点类型，需要定义1024倍
+vfs.dev.write -- 检测硬盘写入数据。返回是sps.ops.bps浮点类型，需要定义1024倍
+net.if.out[br0] --检测网卡流速、流出方向，时间间隔为60S
+net-if-in[br0] --检测网卡流速，流入方向（单位：字节） 时间间隔60S
+proc.num[]  目前系统中的进程总数，时间间隔60s
+proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</code></pre><h4 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h4><pre><code>通过zabbix_get 获取负载值
+合理的控制用户态、系统态、IO等待时间剋保证进程高效率的运行
+系统态运行时间较高说明进程进行系统调用的次数比较多，一般的程序如果系统态运行时间占用过高就需要优化程序，减少系统调用
+io等待时间过高则表明硬盘的io性能差，如果是读写文件比较频繁、读写效率要求比较高，可以考虑更换硬盘，或者使用多磁盘做raid的方案
+system.cpu.swtiches --cpu的进程上下文切换，单位sps，表示每秒采样次数，api中参数history需指定为3
+system.cpu.intr  --cpu中断数量、api中参数history需指定为3
+system.cpu.load[percpu,avg1]  --cpu每分钟的负载值，按照核数做平均值(Processor load (1 min average per core))，api中参数history需指定为0
+system.cpu.load[percpu,avg5]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (5 min average per core))，api中参数history需指定为0
+system.cpu.load[percpu,avg15]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (15 min average per core))，api中参数history需指定为0</code></pre><h4 id="zabbix的自定义常用项"><a href="#zabbix的自定义常用项" class="headerlink" title="zabbix的自定义常用项"></a>zabbix的自定义常用项</h4><h5 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/catcarm.conf
+UserParameter=ram.info[*],/bin/cat  /proc/meminfo  |awk '/^$1:{print $2}'
+ram.info[Cached] --检测内存的缓存使用量、返回整数，需要定义1024倍
+ram.info[MemFree] --检测内存的空余量，返回整数，需要定义1024倍
+ram.info[Buffers] --检测内存的使用量，返回整数，需要定义1024倍</code></pre><h5 id="TCP相关的自定义项"><a href="#TCP相关的自定义项" class="headerlink" title="TCP相关的自定义项"></a>TCP相关的自定义项</h5><pre><code>vim /usr/local/zabbix/share/zabbix/alertscripts/tcp_connection.sh
+#!/bin/bash
+function ESTAB { 
+/usr/sbin/ss -ant |awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'ESTAB' | awk '{print $2}'
+}
+function TIMEWAIT {
+/usr/sbin/ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'TIME-WAIT' | awk '{print $2}'
+}
+function LISTEN {
+/usr/sbin/ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'LISTEN' | awk '{print $2}'
+}
+$1
 
-<h4 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">通过zabbix_get 获取负载值</span><br><span class="line">合理的控制用户态、系统态、IO等待时间剋保证进程高效率的运行</span><br><span class="line">系统态运行时间较高说明进程进行系统调用的次数比较多，一般的程序如果系统态运行时间占用过高就需要优化程序，减少系统调用</span><br><span class="line">io等待时间过高则表明硬盘的io性能差，如果是读写文件比较频繁、读写效率要求比较高，可以考虑更换硬盘，或者使用多磁盘做raid的方案</span><br><span class="line">system.cpu.swtiches --cpu的进程上下文切换，单位sps，表示每秒采样次数，api中参数history需指定为3</span><br><span class="line">system.cpu.intr  --cpu中断数量、api中参数history需指定为3</span><br><span class="line">system.cpu.load[percpu,avg1]  --cpu每分钟的负载值，按照核数做平均值(Processor load (1 min average per core))，api中参数history需指定为0</span><br><span class="line">system.cpu.load[percpu,avg5]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (5 min average per core))，api中参数history需指定为0</span><br><span class="line">system.cpu.load[percpu,avg15]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (15 min average per core))，api中参数history需指定为0</span><br></pre></td></tr></table></figure>
+vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/cattcp.conf
+UserParameter=tcp[*],/usr/local/zabbix/share/zabbix/alertscripts/tcp_connection.sh $1
+
+tcp[TIMEWAIT] --检测TCP的驻留数，返回整数
+tcp[ESTAB]  --检测tcp的连接数、返回整数
+tcp[LISTEN] --检测TCP的监听数，返回整数</code></pre><h5 id="nginx相关的自定义项"><a href="#nginx相关的自定义项" class="headerlink" title="nginx相关的自定义项"></a>nginx相关的自定义项</h5><pre><code>vim /etc/nginx/conf.d/default.conf
+    location /nginx-status
+    {
+        stub_status on;
+        access_log off;
+        allow 127.0.0.1;
+        deny all;
+    }
 
 
+vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/nginx.conf
+UserParameter=Nginx.active,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/Active/ {print $NF}'
+UserParameter=Nginx.read,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Reading' | cut -d" " -f2
+UserParameter=Nginx.wrie,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Writing' | cut -d" " -f4
+UserParameter=Nginx.wait,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Waiting' | cut -d" " -f6
+UserParameter=Nginx.accepted,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $1}'
+UserParameter=Nginx.handled,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $2}'
+UserParameter=Nginx.requests,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $3}'
 
-<h4 id="zabbix的自定义常用项"><a href="#zabbix的自定义常用项" class="headerlink" title="zabbix的自定义常用项"></a>zabbix的自定义常用项</h4><h5 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;catcarm.conf</span><br><span class="line">UserParameter&#x3D;ram.info[*],&#x2F;bin&#x2F;cat  &#x2F;proc&#x2F;meminfo  |awk &#39;&#x2F;^$1:&#123;print $2&#125;&#39;</span><br><span class="line">ram.info[Cached] --检测内存的缓存使用量、返回整数，需要定义1024倍</span><br><span class="line">ram.info[MemFree] --检测内存的空余量，返回整数，需要定义1024倍</span><br><span class="line">ram.info[Buffers] --检测内存的使用量，返回整数，需要定义1024倍</span><br></pre></td></tr></table></figure>
+PHP.listenqueue --检测PHP队列数，返回整数
+PHP.idle --检测PHP空闲进程数，返回整数
+PHP.active --检测PHP活动进程数，返回整数
+PHP.conn --检测PHP请求数,返回整数
+PHP.reached --检测PHP达到限制次数，返回整数
+PHP.requets --检测PHP慢请求书，返回整数</code></pre><h5 id="redis相关的自定义项"><a href="#redis相关的自定义项" class="headerlink" title="redis相关的自定义项"></a>redis相关的自定义项</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/redis.conf
+UserParameter=Redis.Status,/usr/local/redis/bin/redis-cli -h 127.0.0.1 -p 6379 ping |grep -c PONG
+UserParameter=Redis_conn[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "connected_clients" | awk -F':' '{print $2}'
+UserParameter=Redis_rss_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_memory_rss" | awk -F':' '{print $2}'
+UserParameter=Redis_lua_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_memory_lua" | awk -F':' '{print $2}'
+UserParameter=Redis_cpu_sys[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_sys" | awk -F':' '{print $2}'
+UserParameter=Redis_cpu_user[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_user" | awk -F':' '{print $2}'
+UserParameter=Redis_cpu_sys_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_sys_children" | awk -F':' '{print $2}'
+UserParameter=Redis_cpu_user_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_user_children" | awk -F':' '{print $2}'
+UserParameter=Redis_keys_num[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "$$1" | grep -w "keys" | grep db$3 | awk -F'=' '{print $2}' | awk -F',' '{print $1}'
+UserParameter=Redis_loading[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep loading | awk -F':' '{print $$2}'
 
-<h5 id="TCP相关的自定义项"><a href="#TCP相关的自定义项" class="headerlink" title="TCP相关的自定义项"></a>TCP相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;share&#x2F;zabbix&#x2F;alertscripts&#x2F;tcp_connection.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">function ESTAB &#123; </span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant |awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;ESTAB&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">function TIMEWAIT &#123;</span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant | awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;TIME-WAIT&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">function LISTEN &#123;</span><br><span class="line">&#x2F;usr&#x2F;sbin&#x2F;ss -ant | awk &#39;&#123;++s[$1]&#125; END &#123;for(k in s) print k,s[k]&#125;&#39; | grep &#39;LISTEN&#39; | awk &#39;&#123;print $2&#125;&#39;</span><br><span class="line">&#125;</span><br><span class="line">$1</span><br><span class="line"></span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;cattcp.conf</span><br><span class="line">UserParameter&#x3D;tcp[*],&#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;share&#x2F;zabbix&#x2F;alertscripts&#x2F;tcp_connection.sh $1</span><br><span class="line"></span><br><span class="line">tcp[TIMEWAIT] --检测TCP的驻留数，返回整数</span><br><span class="line">tcp[ESTAB]  --检测tcp的连接数、返回整数</span><br><span class="line">tcp[LISTEN] --检测TCP的监听数，返回整数</span><br></pre></td></tr></table></figure>
+Redis.Status --检测Redis运行状态， 返回整数
+Redis_conn  --检测Redis成功连接数，返回整数
+Redis_rss_mem  --检测Redis系统分配内存，返回整数
+Redis_lua_mem  --检测Redis引擎消耗内存，返回整数
+Redis_cpu_sys --检测Redis主程序核心CPU消耗率，返回整数
+Redis_cpu_user --检测Redis主程序用户CPU消耗率，返回整数
+Redis_cpu_sys_cline --检测Redis后台核心CPU消耗率，返回整数
+Redis_cpu_user_cline --检测Redis后台用户CPU消耗率，返回整数
+Redis_keys_num --检测库键值数，返回整数
+Redis_loding --检测Redis持久化文件状态，返回整数</code></pre><h5 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL:"></a>MySQL:</h5><pre><code>version:数据库版本
+key_buffer_size:myisam的索引buffer大小
+sort_buffer_size:会话的排序空间（每个线程会申请一个）
+join_buffer_size:这是为链接操作分配的最小缓存大小，这些连接使用普通索引扫描、范围扫描、或者连接不适用索引
+max_connections:最大允许同时连接的数量
+max_connect_errors：允许一个主机最多的错误链接次数，如果超过了就会拒绝之后链接（默认100）。可以使用flush hosts命令去解除拒绝
+open_files_limits:操作系统允许mysql打开的文件数量，可以通过opened_tables状态确定是否需要增大table_open_cache,如果opened_tables比较大且一直还在增大说明需要增大table_open_cache
+max-heap_tables_size:建立的内存表的最大大小（默认16M）这个参数和tmp_table_size一起限制内部临时表的最大值(取这两个参数的小的一个），如果超过限制，则表会变为innodb或myisam引擎，（5.7.5之前是默认是myisam，5.7.6开始是innodb，可以通过internal_tmp_disk_storage_engine参数调整）。
+max_allowed_packet:一个包的最大大小
+##########GET INNODB INFO
+#INNODB variables
+innodb_version:
+innodb_buffer_pool_instances：将innodb缓冲池分为指定的多个（默认为1）
+innodb_buffer_pool_size:innodb缓冲池大小、5.7.5引入了innodb_buffer_pool_chunk_size,
+innodb_doublewrite：是否开启doublewrite（默认开启）
+innodb_read_io_threads:IO读线程的数量
+innodb_write_io_threads:IO写线程的数量
+########innodb status
+innodb_buffer_pool_pages_total:innodb缓冲池页的数量、大小等于innodb_buffer_pool_size/(16*1024)
+innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
+########## GET MYSQL HITRATE
+1、查询缓存命中率
+如果Qcache_hits+Com_select&lt;&gt;0则为 Qcache_hits/（Qcache_hits+Com_select），否则为0
 
-<h5 id="nginx相关的自定义项"><a href="#nginx相关的自定义项" class="headerlink" title="nginx相关的自定义项"></a>nginx相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf</span><br><span class="line">    location &#x2F;nginx-status</span><br><span class="line">    &#123;</span><br><span class="line">        stub_status on;</span><br><span class="line">        access_log off;</span><br><span class="line">        allow 127.0.0.1;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;nginx.conf</span><br><span class="line">UserParameter&#x3D;Nginx.active,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;Active&#x2F; &#123;print $NF&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.read,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Reading&#39; | cut -d&quot; &quot; -f2</span><br><span class="line">UserParameter&#x3D;Nginx.wrie,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Writing&#39; | cut -d&quot; &quot; -f4</span><br><span class="line">UserParameter&#x3D;Nginx.wait,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | grep &#39;Waiting&#39; | cut -d&quot; &quot; -f6</span><br><span class="line">UserParameter&#x3D;Nginx.accepted,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $1&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.handled,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Nginx.requests,&#x2F;usr&#x2F;bin&#x2F;curl -s &quot;http:&#x2F;&#x2F;127.0.0.1:80&#x2F;nginx-status&quot; | awk &#39;&#x2F;^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+&#x2F; &#123;print $3&#125;&#39;</span><br><span class="line"></span><br><span class="line">PHP.listenqueue --检测PHP队列数，返回整数</span><br><span class="line">PHP.idle --检测PHP空闲进程数，返回整数</span><br><span class="line">PHP.active --检测PHP活动进程数，返回整数</span><br><span class="line">PHP.conn --检测PHP请求数,返回整数</span><br><span class="line">PHP.reached --检测PHP达到限制次数，返回整数</span><br><span class="line">PHP.requets --检测PHP慢请求书，返回整数</span><br></pre></td></tr></table></figure>
+2、线程缓存命中率
+如果Connections&lt;&gt;0,则为1-Threads_created/Connections，否则为0
 
-<h5 id="redis相关的自定义项"><a href="#redis相关的自定义项" class="headerlink" title="redis相关的自定义项"></a>redis相关的自定义项</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;zabbix&#x2F;etc&#x2F;zabbix_agentd.conf.d&#x2F;redis.conf</span><br><span class="line">UserParameter&#x3D;Redis.Status,&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h 127.0.0.1 -p 6379 ping |grep -c PONG</span><br><span class="line">UserParameter&#x3D;Redis_conn[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;connected_clients&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_rss_mem[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_rss&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_lua_mem[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_lua&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_sys[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_user[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_sys_cline[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys_children&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_cpu_user_cline[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user_children&quot; | awk -F&#39;:&#39; &#39;&#123;print $2&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_keys_num[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep -w &quot;$$1&quot; | grep -w &quot;keys&quot; | grep db$3 | awk -F&#39;&#x3D;&#39; &#39;&#123;print $2&#125;&#39; | awk -F&#39;,&#39; &#39;&#123;print $1&#125;&#39;</span><br><span class="line">UserParameter&#x3D;Redis_loading[*],&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -h $1 -p $2 info | grep loading | awk -F&#39;:&#39; &#39;&#123;print $$2&#125;&#39;</span><br><span class="line"></span><br><span class="line">Redis.Status --检测Redis运行状态， 返回整数</span><br><span class="line">Redis_conn  --检测Redis成功连接数，返回整数</span><br><span class="line">Redis_rss_mem  --检测Redis系统分配内存，返回整数</span><br><span class="line">Redis_lua_mem  --检测Redis引擎消耗内存，返回整数</span><br><span class="line">Redis_cpu_sys --检测Redis主程序核心CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_user --检测Redis主程序用户CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_sys_cline --检测Redis后台核心CPU消耗率，返回整数</span><br><span class="line">Redis_cpu_user_cline --检测Redis后台用户CPU消耗率，返回整数</span><br><span class="line">Redis_keys_num --检测库键值数，返回整数</span><br><span class="line">Redis_loding --检测Redis持久化文件状态，返回整数</span><br></pre></td></tr></table></figure>
+3、myisam键缓存命中率
+如果Key_read_requests&lt;&gt;0,则为1-Key_reads/Key_read_requests，否则为0
 
-<h5 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL:"></a>MySQL:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">version:数据库版本</span><br><span class="line">key_buffer_size:myisam的索引buffer大小</span><br><span class="line">sort_buffer_size:会话的排序空间（每个线程会申请一个）</span><br><span class="line">join_buffer_size:这是为链接操作分配的最小缓存大小，这些连接使用普通索引扫描、范围扫描、或者连接不适用索引</span><br><span class="line">max_connections:最大允许同时连接的数量</span><br><span class="line">max_connect_errors：允许一个主机最多的错误链接次数，如果超过了就会拒绝之后链接（默认100）。可以使用flush hosts命令去解除拒绝</span><br><span class="line">open_files_limits:操作系统允许mysql打开的文件数量，可以通过opened_tables状态确定是否需要增大table_open_cache,如果opened_tables比较大且一直还在增大说明需要增大table_open_cache</span><br><span class="line">max-heap_tables_size:建立的内存表的最大大小（默认16M）这个参数和tmp_table_size一起限制内部临时表的最大值(取这两个参数的小的一个），如果超过限制，则表会变为innodb或myisam引擎，（5.7.5之前是默认是myisam，5.7.6开始是innodb，可以通过internal_tmp_disk_storage_engine参数调整）。</span><br><span class="line">max_allowed_packet:一个包的最大大小</span><br><span class="line">##########GET INNODB INFO</span><br><span class="line">#INNODB variables</span><br><span class="line">innodb_version:</span><br><span class="line">innodb_buffer_pool_instances：将innodb缓冲池分为指定的多个（默认为1）</span><br><span class="line">innodb_buffer_pool_size:innodb缓冲池大小、5.7.5引入了innodb_buffer_pool_chunk_size,</span><br><span class="line">innodb_doublewrite：是否开启doublewrite（默认开启）</span><br><span class="line">innodb_read_io_threads:IO读线程的数量</span><br><span class="line">innodb_write_io_threads:IO写线程的数量</span><br><span class="line">########innodb status</span><br><span class="line">innodb_buffer_pool_pages_total:innodb缓冲池页的数量、大小等于innodb_buffer_pool_size&#x2F;(16*1024)</span><br><span class="line">innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量</span><br><span class="line">########## GET MYSQL HITRATE</span><br><span class="line">1、查询缓存命中率</span><br><span class="line">如果Qcache_hits+Com_select&lt;&gt;0则为 Qcache_hits&#x2F;（Qcache_hits+Com_select），否则为0</span><br><span class="line"></span><br><span class="line">2、线程缓存命中率</span><br><span class="line">如果Connections&lt;&gt;0,则为1-Threads_created&#x2F;Connections，否则为0</span><br><span class="line"></span><br><span class="line">3、myisam键缓存命中率</span><br><span class="line">如果Key_read_requests&lt;&gt;0,则为1-Key_reads&#x2F;Key_read_requests，否则为0</span><br><span class="line"></span><br><span class="line">4、myisam键缓存写命中率</span><br><span class="line">如果Key_write_requests&lt;&gt;0,则为1-Key_writes&#x2F;Key_write_requests，否则为0</span><br><span class="line"></span><br><span class="line">5、键块使用率</span><br><span class="line">如果Key_blocks_used+Key_blocks_unused&lt;&gt;0，则Key_blocks_used&#x2F;（Key_blocks_used+Key_blocks_unused），否则为0</span><br><span class="line"></span><br><span class="line">6、创建磁盘存储的临时表比率</span><br><span class="line">如果Created_tmp_disk_tables+Created_tmp_tables&lt;&gt;0,则Created_tmp_disk_tables&#x2F;（Created_tmp_disk_tables+Created_tmp_tables），否则为0</span><br><span class="line"></span><br><span class="line">7、连接使用率</span><br><span class="line">如果max_connections&lt;&gt;0，则threads_connected&#x2F;max_connections，否则为0</span><br><span class="line"></span><br><span class="line">8、打开文件比率</span><br><span class="line">如果open_files_limit&lt;&gt;0，则open_files&#x2F;open_files_limit，否则为0</span><br><span class="line"></span><br><span class="line">9、表缓存使用率</span><br><span class="line">如果table_open_cache&lt;&gt;0，则open_tables&#x2F;table_open_cache，否则为0</span><br></pre></td></tr></table></figure>
+4、myisam键缓存写命中率
+如果Key_write_requests&lt;&gt;0,则为1-Key_writes/Key_write_requests，否则为0
+
+5、键块使用率
+如果Key_blocks_used+Key_blocks_unused&lt;&gt;0，则Key_blocks_used/（Key_blocks_used+Key_blocks_unused），否则为0
+
+6、创建磁盘存储的临时表比率
+如果Created_tmp_disk_tables+Created_tmp_tables&lt;&gt;0,则Created_tmp_disk_tables/（Created_tmp_disk_tables+Created_tmp_tables），否则为0
+
+7、连接使用率
+如果max_connections&lt;&gt;0，则threads_connected/max_connections，否则为0
+
+8、打开文件比率
+如果open_files_limit&lt;&gt;0，则open_files/open_files_limit，否则为0
+
+9、表缓存使用率
+如果table_open_cache&lt;&gt;0，则open_tables/table_open_cache，否则为0</code></pre><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -655,10 +788,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -796,6 +932,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-01-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sun Jan 05 2020 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -885,7 +1075,12 @@
                         
                             
 
-mysql容器1234567891011121314151617181920[mysqld]log-error&#x3D;&#x2F;mylog&#x2F;error.logslow_query_log &#x3D; onlong_qu
+mysql容器[mysqld]
+log-error=/mylog/error.log
+slow_query_log = on
+long_query_time=2
+slow-query-log-file =/mylog/slow.log
+
                         
                     </div>
                     <div class="publish-info">
@@ -1054,7 +1249,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1082,13 +1277,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1098,7 +1293,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1180,6 +1375,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

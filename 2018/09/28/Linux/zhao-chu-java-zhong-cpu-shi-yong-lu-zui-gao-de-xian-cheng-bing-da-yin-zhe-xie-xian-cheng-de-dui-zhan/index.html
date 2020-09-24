@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,10 +559,174 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @Function</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Find out the highest cpu consumed threads of java, and <span class="built_in">print</span> the stack of these threads.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @Usage</span></span><br><span class="line"><span class="meta">#</span><span class="bash">   $ ./show-busy-java-threads.sh</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> @author Jerry Lee</span></span><br><span class="line"></span><br><span class="line">readonly PROG=`basename $0`</span><br><span class="line">readonly -a COMMAND_LINE=("$0" "$@")</span><br><span class="line"></span><br><span class="line">usage() &#123;</span><br><span class="line">    cat &lt;&lt;EOF</span><br><span class="line">Usage: $&#123;PROG&#125; [OPTION]...</span><br><span class="line">Find out the highest cpu consumed threads of java, and print the stack of these threads.</span><br><span class="line">Example: $&#123;PROG&#125; -c 10</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">    -p, --pid       find out the highest cpu consumed threads from the specifed java process,</span><br><span class="line">                    default from all java process.</span><br><span class="line">    -c, --count     set the thread count to show, default is 5</span><br><span class="line">    -h, --help      display this help and exit</span><br><span class="line">EOF</span><br><span class="line">    exit $1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly ARGS=`getopt -n "$PROG" -a -o c:p:h -l count:,pid:,help -- "$@"`</span><br><span class="line">[ $? -ne 0 ] &amp;&amp; usage 1</span><br><span class="line">eval set -- "$&#123;ARGS&#125;"</span><br><span class="line"></span><br><span class="line">while true; do</span><br><span class="line">    case "$1" in</span><br><span class="line">    -c|--count)</span><br><span class="line">        count="$2"</span><br><span class="line">        shift 2</span><br><span class="line">        ;;</span><br><span class="line">    -p|--pid)</span><br><span class="line">        pid="$2"</span><br><span class="line">        shift 2</span><br><span class="line">        ;;</span><br><span class="line">    -h|--help)</span><br><span class="line">        usage</span><br><span class="line">        ;;</span><br><span class="line">    --)</span><br><span class="line">        shift</span><br><span class="line">        break</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line">count=$&#123;count:-5&#125;</span><br><span class="line"></span><br><span class="line">redEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;31m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">yellowEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;33m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">blueEcho() &#123;</span><br><span class="line">    [ -c /dev/stdout ] &amp;&amp; &#123;</span><br><span class="line">        # if stdout is console, turn on color output.</span><br><span class="line">        echo -ne "\033[1;36m"</span><br><span class="line">        echo -n "$@"</span><br><span class="line">        echo -e "\033[0m"</span><br><span class="line">    &#125; || echo "$@"</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Check the existence of jstack <span class="built_in">command</span>!</span></span><br><span class="line">if ! which jstack &amp;&gt; /dev/null; then</span><br><span class="line">    [ -z "$JAVA_HOME" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    ! [ -f "$JAVA_HOME/bin/jstack" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack file does NOT exists!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    ! [ -x "$JAVA_HOME/bin/jstack" ] &amp;&amp; &#123;</span><br><span class="line">        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack is NOT executalbe!"</span><br><span class="line">        exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    export PATH="$JAVA_HOME/bin:$PATH"</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">readonly uuid=`date +%s`_$&#123;RANDOM&#125;_$$</span><br><span class="line"></span><br><span class="line">cleanupWhenExit() &#123;</span><br><span class="line">    rm /tmp/$&#123;uuid&#125;_* &amp;&gt; /dev/null</span><br><span class="line">&#125;</span><br><span class="line">trap "cleanupWhenExit" EXIT</span><br><span class="line"></span><br><span class="line">printStackOfThread() &#123;</span><br><span class="line">    local line</span><br><span class="line">    local count=1</span><br><span class="line">    while IFS=" " read -a line ; do</span><br><span class="line">        local pid=$&#123;line[0]&#125;</span><br><span class="line">        local threadId=$&#123;line[1]&#125;</span><br><span class="line">        local threadId0x=`printf %x $&#123;threadId&#125;`</span><br><span class="line">        local user=$&#123;line[2]&#125;</span><br><span class="line">        local pcpu=$&#123;line[4]&#125;</span><br><span class="line"></span><br><span class="line">        local jstackFile=/tmp/$&#123;uuid&#125;_$&#123;pid&#125;</span><br><span class="line"></span><br><span class="line">        [ ! -f "$&#123;jstackFile&#125;" ] &amp;&amp; &#123;</span><br><span class="line">            &#123;</span><br><span class="line">                if [ "$&#123;user&#125;" == "$&#123;USER&#125;" ]; then</span><br><span class="line">                    jstack $&#123;pid&#125; &gt; $&#123;jstackFile&#125;</span><br><span class="line">                else</span><br><span class="line">                    if [ $UID == 0 ]; then</span><br><span class="line">                        sudo -u $&#123;user&#125; jstack $&#123;pid&#125; &gt; $&#123;jstackFile&#125;</span><br><span class="line">                    else</span><br><span class="line">                        redEcho "[$((count++))] Fail to jstack Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;)."</span><br><span class="line">                        redEcho "User of java process($user) is not current user($USER), need sudo to run again:"</span><br><span class="line">                        yellowEcho "    sudo $&#123;COMMAND_LINE[@]&#125;"</span><br><span class="line">                        echo</span><br><span class="line">                        continue</span><br><span class="line">                    fi</span><br><span class="line">                fi</span><br><span class="line">            &#125; || &#123;</span><br><span class="line">                redEcho "[$((count++))] Fail to jstack Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;)."</span><br><span class="line">                echo</span><br><span class="line">                rm $&#123;jstackFile&#125;</span><br><span class="line">                continue</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        blueEcho "[$((count++))] Busy($&#123;pcpu&#125;%) thread($&#123;threadId&#125;/0x$&#123;threadId0x&#125;) stack of java process($&#123;pid&#125;) under user($&#123;user&#125;):"</span><br><span class="line">        sed "/nid=0x$&#123;threadId0x&#125; /,/^$/p" -n $&#123;jstackFile&#125;</span><br><span class="line">    done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ps -Leo pid,lwp,user,comm,pcpu --no-headers | &#123;</span><br><span class="line">    [ -z "$&#123;pid&#125;" ] &amp;&amp;</span><br><span class="line">    awk '$4=="java"&#123;print $0&#125;' ||</span><br><span class="line">    awk -v "pid=$&#123;pid&#125;" '$1==pid,$4=="java"&#123;print $0&#125;'</span><br><span class="line">&#125; | sort -k5 -r -n | head --lines "$&#123;count&#125;" | printStackOfThread</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">#!/bin/bash
+# @Function
+# Find out the highest cpu consumed threads of java, and print the stack of these threads.
+#
+# @Usage
+#   $ ./show-busy-java-threads.sh
+#
+# @author Jerry Lee
 
+readonly PROG=`basename $0`
+readonly -a COMMAND_LINE=("$0" "$@")
+
+usage() {
+    cat <<EOF
+Usage: ${PROG} [OPTION]...
+Find out the highest cpu consumed threads of java, and print the stack of these threads.
+Example: ${PROG} -c 10
+
+Options:
+    -p, --pid       find out the highest cpu consumed threads from the specifed java process,
+                    default from all java process.
+    -c, --count     set the thread count to show, default is 5
+    -h, --help      display this help and exit
+EOF
+    exit $1
+}
+
+readonly ARGS=`getopt -n "$PROG" -a -o c:p:h -l count:,pid:,help -- "$@"`
+[ $? -ne 0 ] && usage 1
+eval set -- "${ARGS}"
+
+while true; do
+    case "$1" in
+    -c|--count)
+        count="$2"
+        shift 2
+        ;;
+    -p|--pid)
+        pid="$2"
+        shift 2
+        ;;
+    -h|--help)
+        usage
+        ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+done
+count=${count:-5}
+
+redEcho() {
+    [ -c /dev/stdout ] && {
+        # if stdout is console, turn on color output.
+        echo -ne "\033[1;31m"
+        echo -n "$@"
+        echo -e "\033[0m"
+    } || echo "$@"
+}
+
+yellowEcho() {
+    [ -c /dev/stdout ] && {
+        # if stdout is console, turn on color output.
+        echo -ne "\033[1;33m"
+        echo -n "$@"
+        echo -e "\033[0m"
+    } || echo "$@"
+}
+
+blueEcho() {
+    [ -c /dev/stdout ] && {
+        # if stdout is console, turn on color output.
+        echo -ne "\033[1;36m"
+        echo -n "$@"
+        echo -e "\033[0m"
+    } || echo "$@"
+}
+
+# Check the existence of jstack command!
+if ! which jstack &> /dev/null; then
+    [ -z "$JAVA_HOME" ] && {
+        redEcho "Error: jstack not found on PATH!"
+        exit 1
+    }
+    ! [ -f "$JAVA_HOME/bin/jstack" ] && {
+        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack file does NOT exists!"
+        exit 1
+    }
+    ! [ -x "$JAVA_HOME/bin/jstack" ] && {
+        redEcho "Error: jstack not found on PATH and $JAVA_HOME/bin/jstack is NOT executalbe!"
+        exit 1
+    }
+    export PATH="$JAVA_HOME/bin:$PATH"
+fi
+
+readonly uuid=`date +%s`_${RANDOM}_$$
+
+cleanupWhenExit() {
+    rm /tmp/${uuid}_* &> /dev/null
+}
+trap "cleanupWhenExit" EXIT
+
+printStackOfThread() {
+    local line
+    local count=1
+    while IFS=" " read -a line ; do
+        local pid=${line[0]}
+        local threadId=${line[1]}
+        local threadId0x=`printf %x ${threadId}`
+        local user=${line[2]}
+        local pcpu=${line[4]}
+
+        local jstackFile=/tmp/${uuid}_${pid}
+
+        [ ! -f "${jstackFile}" ] && {
+            {
+                if [ "${user}" == "${USER}" ]; then
+                    jstack ${pid} > ${jstackFile}
+                else
+                    if [ $UID == 0 ]; then
+                        sudo -u ${user} jstack ${pid} > ${jstackFile}
+                    else
+                        redEcho "[$((count++))] Fail to jstack Busy(${pcpu}%) thread(${threadId}/0x${threadId0x}) stack of java process(${pid}) under user(${user})."
+                        redEcho "User of java process($user) is not current user($USER), need sudo to run again:"
+                        yellowEcho "    sudo ${COMMAND_LINE[@]}"
+                        echo
+                        continue
+                    fi
+                fi
+            } || {
+                redEcho "[$((count++))] Fail to jstack Busy(${pcpu}%) thread(${threadId}/0x${threadId0x}) stack of java process(${pid}) under user(${user})."
+                echo
+                rm ${jstackFile}
+                continue
+            }
+        }
+        blueEcho "[$((count++))] Busy(${pcpu}%) thread(${threadId}/0x${threadId0x}) stack of java process(${pid}) under user(${user}):"
+        sed "/nid=0x${threadId0x} /,/^$/p" -n ${jstackFile}
+    done
+}
+
+
+ps -Leo pid,lwp,user,comm,pcpu --no-headers | {
+    [ -z "${pid}" ] &&
+    awk '$4=="java"{print $0}' ||
+    awk -v "pid=${pid}" '$1==pid,$4=="java"{print $0}'
+} | sort -k5 -r -n | head --lines "${count}" | printStackOfThread</code></pre>
 <p>原文地址：<a href="https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -637,10 +801,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -778,6 +945,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2018-09-28T23-54-25',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Sep 28 2018 23:54:25 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -813,7 +1034,10 @@
                             
 
 redis
-redis简介123456789101112131415161718192021什么是redisREmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-va
+redis简介什么是redis
+REmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。
+
+Redis是一个开源的使用ANSI C语言编
                         
                     </div>
                     <div class="publish-info">
@@ -1034,7 +1258,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1062,13 +1286,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1078,7 +1302,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1160,6 +1384,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -635,24 +635,14 @@
 </ul>
 <h4 id="②文件权限检查和修改"><a href="#②文件权限检查和修改" class="headerlink" title="②文件权限检查和修改"></a><strong>②文件权限检查和修改</strong></h4><p>不正确的权限设置直接威胁着系统的安全，因此运维人员应该能及时发现这些不正确的权限设置，并立刻修正，防患于未然。下面列举几种查找系统不安全权限的方法。</p>
 <p>查找系统中任何用户都有写权限的文件或目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查找文件：find &#x2F; -type f -perm -2 -o -perm -20 |xargs ls -al</span><br><span class="line">查找目录：find &#x2F; -type d -perm -2 -o -perm -20 |xargs ls –ld</span><br></pre></td></tr></table></figure>
-
-
-
-<p>查找系统中所有含“s”位的程序：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -type f -perm -4000 -o -perm -2000 -print | xargs ls –al</span><br></pre></td></tr></table></figure>
-
-
-
-<p>含有“s”位权限的程序对系统安全威胁很大，通过查找系统中所有具有“s”位权限的程序，可以把某些不必要的“s”位程序去掉，这样可以防止用户滥用权限或提升权限的可能性。</p>
+<pre><code>查找文件：find / -type f -perm -2 -o -perm -20 |xargs ls -al
+查找目录：find / -type d -perm -2 -o -perm -20 |xargs ls –ld</code></pre><p>查找系统中所有含“s”位的程序：</p>
+<pre><code>find / -type f -perm -4000 -o -perm -2000 -print | xargs ls –al</code></pre><p>含有“s”位权限的程序对系统安全威胁很大，通过查找系统中所有具有“s”位权限的程序，可以把某些不必要的“s”位程序去掉，这样可以防止用户滥用权限或提升权限的可能性。</p>
 <p>检查系统中所有 suid 及 sgid 文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -user root -perm -2000 -print -exec md5sum &#123;&#125; ;</span><br><span class="line">find &#x2F; -user root -perm -4000 -print -exec md5sum &#123;&#125; ;</span><br></pre></td></tr></table></figure>
-
-<p>将检查的结果保存到文件中，可在以后的系统检查中作为参考。</p>
+<pre><code>find / -user root -perm -2000 -print -exec md5sum {} ;
+find / -user root -perm -4000 -print -exec md5sum {} ;</code></pre><p>将检查的结果保存到文件中，可在以后的系统检查中作为参考。</p>
 <p>检查系统中没有属主的文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find &#x2F; -nouser -o –nogroup</span><br></pre></td></tr></table></figure>
-
-<p>没有属主的孤儿文件比较危险，往往成为黑客利用的工具，因此找到这些文件后，要么删除掉，要么修改文件的属主，使其处于安全状态。</p>
+<pre><code>find / -nouser -o –nogroup</code></pre><p>没有属主的孤儿文件比较危险，往往成为黑客利用的工具，因此找到这些文件后，要么删除掉，要么修改文件的属主，使其处于安全状态。</p>
 <h4 id="③-tmp、-var-tmp、-dev-shm-安全设定"><a href="#③-tmp、-var-tmp、-dev-shm-安全设定" class="headerlink" title="③/tmp、/var/tmp、/dev/shm 安全设定"></a><strong>③/tmp、/var/tmp、/dev/shm 安全设定</strong></h4><p>在 Linux 系统中，主要有两个目录或分区用来存放临时文件，分别是 /tmp 和 /var/tmp。</p>
 <p>存储临时文件的目录或分区有个共同点就是所有用户可读写、可执行，这就为系统留下了安全隐患。</p>
 <p>攻击者可以将病毒或者木马脚本放到临时文件的目录下进行信息收集或伪装，严重影响服务器的安全。</p>
@@ -662,27 +652,22 @@
 <p>对于 /tmp 的安全设置，需要看 /tmp 是一个独立磁盘分区，还是一个根分区下的文件夹。</p>
 <p>如果 /tmp 是一个独立的磁盘分区，那么设置非常简单，修改 /etc/fstab 文件中 /tmp 分区对应的挂载属性，加上 nosuid、noexec、nodev 三个选项即可。</p>
 <p>修改后的 /tmp 分区挂载属性类似如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LABEL&#x3D;&#x2F;tmp  &#x2F;tmp ext3 rw,nosuid,noexec,nodev 0 0</span><br></pre></td></tr></table></figure>
-
-<p>其中，nosuid、noexec、nodev 选项，表示不允许任何 suid 程序，并且在这个分区不能执行任何脚本等程序，并且不存在设备文件。</p>
+<pre><code>LABEL=/tmp  /tmp ext3 rw,nosuid,noexec,nodev 0 0</code></pre><p>其中，nosuid、noexec、nodev 选项，表示不允许任何 suid 程序，并且在这个分区不能执行任何脚本等程序，并且不存在设备文件。</p>
 <p>在挂载属性设置完成后，重新挂载 /tmp 分区，保证设置生效。</p>
 <p>对于 /var/tmp，如果是独立分区，安装 /tmp 的设置方法是修改 /etc/fstab 文件即可。</p>
 <p>如果是 /var 分区下的一个目录，那么可以将 /var/tmp 目录下所有数据移动到 /tmp 分区下，然后在 /var 下做一个指向 /tmp 的软连接即可。</p>
 <p>也就是执行如下操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# mv &#x2F;var&#x2F;tmp&#x2F;* &#x2F;tmp</span><br><span class="line">[root@server ~]# ln -s  &#x2F;tmp &#x2F;var&#x2F;tmp</span><br></pre></td></tr></table></figure>
-
-<p>如果 /tmp 是根目录下的一个目录，那么设置稍微复杂，可以通过创建一个 loopback 文件系统来利用 Linux 内核的 loopback 特性将文件系统挂载到 /tmp 下，然后在挂载时指定限制加载选项即可。</p>
+<pre><code>[root@server ~]# mv /var/tmp/* /tmp
+[root@server ~]# ln -s  /tmp /var/tmp</code></pre><p>如果 /tmp 是根目录下的一个目录，那么设置稍微复杂，可以通过创建一个 loopback 文件系统来利用 Linux 内核的 loopback 特性将文件系统挂载到 /tmp 下，然后在挂载时指定限制加载选项即可。</p>
 <p>一个简单的操作示例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;&#x2F;dev&#x2F;tmpfs bs&#x3D;1M count&#x3D;10000</span><br><span class="line">[root@server ~]# mke2fs -j &#x2F;dev&#x2F;tmpfs</span><br><span class="line">[root@server ~]# cp -av &#x2F;tmp &#x2F;tmp.old</span><br><span class="line">[root@server ~]# mount -o loop,noexec,nosuid,rw &#x2F;dev&#x2F;tmpfs &#x2F;tmp</span><br><span class="line">[root@server ~]# chmod 1777 &#x2F;tmp</span><br><span class="line">[root@server ~]# mv -f &#x2F;tmp.old&#x2F;* &#x2F;tmp&#x2F;</span><br><span class="line">[root@server ~]# rm -rf &#x2F;tmp.old</span><br></pre></td></tr></table></figure>
-
-
-
-<p>最后，编辑 /etc/fstab，添加如下内容，以便系统在启动时自动加载 loopback 文件系统：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;dev&#x2F;tmpfs &#x2F;tmp ext3 loop,nosuid,noexec,rw 0 0</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="Linux-后门入侵检测工具"><a href="#Linux-后门入侵检测工具" class="headerlink" title="Linux 后门入侵检测工具"></a><strong>Linux 后门入侵检测工具</strong></h3><p>Rootkit 是 Linux 平台下最常见的一种木马后门工具，它主要通过替换系统文件来达到入侵和和隐蔽的目的，这种木马比普通木马后门更加危险和隐蔽，普通的检测工具和检查手段很难发现这种木马。</p>
+<pre><code>[root@server ~]# dd if=/dev/zero of=/dev/tmpfs bs=1M count=10000
+[root@server ~]# mke2fs -j /dev/tmpfs
+[root@server ~]# cp -av /tmp /tmp.old
+[root@server ~]# mount -o loop,noexec,nosuid,rw /dev/tmpfs /tmp
+[root@server ~]# chmod 1777 /tmp
+[root@server ~]# mv -f /tmp.old/* /tmp/
+[root@server ~]# rm -rf /tmp.old</code></pre><p>最后，编辑 /etc/fstab，添加如下内容，以便系统在启动时自动加载 loopback 文件系统：</p>
+<pre><code>/dev/tmpfs /tmp ext3 loop,nosuid,noexec,rw 0 0</code></pre><h3 id="Linux-后门入侵检测工具"><a href="#Linux-后门入侵检测工具" class="headerlink" title="Linux 后门入侵检测工具"></a><strong>Linux 后门入侵检测工具</strong></h3><p>Rootkit 是 Linux 平台下最常见的一种木马后门工具，它主要通过替换系统文件来达到入侵和和隐蔽的目的，这种木马比普通木马后门更加危险和隐蔽，普通的检测工具和检查手段很难发现这种木马。</p>
 <p>Rootkit 攻击能力极强，对系统的危害很大，它通过一套工具来建立后门和隐藏行迹，从而让攻击者保住权限，以使它在任何时候都可以使用 Root 权限登录到系统。</p>
 <p>Rootkit 主要有两种类型：文件级别和内核级别，下面分别进行简单介绍。</p>
 <p>文件级别的 Rootkit 一般是通过程序漏洞或者系统漏洞进入系统后，通过修改系统的重要文件来达到隐藏自己的目的。</p>
@@ -704,38 +689,35 @@
 <p>内核级 Rootkit 主要依附在内核上，它并不对系统文件做任何修改，因此一般的检测工具很难检测到它的存在，这样一旦系统内核被植入 Rootkit，攻击者就可以对系统为所欲为而不被发现。</p>
 <p>目前对于内核级的 Rootkit 还没有很好的防御工具，因此，做好系统安全防范就非常重要，将系统维持在最小权限内工作，只要攻击者不能获取 Root 权限，就无法在内核中植入 Rootkit。</p>
 <h4 id="①Rootkit-后门检测工具-Chkrootkit"><a href="#①Rootkit-后门检测工具-Chkrootkit" class="headerlink" title="①Rootkit 后门检测工具 Chkrootkit"></a><strong>①Rootkit 后门检测工具 Chkrootkit</strong></h4><p>Chkrootkit 是一个 Linux 系统下查找并检测 Rootkit 后门的工具，它的官方地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.chkrootkit.org&#x2F;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Chkrootkit 没有包含在官方的 CentOS 源中，因此要采取手动编译的方法来安装，不过这种安装方法也更加安全。</p>
+<pre><code>http://www.chkrootkit.org/</code></pre><p>Chkrootkit 没有包含在官方的 CentOS 源中，因此要采取手动编译的方法来安装，不过这种安装方法也更加安全。</p>
 <p>Chkrootkit 的使用比较简单，直接执行 Chkrootkit 命令即可自动开始检测系统。</p>
 <p>下面是某个系统的检测结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@server chkrootkit]# &#x2F;usr&#x2F;local&#x2F;chkrootkit&#x2F;chkrootkit</span><br><span class="line">Checking &#96;ifconfig&#39;... INFECTED</span><br><span class="line">Checking &#96;ls&#39;... INFECTED</span><br><span class="line">Checking &#96;login&#39;... INFECTED</span><br><span class="line">Checking &#96;netstat&#39;... INFECTED</span><br><span class="line">Checking &#96;ps&#39;... INFECTED</span><br><span class="line">Checking &#96;top&#39;... INFECTED</span><br><span class="line">Checking &#96;sshd&#39;... not infected</span><br><span class="line">Checking &#96;syslogd&#39;... not tested</span><br></pre></td></tr></table></figure>
-
-
-
-<p>从输出可以看出，此系统的 ifconfig、ls、login、netstat、ps 和 top 命令已经被感染。</p>
+<pre><code>[root@server chkrootkit]# /usr/local/chkrootkit/chkrootkit
+Checking `ifconfig'... INFECTED
+Checking `ls'... INFECTED
+Checking `login'... INFECTED
+Checking `netstat'... INFECTED
+Checking `ps'... INFECTED
+Checking `top'... INFECTED
+Checking `sshd'... not infected
+Checking `syslogd'... not tested</code></pre><p>从输出可以看出，此系统的 ifconfig、ls、login、netstat、ps 和 top 命令已经被感染。</p>
 <p>针对被感染 Rootkit 的系统，最安全而有效的方法就是备份数据重新安装系统。</p>
 <p>Chkrootkit 在检查 Rootkit 的过程中使用了部分系统命令，因此，如果服务器被黑客入侵，那么依赖的系统命令可能也已经被入侵者替换，此时 Chkrootkit 的检测结果将变得完全不可信。</p>
 <p>为了避免 Chkrootkit 的这个问题，可以在服务器对外开放前，事先将 Chkrootkit 使用的系统命令进行备份，在需要的时候使用备份的原始系统命令让 Chkrootkit 对 Rootkit 进行检测。</p>
 <h4 id="②Rootkit-后门检测工具-RKHunter"><a href="#②Rootkit-后门检测工具-RKHunter" class="headerlink" title="②Rootkit 后门检测工具 RKHunter"></a><strong>②Rootkit 后门检测工具 RKHunter</strong></h4><p>RKHunter 是一款专业的检测系统是否感染 Rootkit 的工具，它通过执行一系列的脚本来确认服务器是否已经感染 Rootkit。</p>
 <p>在官方的资料中，RKHunter 可以做的事情有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MD5校验测试，检测文件是否有改动，比较系统命令的md5，从而判断系统命令是否被篡改</span><br><span class="line">检测rootkit使用的二进制和系统工具文件</span><br><span class="line">检测特洛伊木马程序的特征码</span><br><span class="line">检测常用程序的文件属性是否异常</span><br><span class="line">检测系统相关的测试</span><br><span class="line">检测隐藏文件</span><br><span class="line">检测可疑的核心模块LKM</span><br><span class="line">检测系统已启动的监听端口</span><br></pre></td></tr></table></figure>
-
-<p>在 Linux 终端使用 RKHunter 来检测，最大的好处在于每项的检测结果都有不同的颜色显示，如果是绿色的表示没有问题，如果是红色的，那就要引起关注了。</p>
+<pre><code>MD5校验测试，检测文件是否有改动，比较系统命令的md5，从而判断系统命令是否被篡改
+检测rootkit使用的二进制和系统工具文件
+检测特洛伊木马程序的特征码
+检测常用程序的文件属性是否异常
+检测系统相关的测试
+检测隐藏文件
+检测可疑的核心模块LKM
+检测系统已启动的监听端口</code></pre><p>在 Linux 终端使用 RKHunter 来检测，最大的好处在于每项的检测结果都有不同的颜色显示，如果是绿色的表示没有问题，如果是红色的，那就要引起关注了。</p>
 <p>另外，在执行检测的过程中，在每个部分检测完成后，需要以 Enter 键来继续。</p>
 <p>如果要让程序自动运行，可以执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# &#x2F;usr&#x2F;local&#x2F;bin&#x2F;rkhunter --check --skip-keypress</span><br></pre></td></tr></table></figure>
-
-
-
-<p>同时，如果想让检测程序每天定时运行，那么可以在 /etc/crontab 中加入如下内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30 09 * * * root &#x2F;usr&#x2F;local&#x2F;bin&#x2F;rkhunter --check --cronjob</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这样，RKHunter 检测程序就会在每天的 9:30 分运行一次。</p>
+<pre><code>[root@server ~]# /usr/local/bin/rkhunter --check --skip-keypress</code></pre><p>同时，如果想让检测程序每天定时运行，那么可以在 /etc/crontab 中加入如下内容：</p>
+<pre><code>30 09 * * * root /usr/local/bin/rkhunter --check --cronjob </code></pre><p>这样，RKHunter 检测程序就会在每天的 9:30 分运行一次。</p>
 <h3 id="服务器遭受攻击后的处理过程"><a href="#服务器遭受攻击后的处理过程" class="headerlink" title="服务器遭受攻击后的处理过程"></a><strong>服务器遭受攻击后的处理过程</strong></h3><p>安全总是相对的，再安全的服务器也有可能遭受到攻击。</p>
 <p>作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。</p>
 <h4 id="①处理服务器遭受攻击的一般思路"><a href="#①处理服务器遭受攻击的一般思路" class="headerlink" title="①处理服务器遭受攻击的一般思路"></a><strong>①处理服务器遭受攻击的一般思路</strong></h4><p>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。</p>
@@ -758,34 +740,45 @@
 <h4 id="④检查并关闭系统可疑进程"><a href="#④检查并关闭系统可疑进程" class="headerlink" title="④检查并关闭系统可疑进程"></a><strong>④检查并关闭系统可疑进程</strong></h4><p>检查可疑进程的命令很多，例如 ps、top 等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看。</p>
 <p>首先通过 pidof 命令可以查找正在运行的进程 PID，例如要查找 sshd 进程的 PID。</p>
 <p><strong>执行如下命令：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# pidof sshd</span><br><span class="line">13276 12942 4284</span><br></pre></td></tr></table></figure>
-
-
-
-<p>然后进入内存目录，查看对应 PID 目录下 exe 文件的信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# ls -al &#x2F;proc&#x2F;13276&#x2F;exe </span><br><span class="line">lrwxrwxrwx 1 root root 0 Oct  4 22:09 &#x2F;proc&#x2F;13276&#x2F;exe -&gt; &#x2F;usr&#x2F;sbin&#x2F;sshd</span><br></pre></td></tr></table></figure>
-
-
-
-<p>这样就找到了进程对应的完整执行路径。如果还要查看文件的句柄，可以查看如下目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# ls -al &#x2F;proc&#x2F;13276&#x2F;fd</span><br></pre></td></tr></table></figure>
-
-
-
-<p>通过这种方式基本可以找到任何进程的完整执行信息。</p>
+<pre><code>[root@server ~]# pidof sshd
+13276 12942 4284</code></pre><p>然后进入内存目录，查看对应 PID 目录下 exe 文件的信息：</p>
+<pre><code>[root@server ~]# ls -al /proc/13276/exe 
+lrwxrwxrwx 1 root root 0 Oct  4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd</code></pre><p>这样就找到了进程对应的完整执行路径。如果还要查看文件的句柄，可以查看如下目录：</p>
+<pre><code>[root@server ~]# ls -al /proc/13276/fd</code></pre><p>通过这种方式基本可以找到任何进程的完整执行信息。</p>
 <h4 id="⑤检查文件系统的完好性"><a href="#⑤检查文件系统的完好性" class="headerlink" title="⑤检查文件系统的完好性"></a><strong>⑤检查文件系统的完好性</strong></h4><p>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上 /bin/ls 文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。</p>
 <p><strong>此时可以借助于 Linux 下 rpm 这个工具来完成验证，操作如下：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@server ~]# rpm -Va</span><br><span class="line">....L...  c &#x2F;etc&#x2F;pam.d&#x2F;system-auth</span><br><span class="line">S.5.....  c &#x2F;etc&#x2F;security&#x2F;limits.conf</span><br><span class="line">S.5....T  c &#x2F;etc&#x2F;sysctl.conf</span><br><span class="line">S.5....T    &#x2F;etc&#x2F;sgml&#x2F;docbook-simple.cat</span><br><span class="line">S.5....T  c &#x2F;etc&#x2F;login.defs</span><br><span class="line">S.5.....  c &#x2F;etc&#x2F;openldap&#x2F;ldap.conf</span><br><span class="line">S.5....T  c &#x2F;etc&#x2F;sudoers</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="⑥重新安装系统恢复数据"><a href="#⑥重新安装系统恢复数据" class="headerlink" title="⑥重新安装系统恢复数据"></a><strong>⑥重新安装系统恢复数据</strong></h4><p>很多情况下，被攻击过的系统已经不再可信任，因此，最好的方法是将服务器上面数据进行备份，然后重新安装系统，最后再恢复数据即可。</p>
+<pre><code>[root@server ~]# rpm -Va
+....L...  c /etc/pam.d/system-auth
+S.5.....  c /etc/security/limits.conf
+S.5....T  c /etc/sysctl.conf
+S.5....T    /etc/sgml/docbook-simple.cat
+S.5....T  c /etc/login.defs
+S.5.....  c /etc/openldap/ldap.conf
+S.5....T  c /etc/sudoers</code></pre><h4 id="⑥重新安装系统恢复数据"><a href="#⑥重新安装系统恢复数据" class="headerlink" title="⑥重新安装系统恢复数据"></a><strong>⑥重新安装系统恢复数据</strong></h4><p>很多情况下，被攻击过的系统已经不再可信任，因此，最好的方法是将服务器上面数据进行备份，然后重新安装系统，最后再恢复数据即可。</p>
 <p>数据恢复完成，马上对系统做上面介绍的安全加固策略，保证系统安全。</p>
 <blockquote>
 <p>原文链接如下：</p>
 <p><a href="https://www.cnblogs.com/MYSQLZOUQI/p/5317916.html" target="_blank" rel="noopener">https://www.cnblogs.com/MYSQLZOUQI/p/5317916.html</a></p>
 </blockquote>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -860,10 +853,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -1001,6 +997,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-10-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat Oct 05 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1036,7 +1086,11 @@
                             
 
 Gitlab Server 部署
-1、环境准备123456789101112131.系统版本：CentOS7.42.Gitlab版本：gitlab-ee 11.0.13.初始化系统环境4.关闭防火墙[root@localhost ~]#
+1、环境准备1.系统版本：CentOS7.4
+2.Gitlab版本：gitlab-ee 11.0.1
+3.初始化系统环境
+4.关闭防火墙
+[root@localhost ~]#  systemctl s
                         
                     </div>
                     <div class="publish-info">
@@ -1087,7 +1141,7 @@ Gitlab Server 部署
                         
                             
 
-Linux终端复用神器-tmux初探1Tmux是一个优秀的终端复用软件，类似GNU Screen，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再
+Linux终端复用神器-tmux初探Tmux是一个优秀的终端复用软件，类似GNU Screen，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“
                         
                     </div>
                     <div class="publish-info">
@@ -1256,7 +1310,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1284,13 +1338,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1300,7 +1354,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1382,6 +1436,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

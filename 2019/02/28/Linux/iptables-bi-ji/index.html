@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -830,12 +830,12 @@
 <p>4、防火墙的默认规则是对应链的所有的规则执行完以后才会执行的（最后执行的规则）。</p>
 </blockquote>
 <h2 id="1-5-iptables操作"><a href="#1-5-iptables操作" class="headerlink" title="1.5 iptables操作"></a>1.5 iptables操作</h2><p>系统环境说明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# cat &#x2F;etc&#x2F;redhat-release </span><br><span class="line">CentOS release 6.9 (Final)</span><br><span class="line">[root@clsn ~]# hostname -I</span><br><span class="line">10.0.0.188 172.16.1.188</span><br></pre></td></tr></table></figure>
-
-<p>软件版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -V</span><br><span class="line">iptables v1.4.7</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-5-1-iptables参数说明"><a href="#1-5-1-iptables参数说明" class="headerlink" title="1.5.1 iptables参数说明"></a>1.5.1 iptables参数说明</h3><table>
+<pre><code>[root@clsn ~]# cat /etc/redhat-release 
+CentOS release 6.9 (Final)
+[root@clsn ~]# hostname -I
+10.0.0.188 172.16.1.188</code></pre><p>软件版本</p>
+<pre><code>[root@clsn ~]# iptables -V
+iptables v1.4.7</code></pre><h3 id="1-5-1-iptables参数说明"><a href="#1-5-1-iptables参数说明" class="headerlink" title="1.5.1 iptables参数说明"></a>1.5.1 iptables参数说明</h3><table>
 <thead>
 <tr>
 <th><strong>参数</strong></th>
@@ -1110,74 +1110,66 @@
 </tr>
 </tbody></table>
 <p><strong>!**</strong>的使用实例**</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables ! -V</span><br><span class="line">Not 1.4.7 ;-)</span><br><span class="line">[root@clsn ~]# iptables  -V</span><br><span class="line">iptables v1.4.7</span><br></pre></td></tr></table></figure>
-
-<p>注意：在iptables中所有链名必须大写，表明必须小写，动作必须大写，匹配必须小写。</p>
+<pre><code>[root@clsn ~]# iptables ! -V
+Not 1.4.7 ;-)
+[root@clsn ~]# iptables  -V
+iptables v1.4.7</code></pre><p>注意：在iptables中所有链名必须大写，表明必须小写，动作必须大写，匹配必须小写。</p>
 <h3 id="1-5-2-配置前准备"><a href="#1-5-2-配置前准备" class="headerlink" title="1.5.2 配置前准备"></a>1.5.2 配置前准备</h3><p>在配置防火墙首先要其中防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# &#x2F;etc&#x2F;init.d&#x2F;iptables start </span><br><span class="line">iptables: Applying firewall rules:                         [  OK  ]</span><br></pre></td></tr></table></figure>
+<pre><code>[root@clsn ~]# /etc/init.d/iptables start 
+iptables: Applying firewall rules:                         [  OK  ]</code></pre><p>清除iptables所有规则</p>
+<pre><code>[root@clsn ~]# iptables -Z
+[root@clsn ~]# iptables -X
+[root@clsn ~]# iptables -F</code></pre><p>查看iptables的规则</p>
+<pre><code>[root@clsn ~]# iptables -nvL
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
 
-<p>清除iptables所有规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -Z</span><br><span class="line">[root@clsn ~]# iptables -X</span><br><span class="line">[root@clsn ~]# iptables -F</span><br></pre></td></tr></table></figure>
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
 
-<p>查看iptables的规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nvL</span><br><span class="line">Chain INPUT (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)</span><br><span class="line"> pkts bytes target     prot opt in     out     source               destination</span><br></pre></td></tr></table></figure>
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination</code></pre><p>查看其他的表配置（-t 参数）</p>
+<pre><code>[root@clsn ~]# iptables -nL -t raw
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination         
 
-<p>查看其他的表配置（-t 参数）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nL -t raw</span><br><span class="line">Chain PREROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination         </span><br><span class="line"></span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt source               destination</span><br></pre></td></tr></table></figure>
-
-<p>查看配置规则的顺序号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -nvL -line-number</span><br><span class="line">--line-number #  显示规则的序号</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-6-iptables-filter表配置实例"><a href="#1-6-iptables-filter表配置实例" class="headerlink" title="1.6 iptables filter表配置实例"></a>1.6 iptables filter表配置实例</h2><h3 id="1-6-1-基础配置"><a href="#1-6-1-基础配置" class="headerlink" title="1.6.1 基础配置"></a>1.6.1 基础配置</h3><p><strong>配置实例一：</strong>配置22/ssh端口访问控制规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dprot 22 -j DROP     # 禁止所有人访问22端口</span><br><span class="line">iptables -I INPUT -p tcp --dprot 22 -j ACCEPT   # 恢复连接方法</span><br><span class="line">iptables -I INPUT 2 -p tcp --dprot 22 -j ACCEPT # 通过插入指定行号信息，指定将规则插入到第几行</span><br><span class="line">iptables -D INPUT -p tcp --dport 22 -j ACCEPT   # 删除指定规则</span><br><span class="line">iptables -D INPUT 2                             # 根据规则行号，删除相应的规则</span><br></pre></td></tr></table></figure>
-
-<p>只允许10.0.0.1的ip通过ssh连接这台服务器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -s 10.0.0.1 -p tcp --dport 22 -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>配置实例二：禁止网段连入（禁止172.16.1.0网段访问172.16.1.188）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT  -s 172.16.1.0&#x2F;24 -d 172.16.1.188  -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>配置实例三：禁止某个172.16.1.0网段访问服务器主机的22端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s 172.16.1.0&#x2F;24 -d 172.16.1.188  -p tcp --dport 22 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>方向说明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在入方向控制</span><br><span class="line">iptables -I INPUT -i eth0  -p tcp --dport 22 -j ACCEPT</span><br><span class="line"># 在出方向控制</span><br><span class="line">iptables -I OUTPUT -o eth0  -p tcp --sport 22 -j DROP</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止"><a href="#1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止" class="headerlink" title="1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止"></a>1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止</h3><p>  <em>第一种方式：</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -s 10.0.0.0&#x2F;24 -d 172.16.1.8  -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>   修改默认规则，将默认规则改为拒绝</p>
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination</code></pre><p>查看配置规则的顺序号</p>
+<pre><code>[root@clsn ~]# iptables -nvL -line-number
+--line-number #  显示规则的序号</code></pre><h2 id="1-6-iptables-filter表配置实例"><a href="#1-6-iptables-filter表配置实例" class="headerlink" title="1.6 iptables filter表配置实例"></a>1.6 iptables filter表配置实例</h2><h3 id="1-6-1-基础配置"><a href="#1-6-1-基础配置" class="headerlink" title="1.6.1 基础配置"></a>1.6.1 基础配置</h3><p><strong>配置实例一：</strong>配置22/ssh端口访问控制规则</p>
+<pre><code>iptables -A INPUT -p tcp --dprot 22 -j DROP     # 禁止所有人访问22端口
+iptables -I INPUT -p tcp --dprot 22 -j ACCEPT   # 恢复连接方法
+iptables -I INPUT 2 -p tcp --dprot 22 -j ACCEPT # 通过插入指定行号信息，指定将规则插入到第几行
+iptables -D INPUT -p tcp --dport 22 -j ACCEPT   # 删除指定规则
+iptables -D INPUT 2                             # 根据规则行号，删除相应的规则</code></pre><p>只允许10.0.0.1的ip通过ssh连接这台服务器</p>
+<pre><code>iptables -I INPUT -s 10.0.0.1 -p tcp --dport 22 -j ACCEPT </code></pre><p>配置实例二：禁止网段连入（禁止172.16.1.0网段访问172.16.1.188）</p>
+<pre><code>iptables -A INPUT  -s 172.16.1.0/24 -d 172.16.1.188  -j DROP</code></pre><p>配置实例三：禁止某个172.16.1.0网段访问服务器主机的22端口</p>
+<pre><code>iptables -A INPUT -s 172.16.1.0/24 -d 172.16.1.188  -p tcp --dport 22 -j DROP</code></pre><p>方向说明：</p>
+<pre><code># 在入方向控制
+iptables -I INPUT -i eth0  -p tcp --dport 22 -j ACCEPT
+# 在出方向控制
+iptables -I OUTPUT -o eth0  -p tcp --sport 22 -j DROP</code></pre><h3 id="1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止"><a href="#1-6-2-配置实例四：除10-0-0-0网段可以进行连接服务器主机意外，其余网段都禁止" class="headerlink" title="1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止"></a>1.6.2 配置实例四：除10.0.0.0网段可以进行连接服务器主机意外，其余网段都禁止</h3><p>  <em>第一种方式：</em></p>
+<pre><code>iptables -A INPUT -s 10.0.0.0/24 -d 172.16.1.8  -j ACCEPT</code></pre><p>   修改默认规则，将默认规则改为拒绝</p>
 <p><em>第二种方式：</em></p>
 <p>   ！  — 表示对规则信息进行取反</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT ! -s 10.0.0.0&#x2F;24 -d 172.16.1.8  -j DROP   --- centos6用法</span><br><span class="line">iptables -A INPUT -s ! 10.0.0.0&#x2F;24 -d 172.16.1.8  -j DROP   --- centos5用法</span><br></pre></td></tr></table></figure>
-
-<p>说明：只有iptables帮助手册中指定的参数可以用取反符号（iptables –help）</p>
-<h3 id="1-6-3-配置实例五：测试匹配列举端口范围。"><a href="#1-6-3-配置实例五：测试匹配列举端口范围。" class="headerlink" title="1.6.3 配置实例五：测试匹配列举端口范围。"></a>1.6.3 配置实例五：测试匹配列举端口范围。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --dport 22:80 -j DROP                 # 设置连续多端口控制策略</span><br><span class="line">iptables -A INPUT -p tcp -m multiport  --dport 22,80 -j DROP   # 设置不连续多端口控制策略</span><br></pre></td></tr></table></figure>
-
-<p>   -m 参数表示增加扩展匹配功能，multiport 实现不连续多端口扩展匹配</p>
+<pre><code>iptables -A INPUT ! -s 10.0.0.0/24 -d 172.16.1.8  -j DROP   --- centos6用法
+iptables -A INPUT -s ! 10.0.0.0/24 -d 172.16.1.8  -j DROP   --- centos5用法</code></pre><p>说明：只有iptables帮助手册中指定的参数可以用取反符号（iptables –help）</p>
+<h3 id="1-6-3-配置实例五：测试匹配列举端口范围。"><a href="#1-6-3-配置实例五：测试匹配列举端口范围。" class="headerlink" title="1.6.3 配置实例五：测试匹配列举端口范围。"></a>1.6.3 配置实例五：测试匹配列举端口范围。</h3><pre><code>iptables -A INPUT -p tcp --dport 22:80 -j DROP                 # 设置连续多端口控制策略
+iptables -A INPUT -p tcp -m multiport  --dport 22,80 -j DROP   # 设置不连续多端口控制策略</code></pre><p>   -m 参数表示增加扩展匹配功能，multiport 实现不连续多端口扩展匹配</p>
 <h3 id="1-6-4-配置实例六：匹配ICMP类型"><a href="#1-6-4-配置实例六：匹配ICMP类型" class="headerlink" title="1.6.4 配置实例六：匹配ICMP类型"></a>1.6.4 配置实例六：匹配ICMP类型</h3><p>   禁止ping策略原则</p>
 <p>   iptables服务器是ping命令发起者或是接受者</p>
 <p><strong>发起者：</strong></p>
 <p>input链： 禁止icmp-type 0        0 Echo Reply——回显应答（Ping应答)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp --icmp-type 0 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>output链： 禁止icmp-type 8     8 Echo request——回显请求（Ping请求）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>   <strong>接受者：</strong></p>
+<pre><code>iptables -A INPUT -i eth0 -p icmp --icmp-type 0 -j DROP</code></pre><p>output链： 禁止icmp-type 8     8 Echo request——回显请求（Ping请求）</p>
+<pre><code>iptables -A OUTPUT -o eth0 -p icmp --icmp-type 8 -j DROP</code></pre><p>   <strong>接受者：</strong></p>
 <p>input链： 禁止icmp-type 8      8 Echo request——回显请求（Ping请求）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>output链： 禁止icmp-type 0     0 Echo Reply——回显应答（Ping应答)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A OUTPUT -o eth0 -p icmp --icmp-type 0 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>简化配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p icmp -m icmp --icmp-type any -j DROP  #禁止所有类型的icmp</span><br></pre></td></tr></table></figure>
-
-<p>   指定类型禁止icmp</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -p icmp --icmp-type 8</span><br><span class="line">iptables -A INPUT -p icmp --icmp-type 8 -j DROP</span><br><span class="line">iptables -A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT</span><br><span class="line">iptables -A FORWARD -s 192.168.1.0&#x2F;24 -p icmp -m icmp --icmp-type any -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>   说明：只有类型8是真正会影响ping，或者也可以采用any；了解很多icmp类型iptables -p icmp -h</p>
+<pre><code>iptables -A INPUT -i eth0 -p icmp --icmp-type 8 -j DROP </code></pre><p>output链： 禁止icmp-type 0     0 Echo Reply——回显应答（Ping应答)</p>
+<pre><code>iptables -A OUTPUT -o eth0 -p icmp --icmp-type 0 -j DROP</code></pre><p>简化配置：</p>
+<pre><code>iptables -A INPUT -i eth0 -p icmp -m icmp --icmp-type any -j DROP  #禁止所有类型的icmp</code></pre><p>   指定类型禁止icmp</p>
+<pre><code>iptables -A INPUT -p icmp --icmp-type 8
+iptables -A INPUT -p icmp --icmp-type 8 -j DROP
+iptables -A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT
+iptables -A FORWARD -s 192.168.1.0/24 -p icmp -m icmp --icmp-type any -j ACCEPT</code></pre><p>   说明：只有类型8是真正会影响ping，或者也可以采用any；了解很多icmp类型iptables -p icmp -h</p>
 <p><strong>ICMP**</strong>类型的说明**</p>
 <table>
 <thead>
@@ -1463,23 +1455,17 @@
 </tbody></table>
 <p>注意：允许关联的状态包通过（web服务不要使用FTP服务）</p>
 <p>防火墙服务配置在FTP服务器上时，需要配置以下策略</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br></pre></td></tr></table></figure>
-
-<p>实现发现sent_syn状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -m state --state NEW -j DROP    # 防火墙所连接客户端上配置</span><br></pre></td></tr></table></figure>
-
-<p>实现发现sent_rcvd状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -i eth0 -s 10.0.0.201 -m state --state ESTABLISHED -j DROP  # 防护墙上配置的</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-6-6-使用iptables实现限速功能"><a href="#1-6-6-使用iptables实现限速功能" class="headerlink" title="1.6.6 使用iptables实现限速功能"></a>1.6.6 使用iptables实现限速功能</h3><p>limit是iptables的一个匹配模块，用它结合iptables的其它命令可以实现限速的功能。</p>
+<pre><code>iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</code></pre><p>实现发现sent_syn状态</p>
+<pre><code>iptables -A INPUT -m state --state NEW -j DROP    # 防火墙所连接客户端上配置</code></pre><p>实现发现sent_rcvd状态</p>
+<pre><code>iptables -I INPUT -i eth0 -s 10.0.0.201 -m state --state ESTABLISHED -j DROP  # 防护墙上配置的</code></pre><h3 id="1-6-6-使用iptables实现限速功能"><a href="#1-6-6-使用iptables实现限速功能" class="headerlink" title="1.6.6 使用iptables实现限速功能"></a>1.6.6 使用iptables实现限速功能</h3><p>limit是iptables的一个匹配模块，用它结合iptables的其它命令可以实现限速的功能。</p>
 <p>不过首先必须明确，limit本身只是一个“匹配”模块。我们知道，iptables的基本原理是“匹配–处理”，limit在这个工作过程中只能起到匹配的作用，它本身是无法对网络数据包进行任何处理的。我看到网上有些limit的例子里面说只 用一条包含limit匹配规则的iptables语句就可以实现限速，那是错误的。</p>
 <p>实际上，利用imit来限速需要包括两个步骤:</p>
 <p>1.对符合limit匹配规则包放行</p>
 <p>2.丢弃/拒绝未放行的包</p>
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -m limit --limit 6&#x2F;min --limit-burst 5 -j ACCEPT </span><br><span class="line">iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -j DROP</span><br></pre></td></tr></table></figure>
-
-<p>   语句含义：当来自10.0.0.7 的ping包超过5个时进行限速，限制为每10s一个。</p>
+<pre><code>iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -m limit --limit 6/min --limit-burst 5 -j ACCEPT 
+iptables -I INPUT -s 10.0.0.7 -p icmp --icmp-type 8 -j DROP</code></pre><p>   语句含义：当来自10.0.0.7 的ping包超过5个时进行限速，限制为每10s一个。</p>
 <p>参数说明：</p>
 <table>
 <thead>
@@ -1506,41 +1492,56 @@
 <p>通过令牌桶机制，即可以有效的控制单位时间内通过（匹配）的数据包数量，又可以容许短时间内突发的大量数据包的通过（只要数据包数量不超过令牌桶n）。</p>
 <p>limit模块提供了两个参数–limit和–limit-burst，分别对应于令牌产生速率和令牌桶容量。除了令牌桶模型外，limit匹配的另外一个重要概念是匹配项。在limit中，每个匹配项拥有一个单独的令牌桶，执行独立的匹配计算。</p>
 <h3 id="1-6-7防火墙配置"><a href="#1-6-7防火墙配置" class="headerlink" title="1.6.7防火墙配置"></a>1.6.7防火墙配置</h3><p>清除防火墙规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -F</span><br><span class="line">[root@clsn ~]# iptables -X</span><br><span class="line">[root@clsn ~]# iptables -Z</span><br></pre></td></tr></table></figure>
+<pre><code>[root@clsn ~]# iptables -F
+[root@clsn ~]# iptables -X
+[root@clsn ~]# iptables -Z</code></pre><p>修改默认规则为拒绝（修改前先放行22端口，保证自己能够连上主机）</p>
+<pre><code>[root@clsn ~]# iptables -A INPUT -p tcp --dport  22 -j ACCEPT
+[root@clsn ~]# iptables -P INPUT DROP 
+[root@clsn ~]# iptables -P FORWARD DROP</code></pre><p>放行指定的端口</p>
+<pre><code>[root@clsn ~]# iptables -A INPUT -i lo -j ACCEPT
+[root@clsn ~]# iptables -A INPUT  -p tcp  -m multiport --dport  80,443 -j ACCEPT 
+[root@clsn ~]# iptables -A INPUT -s 172.16.1.0/24 -j ACCEPT
+[root@clsn ~]# iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-<p>修改默认规则为拒绝（修改前先放行22端口，保证自己能够连上主机）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -A INPUT -p tcp --dport  22 -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -P INPUT DROP </span><br><span class="line">[root@clsn ~]# iptables -P FORWARD DROP</span><br></pre></td></tr></table></figure>
-
-<p>放行指定的端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -A INPUT  -p tcp  -m multiport --dport  80,443 -j ACCEPT </span><br><span class="line">[root@clsn ~]# iptables -A INPUT -s 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line">[root@clsn ~]# iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line"></span><br><span class="line">#multiport多个不连续   21:25,80,443</span><br></pre></td></tr></table></figure>
-
-<p><strong>保存iptables**</strong>配置**</p>
+#multiport多个不连续   21:25,80,443</code></pre><p><strong>保存iptables**</strong>配置**</p>
 <p>\01. 第一种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# &#x2F;etc&#x2F;init.d&#x2F;iptables save</span><br><span class="line">iptables: Saving firewall rules to &#x2F;etc&#x2F;sysconfig&#x2F;iptables:[  OK  ]</span><br><span class="line">[root@clsn ~]# cat &#x2F;etc&#x2F;sysconfig&#x2F;iptables</span><br><span class="line"># Generated by iptables-save v1.4.7 on Tue Apr  4 12:24:43 2017</span><br><span class="line">*filter</span><br><span class="line">:INPUT DROP [0:0]</span><br><span class="line">:FORWARD DROP [0:0]</span><br><span class="line">:OUTPUT ACCEPT [159:10664]</span><br><span class="line">-A INPUT -s 10.0.0.0&#x2F;24 -j ACCEPT </span><br><span class="line">-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT </span><br><span class="line">-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT </span><br><span class="line">-A INPUT -s 172.16.1.0&#x2F;24 -j ACCEPT </span><br><span class="line">-A INPUT -i lo -j ACCEPT </span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT </span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Tue Apr  4 12:24:43 2017</span><br></pre></td></tr></table></figure>
-
-<p>\02. 第二种方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt;&#x2F;etc&#x2F;sysconfig&#x2F;iptables</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-7-iptables-nat表配置实例-理论"><a href="#1-7-iptables-nat表配置实例-理论" class="headerlink" title="1.7 iptables nat表配置实例(理论)"></a>1.7 iptables nat表配置实例(理论)</h2><p>(理论掌握)</p>
+<pre><code>[root@clsn ~]# /etc/init.d/iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+[root@clsn ~]# cat /etc/sysconfig/iptables
+# Generated by iptables-save v1.4.7 on Tue Apr  4 12:24:43 2017
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [159:10664]
+-A INPUT -s 10.0.0.0/24 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT 
+-A INPUT -s 172.16.1.0/24 -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
+COMMIT
+# Completed on Tue Apr  4 12:24:43 2017</code></pre><p>\02. 第二种方式</p>
+<pre><code>iptables-save &gt;/etc/sysconfig/iptables</code></pre><h2 id="1-7-iptables-nat表配置实例-理论"><a href="#1-7-iptables-nat表配置实例-理论" class="headerlink" title="1.7 iptables nat表配置实例(理论)"></a>1.7 iptables nat表配置实例(理论)</h2><p>(理论掌握)</p>
 <h3 id="1-7-1-iptables实现共享上网"><a href="#1-7-1-iptables实现共享上网" class="headerlink" title="1.7.1 iptables实现共享上网"></a>1.7.1 iptables实现共享上网</h3><p> <img src="https://s1.ax1x.com/2020/04/26/JRuF58.png" alt="JRuF58.png"></p>
 <p>图 - SNAT 配置原理图</p>
 <p>第一个里程碑：配置内网服务器，设置网关地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;iptables stop      # 内网服务器停止防火墙服务</span><br><span class="line">ifdown eth0                    # 模拟关闭内网服务器外网网卡</span><br><span class="line">setup                          # 修改内网网卡网关和DNS地址信息</span><br></pre></td></tr></table></figure>
-
-<p>也可以使用命令添加默认网关</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw 172.16.1.188</span><br></pre></td></tr></table></figure>
-
-<p>查看默认的路由信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@test ~]# route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 eth1</span><br><span class="line">169.254.0.0     0.0.0.0         255.255.0.0     U     1003   0        0 eth1</span><br><span class="line">0.0.0.0         172.16.1.188    0.0.0.0         UG    0      0        0 eth1</span><br></pre></td></tr></table></figure>
-
-<p>说明：内网服务器网关地址指定为共享上网服务器内网网卡地址</p>
+<pre><code>/etc/init.d/iptables stop      # 内网服务器停止防火墙服务
+ifdown eth0                    # 模拟关闭内网服务器外网网卡
+setup                          # 修改内网网卡网关和DNS地址信息</code></pre><p>也可以使用命令添加默认网关</p>
+<pre><code>route add default gw 172.16.1.188</code></pre><p>查看默认的路由信息</p>
+<pre><code>[root@test ~]# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 eth1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1003   0        0 eth1
+0.0.0.0         172.16.1.188    0.0.0.0         UG    0      0        0 eth1</code></pre><p>说明：内网服务器网关地址指定为共享上网服务器内网网卡地址</p>
 <p>第二个里程碑：配置共享上网服务器，开启共享上网服务器路由转发功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@clsn ~]# vim &#x2F;etc&#x2F;sysctl.conf </span><br><span class="line">[root@clsn ~]# sysctl -p</span><br><span class="line">~~~</span><br><span class="line">net.ipv4.ip_forward &#x3D; 1</span><br><span class="line">~~~</span><br></pre></td></tr></table></figure>
-
-<p>第三个里程碑：配置共享上网服务器，实现内网访问外网的NAT映射</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.1.0&#x2F;24 -o eth0 -j SNAT --to-source 10.0.0.188</span><br></pre></td></tr></table></figure>
-
-<p>参数详解：</p>
+<pre><code>[root@clsn ~]# vim /etc/sysctl.conf 
+[root@clsn ~]# sysctl -p
+~~~
+net.ipv4.ip_forward = 1
+~~~</code></pre><p>第三个里程碑：配置共享上网服务器，实现内网访问外网的NAT映射</p>
+<pre><code>iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -o eth0 -j SNAT --to-source 10.0.0.188</code></pre><p>参数详解：</p>
 <table>
 <thead>
 <tr>
@@ -1577,12 +1578,11 @@
 <p> <img src="https://s1.ax1x.com/2020/04/26/JRuubq.png" alt="JRuubq.png"></p>
 <p>图 - forward工作原理</p>
 <p>   <strong>配置示例</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -A FORWARD -i eth1 -s 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line"># iptables -A FORWARD -o eth0 -s 172.16.1.0&#x2F;24 -j ACCEPT  # 可以不进行配置</span><br><span class="line">iptables -A FORWARD -i eth0 -d 172.16.1.0&#x2F;24 -j ACCEPT</span><br><span class="line"># iptables -A FORWARD -o eth1 -d 172.16.1.0&#x2F;24 -j ACCEPT   # 可以不进行配置</span><br></pre></td></tr></table></figure>
-
-<p>当外网ip不固定时如何配置？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 172.16.1.0&#x2F;24 -o eth0 -j MASQUERADE   # 伪装共享上网</span><br></pre></td></tr></table></figure>
-
-<p>说明：在工作中如何没有固定外网IP地址，可以采取以上伪装映射的方式进行共享上网</p>
+<pre><code>iptables -A FORWARD -i eth1 -s 172.16.1.0/24 -j ACCEPT
+# iptables -A FORWARD -o eth0 -s 172.16.1.0/24 -j ACCEPT  # 可以不进行配置
+iptables -A FORWARD -i eth0 -d 172.16.1.0/24 -j ACCEPT
+# iptables -A FORWARD -o eth1 -d 172.16.1.0/24 -j ACCEPT   # 可以不进行配置</code></pre><p>当外网ip不固定时如何配置？</p>
+<pre><code>iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -o eth0 -j MASQUERADE   # 伪装共享上网</code></pre><p>说明：在工作中如何没有固定外网IP地址，可以采取以上伪装映射的方式进行共享上网</p>
 <p><strong>配置映射方法小结</strong></p>
 <blockquote>
 <p> \01. 指定哪些网段需要进行映射     -s 172.16.1.0/24</p>
@@ -1593,9 +1593,7 @@
 <h3 id="1-7-2-iptables实现外网IP的端口映射到内网IP的端口"><a href="#1-7-2-iptables实现外网IP的端口映射到内网IP的端口" class="headerlink" title="1.7.2 iptables实现外网IP的端口映射到内网IP的端口"></a>1.7.2 iptables实现外网IP的端口映射到内网IP的端口</h3><p>实际需求：将网关的IP和9000端口映射到内网服务器的22端口</p>
 <p>端口映射 10.0.0.188:9000 –&gt;172.16.1.180:22</p>
 <p>配置实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -d 10.0.0.188 -p tcp --dport 9000 -i eth0 -j DNAT --to-destination 172.16.1.7:22</span><br></pre></td></tr></table></figure>
-
-<p>参数说明:</p>
+<pre><code>iptables -t nat -A PREROUTING -d 10.0.0.188 -p tcp --dport 9000 -i eth0 -j DNAT --to-destination 172.16.1.7:22</code></pre><p>参数说明:</p>
 <table>
 <thead>
 <tr>
@@ -1616,53 +1614,55 @@
 <p>图 - DNAT 映射原理</p>
 <p>   实际需求：将ip 地址172.16.1.180 映射到10.0.0.188</p>
 <p>通过辅助IP配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip addr add 10.0.0.81&#x2F;24 dev eth0 label eth0:0   # 添加辅助IP</span><br><span class="line">iptables  -t nat -I PREROUTING -d 10.0.0.81 -j DNAT --to-destination 172.16.1.51</span><br><span class="line">iptables  -t nat -I POSTROUTING -s 172.16.1.51 -o eth0 -j SNAT --to-source 10.0.0.81</span><br></pre></td></tr></table></figure>
-
-<p>适合内网的机器访问NAT外网的IP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables  -t nat -I POSTROUTING -s 172.16.1.0&#x2F;255.255.240.0 -d 10.0.0.81 -j SNAT --to-source 172.16.1.8</span><br></pre></td></tr></table></figure>
-
-<p>检查配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ping 10.0.0.81 -t</span><br><span class="line">tcpdump|grep -i icmp（两台机器上分别监测）</span><br><span class="line">telnet 10.0.0.81 22</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-7-4-映射多个外网IP上网"><a href="#1-7-4-映射多个外网IP上网" class="headerlink" title="1.7.4 映射多个外网IP上网"></a>1.7.4 映射多个外网IP上网</h3><p>   方法1：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 10.0.1.0&#x2F;255.255.240.0 -o eth0 -j SNAT --to-source 124.42.60.11-124.42.60.16</span><br></pre></td></tr></table></figure>
-
-<p>​      在三层交换机或路由器，划分VLAN。</p>
+<pre><code>ip addr add 10.0.0.81/24 dev eth0 label eth0:0   # 添加辅助IP
+iptables  -t nat -I PREROUTING -d 10.0.0.81 -j DNAT --to-destination 172.16.1.51
+iptables  -t nat -I POSTROUTING -s 172.16.1.51 -o eth0 -j SNAT --to-source 10.0.0.81</code></pre><p>适合内网的机器访问NAT外网的IP</p>
+<pre><code>iptables  -t nat -I POSTROUTING -s 172.16.1.0/255.255.240.0 -d 10.0.0.81 -j SNAT --to-source 172.16.1.8</code></pre><p>检查配置：</p>
+<pre><code>ping 10.0.0.81 -t
+tcpdump|grep -i icmp（两台机器上分别监测）
+telnet 10.0.0.81 22</code></pre><h3 id="1-7-4-映射多个外网IP上网"><a href="#1-7-4-映射多个外网IP上网" class="headerlink" title="1.7.4 映射多个外网IP上网"></a>1.7.4 映射多个外网IP上网</h3><p>   方法1：</p>
+<pre><code>iptables -t nat -A POSTROUTING -s 10.0.1.0/255.255.240.0 -o eth0 -j SNAT --to-source 124.42.60.11-124.42.60.16</code></pre><p>​      在三层交换机或路由器，划分VLAN。</p>
 <p>   方法2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 10.0.1.0&#x2F;22 -o eth0 -j SNAT --to-source 124.42.60.11</span><br><span class="line">iptables -t nat -A POSTROUTING -s 10.0.2.0&#x2F;22 -o eth0 -j SNAT --to-source 124.42.60.12</span><br></pre></td></tr></table></figure>
-
-<p>​      扩大子网，会增加广播风暴。</p>
+<pre><code>iptables -t nat -A POSTROUTING -s 10.0.1.0/22 -o eth0 -j SNAT --to-source 124.42.60.11
+iptables -t nat -A POSTROUTING -s 10.0.2.0/22 -o eth0 -j SNAT --to-source 124.42.60.12</code></pre><p>​      扩大子网，会增加广播风暴。</p>
 <h3 id="1-7-5-系统防火墙与网络内核优化标准参数"><a href="#1-7-5-系统防火墙与网络内核优化标准参数" class="headerlink" title="1.7.5 系统防火墙与网络内核优化标准参数"></a>1.7.5 系统防火墙与网络内核优化标准参数</h3><p>有关iptables的内核优化</p>
 <p>调整内核参数文件/etc/sysctl.conf</p>
 <p>以下是我的生产环境的某个服务器的配置：</p>
 <p><strong>解决time-wait**</strong>过多**的解决办法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_fin_timeout &#x3D; 2</span><br><span class="line">net.ipv4.tcp_tw_reuse &#x3D; 1</span><br><span class="line">net.ipv4.tcp_tw_recycle &#x3D; 1</span><br><span class="line">net.ipv4.tcp_syncookies &#x3D; 1</span><br><span class="line">net.ipv4.tcp_keepalive_time &#x3D; 600</span><br><span class="line">net.ipv4.tcp_max_tw_buckets &#x3D; 36000</span><br><span class="line">net.ipv4.ip_local_port_range &#x3D; 4000  65000</span><br><span class="line">net.ipv4.tcp_max_syn_backlog &#x3D; 16384</span><br><span class="line">net.ipv4.route.gc_timeout &#x3D; 100</span><br><span class="line">net.ipv4.tcp_syn_retries &#x3D; 1</span><br><span class="line">net.ipv4.tcp_synack_retries &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-<p>在dmesg中显示  ip_conntrack: table full, dropping packet. 的错误提示，什么原因？</p>
+<pre><code>net.ipv4.tcp_fin_timeout = 2
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.tcp_max_tw_buckets = 36000
+net.ipv4.ip_local_port_range = 4000  65000
+net.ipv4.tcp_max_syn_backlog = 16384
+net.ipv4.route.gc_timeout = 100
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_synack_retries = 1</code></pre><p>在dmesg中显示  ip_conntrack: table full, dropping packet. 的错误提示，什么原因？</p>
 <p>如何解决？</p>
 <p>   #iptables优化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">net.nf_conntrack_max &#x3D; 25000000</span><br><span class="line">net.netfilter.nf_conntrack_max &#x3D; 25000000</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_established &#x3D; 180</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_time_wait &#x3D; 120</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_close_wait &#x3D; 60</span><br><span class="line">net.netfilter.nf_conntrack_tcp_timeout_fin_wait &#x3D; 120</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-8-自定义链的配置-了解"><a href="#1-8-自定义链的配置-了解" class="headerlink" title="1.8 自定义链的配置(了解)"></a>1.8 自定义链的配置(了解)</h2><p> <img src="https://s1.ax1x.com/2020/04/26/JRuG24.png" alt="JRuG24.png"></p>
+<pre><code>net.nf_conntrack_max = 25000000
+net.netfilter.nf_conntrack_max = 25000000
+net.netfilter.nf_conntrack_tcp_timeout_established = 180
+net.netfilter.nf_conntrack_tcp_timeout_time_wait = 120
+net.netfilter.nf_conntrack_tcp_timeout_close_wait = 60
+net.netfilter.nf_conntrack_tcp_timeout_fin_wait = 120</code></pre><h2 id="1-8-自定义链的配置-了解"><a href="#1-8-自定义链的配置-了解" class="headerlink" title="1.8 自定义链的配置(了解)"></a>1.8 自定义链的配置(了解)</h2><p> <img src="https://s1.ax1x.com/2020/04/26/JRuG24.png" alt="JRuG24.png"></p>
 <p>图 - 自定义链原理</p>
 <p>创建自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：在filter表中创建NOICMP自定义链</span><br><span class="line">iptables -t filter -N NOICMP</span><br></pre></td></tr></table></figure>
-
-<p>引用自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：在INPUT链中引用刚才创建的自定义链</span><br><span class="line">iptables -t filter -I INPUT -p icmp  -j NOICMP</span><br></pre></td></tr></table></figure>
-
-<p>重命名自定义链</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#示例：将IN_WEB自定义链重命名为WEB</span><br><span class="line">iptables -E NOICMP ACCEPTICMP</span><br></pre></td></tr></table></figure>
-
-<p>删除自定义链</p>
+<pre><code>#示例：在filter表中创建NOICMP自定义链
+iptables -t filter -N NOICMP</code></pre><p>引用自定义链</p>
+<pre><code>#示例：在INPUT链中引用刚才创建的自定义链
+iptables -t filter -I INPUT -p icmp  -j NOICMP</code></pre><p>重命名自定义链</p>
+<pre><code>#示例：将IN_WEB自定义链重命名为WEB
+iptables -E NOICMP ACCEPTICMP</code></pre><p>删除自定义链</p>
 <blockquote>
 <p> 删除自定义链需要满足两个条件</p>
 <p> 　　1、自定义链没有被引用</p>
 <p> 　　2、自定义链中没有任何规则</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 示例： 删除引用数为0且不包含任何规则的ACCEPTICMP链</span><br><span class="line">iptables -X ACCEPTICMP</span><br></pre></td></tr></table></figure>
-
-<h2 id="1-9-附录-防火墙状态机制"><a href="#1-9-附录-防火墙状态机制" class="headerlink" title="1.9 附录-防火墙状态机制"></a>1.9 附录-防火墙状态机制</h2><p>状态机制是iptables中较为特殊的一部分，这也是iptables和比较老的ipchains的一个比较大的区別之一，运行状态机制（连接跟踪）的防火墙称作带有状态机制的防火墙，以下简称为状态防火墙.状态防火墙比非状态防火墙要安全，因为它允许我们编写更严密的规则。</p>
+<pre><code># 示例： 删除引用数为0且不包含任何规则的ACCEPTICMP链
+iptables -X ACCEPTICMP</code></pre><h2 id="1-9-附录-防火墙状态机制"><a href="#1-9-附录-防火墙状态机制" class="headerlink" title="1.9 附录-防火墙状态机制"></a>1.9 附录-防火墙状态机制</h2><p>状态机制是iptables中较为特殊的一部分，这也是iptables和比较老的ipchains的一个比较大的区別之一，运行状态机制（连接跟踪）的防火墙称作带有状态机制的防火墙，以下简称为状态防火墙.状态防火墙比非状态防火墙要安全，因为它允许我们编写更严密的规则。</p>
 <p>在iptables上一共有四种状态，分别被称为NEW、ESTABLISHED、INVALID、RELATED,这四种状态对于TCP、UDP、ICMP三种协议均有效。下面，我们来分别阐述四种状态的特性.</p>
 <p><strong>🔔 NEW</strong></p>
 <p>meaning that the packet has started a new connection, or otherwise associated with a connection which has not seen packets in both directions</p>
@@ -1689,12 +1689,11 @@
 <p> 05、测试环境测试好，写成脚本，批置执行</p>
 </blockquote>
 <p>配置禁用22端口策略:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp - dport 22 -j DROP</span><br><span class="line"># 说明：利用-I参数，实现强行阻止访问22端口，将Jffc规则放在第一位</span><br></pre></td></tr></table></figure>
-
-<p>删除配置的禁止连接22端口的规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -D INPUT -p tcp —dport 22 -j DROP</span><br><span class="line">iptables -F</span><br><span class="line">&#x2F;etc&#x2F;init.d&#x2F;iptables restart</span><br></pre></td></tr></table></figure>
-
-<p> 1.10 参考文献</p>
+<pre><code>iptables -I INPUT -p tcp - dport 22 -j DROP
+# 说明：利用-I参数，实现强行阻止访问22端口，将Jffc规则放在第一位</code></pre><p>删除配置的禁止连接22端口的规则</p>
+<pre><code>iptables -t filter -D INPUT -p tcp —dport 22 -j DROP
+iptables -F
+/etc/init.d/iptables restart</code></pre><p> 1.10 参考文献</p>
 <blockquote>
 <p> [1]  <a href="http://www.aichengxu.com/linux/3122717.htm" target="_blank" rel="noopener">http://www.aichengxu.com/linux/3122717.htm</a></p>
 <p> [2]  <a href="http://blog.csdn.net/huguohu2006/article/details/6453522" target="_blank" rel="noopener">http://blog.csdn.net/huguohu2006/article/details/6453522</a></p>
@@ -1704,9 +1703,100 @@
 <p> [6]  <a href="http://blog.sina.com.cn/s/blog_773d9b6701018rwo.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_773d9b6701018rwo.html</a></p>
 <p> [7]  <a href="http://www.zsythink.net/archives/1625" target="_blank" rel="noopener">http://www.zsythink.net/archives/1625</a></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"># iptables  -t  表名  动作(命令)   链名   匹配条件  -j  目标动作       </span><br><span class="line"> </span><br><span class="line"> -t 表名  raw mangle nat filter  （如果不写-t 默认使用filter表）</span><br><span class="line"> 链名(各表对应的链)</span><br><span class="line">raw(PROROUTING、OUPUT)</span><br><span class="line">mangle(PROROUTING、FORWARD、OUTPUT、POSTROUTING)</span><br><span class="line">nat(PREROUTING、INPUT、FORWARD、OUTPUT、POSTROUING)</span><br><span class="line">filter(INPUT、FORWARD、OUTPUT)    </span><br><span class="line">   </span><br><span class="line">  动作(官方叫命令)：</span><br><span class="line">-A  添加规则：  (append追加)</span><br><span class="line">  # iptables -t filter -A INPUT -p icmp -j REJECT(拒绝)     &#x2F;&#x2F;拒绝所有的icmp，即任何人不能ping同你</span><br><span class="line"> </span><br><span class="line">   # iptables -t filter -A INPUT -p tcp --dport 22 -s 10.18.44.158  -j REJECT    拒绝源地址10.18.44.158的tcp协议的22端口   </span><br><span class="line">    </span><br><span class="line">-I 插入规则  ：</span><br><span class="line">     #   iptables -t filter -I INPUT 2  -p tcp --dport 22 -s 10.18.44.171  -j REJECT   &#x2F;&#x2F;INPUT不加数字默认是第一行，数字代表插入到哪一行前边</span><br><span class="line">-R 替换规则：</span><br><span class="line">      #  iptables -t filter -R INPUT 1 -p tcp --dport 22 -s 10.18.44.181  -j REJECT    &#x2F;&#x2F;替换的时候 INPUT必须跟上行号</span><br><span class="line">-D 删除规则</span><br><span class="line">      #  iptables -t filter -D INPUT -p icmp -j REJECT</span><br><span class="line">      #  iptables -D INPUT 2</span><br><span class="line">-P 修改默认策略：只能使用DROP和ACCEPT</span><br><span class="line">       #  iptables -P INPUT DROP  </span><br><span class="line">       #  iptables -P INPUT ACCEPT</span><br><span class="line"> -N 添加自定义链  </span><br><span class="line">        #iptables -N tiger</span><br><span class="line">        #iptables -A tiger -p tcp --dport 22 -s 10.18.44.208 -j REJECT</span><br><span class="line">        </span><br><span class="line">     存储规则   </span><br><span class="line">      自定义链里的规则在没有被调用的情况下不生效</span><br><span class="line"> </span><br><span class="line"> 使用自定义链(关联自定义链)</span><br><span class="line"> #iptables -A INPUT -j tiger</span><br><span class="line"> </span><br><span class="line"> 修改自定义链名称</span><br><span class="line">  #iptables -E tiger TIGER</span><br><span class="line"></span><br><span class="line">删掉自定义链：</span><br><span class="line">    1.不能被关联</span><br><span class="line">    2.必须是空链</span><br><span class="line">     #iptables  -X  链名</span><br><span class="line"></span><br><span class="line">-F  清空规则</span><br><span class="line">     # iptables  -F 链名             &#x2F;&#x2F;指定链的所有规则</span><br><span class="line">     #iptables -F                     &#x2F;&#x2F;所有的规则</span><br><span class="line">-Z  计数清零</span><br><span class="line">      字节数  </span><br><span class="line">      数据包个数</span><br><span class="line">      #iptables -Z                          &#x2F;&#x2F;喜爱嗯看到计数用#iptables -L -n -v   (v可有号多个)</span><br><span class="line">        </span><br><span class="line">-L  查看规则  -n以数字的形式显示ip和端口协议 --line 显示规则行号  -v流量计数(verbose 数据包的计数)</span><br><span class="line">  #iptables  -L </span><br><span class="line">  #iptables  -L -n</span><br><span class="line">  #iptables -L -n --line  </span><br><span class="line">  #iptables  -L -n   -v                       </span><br><span class="line"></span><br><span class="line">匹配条件：</span><br><span class="line">基本匹配</span><br><span class="line">    在使用协议的时候不必非得写端口，但是使用端口是必须跟协议</span><br><span class="line">    协议                          &#x2F;etc&#x2F;protocols  ---icmp协议簇    &#x2F;etc&#x2F;servers --TCP&#x2F;IP协议簇</span><br><span class="line">        -p</span><br><span class="line">            tcp udp  icmp  </span><br><span class="line">         -ptcp</span><br><span class="line">    端口                          </span><br><span class="line">        --sport    &#x2F;&#x2F;源端口</span><br><span class="line">                 # iptables -A INPUT -p tcp --sport 22 -s 10.18.44.208 -j REJECT          </span><br><span class="line">                  # iptables _A INPUT -p tcp --sport 22:30 -s 10.18.44.208,10.18.44.209,10.18.44.210 -j REJECT     </span><br><span class="line">         --dport    &#x2F;&#x2F;目标端口</span><br><span class="line">                # iptables -A INPUT -p tcp --dport 22 -s 10.18.44.208 -j REJECT</span><br><span class="line">        </span><br><span class="line">    ip</span><br><span class="line">          -s  </span><br><span class="line">                #iptables -A INPUT -p tcp --dport 20:30 -s 10.18.44.208&#x2F;24 -j REJECT   &#x2F;&#x2F; 在iptables中  10.18.44.208&#x2F;24  其实是10.18.44.0&#x2F;24</span><br><span class="line">          -d</span><br></pre></td></tr></table></figure>
+<pre><code># iptables  -t  表名  动作(命令)   链名   匹配条件  -j  目标动作       
 
+ -t 表名  raw mangle nat filter  （如果不写-t 默认使用filter表）
+ 链名(各表对应的链)
+raw(PROROUTING、OUPUT)
+mangle(PROROUTING、FORWARD、OUTPUT、POSTROUTING)
+nat(PREROUTING、INPUT、FORWARD、OUTPUT、POSTROUING)
+filter(INPUT、FORWARD、OUTPUT)    
 
+  动作(官方叫命令)：
+-A  添加规则：  (append追加)
+  # iptables -t filter -A INPUT -p icmp -j REJECT(拒绝)     //拒绝所有的icmp，即任何人不能ping同你
+
+   # iptables -t filter -A INPUT -p tcp --dport 22 -s 10.18.44.158  -j REJECT    拒绝源地址10.18.44.158的tcp协议的22端口   
+
+-I 插入规则  ：
+     #   iptables -t filter -I INPUT 2  -p tcp --dport 22 -s 10.18.44.171  -j REJECT   //INPUT不加数字默认是第一行，数字代表插入到哪一行前边
+-R 替换规则：
+      #  iptables -t filter -R INPUT 1 -p tcp --dport 22 -s 10.18.44.181  -j REJECT    //替换的时候 INPUT必须跟上行号
+-D 删除规则
+      #  iptables -t filter -D INPUT -p icmp -j REJECT
+      #  iptables -D INPUT 2
+-P 修改默认策略：只能使用DROP和ACCEPT
+       #  iptables -P INPUT DROP  
+       #  iptables -P INPUT ACCEPT
+ -N 添加自定义链  
+        #iptables -N tiger
+        #iptables -A tiger -p tcp --dport 22 -s 10.18.44.208 -j REJECT
+
+     存储规则   
+      自定义链里的规则在没有被调用的情况下不生效
+
+ 使用自定义链(关联自定义链)
+ #iptables -A INPUT -j tiger
+
+ 修改自定义链名称
+  #iptables -E tiger TIGER
+
+删掉自定义链：
+    1.不能被关联
+    2.必须是空链
+     #iptables  -X  链名
+
+-F  清空规则
+     # iptables  -F 链名             //指定链的所有规则
+     #iptables -F                     //所有的规则
+-Z  计数清零
+      字节数  
+      数据包个数
+      #iptables -Z                          //喜爱嗯看到计数用#iptables -L -n -v   (v可有号多个)
+
+-L  查看规则  -n以数字的形式显示ip和端口协议 --line 显示规则行号  -v流量计数(verbose 数据包的计数)
+  #iptables  -L 
+  #iptables  -L -n
+  #iptables -L -n --line  
+  #iptables  -L -n   -v                       
+
+匹配条件：
+基本匹配
+    在使用协议的时候不必非得写端口，但是使用端口是必须跟协议
+    协议                          /etc/protocols  ---icmp协议簇    /etc/servers --TCP/IP协议簇
+        -p
+            tcp udp  icmp  
+         -ptcp
+    端口                          
+        --sport    //源端口
+                 # iptables -A INPUT -p tcp --sport 22 -s 10.18.44.208 -j REJECT          
+                  # iptables _A INPUT -p tcp --sport 22:30 -s 10.18.44.208,10.18.44.209,10.18.44.210 -j REJECT     
+         --dport    //目标端口
+                # iptables -A INPUT -p tcp --dport 22 -s 10.18.44.208 -j REJECT
+
+    ip
+          -s  
+                #iptables -A INPUT -p tcp --dport 20:30 -s 10.18.44.208/24 -j REJECT   // 在iptables中  10.18.44.208/24  其实是10.18.44.0/24
+          -d
+</code></pre><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -1781,10 +1871,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -1922,6 +2015,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-02-28T00-12-16',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Thu Feb 28 2019 00:12:16 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -2010,7 +2157,10 @@ nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c+
                             
 
 redis
-redis简介123456789101112131415161718192021什么是redisREmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-va
+redis简介什么是redis
+REmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。
+
+Redis是一个开源的使用ANSI C语言编
                         
                     </div>
                     <div class="publish-info">
@@ -2179,7 +2329,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -2207,13 +2357,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -2223,7 +2373,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -2305,6 +2455,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

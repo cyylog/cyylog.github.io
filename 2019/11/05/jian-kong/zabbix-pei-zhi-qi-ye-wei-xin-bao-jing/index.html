@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -571,17 +571,106 @@
 <p><img src="https://s1.ax1x.com/2020/04/24/J0OyZ9.png" alt="J0OyZ9.png"></p>
 <p><img src="https://s1.ax1x.com/2020/04/24/J0O2Px.png" alt="J0O2Px.png"></p>
 <h3 id="二、调用的shell脚本方式，脚本如下："><a href="#二、调用的shell脚本方式，脚本如下：" class="headerlink" title="二、调用的shell脚本方式，脚本如下："></a>二、调用的shell脚本方式，脚本如下：</h3><h5 id="这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。"><a href="#这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。" class="headerlink" title="这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。"></a>这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0O7dA.png" alt="J0O7dA.png"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">[root@cyy alertscripts]# vim wechat.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env bash</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Author: cyylog</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Email: cyylog@aliyun.com</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Date: 2019/09/25</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Github:	https://github.com/cyylog</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Usage:	Wechat alert script <span class="keyword">for</span> zabbix</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> </span></span><br><span class="line"></span><br><span class="line">if [ $# -eq 0 ] || [[ "$1" == "-h" || "$1" == "--help" ]];then</span><br><span class="line">        echo "Usage of $0:"</span><br><span class="line">        echo -e " --CorpID=string"</span><br><span class="line">        echo -e " --Secret=string"</span><br><span class="line">        echo -e " --AgentID=string"</span><br><span class="line">        echo -e " --UserID=string"</span><br><span class="line">        echo -e " --Msg=string"</span><br><span class="line">        exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">ops=(-c -s -a -u)</span></span><br><span class="line"><span class="meta">#</span><span class="bash">args=(CorpID Secret AgentID UserID)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="keyword">while</span> [ <span class="variable">$#</span> -gt 0 ];<span class="keyword">do</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    [ <span class="string">"<span class="variable">$1</span>"</span> == <span class="string">"-m"</span> ] &amp;&amp; Msg=<span class="string">"<span class="variable">$2</span>"</span> &amp;&amp; <span class="built_in">shift</span> 2</span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..3&#125;;<span class="keyword">do</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">        [ <span class="string">"<span class="variable">$1</span>"</span> == <span class="string">"<span class="variable">$&#123;ops[i]&#125;</span>"</span> ] &amp;&amp;  <span class="built_in">eval</span> <span class="variable">$&#123;args[i]&#125;</span>=<span class="string">"<span class="variable">$2</span>"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="keyword">done</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">    <span class="built_in">shift</span> 2</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="keyword">done</span></span></span><br><span class="line">for i in "$@";do</span><br><span class="line">        echo $i|grep Msg &amp;&gt; /dev/null &amp;&amp; msg=$(echo $i|sed 's/.*=//') &amp;&amp; Msg="$msg" &amp;&amp; continue</span><br><span class="line">        eval "$(echo $i|sed 's/--//')"</span><br><span class="line">done</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="variable">$CorpID</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="variable">$Secret</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="variable">$UserID</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="variable">$AgentID</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">echo</span> <span class="variable">$Msg</span></span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line">GURL="https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$CorpID&amp;corpsecret=$Secret"</span><br><span class="line">Token=$(/usr/bin/curl -s -G $GURL |awk -F \" '&#123;print $10&#125;')</span><br><span class="line">PURL="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$Token"</span><br><span class="line">Info()&#123;</span><br><span class="line">        printf '&#123;\n'</span><br><span class="line">        printf '\t"touser": "'"$UserID"\"",\n"</span><br><span class="line">        printf '\t"msgtype": "text",\n'</span><br><span class="line">        printf '\t"agentid": "'"$AgentID"\"",\n"</span><br><span class="line">        printf '\t"text": &#123;\n'</span><br><span class="line">        printf '\t\t"content": "'"$Msg"\""\n"</span><br><span class="line">        printf '\t&#125;,\n'</span><br><span class="line">        printf '\t"safe":"0"\n'</span><br><span class="line">        printf '&#125;\n'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/usr/bin/curl --data-ascii "$(Info)" $PURL</span><br><span class="line">echo</span><br><span class="line"></span><br><span class="line">           </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@cyy alertscripts]# chmod +x wechat.sh</span><br><span class="line"></span><br><span class="line">[root@cyy alertscripts]# ./wechat.sh  "这里一个测试"     //可以这样直接调试，然后登陆到企业微信查看该部门的群成员是否收到此信息</span><br><span class="line"></span><br><span class="line">脚本测试通过后就是在zabbix控制台上设置了</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">[root@cyy alertscripts]# vim wechat.sh
+
+
+#!/usr/bin/env bash
+#!/usr/bin/env bash
+#
+# Author: cyylog
+# Email: cyylog@aliyun.com
+# Date: 2019/09/25
+# Github:    https://github.com/cyylog
+# Usage:    Wechat alert script for zabbix
+# 
+
+if [ $# -eq 0 ] || [[ "$1" == "-h" || "$1" == "--help" ]];then
+        echo "Usage of $0:"
+        echo -e " --CorpID=string"
+        echo -e " --Secret=string"
+        echo -e " --AgentID=string"
+        echo -e " --UserID=string"
+        echo -e " --Msg=string"
+        exit
+fi
+
+#ops=(-c -s -a -u)
+#args=(CorpID Secret AgentID UserID)
+#while [ $# -gt 0 ];do
+#    [ "$1" == "-m" ] && Msg="$2" && shift 2
+#    for i in {0..3};do
+#        [ "$1" == "${ops[i]}" ] &&  eval ${args[i]}="$2"
+#    done
+#    shift 2
+#done
+for i in "$@";do
+        echo $i|grep Msg &> /dev/null && msg=$(echo $i|sed 's/.*=//') && Msg="$msg" && continue
+        eval "$(echo $i|sed 's/--//')"
+done
+#echo $CorpID
+#echo $Secret
+#echo $UserID
+#echo $AgentID
+#echo $Msg
+#
+GURL="https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$CorpID&corpsecret=$Secret"
+Token=$(/usr/bin/curl -s -G $GURL |awk -F \" '{print $10}')
+PURL="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$Token"
+Info(){
+        printf '{\n'
+        printf '\t"touser": "'"$UserID"\"",\n"
+        printf '\t"msgtype": "text",\n'
+        printf '\t"agentid": "'"$AgentID"\"",\n"
+        printf '\t"text": {\n'
+        printf '\t\t"content": "'"$Msg"\""\n"
+        printf '\t},\n'
+        printf '\t"safe":"0"\n'
+        printf '}\n'
+}
+
+/usr/bin/curl --data-ascii "$(Info)" $PURL
+echo
 
 
 
-<h3 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h3><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--AgentID=1000002</span><br><span class="line"></span><br><span class="line">--CorpID=ww74c********56c	</span><br><span class="line"></span><br><span class="line">--Secret=-c-3Xw*****************j-Zj6cw</span><br><span class="line"></span><br><span class="line">--Msg=&#123;ALERT.MESSAGE&#125;</span><br><span class="line"></span><br><span class="line">--UserID=&#123;ALERT.SENDTO&#125;</span><br></pre></td></tr></table></figure>
 
-<h5 id="2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）"><a href="#2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）" class="headerlink" title="2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）"></a>2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0XYOe.png" alt="J0XYOe.png"></p>
+[root@cyy alertscripts]# chmod +x wechat.sh
+
+[root@cyy alertscripts]# ./wechat.sh  "这里一个测试"     //可以这样直接调试，然后登陆到企业微信查看该部门的群成员是否收到此信息
+
+脚本测试通过后就是在zabbix控制台上设置了</code></pre>
+<h3 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h3><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -> 报警媒介类型 -> 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
+<pre class=" language-shell"><code class="language-shell">--AgentID=1000002
+
+--CorpID=ww74c********56c    
+
+--Secret=-c-3Xw*****************j-Zj6cw
+
+--Msg={ALERT.MESSAGE}
+
+--UserID={ALERT.SENDTO}</code></pre>
+<h5 id="2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）"><a href="#2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）" class="headerlink" title="2.然后再设置上用户：点管理 —> 创建用户（微信报警的用户）"></a>2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0XYOe.png" alt="J0XYOe.png"></p>
 <h5 id="3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）"><a href="#3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）" class="headerlink" title="3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）"></a>3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）</h5><p><strong>第一步的第3点获取的账号</strong></p>
 <p><img src="https://s1.ax1x.com/2020/04/24/J0XaTA.png" alt="J0XaTA.png"></p>
-<h6 id="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"><a href="#到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。" class="headerlink" title="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"></a>到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。</h6>
+<h6 id="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"><a href="#到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。" class="headerlink" title="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"></a>到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。</h6><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -656,10 +745,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -797,6 +889,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-11-05T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Tue Nov 05 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -831,7 +977,10 @@
                         
                             
 
-Dockerfile构建镜像12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565
+Dockerfile构建镜像通过Dockerfile创建镜像
+虽然可以自己制作 rootfs(见'容器文件系统那些事儿')，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
+
+docker build命令用于根据给定的
                         
                     </div>
                     <div class="publish-info">
@@ -883,7 +1032,11 @@ Dockerfile构建镜像1234567891011121314151617181920212223242526272829303132333
                             
 
 Gitlab Server 部署
-1、环境准备123456789101112131.系统版本：CentOS7.42.Gitlab版本：gitlab-ee 11.0.13.初始化系统环境4.关闭防火墙[root@localhost ~]#
+1、环境准备1.系统版本：CentOS7.4
+2.Gitlab版本：gitlab-ee 11.0.1
+3.初始化系统环境
+4.关闭防火墙
+[root@localhost ~]#  systemctl s
                         
                     </div>
                     <div class="publish-info">
@@ -1052,7 +1205,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1080,13 +1233,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1096,7 +1249,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1178,6 +1331,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

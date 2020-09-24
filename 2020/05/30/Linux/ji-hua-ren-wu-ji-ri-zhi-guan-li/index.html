@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -557,21 +557,304 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="循环调度执行cron"><a href="#循环调度执行cron" class="headerlink" title="循环调度执行cron"></a>循环调度执行cron</h4><h5 id="1-1简介cron"><a href="#1-1简介cron" class="headerlink" title="1.1简介cron"></a>1.1简介cron</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crond的概念和crontab是不可分割的。crontab是一个命令，常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行</span><br></pre></td></tr></table></figure>
+                <h4 id="循环调度执行cron"><a href="#循环调度执行cron" class="headerlink" title="循环调度执行cron"></a>循环调度执行cron</h4><h5 id="1-1简介cron"><a href="#1-1简介cron" class="headerlink" title="1.1简介cron"></a>1.1简介cron</h5><pre class=" language-reStructuredText"><code class="language-reStructuredText">    crond的概念和crontab是不可分割的。crontab是一个命令，常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中，以供之后读取和执行</code></pre>
+<h5 id="1-2认识crond进程"><a href="#1-2认识crond进程" class="headerlink" title="1.2认识crond进程"></a>1.2认识crond进程</h5><pre class=" language-shell"><code class="language-shell">[root@JX01 ~]# systemctl status crond
+● crond.service - Command Scheduler
+   Loaded: loaded (/usr/lib/systemd/system/crond.service; enabled; vendor preset: enabled)
+   Active: active (running) since 三 2018-08-01 07:03:23 CST; 17min ago
+ Main PID: 671 (crond)
+   CGroup: /system.slice/crond.service
+           └─671 /usr/sbin/crond -n
 
-<h5 id="1-2认识crond进程"><a href="#1-2认识crond进程" class="headerlink" title="1.2认识crond进程"></a>1.2认识crond进程</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@JX01 ~]# systemctl status crond</span><br><span class="line">● crond.service - Command Scheduler</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/crond.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since 三 2018-08-01 07:03:23 CST; 17min ago</span><br><span class="line"> Main PID: 671 (crond)</span><br><span class="line">   CGroup: /system.slice/crond.service</span><br><span class="line">           └─671 /usr/sbin/crond -n</span><br><span class="line"></span><br><span class="line">8月 01 07:03:23 JX01 systemd[1]: Started Command Scheduler.</span><br><span class="line">8月 01 07:03:23 JX01 systemd[1]: Starting Command Scheduler...</span><br><span class="line">8月 01 07:03:23 JX01 crond[671]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 2% if used.)</span><br><span class="line">8月 01 07:03:23 JX01 crond[671]: (CRON) INFO (running with inotify support)</span><br><span class="line">[root@JX01 ~]#</span><br><span class="line"></span><br><span class="line">[root@JX01 ~]# ps aux | grep crond</span><br><span class="line">root        671  0.0  0.0 126280  1668 ?        Ss   07:03   0:00 /usr/sbin/crond -n</span><br><span class="line">root       1440  0.0  0.0 112720   980 pts/0    R+   07:21   0:00 grep --color=auto crond</span><br><span class="line">[root@JX01 ~]#</span><br></pre></td></tr></table></figure>
+8月 01 07:03:23 JX01 systemd[1]: Started Command Scheduler.
+8月 01 07:03:23 JX01 systemd[1]: Starting Command Scheduler...
+8月 01 07:03:23 JX01 crond[671]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 2% if used.)
+8月 01 07:03:23 JX01 crond[671]: (CRON) INFO (running with inotify support)
+[root@JX01 ~]#
 
-<h5 id="1-3创建计划任务"><a href="#1-3创建计划任务" class="headerlink" title="1.3创建计划任务"></a>1.3创建计划任务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">计划任务存储的位置</span></span><br><span class="line">[root@JX01 ~]# ls /var/spool/cron/</span><br><span class="line">root jack alice</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">管理计划任务的命令</span></span><br><span class="line">crontab:</span><br><span class="line">  -l     Displays the current crontab on standard output.</span><br><span class="line">  -r     Removes the current crontab.</span><br><span class="line">  -e     Edits  the current crontab using the editor specified.</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">计划任务书写的格式</span></span><br><span class="line">.---------------- minute (0 - 59)</span><br><span class="line">| .-------------- hour (0 - 23)</span><br><span class="line">| | .------------ day of month (1 - 31)</span><br><span class="line">| | | .---------- month (1 - 12) OR jan,feb,mar,apr ...</span><br><span class="line">| | | | .-------- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span><br><span class="line">| | | | |</span><br><span class="line">* * * * * command</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">计划任务案例</span></span><br><span class="line">00 02 * * *	ls		//每天2:00整</span><br><span class="line">00 02 1 * *	ls		//每月1号2:00整</span><br><span class="line">00 02 14 2 * ls		//每年2月14号2:00整</span><br><span class="line">00 02 * * 7 ls		//每周日2:00整</span><br><span class="line">00 02 * 6 5 ls		//每年6月的周五2:00整（特殊）</span><br><span class="line">00 02 14 * 7 ls		//每月14号2:00整 或者 每周日2:00整，这两个时间都执行</span><br><span class="line">00 02 14 2 7 ls		//每年2月14号2:00整 或者 每周日2:00整，这两个时间都执行</span><br><span class="line"></span><br><span class="line">00 02 * * * ls		//每天2:00整</span><br><span class="line">* 02 * * * ls		//每天2:00中的每一分钟</span><br><span class="line">* * * * * ls		//每分钟执行ls</span><br><span class="line">* * 14 2 * ls		//2月14号的每分钟 1440分钟</span><br><span class="line"></span><br><span class="line">*/5 * * * * ls		//每隔5分钟</span><br><span class="line">00 02 1,5,8 * * ls	//每月1,5,8号的2:00整</span><br><span class="line">00 02 1-8 * * ls	//每月1到8号的2:00整</span><br><span class="line">00 02 * 1-10 * ls</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">测试计划任务的执行效果</span></span><br><span class="line">1 编写执行脚本.</span><br><span class="line">vim /crontab.sh </span><br><span class="line">touch /root/`date +%F-%X`.txt</span><br><span class="line"></span><br><span class="line">2 编排任务计划</span><br><span class="line">[root@localhost ~]# crontab -e</span><br><span class="line">* * 1 1 * bash /crontab.sh</span><br><span class="line"></span><br><span class="line">3 修改日期时间为1月2日3点4分</span><br><span class="line">date 01020304</span><br><span class="line">修改时间为1点2分3秒</span><br><span class="line">date -s 01:02:03</span><br><span class="line"></span><br><span class="line">4 监控当前目录</span><br><span class="line">watch -n 0.5 'ls /root/*.txt'</span><br><span class="line"></span><br><span class="line">5 测试目标</span><br><span class="line"></span><br><span class="line">* * * * 1    //每周1            每分钟会执行</span><br><span class="line">* * * 1 *    //1月每日          每分钟会执行</span><br><span class="line">* * * 1 1    //1月的周1         每分钟会执行</span><br><span class="line">* * 1 * *    //每月1日          每分钟会执行</span><br><span class="line">* * 1 * 1    //每月1日和每月周1 每分钟会执行</span><br><span class="line">* * 1 1 *    //1月1日           每分钟会执行</span><br><span class="line">* * 1 1 1    //1月1日和1月的周1 每分钟都会执行</span><br></pre></td></tr></table></figure>
+[root@JX01 ~]# ps aux | grep crond
+root        671  0.0  0.0 126280  1668 ?        Ss   07:03   0:00 /usr/sbin/crond -n
+root       1440  0.0  0.0 112720   980 pts/0    R+   07:21   0:00 grep --color=auto crond
+[root@JX01 ~]#</code></pre>
+<h5 id="1-3创建计划任务"><a href="#1-3创建计划任务" class="headerlink" title="1.3创建计划任务"></a>1.3创建计划任务</h5><pre class=" language-shell"><code class="language-shell">#计划任务存储的位置
+[root@JX01 ~]# ls /var/spool/cron/
+root jack alice
+
+#管理计划任务的命令
+crontab:
+  -l     Displays the current crontab on standard output.
+  -r     Removes the current crontab.
+  -e     Edits  the current crontab using the editor specified.
+
+#计划任务书写的格式
+.---------------- minute (0 - 59)
+| .-------------- hour (0 - 23)
+| | .------------ day of month (1 - 31)
+| | | .---------- month (1 - 12) OR jan,feb,mar,apr ...
+| | | | .-------- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+| | | | |
+* * * * * command
+
+#计划任务案例
+00 02 * * *    ls        //每天2:00整
+00 02 1 * *    ls        //每月1号2:00整
+00 02 14 2 * ls        //每年2月14号2:00整
+00 02 * * 7 ls        //每周日2:00整
+00 02 * 6 5 ls        //每年6月的周五2:00整（特殊）
+00 02 14 * 7 ls        //每月14号2:00整 或者 每周日2:00整，这两个时间都执行
+00 02 14 2 7 ls        //每年2月14号2:00整 或者 每周日2:00整，这两个时间都执行
+
+00 02 * * * ls        //每天2:00整
+* 02 * * * ls        //每天2:00中的每一分钟
+* * * * * ls        //每分钟执行ls
+* * 14 2 * ls        //2月14号的每分钟 1440分钟
+
+*/5 * * * * ls        //每隔5分钟
+00 02 1,5,8 * * ls    //每月1,5,8号的2:00整
+00 02 1-8 * * ls    //每月1到8号的2:00整
+00 02 * 1-10 * ls
+
+#测试计划任务的执行效果
+1 编写执行脚本.
+vim /crontab.sh 
+touch /root/`date +%F-%X`.txt
+
+2 编排任务计划
+[root@localhost ~]# crontab -e
+* * 1 1 * bash /crontab.sh
+
+3 修改日期时间为1月2日3点4分
+date 01020304
+修改时间为1点2分3秒
+date -s 01:02:03
+
+4 监控当前目录
+watch -n 0.5 'ls /root/*.txt'
+
+5 测试目标
+
+* * * * 1    //每周1            每分钟会执行
+* * * 1 *    //1月每日          每分钟会执行
+* * * 1 1    //1月的周1         每分钟会执行
+* * 1 * *    //每月1日          每分钟会执行
+* * 1 * 1    //每月1日和每月周1 每分钟会执行
+* * 1 1 *    //1月1日           每分钟会执行
+* * 1 1 1    //1月1日和1月的周1 每分钟都会执行</code></pre>
+<h4 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h4><pre><code>    日志：在现代社会里,为了维护自身系统资源的运行状况,计算机系统一般都会有相应的日志记录系统有关日常事件或者误操作警报的日期及时间戳信息。这些日志信息对计算机犯罪调查人员非常有用,但计算机日记是按正常工作状态记录的,所以冗余量很大,对查找与分析有用信息造成很大困难。
+
+#Linux系统中存在的日志都在哪里？/var/log/
+    # tail /var/log/messages             //系统主日志文件
+    # tail -20 /var/log/messages
+    # tail -f /var/log/messages         //动态查看日志文件的尾部
+    # tailf /var/log/secure                 //认证、安全
+    # tail /var/log/maillog                 //跟邮件postfix相关 prefix
+    # tail /var/log/cron                //crond、at进程产生的日志
+    # tail /var/log/dmesg                 //和系统启动相关
+    # tail /var/log/audit/audit.log        //系统审计日志
+    # tail /var/log/yum.log                 //yum
+    # tail /var/log/mysqld.log             //MySQL
+    # tail /var/log/xferlog             //和访问FTP服务器相关
+    # tail  /var/log/wtmp                 //当前登录的用户（命令：w）
+    # tail  /var/log/btmp                 //最近登录的用户（命令last）
+    # tail  /var/log/lastlog            //所有用户的登录情况（命令lastlog）
+
+#Linux系统是什么进程程序在管理日志？rsyslog</code></pre><pre class=" language-shell"><code class="language-shell">##rsyslog
+rsyslog：linux系统中管理日志的服务
+所产生的进程是: rsyslogd -n
+
+linux中的配置文件:
+    linux中所有的服务或者工具,都是由配置文件驱动工作的;
+    Linux中的工具或服务都是遵循配置文件中的规则工作的;
+
+/etc/rsyslog.conf:
+    这个文件定义了系统中所有的服务或者工具,它们所产生的日志,根据特定的级别需要存储在特定的位置
+
+日志等级:
+    等级由低到高：debug<info<warn<Error<Fatal
+
+系统或服务的排错:
+    根据配置文件的对错有一下两种方案供给选择:
+        1. 查看rsyslog的 journalctl -xe 找出服务或系统的报错信息
+        2. 根据服务自身的检测机制,去检查配置文件的语法
+        3. 系统常用排错指令 journalctl -xe\\ systemctl status service.name\\ 服务自带检测工具
+bash -nx    检测shell脚本的语法问题
+httpd -t    检测apache web服务的配置文件语法问题
+nginx -t    检测nginx web服务的配置文件语法问题
+
+[root@JX02 ~]# vim /etc/rsyslog.conf
+#### RULES ####
+
+# Log all kernel messages to the console.
+# Logging much else clutters up the screen.
+#kern.*                                                 /dev/console
+
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none;cron.none                /var/log/messages
+
+# The authpriv file has restricted access.
+authpriv.*                                              /var/log/secure
+
+# Log all the mail messages in one place.
+mail.*                                                  -/var/log/maillog
+
+# Log cron stuff
+cron.*                                                  /var/log/cron
+
+# Everybody gets emergency messages
+*.emerg                                                 :omusrmsg:*
+
+# Save news errors of level crit and higher in a special file.
+uucp,news.crit                                          /var/log/spooler
+
+# Save boot messages also to boot.log
+local7.*                                                /var/log/boot.log</code></pre>
+<pre class=" language-shell"><code class="language-shell">##logrotate
+#认识一下logrotate
+为了节省空间和整理方便，日志文件经常需要按！时间或！大小等维度分成多份，删除时间久远的日志文件。这就是通常说的日志滚动(log rotation)
+logrotate本身不是系统守护进程，它是通过计划任务crond每天执行
+
+#logrotate配置文件：
+主文件：/etc/logrotate.conf (决定每个日志文件如何轮转)
+子文件夹：/etc/logrotate.d/*
+
+#认识logrotate的选项含义
+==================全局设置==================
+weekly                              //轮转周期，一周轮转
+rotate 4                            //保留4份
+create                              //轮转后创建新文件
+dateext                             //使用日期作为后缀
+compress                            //是否压缩
+include /etc/logrotate.d            //包含该目录下的文件
+/var/log/wtmp {                     //对该日志文件设置轮转的方法
+    monthly                         //一个月轮转一次
+    create 0664 root utmp           //轮转后创建新文件，并设置权限
+    minsize 1M                      //最小达到1M才轮转
+    rotate 1                        //保留一份
+}
+/var/log/btmp {
+    missingok                       //丢失不提示
+    monthly
+    create 0600 root utmp
+    rotate 1
+}
+
+=========================================参数========================================
+compress             通过gzip 压缩转储以后的日志
+nocompress           不做gzip压缩处理
+copytruncate         
+用于还在打开中的日志文件，把当前日志备份并截断；是先拷贝再清空的方式，拷贝和清空之间有一个时间差，可能会丢失部分日志数据。
+nocopytruncate              备份日志文件不过不截断
+create mode owner group    轮转时指定创建新文件的属性，如create 0777 nobody nobody
+nocreate                   不建立新的日志文件
+delaycompress              和compress 一起使用时，转储的日志文件到下一次转储时才压缩
+nodelaycompress            覆盖 delaycompress 选项，转储同时压缩
+missingok                  如果日志丢失，不报错继续滚动下一个日志
+errors address             专储时的错误信息发送到指定的Email 地址
+ifempty                    即使日志文件为空文件也做轮转，这个是logrotate的缺省选项
+notifempty                 当日志文件为空时，不进行轮转
+mail address               把转储的日志文件发送到指定的E-mail 地址
+nomail                     转储时不发送日志文件
+olddir directory           转储后的日志文件放入指定的目录，必须和当前日志文件在同一个文件系统
+noolddir                   转储后的日志文件和当前日志文件放在同一个目录下
+sharedscripts
+运行postrotate脚本，作用是在所有日志都轮转后统一执行一次脚本。如果没有配置这个，那么每个日志轮转后都会执行一次脚本
+prerotate        在logrotate转储之前需要执行的指令，例如修改文件的属性等动作；必须独立成行
+postrotate       在logrotate转储之后需要执行的指令，例如重新启动 (kill -HUP) 某个服务！必须独立成行
+daily                      指定转储周期为每天
+weekly                     指定转储周期为每周
+monthly                    指定转储周期为每月
+rotate count               指定日志文件删除之前转储的次数，0 指没有备份，5 指保留5 个备份
+dateext                    使用当期日期作为命名格式
+dateformat .%s
+配合dateext使用，紧跟在下一行出现，定义文件切割后的文件名，必须配合dateext使用，只支持 %Y %m %d %s 这四个参数
+size(或minsize) log-size
+当日志文件到达指定的大小时才轮转，log-size能指定bytes(缺省)及KB (sizek)或MB(sizem).
+当日志文件 >= log-size 的时候就转储。 
+以下为合法格式：（其他格式的单位大小写没有试过）
+size = 5 或 size 5 （>= 5 个字节就转储）
+size = 100k 或 size 100k
+size = 100M 或 size 100M
+=================================================================================
+
+#案例一:普通切割
+[root@JX02 ~]# vim  /etc/logrotate.d/yum
+/var/log/yum.log {
+missingok            //丢失不执行
+# notifempty        //空文件不轮转
+# size 30k            //达到30k轮转, daily or size
+# yearly            //或者一年一轮转
+daily                //缩小周期到1天
+rotate 3            //轮转保留3次
+create 0777 root root
+}
+[root@JX02 ~]# /usr/sbin/logrotate -f /etc/logrotate.conf        //强制轮转日志
+[root@JX02 ~]# ll /var/log/yum*                                    //发现日志已经被切割了
 
 
+#案例二:切割前后执行动作
+[root@JX02 ~]# vim /etc/logrotate.d/httpd
+/var/log/httpd/* {
+prerotate
+chattr -a /var/log/httpd
+endscript
 
-<h4 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">	日志：在现代社会里,为了维护自身系统资源的运行状况,计算机系统一般都会有相应的日志记录系统有关日常事件或者误操作警报的日期及时间戳信息。这些日志信息对计算机犯罪调查人员非常有用,但计算机日记是按正常工作状态记录的,所以冗余量很大,对查找与分析有用信息造成很大困难。</span><br><span class="line"></span><br><span class="line">#Linux系统中存在的日志都在哪里？&#x2F;var&#x2F;log&#x2F;</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;messages 			&#x2F;&#x2F;系统主日志文件</span><br><span class="line">    # tail -20 &#x2F;var&#x2F;log&#x2F;messages</span><br><span class="line">    # tail -f &#x2F;var&#x2F;log&#x2F;messages 		&#x2F;&#x2F;动态查看日志文件的尾部</span><br><span class="line">    # tailf &#x2F;var&#x2F;log&#x2F;secure			 	&#x2F;&#x2F;认证、安全</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;maillog			 	&#x2F;&#x2F;跟邮件postfix相关 prefix</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;cron				&#x2F;&#x2F;crond、at进程产生的日志</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;dmesg			 	&#x2F;&#x2F;和系统启动相关</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;audit&#x2F;audit.log		&#x2F;&#x2F;系统审计日志</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;yum.log			 	&#x2F;&#x2F;yum</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;mysqld.log 			&#x2F;&#x2F;MySQL</span><br><span class="line">    # tail &#x2F;var&#x2F;log&#x2F;xferlog 			&#x2F;&#x2F;和访问FTP服务器相关</span><br><span class="line">    # tail  &#x2F;var&#x2F;log&#x2F;wtmp 				&#x2F;&#x2F;当前登录的用户（命令：w）</span><br><span class="line">    # tail  &#x2F;var&#x2F;log&#x2F;btmp 				&#x2F;&#x2F;最近登录的用户（命令last）</span><br><span class="line">    # tail  &#x2F;var&#x2F;log&#x2F;lastlog			&#x2F;&#x2F;所有用户的登录情况（命令lastlog）</span><br><span class="line"></span><br><span class="line">#Linux系统是什么进程程序在管理日志？rsyslog</span><br></pre></td></tr></table></figure>
+#notifempty
+daily
+create 0600 root root
+missingok
+rotate 5
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#rsyslog</span></span></span><br><span class="line">rsyslog：linux系统中管理日志的服务</span><br><span class="line">所产生的进程是: rsyslogd -n</span><br><span class="line"></span><br><span class="line">linux中的配置文件:</span><br><span class="line">	linux中所有的服务或者工具,都是由配置文件驱动工作的;</span><br><span class="line">	Linux中的工具或服务都是遵循配置文件中的规则工作的;</span><br><span class="line"></span><br><span class="line">/etc/rsyslog.conf:</span><br><span class="line">	这个文件定义了系统中所有的服务或者工具,它们所产生的日志,根据特定的级别需要存储在特定的位置</span><br><span class="line"></span><br><span class="line">日志等级:</span><br><span class="line">	等级由低到高：debug&lt;info&lt;warn&lt;Error&lt;Fatal</span><br><span class="line"></span><br><span class="line">系统或服务的排错:</span><br><span class="line">	根据配置文件的对错有一下两种方案供给选择:</span><br><span class="line">		1. 查看rsyslog的 journalctl -xe 找出服务或系统的报错信息</span><br><span class="line">		2. 根据服务自身的检测机制,去检查配置文件的语法</span><br><span class="line">		3. 系统常用排错指令 journalctl -xe\\ systemctl status service.name\\ 服务自带检测工具</span><br><span class="line">bash -nx	检测shell脚本的语法问题</span><br><span class="line">httpd -t	检测apache web服务的配置文件语法问题</span><br><span class="line">nginx -t	检测nginx web服务的配置文件语法问题</span><br><span class="line"></span><br><span class="line">[root@JX02 ~]# vim /etc/rsyslog.conf</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### RULES ####</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Log all kernel messages to the console.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Logging much <span class="keyword">else</span> clutters up the screen.</span></span><br><span class="line"><span class="meta">#</span><span class="bash">kern.*                                                 /dev/console</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Log anything (except mail) of level info or higher.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Don<span class="string">'t log private authentication messages!</span></span></span><br><span class="line">*.info;mail.none;authpriv.none;cron.none                /var/log/messages</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> The authpriv file has restricted access.</span></span><br><span class="line">authpriv.*                                              /var/log/secure</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Log all the mail messages <span class="keyword">in</span> one place.</span></span><br><span class="line">mail.*                                                  -/var/log/maillog</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Log cron stuff</span></span><br><span class="line">cron.*                                                  /var/log/cron</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Everybody gets emergency messages</span></span><br><span class="line">*.emerg                                                 :omusrmsg:*</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Save news errors of level crit and higher <span class="keyword">in</span> a special file.</span></span><br><span class="line">uucp,news.crit                                          /var/log/spooler</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Save boot messages also to boot.log</span></span><br><span class="line">local7.*                                                /var/log/boot.log</span><br></pre></td></tr></table></figure>
+postrotate
+chattr +a /var/log/httpd
+endscript
+}
 
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#logrotate</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">认识一下logrotate</span></span><br><span class="line">为了节省空间和整理方便，日志文件经常需要按！时间或！大小等维度分成多份，删除时间久远的日志文件。这就是通常说的日志滚动(log rotation)</span><br><span class="line">logrotate本身不是系统守护进程，它是通过计划任务crond每天执行</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">logrotate配置文件：</span></span><br><span class="line">主文件：/etc/logrotate.conf (决定每个日志文件如何轮转)</span><br><span class="line">子文件夹：/etc/logrotate.d/*</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">认识logrotate的选项含义</span></span><br><span class="line">==================全局设置==================</span><br><span class="line">weekly                              //轮转周期，一周轮转</span><br><span class="line">rotate 4                            //保留4份</span><br><span class="line">create                              //轮转后创建新文件</span><br><span class="line">dateext                             //使用日期作为后缀</span><br><span class="line">compress                            //是否压缩</span><br><span class="line">include /etc/logrotate.d            //包含该目录下的文件</span><br><span class="line">/var/log/wtmp &#123;                     //对该日志文件设置轮转的方法</span><br><span class="line">    monthly                         //一个月轮转一次</span><br><span class="line">    create 0664 root utmp           //轮转后创建新文件，并设置权限</span><br><span class="line">    minsize 1M                      //最小达到1M才轮转</span><br><span class="line">    rotate 1                        //保留一份</span><br><span class="line">&#125;</span><br><span class="line">/var/log/btmp &#123;</span><br><span class="line">    missingok                       //丢失不提示</span><br><span class="line">    monthly</span><br><span class="line">    create 0600 root utmp</span><br><span class="line">    rotate 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">=========================================参数========================================</span><br><span class="line">compress             通过gzip 压缩转储以后的日志</span><br><span class="line">nocompress           不做gzip压缩处理</span><br><span class="line">copytruncate         </span><br><span class="line">用于还在打开中的日志文件，把当前日志备份并截断；是先拷贝再清空的方式，拷贝和清空之间有一个时间差，可能会丢失部分日志数据。</span><br><span class="line">nocopytruncate       	   备份日志文件不过不截断</span><br><span class="line">create mode owner group    轮转时指定创建新文件的属性，如create 0777 nobody nobody</span><br><span class="line">nocreate                   不建立新的日志文件</span><br><span class="line">delaycompress              和compress 一起使用时，转储的日志文件到下一次转储时才压缩</span><br><span class="line">nodelaycompress            覆盖 delaycompress 选项，转储同时压缩</span><br><span class="line">missingok                  如果日志丢失，不报错继续滚动下一个日志</span><br><span class="line">errors address             专储时的错误信息发送到指定的Email 地址</span><br><span class="line">ifempty                    即使日志文件为空文件也做轮转，这个是logrotate的缺省选项</span><br><span class="line">notifempty                 当日志文件为空时，不进行轮转</span><br><span class="line">mail address               把转储的日志文件发送到指定的E-mail 地址</span><br><span class="line">nomail                     转储时不发送日志文件</span><br><span class="line">olddir directory           转储后的日志文件放入指定的目录，必须和当前日志文件在同一个文件系统</span><br><span class="line">noolddir                   转储后的日志文件和当前日志文件放在同一个目录下</span><br><span class="line">sharedscripts</span><br><span class="line">运行postrotate脚本，作用是在所有日志都轮转后统一执行一次脚本。如果没有配置这个，那么每个日志轮转后都会执行一次脚本</span><br><span class="line">prerotate        在logrotate转储之前需要执行的指令，例如修改文件的属性等动作；必须独立成行</span><br><span class="line">postrotate       在logrotate转储之后需要执行的指令，例如重新启动 (kill -HUP) 某个服务！必须独立成行</span><br><span class="line">daily                      指定转储周期为每天</span><br><span class="line">weekly                     指定转储周期为每周</span><br><span class="line">monthly                    指定转储周期为每月</span><br><span class="line">rotate count               指定日志文件删除之前转储的次数，0 指没有备份，5 指保留5 个备份</span><br><span class="line">dateext                    使用当期日期作为命名格式</span><br><span class="line">dateformat .%s</span><br><span class="line">配合dateext使用，紧跟在下一行出现，定义文件切割后的文件名，必须配合dateext使用，只支持 %Y %m %d %s 这四个参数</span><br><span class="line">size(或minsize) log-size</span><br><span class="line">当日志文件到达指定的大小时才轮转，log-size能指定bytes(缺省)及KB (sizek)或MB(sizem).</span><br><span class="line">当日志文件 &gt;= log-size 的时候就转储。 </span><br><span class="line">以下为合法格式：（其他格式的单位大小写没有试过）</span><br><span class="line">size = 5 或 size 5 （&gt;= 5 个字节就转储）</span><br><span class="line">size = 100k 或 size 100k</span><br><span class="line">size = 100M 或 size 100M</span><br><span class="line">=================================================================================</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">案例一:普通切割</span></span><br><span class="line">[root@JX02 ~]# vim  /etc/logrotate.d/yum</span><br><span class="line">/var/log/yum.log &#123;</span><br><span class="line">missingok			//丢失不执行</span><br><span class="line"><span class="meta">#</span><span class="bash"> notifempty		//空文件不轮转</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> size 30k			//达到30k轮转, daily or size</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> yearly			//或者一年一轮转</span></span><br><span class="line">daily				//缩小周期到1天</span><br><span class="line">rotate 3			//轮转保留3次</span><br><span class="line">create 0777 root root</span><br><span class="line">&#125;</span><br><span class="line">[root@JX02 ~]# /usr/sbin/logrotate -f /etc/logrotate.conf		//强制轮转日志</span><br><span class="line">[root@JX02 ~]# ll /var/log/yum*									//发现日志已经被切割了</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">案例二:切割前后执行动作</span></span><br><span class="line">[root@JX02 ~]# vim /etc/logrotate.d/httpd</span><br><span class="line">/var/log/httpd/* &#123;</span><br><span class="line">prerotate</span><br><span class="line">chattr -a /var/log/httpd</span><br><span class="line">endscript</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">notifempty</span></span><br><span class="line">daily</span><br><span class="line">create 0600 root root</span><br><span class="line">missingok</span><br><span class="line">rotate 5</span><br><span class="line"></span><br><span class="line">postrotate</span><br><span class="line">chattr +a /var/log/httpd</span><br><span class="line">endscript</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[root@JX02 logrotate.d]# /usr/sbin/logrotate -f /etc/logrotate.conf</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">案例三:切割多个日志文件</span></span><br><span class="line">[root@JX02 ~]# vim /etc/logrotate.d/web</span><br><span class="line">/var/log/httpd_test.log</span><br><span class="line">/var/log/nginx_test.log</span><br><span class="line">/var/log/tomcat_test.log</span><br><span class="line">&#123;</span><br><span class="line">daily</span><br><span class="line">create 0600 root root</span><br><span class="line">missingok</span><br><span class="line">rotate 5</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[root@JX02 ~]# /usr/sbin/logrotate -f /etc/logrotate.conf</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">案例四:切割一个文件夹下的所有日志</span></span><br><span class="line">[root@JX02 ~]# vim /etc/logrotate.d/apache</span><br><span class="line">/var/log/apache/*log &#123;</span><br><span class="line">daily</span><br><span class="line">create 0600 root root</span><br><span class="line">missingok</span><br><span class="line">rotate 5</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[root@JX02 logrotate.d]# /usr/sbin/logrotate -f /etc/logrotate.conf</span><br></pre></td></tr></table></figure>
+[root@JX02 logrotate.d]# /usr/sbin/logrotate -f /etc/logrotate.conf
 
+#案例三:切割多个日志文件
+[root@JX02 ~]# vim /etc/logrotate.d/web
+/var/log/httpd_test.log
+/var/log/nginx_test.log
+/var/log/tomcat_test.log
+{
+daily
+create 0600 root root
+missingok
+rotate 5
+}
 
+[root@JX02 ~]# /usr/sbin/logrotate -f /etc/logrotate.conf
+
+#案例四:切割一个文件夹下的所有日志
+[root@JX02 ~]# vim /etc/logrotate.d/apache
+/var/log/apache/*log {
+daily
+create 0600 root root
+missingok
+rotate 5
+}
+
+[root@JX02 logrotate.d]# /usr/sbin/logrotate -f /etc/logrotate.conf</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -646,10 +929,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -787,6 +1073,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-05-30T23-33-41',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat May 30 2020 23:33:41 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -807,23 +1147,20 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/05/31/devops/vue-ru-men-zhi-001/">
+                <a href="/2020/05/31/devops/python-zhi-fabric-mo-kuai/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Vue之入门篇_001">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="python之fabric模块">
                         
-                        <span class="card-title">Vue之入门篇_001</span>
+                        <span class="card-title">python之fabric模块</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            文档https://cli.vuejs.org/zh/
-以文档为主
-安装https://cli.vuejs.org/zh/guide/installation.html
-1. 开始
-1、打开终端执行 npm install -g @vue/
+                            python 之 fabric 模块Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。
+# doc http://docs.fabfile.org
                         
                     </div>
                     <div class="publish-info">
@@ -845,8 +1182,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Vue/">
-                        <span class="chip bg-color">Vue</span>
+                    <a href="/tags/Python/">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
                 </div>
@@ -1054,7 +1391,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1082,13 +1419,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1098,7 +1435,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1180,6 +1517,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

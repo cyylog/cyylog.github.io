@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,40 +559,59 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h4 id="9、监控tomcat集群状态"><a href="#9、监控tomcat集群状态" class="headerlink" title="9、监控tomcat集群状态"></a>9、监控tomcat集群状态</h4><h5 id="1、方法一：开发java监控页面"><a href="#1、方法一：开发java监控页面" class="headerlink" title="1、方法一：开发java监控页面"></a>1、方法一：开发java监控页面</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 tomcat8_1]# cat &#x2F;application&#x2F;tomcat&#x2F;webapps&#x2F;memtest&#x2F;meminfo.jsp </span><br><span class="line">&lt;%</span><br><span class="line">Runtime rtm &#x3D; Runtime.getRuntime();</span><br><span class="line">long mm &#x3D; rtm.maxMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line">long tm &#x3D; rtm.totalMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line">long fm &#x3D; rtm.freeMemory()&#x2F;1024&#x2F;1024;</span><br><span class="line"></span><br><span class="line">out.println(&quot;JVM memory detail info :&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Max memory:&quot;+mm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Total memory:&quot;+tm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Free memory:&quot;+fm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">out.println(&quot;Available memory can be used is :&quot;+(mm+fm-tm)+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="9、监控tomcat集群状态"><a href="#9、监控tomcat集群状态" class="headerlink" title="9、监控tomcat集群状态"></a>9、监控tomcat集群状态</h4><h5 id="1、方法一：开发java监控页面"><a href="#1、方法一：开发java监控页面" class="headerlink" title="1、方法一：开发java监控页面"></a>1、方法一：开发java监控页面</h5><pre><code>[root@web03 tomcat8_1]# cat /application/tomcat/webapps/memtest/meminfo.jsp 
+&lt;%
+Runtime rtm = Runtime.getRuntime();
+long mm = rtm.maxMemory()/1024/1024;
+long tm = rtm.totalMemory()/1024/1024;
+long fm = rtm.freeMemory()/1024/1024;
 
-<h5 id="2、方法二：使用jps命令进行监控"><a href="#2、方法二：使用jps命令进行监控" class="headerlink" title="2、方法二：使用jps命令进行监控"></a>2、方法二：使用jps命令进行监控</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# jps -lvm</span><br><span class="line"></span><br><span class="line">31906 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat8_1 -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat8_1 -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat8_1&#x2F;temp</span><br><span class="line"></span><br><span class="line">31812 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat&#x2F;temp</span><br><span class="line"></span><br><span class="line">31932 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;conf&#x2F;logging.properties -Djava.util.logging.manager&#x3D;org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;endorsed -Dcatalina.base&#x3D;&#x2F;application&#x2F;tomcat8_2 -Dcatalina.home&#x3D;&#x2F;application&#x2F;tomcat8_2 -Djava.io.tmpdir&#x3D;&#x2F;application&#x2F;tomcat8_2&#x2F;temp</span><br><span class="line"></span><br><span class="line">32079 sun.tools.jps.Jps -lvm -Denv.class.path&#x3D;.:&#x2F;application&#x2F;jdk&#x2F;lib:&#x2F;application&#x2F;jdk&#x2F;jre&#x2F;lib:&#x2F;application&#x2F;jdk&#x2F;lib&#x2F;tools.jar -Dapplication.home&#x3D;&#x2F;application&#x2F;jdk1.8.0_60 -Xms8m</span><br></pre></td></tr></table></figure>
+out.println("JVM memory detail info :&lt;br&gt;");
+out.println("Max memory:"+mm+"MB"+"&lt;br&gt;");
+out.println("Total memory:"+tm+"MB"+"&lt;br&gt;");
+out.println("Free memory:"+fm+"MB"+"&lt;br&gt;");
+out.println("Available memory can be used is :"+(mm+fm-tm)+"MB"+"&lt;br&gt;");
+%&gt;</code></pre><h5 id="2、方法二：使用jps命令进行监控"><a href="#2、方法二：使用jps命令进行监控" class="headerlink" title="2、方法二：使用jps命令进行监控"></a>2、方法二：使用jps命令进行监控</h5><pre><code>[root@web03 ~]# jps -lvm
 
-<h5 id="3、Tomcat远程监控功能"><a href="#3、Tomcat远程监控功能" class="headerlink" title="3、Tomcat远程监控功能"></a>3、Tomcat远程监控功能</h5><p>修改配置文件，开启远程监控</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;catalina.sh +97</span><br><span class="line"></span><br><span class="line">CATALINA_OPTS&#x3D;&quot;$CATALINA_OPTS</span><br><span class="line">-Dcom.sun.management.jmxremote </span><br><span class="line">-Dcom.sun.management.jmxremote.port&#x3D;12345  </span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate&#x3D;false </span><br><span class="line">-Dcom.sun.management.jmxremote.ssl&#x3D;false </span><br><span class="line">-Djava.rmi.server.hostname&#x3D;10.0.0.17&quot;</span><br></pre></td></tr></table></figure>
+31906 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file=/application/tomcat8_1/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs=/application/tomcat8_1/endorsed -Dcatalina.base=/application/tomcat8_1 -Dcatalina.home=/application/tomcat8_1 -Djava.io.tmpdir=/application/tomcat8_1/temp
 
-<p>​         重启服务，检查12345端口是否开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;shutdown.sh </span><br><span class="line">&#x2F;application&#x2F;tomcat8_1&#x2F;bin&#x2F;startup.sh </span><br><span class="line">netstat -tunlp|grep 12345</span><br></pre></td></tr></table></figure>
+31812 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file=/application/tomcat/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs=/application/tomcat/endorsed -Dcatalina.base=/application/tomcat -Dcatalina.home=/application/tomcat -Djava.io.tmpdir=/application/tomcat/temp
 
-<p>​         检查端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@web03 ~]# netstat -tunlp|grep 12345</span><br><span class="line">tcp6       0      0 :::12345           :::*          LISTEN      33158&#x2F;java</span><br></pre></td></tr></table></figure>
+31932 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file=/application/tomcat8_2/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs=/application/tomcat8_2/endorsed -Dcatalina.base=/application/tomcat8_2 -Dcatalina.home=/application/tomcat8_2 -Djava.io.tmpdir=/application/tomcat8_2/temp
 
-<p><strong>在windows**</strong>上监控tomcat**</p>
+32079 sun.tools.jps.Jps -lvm -Denv.class.path=.:/application/jdk/lib:/application/jdk/jre/lib:/application/jdk/lib/tools.jar -Dapplication.home=/application/jdk1.8.0_60 -Xms8m</code></pre><h5 id="3、Tomcat远程监控功能"><a href="#3、Tomcat远程监控功能" class="headerlink" title="3、Tomcat远程监控功能"></a>3、Tomcat远程监控功能</h5><p>修改配置文件，开启远程监控</p>
+<pre><code>vim /application/tomcat8_1/bin/catalina.sh +97
+
+CATALINA_OPTS="$CATALINA_OPTS
+-Dcom.sun.management.jmxremote 
+-Dcom.sun.management.jmxremote.port=12345  
+-Dcom.sun.management.jmxremote.authenticate=false 
+-Dcom.sun.management.jmxremote.ssl=false 
+-Djava.rmi.server.hostname=10.0.0.17"</code></pre><p>​         重启服务，检查12345端口是否开启</p>
+<pre><code>/application/tomcat8_1/bin/shutdown.sh 
+/application/tomcat8_1/bin/startup.sh 
+netstat -tunlp|grep 12345</code></pre><p>​         检查端口</p>
+<pre><code>[root@web03 ~]# netstat -tunlp|grep 12345
+tcp6       0      0 :::12345           :::*          LISTEN      33158/java  </code></pre><p><strong>在windows**</strong>上监控tomcat**</p>
 <p><strong>注意：windwos**</strong>需要安装jdk<strong>**环境！</strong></p>
 <p>查考：<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
 <h5 id="4、zabbix监控tomcat程序"><a href="#4、zabbix监控tomcat程序" class="headerlink" title="4、zabbix监控tomcat程序"></a>4、zabbix监控tomcat程序</h5><p>zabbix搭建详情参考：<em><a href="https://www.toutiao.com/i6808897883299906059/" target="_blank" rel="noopener">https://www.toutiao.com/i6808897883299906059/</a></em></p>
 <p>若是有问题，请移步官网 ： <em><a href="https://www.zabbix.com/documentation/4.0/zh/manual/installation" target="_blank" rel="noopener">https://www.zabbix.com/documentation/4.0/zh/manual/installation</a></em></p>
 <p><strong>服务端安装配置java**</strong>监控服务**</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# yum install zabbix-java-gateway -y</span><br></pre></td></tr></table></figure>
-
-<p><strong>查看配置文件</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">配置文件路径：&#x2F;etc&#x2F;zabbix&#x2F;zabbix_java_gateway.conf</span><br><span class="line">sed -i -e &#39;220a JavaGateway&#x3D;127.0.0.1&#39; -e &#39;236a StartJavaPollers&#x3D;5&#39;  &#x2F;etc&#x2F;zabbix&#x2F;zabbix_server.conf</span><br></pre></td></tr></table></figure>
-
-<p>启动zabbix-java-gateway服务，与zabbix服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start zabbix-java-gateway.service</span><br><span class="line">systemctl restart zabbix-server.service</span><br></pre></td></tr></table></figure>
-
-<p>检查java端口是否开启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# netstat -lntup |grep java</span><br><span class="line">tcp6       0      0 :::10052   :::*    LISTEN      72971&#x2F;java</span><br></pre></td></tr></table></figure>
-
-<p>​         检查java进程是否存在</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@m01 ~]# ps -ef |grep [j]ava</span><br><span class="line">zabbix    72971      1  0 11:29 ?        00:00:00 java -server -Dlogback.configurationFile&#x3D;&#x2F;etc&#x2F;zabbix&#x2F;zabbix_java_gateway_logback.xml -classpath lib:lib&#x2F;android-json-4.3_r3.1.jar:lib&#x2F;logback-classic-0.9.27.jar:lib&#x2F;logback-core-0.9.27.jar:lib&#x2F;slf4j-api-1.6.1.jar:bin&#x2F;zabbix-java-gateway-3.0.13.jar -Dzabbix.pidFile&#x3D;&#x2F;var&#x2F;run&#x2F;zabbix&#x2F;zabbix_java.pid -Dzabbix.timeout&#x3D;3 -Dsun.rmi.transport.tcp.responseTimeout&#x3D;3000 com.zabbix.gateway.JavaGateway</span><br><span class="line">zabbix    73255  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #1 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73256  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #2 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73257  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #3 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73258  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #4 [got 0 values in 0.000002 sec, idle 5 sec]</span><br><span class="line">zabbix    73259  73226  0 11:35 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;zabbix_server: java poller #5 [got 0 values in 0.000004 sec, idle 5 sec]</span><br></pre></td></tr></table></figure>
-
-<p><strong>web**</strong>界面添加**</p>
+<pre><code>[root@m01 ~]# yum install zabbix-java-gateway -y</code></pre><p><strong>查看配置文件</strong></p>
+<pre><code>配置文件路径：/etc/zabbix/zabbix_java_gateway.conf
+sed -i -e '220a JavaGateway=127.0.0.1' -e '236a StartJavaPollers=5'  /etc/zabbix/zabbix_server.conf</code></pre><p>启动zabbix-java-gateway服务，与zabbix服务</p>
+<pre><code>systemctl start zabbix-java-gateway.service
+systemctl restart zabbix-server.service</code></pre><p>检查java端口是否开启</p>
+<pre><code>[root@m01 ~]# netstat -lntup |grep java
+tcp6       0      0 :::10052   :::*    LISTEN      72971/java  </code></pre><p>​         检查java进程是否存在</p>
+<pre><code>[root@m01 ~]# ps -ef |grep [j]ava
+zabbix    72971      1  0 11:29 ?        00:00:00 java -server -Dlogback.configurationFile=/etc/zabbix/zabbix_java_gateway_logback.xml -classpath lib:lib/android-json-4.3_r3.1.jar:lib/logback-classic-0.9.27.jar:lib/logback-core-0.9.27.jar:lib/slf4j-api-1.6.1.jar:bin/zabbix-java-gateway-3.0.13.jar -Dzabbix.pidFile=/var/run/zabbix/zabbix_java.pid -Dzabbix.timeout=3 -Dsun.rmi.transport.tcp.responseTimeout=3000 com.zabbix.gateway.JavaGateway
+zabbix    73255  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java poller #1 [got 0 values in 0.000002 sec, idle 5 sec]
+zabbix    73256  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java poller #2 [got 0 values in 0.000002 sec, idle 5 sec]
+zabbix    73257  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java poller #3 [got 0 values in 0.000002 sec, idle 5 sec]
+zabbix    73258  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java poller #4 [got 0 values in 0.000002 sec, idle 5 sec]
+zabbix    73259  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java poller #5 [got 0 values in 0.000004 sec, idle 5 sec]</code></pre><p><strong>web**</strong>界面添加**</p>
 <p>​         添加主机</p>
 <p><img src="https://s1.ax1x.com/2020/05/21/YHilSH.png" alt="YHilSH.png"> </p>
 <p>​         主机管理模板，注意是JMX模板</p>
@@ -602,7 +621,25 @@
 <p>b. 使用sh show-busy-java-threads.sh脚本进行检测</p>
 <p>脚本下载地址</p>
 <p><em><a href="https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></em></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -677,10 +714,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -818,6 +858,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-03-27T00-36-10',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Fri Mar 27 2020 00:36:10 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -853,7 +947,9 @@
                             
 
 常用命令Kubernetes Cheat SheetViewing Resource Information     //查看资源信息
-Nodes1234567$ kubectl get no$ kubectl get no -o wi
+Nodes$ kubectl get no
+$ kubectl get no -o wide
+$ k
                         
                     </div>
                     <div class="publish-info">
@@ -1076,7 +1172,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1104,13 +1200,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1120,7 +1216,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1202,6 +1298,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -585,15 +585,33 @@
 <p>​        Deployment 处于 master 节点上，通过发布 Deployment，master 节点会选择合适的 worker 节点创建 Container（即图中的正方体），Container 会被包含在 Pod （即蓝色圆圈）里。</p>
 <h2 id="部署-nginx-Deployment"><a href="#部署-nginx-Deployment" class="headerlink" title="部署 nginx Deployment"></a>部署 nginx Deployment</h2><p><strong>创建 YAML 文件</strong></p>
 <p>创建文件 nginx-deployment.yaml，内容如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span>	<span class="comment">#与k8s集群版本有关，使用 kubectl api-versions 即可查看当前集群支持的版本</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span>	<span class="comment">#该配置的类型，我们使用的是 Deployment</span></span><br><span class="line"><span class="attr">metadata:</span>	        <span class="comment">#译名为元数据，即 Deployment 的一些基本属性和信息</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span>	<span class="comment">#Deployment 的名称</span></span><br><span class="line">  <span class="attr">labels:</span>	    <span class="comment">#标签，可以灵活定位一个或多个资源，其中key和value均可自定义，可以定义多组，目前不需要理解</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>	<span class="comment">#为该Deployment设置key为app，value为nginx的标签</span></span><br><span class="line"><span class="attr">spec:</span>	        <span class="comment">#这是关于该Deployment的描述，可以理解为你期待该Deployment在k8s中如何使用</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span>	<span class="comment">#使用该Deployment创建一个应用程序实例</span></span><br><span class="line">  <span class="attr">selector:</span>	    <span class="comment">#标签选择器，与上面的标签共同作用，目前不需要理解</span></span><br><span class="line">    <span class="attr">matchLabels:</span> <span class="comment">#选择包含标签app:nginx的资源</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span>	    <span class="comment">#这是选择或创建的Pod的模板</span></span><br><span class="line">    <span class="attr">metadata:</span>	<span class="comment">#Pod的元数据</span></span><br><span class="line">      <span class="attr">labels:</span>	<span class="comment">#Pod的标签，上面的selector即选择包含标签app:nginx的Pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span>	    <span class="comment">#期望Pod实现的功能（即在pod中部署）</span></span><br><span class="line">      <span class="attr">containers:</span>	<span class="comment">#生成container，与docker中的container是同一种</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span>	<span class="comment">#container的名称</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.7.9</span>	<span class="comment">#使用镜像nginx:1.7.9创建container，该container默认80端口可访问</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1    <span class="token comment" spellcheck="true">#与k8s集群版本有关，使用 kubectl api-versions 即可查看当前集群支持的版本</span>
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment    <span class="token comment" spellcheck="true">#该配置的类型，我们使用的是 Deployment</span>
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>            <span class="token comment" spellcheck="true">#译名为元数据，即 Deployment 的一些基本属性和信息</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>deployment    <span class="token comment" spellcheck="true">#Deployment 的名称</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#标签，可以灵活定位一个或多个资源，其中key和value均可自定义，可以定义多组，目前不需要理解</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx    <span class="token comment" spellcheck="true">#为该Deployment设置key为app，value为nginx的标签</span>
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>            <span class="token comment" spellcheck="true">#这是关于该Deployment的描述，可以理解为你期待该Deployment在k8s中如何使用</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1    </span><span class="token comment" spellcheck="true">#使用该Deployment创建一个应用程序实例</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#标签选择器，与上面的标签共同作用，目前不需要理解</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true">#选择包含标签app:nginx的资源</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#这是选择或创建的Pod的模板</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true">#Pod的元数据</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true">#Pod的标签，上面的selector即选择包含标签app:nginx的Pod</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#期望Pod实现的功能（即在pod中部署）</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true">#生成container，与docker中的container是同一种</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx    <span class="token comment" spellcheck="true">#container的名称</span>
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.7.9    <span class="token comment" spellcheck="true">#使用镜像nginx:1.7.9创建container，该container默认80端口可访问</span></code></pre>
 <p><strong>应用 YAML 文件</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f nginx-deployment.yaml</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">kubectl apply -f nginx-deployment.yaml</code></pre>
 <p><strong>查看部署结果</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 查看 Deployment</span><br><span class="line">kubectl get deployments</span><br><span class="line"></span><br><span class="line"># 查看 Pod</span><br><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+<pre><code># 查看 Deployment
+kubectl get deployments
 
-<p>可分别查看到一个名为 nginx-deployment 的 Deployment 和一个名为 nginx-deployment-xxxxxxx 的 Pod</p>
+# 查看 Pod
+kubectl get pods</code></pre><p>可分别查看到一个名为 nginx-deployment 的 Deployment 和一个名为 nginx-deployment-xxxxxxx 的 Pod</p>
 <h1 id="2-查看Pods-Nodes"><a href="#2-查看Pods-Nodes" class="headerlink" title="2.查看Pods/Nodes"></a>2.查看Pods/Nodes</h1><h2 id="Kubernetes-Pods"><a href="#Kubernetes-Pods" class="headerlink" title="Kubernetes Pods"></a>Kubernetes Pods</h2><p>在 <a href="https://www.kuboard.cn/learning/k8s-basics/deploy-app.html" target="_blank" rel="noopener">部署第一个应用程序</a> 中创建 Deployment 后，k8s创建了一个 <strong>Pod（容器组）</strong> 来放置应用程序实例（container 容器）。</p>
 <h2 id="Pods概述"><a href="#Pods概述" class="headerlink" title="Pods概述"></a>Pods概述</h2><p><img src="https://s1.ax1x.com/2020/05/04/YCjWdK.png" alt="YCjWdK.png"></p>
 <p><strong>Pod 容器组</strong> 是一个k8s中一个抽象的概念，用于存放一组 container（可包含一个或多个 container 容器，即图上正方体)，以及这些 container （容器）的一些共享资源。这些资源包括：</p>
@@ -628,25 +646,48 @@
 <ul>
 <li><strong>kubectl get</strong> - 显示资源列表</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl get 资源类型</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">获取类型为Deployment的资源列表</span></span><br><span class="line">kubectl get deployments</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">获取类型为Pod的资源列表</span></span><br><span class="line">kubectl get pods</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">获取类型为Node的资源列表</span></span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell"># kubectl get 资源类型
 
+#获取类型为Deployment的资源列表
+kubectl get deployments
+
+#获取类型为Pod的资源列表
+kubectl get pods
+
+#获取类型为Node的资源列表
+kubectl get nodes
+</code></pre>
 <blockquote>
 <p>名称空间</p>
 <p>在命令后增加 <code>-A</code> 或 <code>--all-namespaces</code> 可查看所有 <a href="https://www.kuboard.cn/learning/k8s-intermediate/obj/namespaces.html" target="_blank" rel="noopener">名称空间中</a> 的对象，使用参数 <code>-n</code> 可查看指定名称空间的对象，例如</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有名称空间的 Deployment</span></span><br><span class="line">kubectl get deployments -A</span><br><span class="line">kubectl get deployments --all-namespaces</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 kube-system 名称空间的 Deployment</span></span><br><span class="line">kubectl get deployments -n kube-system</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell"># 查看所有名称空间的 Deployment
+kubectl get deployments -A
+kubectl get deployments --all-namespaces
+# 查看 kube-system 名称空间的 Deployment
+kubectl get deployments -n kube-system
+</code></pre>
 <p>并非所有对象都在名称空间里)</p>
 </blockquote>
 <ul>
 <li><strong>kubectl describe</strong> - 显示有关资源的详细信息</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl describe 资源类型 资源名称</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看名称为nginx-XXXXXX的Pod的信息</span></span><br><span class="line">kubectl describe pod nginx-XXXXXX	</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看名称为nginx的Deployment的信息</span></span><br><span class="line">kubectl describe deployment nginx</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell"># kubectl describe 资源类型 资源名称
 
+#查看名称为nginx-XXXXXX的Pod的信息
+kubectl describe pod nginx-XXXXXX    
+
+#查看名称为nginx的Deployment的信息
+kubectl describe deployment nginx    
+</code></pre>
 <ul>
 <li><strong>kubectl logs</strong> - 查看pod中的容器的打印日志（和命令docker logs 类似）</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kubectl logs Pod名称</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看名称为nginx-pod-XXXXXXX的Pod内的容器打印的日志</span></span><br><span class="line"><span class="meta">#</span><span class="bash">本案例中的 nginx-pod 没有输出日志，所以您看到的结果是空的</span></span><br><span class="line">kubectl logs -f nginx-pod-XXXXXXX</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell"># kubectl logs Pod名称
 
+#查看名称为nginx-pod-XXXXXXX的Pod内的容器打印的日志
+#本案例中的 nginx-pod 没有输出日志，所以您看到的结果是空的
+kubectl logs -f nginx-pod-XXXXXXX
+</code></pre>
 <p>尝试在集群中执行一下上述的几个命令，可以了解如何通过 kubectl 操作 kubernetes 集群中的 Node、Pod、Container。</p>
 <blockquote>
 <p>TIP</p>
@@ -696,38 +737,51 @@
 <h2 id="练习：为-nginx-Deployment-创建一个-Service"><a href="#练习：为-nginx-Deployment-创建一个-Service" class="headerlink" title="练习：为 nginx Deployment 创建一个 Service"></a>练习：为 nginx Deployment 创建一个 Service</h2><ul>
 <li><strong>创建nginx的Deployment中定义了Labels，如下：</strong></li>
 </ul>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metadata:</span>	<span class="comment">#译名为元数据，即Deployment的一些基本属性和信息</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span>	<span class="comment">#Deployment的名称</span></span><br><span class="line">  <span class="attr">labels:</span>	<span class="comment">#标签，可以灵活定位一个或多个资源，其中key和value均可自定义，可以定义多组</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>	<span class="comment">#为该Deployment设置key为app，value为nginx的标签</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">metadata</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true">#译名为元数据，即Deployment的一些基本属性和信息</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>deployment    <span class="token comment" spellcheck="true">#Deployment的名称</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true">#标签，可以灵活定位一个或多个资源，其中key和value均可自定义，可以定义多组</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx    <span class="token comment" spellcheck="true">#为该Deployment设置key为app，value为nginx的标签</span>
+</code></pre>
 <ul>
 <li><strong>创建文件 nginx-service.yaml</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim nginx-service.yaml</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">vim nginx-service.yaml</code></pre>
 <ul>
 <li><strong>文件内容如下：</strong></li>
 </ul>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-service</span>	<span class="comment">#Service 的名称</span></span><br><span class="line">  <span class="attr">labels:</span>     	<span class="comment">#Service 自己的标签</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>	<span class="comment">#为该 Service 设置 key 为 app，value 为 nginx 的标签</span></span><br><span class="line"><span class="attr">spec:</span>	    <span class="comment">#这是关于该 Service 的定义，描述了 Service 如何选择 Pod，如何被访问</span></span><br><span class="line">  <span class="attr">selector:</span>	    <span class="comment">#标签选择器</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span>	<span class="comment">#选择包含标签 app:nginx 的 Pod</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-port</span>	<span class="comment">#端口的名字</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span>	    <span class="comment">#协议类型 TCP/UDP</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">80</span>	        <span class="comment">#集群内的其他容器组可通过 80 端口访问 Service</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">32600</span>   <span class="comment">#通过任意节点的 32600 端口访问 Service</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span>	<span class="comment">#将请求转发到匹配 Pod 的 80 端口</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span>	<span class="comment">#Serive的类型，ClusterIP/NodePort/LoaderBalancer</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>service    <span class="token comment" spellcheck="true">#Service 的名称</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>         <span class="token comment" spellcheck="true">#Service 自己的标签</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx    <span class="token comment" spellcheck="true">#为该 Service 设置 key 为 app，value 为 nginx 的标签</span>
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#这是关于该 Service 的定义，描述了 Service 如何选择 Pod，如何被访问</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">#标签选择器</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx    <span class="token comment" spellcheck="true">#选择包含标签 app:nginx 的 Pod</span>
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>port    <span class="token comment" spellcheck="true">#端口的名字</span>
+    <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP        <span class="token comment" spellcheck="true">#协议类型 TCP/UDP</span>
+    <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80            </span><span class="token comment" spellcheck="true">#集群内的其他容器组可通过 80 端口访问 Service</span>
+    <span class="token key atrule">nodePort</span><span class="token punctuation">:</span> <span class="token number">32600   </span><span class="token comment" spellcheck="true">#通过任意节点的 32600 端口访问 Service</span>
+    <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">80    </span><span class="token comment" spellcheck="true">#将请求转发到匹配 Pod 的 80 端口</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> NodePort    <span class="token comment" spellcheck="true">#Serive的类型，ClusterIP/NodePort/LoaderBalancer</span>
+</code></pre>
 <ul>
 <li><strong>执行命令</strong></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f nginx-service.yaml</span><br></pre></td></tr></table></figure>
-
-<ul>
+<pre><code>kubectl apply -f nginx-service.yaml</code></pre><ul>
 <li><p><strong>检查执行结果</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get services -o wide</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">kubectl get services -o wide</code></pre>
 </li>
 <li><p><strong>访问服务</strong></p>
 </li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &lt;任意节点的 IP&gt;:32600</span><br></pre></td></tr></table></figure>
-
-
-
+<pre class=" language-shell"><code class="language-shell">curl <任意节点的 IP>:32600</code></pre>
 <h1 id="4-伸缩应用程序"><a href="#4-伸缩应用程序" class="headerlink" title="4.伸缩应用程序"></a>4.伸缩应用程序</h1><h2 id="Scaling（伸缩）应用程序"><a href="#Scaling（伸缩）应用程序" class="headerlink" title="Scaling（伸缩）应用程序"></a>Scaling（伸缩）应用程序</h2><p>在前面，我们创建了一个 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a>，然后通过 <a href="https://kubernetes.io/docs/concepts/services-networking/service/" target="_blank" rel="noopener">服务</a> 提供访问 Pod 的方式。我们发布的 Deployment 只创建了一个 Pod 来运行我们的应用程序。当流量增加时，我们需要对应用程序进行伸缩操作以满足系统性能需求。</p>
 <p><strong>伸缩</strong> 的实现可以通过更改 nginx-deployment.yaml 文件中部署的 replicas（副本数）来完成</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span>    <span class="comment">#使用该Deployment创建两个应用程序实例</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">2    </span><span class="token comment" spellcheck="true">#使用该Deployment创建两个应用程序实例</span>
+</code></pre>
 <h2 id="Scaling（伸缩）概述"><a href="#Scaling（伸缩）概述" class="headerlink" title="Scaling（伸缩）概述"></a>Scaling（伸缩）概述</h2><p>下图中，Service A 只将访问流量转发到 IP 为 10.0.0.5 的Pod上</p>
 <p><img src="https://s1.ax1x.com/2020/05/04/YP8Wi6.png" alt="YP8Wi6.png"></p>
 <p>​        修改了 Deployment 的 replicas 为 4 后，Kubernetes 又为该 Deployment 创建了 3 新的 Pod，这 4 个 Pod 有相同的标签。因此Service A通过标签选择器与新的 Pod建立了对应关系，将访问流量通过负载均衡在 4 个 Pod 之间进行转发。</p>
@@ -744,15 +798,11 @@
 <ul>
 <li><strong>执行命令</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f nginx-deployment.yaml</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-shell"><code class="language-shell">kubectl apply -f nginx-deployment.yaml</code></pre>
 <ul>
 <li><strong>查看结果</strong></li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch kubectl get pods -o wide</span><br></pre></td></tr></table></figure>
-
-
-
+<pre class=" language-shell"><code class="language-shell">watch kubectl get pods -o wide</code></pre>
 <h1 id="5-执行滚动更新"><a href="#5-执行滚动更新" class="headerlink" title="5.执行滚动更新"></a>5.执行滚动更新</h1><h2 id="更新应用程序"><a href="#更新应用程序" class="headerlink" title="更新应用程序"></a>更新应用程序</h2><p>户期望应用程序始终可用，为此开发者/运维者在更新应用程序时要分多次完成。在 Kubernetes 中，这是通过 Rolling Update 滚动更新完成的。<strong>Rolling Update滚动更新</strong> 通过使用新版本的 Pod 逐步替代旧版本的 Pod 来实现 Deployment 的更新，从而实现零停机。新的 Pod 将在具有可用资源的 Node（节点）上进行调度。</p>
 <blockquote>
 <p>Kubernetes 更新多副本的 Deployment 的版本时，会逐步的创建新版本的 Pod，逐步的停止旧版本的 Pod，以便使应用一直处于可用状态。这个过程中，Service 能够监视 Pod 的状态，将流量始终转发到可用的 Pod 上。</p>
@@ -784,16 +834,15 @@
 <p><img src="https://s1.ax1x.com/2020/05/04/YPJe4P.png" alt="YPJe4P.png"></p>
 <ul>
 <li><p><strong>执行命令</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f nginx-deployment.yaml</span><br></pre></td></tr></table></figure>
+<pre class=" language-shell"><code class="language-shell">kubectl apply -f nginx-deployment.yaml
+</code></pre>
 </li>
 <li><p><strong>查看过程及结果</strong></p>
 </li>
 </ul>
 <p>执行命令，可观察到 pod 逐个被替换的过程。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch kubectl get pods -l app=nginx</span><br></pre></td></tr></table></figure>
-
-
-
+<pre class=" language-shell"><code class="language-shell">watch kubectl get pods -l app=nginx
+</code></pre>
 <h1 id="Kubernetes核心概念"><a href="#Kubernetes核心概念" class="headerlink" title="Kubernetes核心概念"></a>Kubernetes核心概念</h1><h2 id="什么是Kubernetes？"><a href="#什么是Kubernetes？" class="headerlink" title="什么是Kubernetes？"></a>什么是Kubernetes？</h2><p>Kubernetes（k8s）是自动化容器操作的开源平台，这些操作包括部署，调度和节点集群间扩展。如果你曾经用过Docker容器技术部署容器，那么可以将Docker看成Kubernetes内部使用的低级别组件。Kubernetes不仅仅支持Docker，还支持Rocket，这是另一种容器技术。 使用Kubernetes可以：</p>
 <ul>
 <li>自动化容器的部署和复制</li>
@@ -845,7 +894,25 @@
 <li>Docker或Rocket：Kubernetes使用的容器技术来创建容器。</li>
 </ul>
 <h3 id="Kubernetes-Master"><a href="#Kubernetes-Master" class="headerlink" title="Kubernetes Master"></a>Kubernetes Master</h3><p>集群拥有一个Kubernetes Master（紫色方框）。Kubernetes Master提供集群的独特视角，并且拥有一系列组件，比如Kubernetes API Server。API Server提供可以用来和集群交互的REST端点。master节点包括用来创建和复制Pod的Replication Controller。</p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -920,10 +987,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -1061,6 +1131,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2020-03-14T20-24-13',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Sat Mar 14 2020 20:24:13 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -1097,7 +1221,10 @@
 
 kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。
 这个工具能通过两条指令完成一个kubernetes集群的部署：
-12345# 创建一个 Master 节点$ kubeadm init# 将一个 Node 
+# 创建一个 Master 节点
+$ kubeadm init
+
+# 将一个 Node 节点
                         
                     </div>
                     <div class="publish-info">
@@ -1321,7 +1448,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1349,13 +1476,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1365,7 +1492,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1447,6 +1574,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     

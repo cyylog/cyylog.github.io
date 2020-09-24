@@ -30,7 +30,7 @@
     <script src="/libs/jquery/jquery.min.js"></script>
 
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -559,13 +559,299 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<h4 id="Dockerfile-redis-5-0"><a href="#Dockerfile-redis-5-0" class="headerlink" title="Dockerfile_redis_5.0"></a>Dockerfile_redis_5.0</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> debian:buster-slim</span><br><span class="line"></span><br><span class="line"><span class="comment"># add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> groupadd -r -g 999 redis &amp;&amp; useradd -r -g redis -u 999 redis</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># grab gosu for easy step-down from root</span></span><br><span class="line"><span class="comment"># https://github.com/tianon/gosu/releases</span></span><br><span class="line"><span class="keyword">ENV</span> GOSU_VERSION <span class="number">1.11</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -eux; \</span></span><br><span class="line"><span class="bash"><span class="comment"># save list of currently installed packages for later so we can clean up</span></span></span><br><span class="line">	savedAptMark=<span class="string">"$(apt-mark showmanual)"</span>; \</span><br><span class="line">	apt-get update; \</span><br><span class="line">	apt-get install -y --no-install-recommends \</span><br><span class="line">		ca-certificates \</span><br><span class="line">		dirmngr \</span><br><span class="line">		gnupg \</span><br><span class="line">		wget \</span><br><span class="line">	; \</span><br><span class="line">	rm -rf /var/lib/apt/lists/*; \</span><br><span class="line">	\</span><br><span class="line">	dpkgArch=<span class="string">"$(dpkg --print-architecture | awk -F- '&#123; print $NF &#125;')"</span>; \</span><br><span class="line">	wget -O /usr/local/bin/gosu <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"</span>; \</span><br><span class="line">	wget -O /usr/local/bin/gosu.asc <span class="string">"https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"</span>; \</span><br><span class="line">	\</span><br><span class="line"><span class="comment"># verify the signature</span></span><br><span class="line">	export GNUPGHOME=<span class="string">"$(mktemp -d)"</span>; \</span><br><span class="line">	gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \</span><br><span class="line">	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \</span><br><span class="line">	gpgconf --kill all; \</span><br><span class="line">	rm -rf <span class="string">"$GNUPGHOME"</span> /usr/local/bin/gosu.asc; \</span><br><span class="line">	\</span><br><span class="line"><span class="comment"># clean up fetch dependencies</span></span><br><span class="line">	apt-mark auto <span class="string">'.*'</span> &gt; /dev/null; \</span><br><span class="line">	[ -z <span class="string">"$savedAptMark"</span> ] || apt-mark manual $savedAptMark &gt; /dev/null; \</span><br><span class="line">	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \</span><br><span class="line">	\</span><br><span class="line">	chmod +x /usr/local/bin/gosu; \</span><br><span class="line"><span class="comment"># verify that the binary works</span></span><br><span class="line">	gosu --version; \</span><br><span class="line">	gosu nobody true</span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> REDIS_VERSION <span class="number">5.0</span>.<span class="number">8</span></span><br><span class="line"><span class="keyword">ENV</span> REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-<span class="number">5.0</span>.<span class="number">8</span>.tar.gz</span><br><span class="line"><span class="keyword">ENV</span> REDIS_DOWNLOAD_SHA f3c7eac42f433326a8d981b50dba0169fdfaf46abb23fcda2f933a7552ee4ed7</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -eux; \</span></span><br><span class="line"><span class="bash">	\</span></span><br><span class="line"><span class="bash">	savedAptMark=<span class="string">"<span class="variable">$(apt-mark showmanual)</span>"</span>; \</span></span><br><span class="line"><span class="bash">	apt-get update; \</span></span><br><span class="line"><span class="bash">	apt-get install -y --no-install-recommends \</span></span><br><span class="line"><span class="bash">		ca-certificates \</span></span><br><span class="line"><span class="bash">		wget \</span></span><br><span class="line"><span class="bash">		\</span></span><br><span class="line"><span class="bash">		gcc \</span></span><br><span class="line"><span class="bash">		libc6-dev \</span></span><br><span class="line"><span class="bash">		make \</span></span><br><span class="line"><span class="bash">	; \</span></span><br><span class="line"><span class="bash">	rm -rf /var/lib/apt/lists/*; \</span></span><br><span class="line"><span class="bash">	\</span></span><br><span class="line"><span class="bash">	wget -O redis.tar.gz <span class="string">"<span class="variable">$REDIS_DOWNLOAD_URL</span>"</span>; \</span></span><br><span class="line"><span class="bash">	<span class="built_in">echo</span> <span class="string">"<span class="variable">$REDIS_DOWNLOAD_SHA</span> *redis.tar.gz"</span> | sha256sum -c -; \</span></span><br><span class="line"><span class="bash">	mkdir -p /usr/src/redis; \</span></span><br><span class="line"><span class="bash">	tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1; \</span></span><br><span class="line"><span class="bash">	rm redis.tar.gz; \</span></span><br><span class="line"><span class="bash">	\</span></span><br><span class="line"><span class="bash"><span class="comment"># disable Redis protected mode [1] as it is unnecessary in context of Docker</span></span></span><br><span class="line"><span class="comment"># (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)</span></span><br><span class="line"><span class="comment"># [1]: https://github.com/antirez/redis/commit/edd4d555df57dc84265fdfb4ef59a4678832f6da</span></span><br><span class="line">	grep -q <span class="string">'^#define CONFIG_DEFAULT_PROTECTED_MODE 1$'</span> /usr/src/redis/src/server.h; \</span><br><span class="line">	sed -ri <span class="string">'s!^(#define CONFIG_DEFAULT_PROTECTED_MODE) 1$!\1 0!'</span> /usr/src/redis/src/server.h; \</span><br><span class="line">	grep -q <span class="string">'^#define CONFIG_DEFAULT_PROTECTED_MODE 0$'</span> /usr/src/redis/src/server.h; \</span><br><span class="line"><span class="comment"># for future reference, we modify this directly in the source instead of just supplying a default configuration flag because apparently "if you specify any argument to redis-server, [it assumes] you are going to specify everything"</span></span><br><span class="line"><span class="comment"># see also https://github.com/docker-library/redis/issues/4#issuecomment-50780840</span></span><br><span class="line"><span class="comment"># (more exactly, this makes sure the default behavior of "save on SIGTERM" stays functional by default)</span></span><br><span class="line">	\</span><br><span class="line">	make -C /usr/src/redis -j <span class="string">"$(nproc)"</span> all; \</span><br><span class="line">	make -C /usr/src/redis install; \</span><br><span class="line">	\</span><br><span class="line"><span class="comment"># TODO https://github.com/antirez/redis/pull/3494 (deduplicate "redis-server" copies)</span></span><br><span class="line">	serverMd5=<span class="string">"$(md5sum /usr/local/bin/redis-server | cut -d' ' -f1)"</span>; export serverMd5; \</span><br><span class="line">	find /usr/local/bin/redis* -maxdepth <span class="number">0</span> \</span><br><span class="line">		-type f -not -name redis-server \</span><br><span class="line">		-exec sh -eux -c <span class="string">' \</span></span><br><span class="line"><span class="string">			md5="$(md5sum "$1" | cut -d" " -f1)"; \</span></span><br><span class="line"><span class="string">			test "$md5" = "$serverMd5"; \</span></span><br><span class="line"><span class="string">		'</span> -- <span class="string">'&#123;&#125;'</span> <span class="string">';'</span> \</span><br><span class="line">		-exec ln -svfT <span class="string">'redis-server'</span> <span class="string">'&#123;&#125;'</span> <span class="string">';'</span> \</span><br><span class="line">	; \</span><br><span class="line">	\</span><br><span class="line">	rm -r /usr/src/redis; \</span><br><span class="line">	\</span><br><span class="line">	apt-mark auto <span class="string">'.*'</span> &gt; /dev/null; \</span><br><span class="line">	[ -z <span class="string">"$savedAptMark"</span> ] || apt-mark manual $savedAptMark &gt; /dev/null; \</span><br><span class="line">	find /usr/local -type f -executable -exec ldd <span class="string">'&#123;&#125;'</span> <span class="string">';'</span> \</span><br><span class="line">		| awk <span class="string">'/=&gt;/ &#123; print $(NF-1) &#125;'</span> \</span><br><span class="line">		| sort -u \</span><br><span class="line">		| xargs -r dpkg-query --search \</span><br><span class="line">		| cut -d: -f1 \</span><br><span class="line">		| sort -u \</span><br><span class="line">		| xargs -r apt-mark manual \</span><br><span class="line">	; \</span><br><span class="line">	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \</span><br><span class="line">	\</span><br><span class="line">	redis-cli --version; \</span><br><span class="line">	redis-server --version</span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir /data &amp;&amp; chown redis:redis /data</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /data</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /data</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> docker-entrypoint.sh /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">"docker-entrypoint.sh"</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">6379</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"redis-server"</span>]</span></span><br></pre></td></tr></table></figure>
+<h4 id="Dockerfile-redis-5-0"><a href="#Dockerfile-redis-5-0" class="headerlink" title="Dockerfile_redis_5.0"></a>Dockerfile_redis_5.0</h4><pre class=" language-dockerfile"><code class="language-dockerfile">FROM debian:buster-slim
 
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+RUN groupadd -r -g 999 redis && useradd -r -g redis -u 999 redis
 
+# grab gosu for easy step-down from root
+# https://github.com/tianon/gosu/releases
+ENV GOSU_VERSION 1.11
+RUN set -eux; \
+# save list of currently installed packages for later so we can clean up
+    savedAptMark="$(apt-mark showmanual)"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        dirmngr \
+        gnupg \
+        wget \
+    ; \
+    rm -rf /var/lib/apt/lists/*; \
+    \
+    dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
+    wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
+    \
+# verify the signature
+    export GNUPGHOME="$(mktemp -d)"; \
+    gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+    gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+    gpgconf --kill all; \
+    rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+    \
+# clean up fetch dependencies
+    apt-mark auto '.*' > /dev/null; \
+    [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    \
+    chmod +x /usr/local/bin/gosu; \
+# verify that the binary works
+    gosu --version; \
+    gosu nobody true
 
-<h4 id="Dockerfile-alpine-httpd-2-4"><a href="#Dockerfile-alpine-httpd-2-4" class="headerlink" title="Dockerfile_alpine_httpd_2.4"></a>Dockerfile_alpine_httpd_2.4</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> alpine:<span class="number">3.11</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ensure www-data user exists</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -x \</span></span><br><span class="line"><span class="bash">	&amp;&amp; addgroup -g 82 -S www-data \</span></span><br><span class="line"><span class="bash">	&amp;&amp; adduser -u 82 -D -S -G www-data www-data</span></span><br><span class="line"><span class="comment"># 82 is the standard uid/gid for "www-data" in Alpine</span></span><br><span class="line"><span class="comment"># https://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.8.1</span></span><br><span class="line"><span class="comment"># https://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.8.1</span></span><br><span class="line"><span class="comment"># https://git.alpinelinux.org/cgit/aports/tree/main/nginx/nginx.pre-install?h=v3.8.1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> HTTPD_PREFIX /usr/local/apache2</span><br><span class="line"><span class="keyword">ENV</span> PATH $HTTPD_PREFIX/bin:$PATH</span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mkdir -p <span class="string">"<span class="variable">$HTTPD_PREFIX</span>"</span> \</span></span><br><span class="line"><span class="bash">	&amp;&amp; chown www-data:www-data <span class="string">"<span class="variable">$HTTPD_PREFIX</span>"</span></span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="variable">$HTTPD_PREFIX</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> HTTPD_VERSION <span class="number">2.4</span>.<span class="number">43</span></span><br><span class="line"><span class="keyword">ENV</span> HTTPD_SHA256 a497652ab3fc81318cdc2a203090a999150d86461acff97c1065dc910fe10f43</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://httpd.apache.org/security/vulnerabilities_24.html</span></span><br><span class="line"><span class="keyword">ENV</span> HTTPD_PATCHES=<span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># see https://httpd.apache.org/docs/2.4/install.html#requirements</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">set</span> -eux; \</span></span><br><span class="line"><span class="bash">	\</span></span><br><span class="line"><span class="bash">	runDeps=<span class="string">' \</span></span></span><br><span class="line"><span class="bash">		apr-dev \</span></span><br><span class="line"><span class="bash">		apr-util-dbm_db \</span></span><br><span class="line"><span class="bash">		apr-util-dev \</span></span><br><span class="line"><span class="bash">		apr-util-ldap \</span></span><br><span class="line"><span class="bash">		perl \</span></span><br><span class="line"><span class="bash">	<span class="string">'; \</span></span></span><br><span class="line"><span class="bash">	apk add --no-cache --virtual .build-deps \</span></span><br><span class="line"><span class="bash">		<span class="variable">$runDeps</span> \</span></span><br><span class="line"><span class="bash">		ca-certificates \</span></span><br><span class="line"><span class="bash">		coreutils \</span></span><br><span class="line"><span class="bash">		dpkg-dev dpkg \</span></span><br><span class="line"><span class="bash">		gcc \</span></span><br><span class="line"><span class="bash">		gnupg \</span></span><br><span class="line"><span class="bash">		libc-dev \</span></span><br><span class="line"><span class="bash">		<span class="comment"># mod_md</span></span></span><br><span class="line">		curl-dev \</span><br><span class="line">		jansson-dev \</span><br><span class="line">		<span class="comment"># mod_proxy_html mod_xml2enc</span></span><br><span class="line">		libxml2-dev \</span><br><span class="line">		<span class="comment"># mod_lua</span></span><br><span class="line">		lua-dev \</span><br><span class="line">		make \</span><br><span class="line">		<span class="comment"># mod_http2</span></span><br><span class="line">		nghttp2-dev \</span><br><span class="line">		<span class="comment"># mod_session_crypto</span></span><br><span class="line">		openssl \</span><br><span class="line">		openssl-dev \</span><br><span class="line">		pcre-dev \</span><br><span class="line">		tar \</span><br><span class="line">		<span class="comment"># mod_deflate</span></span><br><span class="line">		zlib-dev \</span><br><span class="line">		<span class="comment"># mod_brotli</span></span><br><span class="line">		brotli-dev \</span><br><span class="line">	; \</span><br><span class="line">	\</span><br><span class="line">	ddist() &#123; \</span><br><span class="line">		local f=<span class="string">"$1"</span>; shift; \</span><br><span class="line">		local distFile=<span class="string">"$1"</span>; shift; \</span><br><span class="line">		local success=; \</span><br><span class="line">		local distUrl=; \</span><br><span class="line">		for distUrl in \</span><br><span class="line"><span class="comment"># https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394</span></span><br><span class="line">			<span class="string">'https://www.apache.org/dyn/closer.cgi?action=download&amp;filename='</span> \</span><br><span class="line"><span class="comment"># if the version is outdated (or we're grabbing the .asc file), we might have to pull from the dist/archive :/</span></span><br><span class="line">			https://www-us.apache.org/dist/ \</span><br><span class="line">			https://www.apache.org/dist/ \</span><br><span class="line">			https://archive.apache.org/dist/ \</span><br><span class="line">		; do \</span><br><span class="line">			if wget -O <span class="string">"$f"</span> <span class="string">"$distUrl$distFile"</span> &amp;&amp; [ -s <span class="string">"$f"</span> ]; then \</span><br><span class="line">				success=<span class="number">1</span>; \</span><br><span class="line">				break; \</span><br><span class="line">			fi; \</span><br><span class="line">		done; \</span><br><span class="line">		[ -n <span class="string">"$success"</span> ]; \</span><br><span class="line">	&#125;; \</span><br><span class="line">	\</span><br><span class="line">	ddist <span class="string">'httpd.tar.bz2'</span> <span class="string">"httpd/httpd-$HTTPD_VERSION.tar.bz2"</span>; \</span><br><span class="line">	echo <span class="string">"$HTTPD_SHA256 *httpd.tar.bz2"</span> | sha256sum -c -; \</span><br><span class="line">	\</span><br><span class="line"><span class="comment"># see https://httpd.apache.org/download.cgi#verify</span></span><br><span class="line">	ddist <span class="string">'httpd.tar.bz2.asc'</span> <span class="string">"httpd/httpd-$HTTPD_VERSION.tar.bz2.asc"</span>; \</span><br><span class="line">	export GNUPGHOME=<span class="string">"$(mktemp -d)"</span>; \</span><br><span class="line">	for key in \</span><br><span class="line"><span class="comment"># gpg: key 791485A8: public key "Jim Jagielski (Release Signing Key) &lt;jim@apache.org&gt;" imported</span></span><br><span class="line">		A93D62ECC3C8EA12DB220EC934EA76E6791485A8 \</span><br><span class="line"><span class="comment"># gpg: key 995E35221AD84DFF: public key "Daniel Ruggeri (https://home.apache.org/~druggeri/) &lt;druggeri@apache.org&gt;" imported</span></span><br><span class="line">		B9E8213AEFB861AF35A41F2C995E35221AD84DFF \</span><br><span class="line">	; do \</span><br><span class="line">		gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys <span class="string">"$key"</span>; \</span><br><span class="line">	done; \</span><br><span class="line">	gpg --batch --verify httpd.tar.bz2.asc httpd.tar.bz2; \</span><br><span class="line">	command -v gpgconf &amp;&amp; gpgconf --kill all || :; \</span><br><span class="line">	rm -rf <span class="string">"$GNUPGHOME"</span> httpd.tar.bz2.asc; \</span><br><span class="line">	\</span><br><span class="line">	mkdir -p src; \</span><br><span class="line">	tar -xf httpd.tar.bz2 -C src --strip-components=<span class="number">1</span>; \</span><br><span class="line">	rm httpd.tar.bz2; \</span><br><span class="line">	cd src; \</span><br><span class="line">	\</span><br><span class="line">	patches() &#123; \</span><br><span class="line">		while [ <span class="string">"$#"</span> -gt <span class="number">0</span> ]; do \</span><br><span class="line">			local patchFile=<span class="string">"$1"</span>; shift; \</span><br><span class="line">			local patchSha256=<span class="string">"$1"</span>; shift; \</span><br><span class="line">			ddist <span class="string">"$patchFile"</span> <span class="string">"httpd/patches/apply_to_$HTTPD_VERSION/$patchFile"</span>; \</span><br><span class="line">			echo <span class="string">"$patchSha256 *$patchFile"</span> | sha256sum -c -; \</span><br><span class="line">			patch -p0 &lt; <span class="string">"$patchFile"</span>; \</span><br><span class="line">			rm -f <span class="string">"$patchFile"</span>; \</span><br><span class="line">		done; \</span><br><span class="line">	&#125;; \</span><br><span class="line">	patches $HTTPD_PATCHES; \</span><br><span class="line">	\</span><br><span class="line">	gnuArch=<span class="string">"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"</span>; \</span><br><span class="line">	./configure \</span><br><span class="line">		--build=<span class="string">"$gnuArch"</span> \</span><br><span class="line">		--prefix=<span class="string">"$HTTPD_PREFIX"</span> \</span><br><span class="line">		--enable-mods-shared=reallyall \</span><br><span class="line">		--enable-mpms-shared=all \</span><br><span class="line"><span class="comment"># PIE and hardening flags are unnecessary as Alpine enables them automatically (https://alpinelinux.org/about/)</span></span><br><span class="line">	; \</span><br><span class="line">	make -j <span class="string">"$(nproc)"</span>; \</span><br><span class="line">	make install; \</span><br><span class="line">	\</span><br><span class="line">	cd ..; \</span><br><span class="line">	rm -r src man manual; \</span><br><span class="line">	\</span><br><span class="line">	sed -ri \</span><br><span class="line">		-e <span class="string">'s!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g'</span> \</span><br><span class="line">		-e <span class="string">'s!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g'</span> \</span><br><span class="line">		-e <span class="string">'s!^(\s*TransferLog)\s+\S+!\1 /proc/self/fd/1!g'</span> \</span><br><span class="line">		<span class="string">"$HTTPD_PREFIX/conf/httpd.conf"</span> \</span><br><span class="line">		<span class="string">"$HTTPD_PREFIX/conf/extra/httpd-ssl.conf"</span> \</span><br><span class="line">	; \</span><br><span class="line">	\</span><br><span class="line">	runDeps=<span class="string">"$runDeps $( \</span></span><br><span class="line"><span class="string">		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \</span></span><br><span class="line"><span class="string">			| tr ',' '\n' \</span></span><br><span class="line"><span class="string">			| sort -u \</span></span><br><span class="line"><span class="string">			| awk 'system("</span>[ -e /usr/local/lib/<span class="string">" $1 "</span> ]<span class="string">") == 0 &#123; next &#125; &#123; print "</span>so:<span class="string">" $1 &#125;' \</span></span><br><span class="line"><span class="string">	)"</span>; \</span><br><span class="line">	apk <span class="keyword">add</span><span class="bash"> --no-network --virtual .httpd-rundeps <span class="variable">$runDeps</span>; \</span></span><br><span class="line"><span class="bash">	apk del --no-network .build-deps; \</span></span><br><span class="line"><span class="bash">	\</span></span><br><span class="line"><span class="bash"><span class="comment"># smoke test</span></span></span><br><span class="line">	httpd -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://httpd.apache.org/docs/2.4/stopping.html#gracefulstop</span></span><br><span class="line"><span class="keyword">STOPSIGNAL</span> SIGWINCH</span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> httpd-foreground /usr/<span class="built_in">local</span>/bin/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"httpd-foreground"</span>]</span></span><br></pre></td></tr></table></figure>
+ENV REDIS_VERSION 5.0.8
+ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-5.0.8.tar.gz
+ENV REDIS_DOWNLOAD_SHA f3c7eac42f433326a8d981b50dba0169fdfaf46abb23fcda2f933a7552ee4ed7
 
+RUN set -eux; \
+    \
+    savedAptMark="$(apt-mark showmanual)"; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        wget \
+        \
+        gcc \
+        libc6-dev \
+        make \
+    ; \
+    rm -rf /var/lib/apt/lists/*; \
+    \
+    wget -O redis.tar.gz "$REDIS_DOWNLOAD_URL"; \
+    echo "$REDIS_DOWNLOAD_SHA *redis.tar.gz" | sha256sum -c -; \
+    mkdir -p /usr/src/redis; \
+    tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1; \
+    rm redis.tar.gz; \
+    \
+# disable Redis protected mode [1] as it is unnecessary in context of Docker
+# (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)
+# [1]: https://github.com/antirez/redis/commit/edd4d555df57dc84265fdfb4ef59a4678832f6da
+    grep -q '^#define CONFIG_DEFAULT_PROTECTED_MODE 1$' /usr/src/redis/src/server.h; \
+    sed -ri 's!^(#define CONFIG_DEFAULT_PROTECTED_MODE) 1$!\1 0!' /usr/src/redis/src/server.h; \
+    grep -q '^#define CONFIG_DEFAULT_PROTECTED_MODE 0$' /usr/src/redis/src/server.h; \
+# for future reference, we modify this directly in the source instead of just supplying a default configuration flag because apparently "if you specify any argument to redis-server, [it assumes] you are going to specify everything"
+# see also https://github.com/docker-library/redis/issues/4#issuecomment-50780840
+# (more exactly, this makes sure the default behavior of "save on SIGTERM" stays functional by default)
+    \
+    make -C /usr/src/redis -j "$(nproc)" all; \
+    make -C /usr/src/redis install; \
+    \
+# TODO https://github.com/antirez/redis/pull/3494 (deduplicate "redis-server" copies)
+    serverMd5="$(md5sum /usr/local/bin/redis-server | cut -d' ' -f1)"; export serverMd5; \
+    find /usr/local/bin/redis* -maxdepth 0 \
+        -type f -not -name redis-server \
+        -exec sh -eux -c ' \
+            md5="$(md5sum "$1" | cut -d" " -f1)"; \
+            test "$md5" = "$serverMd5"; \
+        ' -- '{}' ';' \
+        -exec ln -svfT 'redis-server' '{}' ';' \
+    ; \
+    \
+    rm -r /usr/src/redis; \
+    \
+    apt-mark auto '.*' > /dev/null; \
+    [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+    find /usr/local -type f -executable -exec ldd '{}' ';' \
+        | awk '/=>/ { print $(NF-1) }' \
+        | sort -u \
+        | xargs -r dpkg-query --search \
+        | cut -d: -f1 \
+        | sort -u \
+        | xargs -r apt-mark manual \
+    ; \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+    \
+    redis-cli --version; \
+    redis-server --version
 
+RUN mkdir /data && chown redis:redis /data
+VOLUME /data
+WORKDIR /data
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 6379
+CMD ["redis-server"]</code></pre>
+<h4 id="Dockerfile-alpine-httpd-2-4"><a href="#Dockerfile-alpine-httpd-2-4" class="headerlink" title="Dockerfile_alpine_httpd_2.4"></a>Dockerfile_alpine_httpd_2.4</h4><pre class=" language-dockerfile"><code class="language-dockerfile">FROM alpine:3.11
+
+# ensure www-data user exists
+RUN set -x \
+    && addgroup -g 82 -S www-data \
+    && adduser -u 82 -D -S -G www-data www-data
+# 82 is the standard uid/gid for "www-data" in Alpine
+# https://git.alpinelinux.org/cgit/aports/tree/main/apache2/apache2.pre-install?h=v3.8.1
+# https://git.alpinelinux.org/cgit/aports/tree/main/lighttpd/lighttpd.pre-install?h=v3.8.1
+# https://git.alpinelinux.org/cgit/aports/tree/main/nginx/nginx.pre-install?h=v3.8.1
+
+ENV HTTPD_PREFIX /usr/local/apache2
+ENV PATH $HTTPD_PREFIX/bin:$PATH
+RUN mkdir -p "$HTTPD_PREFIX" \
+    && chown www-data:www-data "$HTTPD_PREFIX"
+WORKDIR $HTTPD_PREFIX
+
+ENV HTTPD_VERSION 2.4.43
+ENV HTTPD_SHA256 a497652ab3fc81318cdc2a203090a999150d86461acff97c1065dc910fe10f43
+
+# https://httpd.apache.org/security/vulnerabilities_24.html
+ENV HTTPD_PATCHES=""
+
+# see https://httpd.apache.org/docs/2.4/install.html#requirements
+RUN set -eux; \
+    \
+    runDeps=' \
+        apr-dev \
+        apr-util-dbm_db \
+        apr-util-dev \
+        apr-util-ldap \
+        perl \
+    '; \
+    apk add --no-cache --virtual .build-deps \
+        $runDeps \
+        ca-certificates \
+        coreutils \
+        dpkg-dev dpkg \
+        gcc \
+        gnupg \
+        libc-dev \
+        # mod_md
+        curl-dev \
+        jansson-dev \
+        # mod_proxy_html mod_xml2enc
+        libxml2-dev \
+        # mod_lua
+        lua-dev \
+        make \
+        # mod_http2
+        nghttp2-dev \
+        # mod_session_crypto
+        openssl \
+        openssl-dev \
+        pcre-dev \
+        tar \
+        # mod_deflate
+        zlib-dev \
+        # mod_brotli
+        brotli-dev \
+    ; \
+    \
+    ddist() { \
+        local f="$1"; shift; \
+        local distFile="$1"; shift; \
+        local success=; \
+        local distUrl=; \
+        for distUrl in \
+# https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394
+            'https://www.apache.org/dyn/closer.cgi?action=download&filename=' \
+# if the version is outdated (or we're grabbing the .asc file), we might have to pull from the dist/archive :/
+            https://www-us.apache.org/dist/ \
+            https://www.apache.org/dist/ \
+            https://archive.apache.org/dist/ \
+        ; do \
+            if wget -O "$f" "$distUrl$distFile" && [ -s "$f" ]; then \
+                success=1; \
+                break; \
+            fi; \
+        done; \
+        [ -n "$success" ]; \
+    }; \
+    \
+    ddist 'httpd.tar.bz2' "httpd/httpd-$HTTPD_VERSION.tar.bz2"; \
+    echo "$HTTPD_SHA256 *httpd.tar.bz2" | sha256sum -c -; \
+    \
+# see https://httpd.apache.org/download.cgi#verify
+    ddist 'httpd.tar.bz2.asc' "httpd/httpd-$HTTPD_VERSION.tar.bz2.asc"; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    for key in \
+# gpg: key 791485A8: public key "Jim Jagielski (Release Signing Key) <jim@apache.org>" imported
+        A93D62ECC3C8EA12DB220EC934EA76E6791485A8 \
+# gpg: key 995E35221AD84DFF: public key "Daniel Ruggeri (https://home.apache.org/~druggeri/) <druggeri@apache.org>" imported
+        B9E8213AEFB861AF35A41F2C995E35221AD84DFF \
+    ; do \
+        gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+    done; \
+    gpg --batch --verify httpd.tar.bz2.asc httpd.tar.bz2; \
+    command -v gpgconf && gpgconf --kill all || :; \
+    rm -rf "$GNUPGHOME" httpd.tar.bz2.asc; \
+    \
+    mkdir -p src; \
+    tar -xf httpd.tar.bz2 -C src --strip-components=1; \
+    rm httpd.tar.bz2; \
+    cd src; \
+    \
+    patches() { \
+        while [ "$#" -gt 0 ]; do \
+            local patchFile="$1"; shift; \
+            local patchSha256="$1"; shift; \
+            ddist "$patchFile" "httpd/patches/apply_to_$HTTPD_VERSION/$patchFile"; \
+            echo "$patchSha256 *$patchFile" | sha256sum -c -; \
+            patch -p0 < "$patchFile"; \
+            rm -f "$patchFile"; \
+        done; \
+    }; \
+    patches $HTTPD_PATCHES; \
+    \
+    gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
+    ./configure \
+        --build="$gnuArch" \
+        --prefix="$HTTPD_PREFIX" \
+        --enable-mods-shared=reallyall \
+        --enable-mpms-shared=all \
+# PIE and hardening flags are unnecessary as Alpine enables them automatically (https://alpinelinux.org/about/)
+    ; \
+    make -j "$(nproc)"; \
+    make install; \
+    \
+    cd ..; \
+    rm -r src man manual; \
+    \
+    sed -ri \
+        -e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
+        -e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
+        -e 's!^(\s*TransferLog)\s+\S+!\1 /proc/self/fd/1!g' \
+        "$HTTPD_PREFIX/conf/httpd.conf" \
+        "$HTTPD_PREFIX/conf/extra/httpd-ssl.conf" \
+    ; \
+    \
+    runDeps="$runDeps $( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )"; \
+    apk add --no-network --virtual .httpd-rundeps $runDeps; \
+    apk del --no-network .build-deps; \
+    \
+# smoke test
+    httpd -v
+
+# https://httpd.apache.org/docs/2.4/stopping.html#gracefulstop
+STOPSIGNAL SIGWINCH
+
+COPY httpd-foreground /usr/local/bin/
+
+EXPOSE 80
+CMD ["httpd-foreground"]</code></pre>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
@@ -640,10 +926,13 @@
 <div id="article-share">
 
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
     <script src="/libs/share/js/social-share.min.js"></script>
     
 
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
     
 
 </div>
@@ -781,6 +1070,60 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-11-19T01-55-39',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
+<link rel="stylesheet" href="/css/gitment.css">
+
+<div class="gitment-card card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitment-content" class="card-content"></div>
+</div>
+
+<script src="/libs/gitment/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+    id: 'Tue Nov 19 2019 01:55:39 GMT+0800',
+    owner: '',
+    repo: '',
+    oauth: {
+        client_id: '',
+        client_secret: ''
+    }
+});
+
+gitment.render('gitment-content');
+</script>
 
     
 
@@ -816,7 +1159,10 @@
                             
 
 操作系统：
-1234[root@cyylog ~]# uname -mx86_64[root@cyylog ~]# cat &#x2F;etc&#x2F;redhat-release CentOS Linux release 7.2.1
+[root@cyylog ~]# uname -m
+x86_64
+[root@cyylog ~]# cat /etc/redhat-release 
+CentOS Linux release 7.2.1511 (Core) 
                         
                     </div>
                     <div class="publish-info">
@@ -867,7 +1213,9 @@
                         
                             
 
-Docker_MySQL 5.7123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555
+Docker_MySQL 5.7FROM debian:buster-slim
+
+# add our user and group first to make sure their IDs get assigned consistent
                         
                     </div>
                     <div class="publish-info">
@@ -1036,7 +1384,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2019</span>
+            <span id="year">2018</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1064,13 +1412,13 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
         </div>
         <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
 
 
 
-    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
         <i class="fas fa-envelope-open"></i>
     </a>
 
@@ -1080,7 +1428,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
 
 
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
         <i class="fab fa-qq"></i>
     </a>
 
@@ -1162,6 +1510,25 @@ $(function () {
 
     
 
+    
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i["DaoVoiceObject"] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            a.charset = "utf-8";
+            m.parentNode.insertBefore(a, m)
+        })(window, document, "script", ('https:' == document.location.protocol ? 'https:' : 'http:') +
+            "//widget.daovoice.io/widget/6984b559.js", "daovoice")
+        daovoice('init', {
+            app_id: "68be87dc"
+        });
+        daovoice('update');
+    </script>
     
 
     
