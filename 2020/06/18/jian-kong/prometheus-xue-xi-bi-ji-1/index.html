@@ -601,7 +601,7 @@
 <p> 样本：实际时间序列，每个序列包括一个float64的值和一个毫秒级的时间戳。（指标+时间戳+样本值）</p>
 <p> metric名字： 具有语义，表示功能：例如：http_requeststotal, 表示 http 请求的总数。其中，metric 名字由 ASCII 字符，数字，下划线，以及冒号组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
 <p> 标签：使一个时间序列有不同未读的识别。例如 http_requeststotal{method=”Get”} 表示所有 http 请求中的 Get 请求。当 method=”post” 时，则为新的一个 metric。标签中的键由 ASCII 字符，数字，以及下划线组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
-<p> 格式：<metric name="">{<label name="">=<label value="">, …}，例如：http_requests_total{method=”POST”,endpoint=”/api/tracks”}。</label></label></metric></p>
+<p> 格式：<metric name>{<label name>=<label value>, …}，例如：http_requests_total{method=”POST”,endpoint=”/api/tracks”}。</p>
 <h3 id="2、Metric类型"><a href="#2、Metric类型" class="headerlink" title="2、Metric类型"></a><strong>2、Metric类型</strong></h3><p>Prometheus 客户端库主要提供四种主要的 metric 类型：</p>
 <h4 id="1、Counter（累加性metirc）"><a href="#1、Counter（累加性metirc）" class="headerlink" title="1、Counter（累加性metirc）"></a>1、Counter（累加性metirc）</h4><p>一种累加的 metric，典型的应用如：<br>    请求的个数<br>    结束的任务数<br>    出现的错误数<br>    。。。</p>
 <p>例如：<br>    查询 promhttp_metric_handler_requests_total{code=”200”,instance=”localhost:9090”,job=”prometheus”}<br>    返回 8，10 秒后再次查询，则返回 14。</p>
@@ -619,25 +619,7 @@
 <p>下面以实际的 metric 为例，对上述概念进行说明：<br>Metrics 示例</p>
 <p><img src="https://s1.ax1x.com/2020/06/18/NZwzlV.png" alt="NZwzlV.png"></p>
 <p>如图所示，这三个 metric 的名字都一样，他们仅凭 handler 不同而被标识为不同的 metrics。<br>这类 metrics 只会向上累加，是属于 Counter 类型的 metric，且 metrics 中都含有 instance 和 job 这两个标签。</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -662,7 +644,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/">https://cyylog.gitee.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/</a>
+                    <a href="https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/">https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/</a>
                 </span>
             </div>
             <div class="reprint__notice">

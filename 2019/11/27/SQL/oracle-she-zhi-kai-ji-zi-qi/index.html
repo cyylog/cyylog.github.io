@@ -591,32 +591,14 @@ ORACLE_HOME_LISTNER=/u01/app/oracle/product/11.2.0/db_1</code></pre><p><strong>3
 # In contrast to previous versions due to parallel execution during boot
 # this script will NOT be run after all other services.
 #
-# Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure
+# Please note that you must run &#39;chmod +x /etc/rc.d/rc.local&#39; to ensure
 # that this script will be executed during boot.
 
 touch /var/lock/subsys/local
-su oracle -lc "/u01/app/oracle/product/11.2.0/db_1/bin/lsnrctl start"
+su oracle -lc &quot;/u01/app/oracle/product/11.2.0/db_1/bin/lsnrctl start&quot;
 su oracle -lc /u01/app/oracle/product/11.2.0/db_1/bin/dbstart</code></pre><p><strong>5：重启主机，查看数据库和监听是自启动</strong></p>
 <pre><code>netstat -tunlp | grep 1521</code></pre><p><strong>6：查看数据库是否处于open状态</strong></p>
-<pre><code>select status from v$instance</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+<pre><code>select status from v$instance</code></pre>
             </div>
             <hr/>
 
@@ -641,7 +623,7 @@ su oracle -lc /u01/app/oracle/product/11.2.0/db_1/bin/dbstart</code></pre><p><st
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/11/27/sql/oracle-she-zhi-kai-ji-zi-qi/">https://cyylog.gitee.io/2019/11/27/sql/oracle-she-zhi-kai-ji-zi-qi/</a>
+                    <a href="https://cyylog.github.io/2019/11/27/sql/oracle-she-zhi-kai-ji-zi-qi/">https://cyylog.github.io/2019/11/27/sql/oracle-she-zhi-kai-ji-zi-qi/</a>
                 </span>
             </div>
             <div class="reprint__notice">

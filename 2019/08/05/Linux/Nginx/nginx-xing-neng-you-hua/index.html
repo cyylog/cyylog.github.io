@@ -620,10 +620,10 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$http_user_agent' '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for" '
-                      '"$args" "$request_uri"';
+    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;
+                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;
 
     access_log  /var/log/nginx/access.log  main;
 
@@ -638,8 +638,8 @@ http {
 }</code></pre><p>worker_rlimit_nofile 是在进程上面进行限制。</p>
 <h5 id="5、cpu的亲和配置"><a href="#5、cpu的亲和配置" class="headerlink" title="5、cpu的亲和配置"></a>5、cpu的亲和配置</h5><p>cpu的亲和能够使nginx对于不同的work工作进程绑定到不同的cpu上面去。就能够减少在work间不断切换cpu，把进程通常不会在处理器之间频繁迁移，进程迁移的频率小，来减少性能损耗。nginx 亲和配置</p>
 <p>查看物理cpu</p>
-<pre><code>[root@server ~]#cat /proc/cpuinfo|grep "physical id"|sort |uniq|wc -l</code></pre><p>查看cpu核心数</p>
-<pre><code>[root@server ~]#cat /proc/cpuinfo|grep "cpu cores"|uniq</code></pre><p>查看cpu使用率</p>
+<pre><code>[root@server ~]#cat /proc/cpuinfo|grep &quot;physical id&quot;|sort |uniq|wc -l</code></pre><p>查看cpu核心数</p>
+<pre><code>[root@server ~]#cat /proc/cpuinfo|grep &quot;cpu cores&quot;|uniq</code></pre><p>查看cpu使用率</p>
 <pre><code>[root@server ~]#top  回车后按 1</code></pre><h5 id="6、配置worker-processes"><a href="#6、配置worker-processes" class="headerlink" title="6、配置worker_processes"></a>6、配置worker_processes</h5><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf</code></pre><p>将刚才查看到自己cpu * cpu核心就是worker_processes</p>
 <pre><code>worker_processes 2; #根据自己cpu核心数配置</code></pre><h5 id="7、cpu亲和配置"><a href="#7、cpu亲和配置" class="headerlink" title="7、cpu亲和配置"></a>7、cpu亲和配置</h5><p>假如小菜的配置是2cpu，每个cpu是8核。配置如下</p>
 <pre><code>worker_processes 16;
@@ -681,10 +681,10 @@ http {
     charset utf-8;  #设置字符集
 
     #设置日志输出格式，根据自己的情况设置
-    log_format  main  '$http_user_agent' '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for" '
-                      '"$args" "$request_uri"';
+    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;
+                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;
 
     access_log  /var/log/nginx/access.log  main;
 
@@ -697,7 +697,7 @@ http {
     ########
     #Gzip module
     gzip  on;    #文件压缩默认可以打开
-    gzip_disable "MSIE [1-6]\."; #对于有些浏览器不能识别压缩，需要过滤如ie6
+    gzip_disable &quot;MSIE [1-6]\.&quot;; #对于有些浏览器不能识别压缩，需要过滤如ie6
     gzip_http_version 1.1;
 
     include /etc/nginx/conf.d/*.conf;
@@ -724,11 +724,11 @@ http {
 -x：插入字符串作为table标签的属性
 -y：插入字符串作为tr标签的属性
 -z：插入字符串作为td标签的属性
--C：添加cookie信息，例如："Apache=1234"(可以重复该参数选项以添加多个)
--H：添加任意的请求头，例如："Accept-Encoding: gzip"，请求头将会添加在现有的多个请求头之后(可以重复该参数选项以添加多个)
+-C：添加cookie信息，例如：&quot;Apache=1234&quot;(可以重复该参数选项以添加多个)
+-H：添加任意的请求头，例如：&quot;Accept-Encoding: gzip&quot;，请求头将会添加在现有的多个请求头之后(可以重复该参数选项以添加多个)
 -A：添加一个基本的网络认证信息，用户名和密码之间用英文冒号隔开
 -P：添加一个基本的代理认证信息，用户名和密码之间用英文冒号隔开
--X：指定使用的和端口号，例如:"126.10.10.3:88"
+-X：指定使用的和端口号，例如:&quot;126.10.10.3:88&quot;
 -V：打印版本号并退出
 -k：使用HTTP的KeepAlive特性
 -d：不显示百分比
@@ -812,25 +812,7 @@ Percentage of the requests served within a certain time (ms)
 <h6 id="4-用户平均请求等待时间（Time-per-request）"><a href="#4-用户平均请求等待时间（Time-per-request）" class="headerlink" title="4.用户平均请求等待时间（Time per request）"></a>4.用户平均请求等待时间（Time per request）</h6><p>计算公式：处理完成所有请求数所花费的时间/（总请求数/并发用户数），即：</p>
 <pre><code>Time per request=Time taken for tests/（Complete requests/Concurrency Level）</code></pre><h6 id="5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）"><a href="#5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）" class="headerlink" title="5.服务器平均请求等待时间（Time per request:across all concurrent requests）"></a>5.服务器平均请求等待时间（Time per request:across all concurrent requests）</h6><p>计算公式：处理完成所有请求数所花费的时间/总请求数，即：</p>
 <pre><code>Time taken for/testsComplete requests</code></pre><p>可以看到，它是吞吐率的倒数。同时，它也等于用户平均请求等待时间/并发用户数，即</p>
-<pre><code>Time per request/Concurrency Level</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+<pre><code>Time per request/Concurrency Level</code></pre>
             </div>
             <hr/>
 
@@ -855,7 +837,7 @@ Percentage of the requests served within a certain time (ms)
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/">https://cyylog.gitee.io/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/</a>
+                    <a href="https://cyylog.github.io/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/">https://cyylog.github.io/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/</a>
                 </span>
             </div>
             <div class="reprint__notice">

@@ -643,7 +643,7 @@ Options:
   -s, --snippet         Show playbook snippet for specified module(s)　　#显示playbook制定模块的用法
   -v, --verbose         verbose mode (-vvv for more, -vvvv to enable　　# 显示ansible-doc的版本号查看模块列表：
                         connection debugging)
-  --version             show program's version number and exit</code></pre><p>　　我们可以来看一下，以mysql相关的为例：</p>
+  --version             show program&#39;s version number and exit</code></pre><p>　　我们可以来看一下，以mysql相关的为例：</p>
 <pre><code>[root@server ~]# ansible-doc -l |grep mysql
 mysql_db                           Add or remove MySQL databases from a remote...
 mysql_replication                  Manage MySQL replication                   
@@ -665,15 +665,15 @@ mysql_variables                    Manage MySQL global variables
 <h2 id="五、ansible-常用模块"><a href="#五、ansible-常用模块" class="headerlink" title="五、ansible 常用模块"></a>五、ansible 常用模块</h2><h3 id="1、主机连通性测试"><a href="#1、主机连通性测试" class="headerlink" title="1、主机连通性测试"></a>1、主机连通性测试</h3><p>　　我们使用<code>ansible web -m ping</code>命令来进行主机连通性测试，效果如下：</p>
 <pre><code>[root@server ~]# ansible web -m ping
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": false, 
-    "ping": "pong"
+    &quot;changed&quot;: false, 
+    &quot;ping&quot;: &quot;pong&quot;
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": false, 
-    "ping": "pong"
+    &quot;changed&quot;: false, 
+    &quot;ping&quot;: &quot;pong&quot;
 }</code></pre><p>　　这样就说明我们的主机是连通状态的。接下来的操作才可以正常进行。</p>
 <h3 id="2、command-模块"><a href="#2、command-模块" class="headerlink" title="2、command 模块"></a>2、command 模块</h3><p>　　这个模块可以直接在远程主机上执行命令，并将结果返回本主机。<br> 　　举例如下：</p>
-<pre><code>[root@server ~]# ansible web -m command -a 'ss -ntl'
+<pre><code>[root@server ~]# ansible web -m command -a &#39;ss -ntl&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 State      Recv-Q Send-Q Local Address:Port               Peer Address:Port              
 LISTEN     0      128          *:111                      *:*                  
@@ -702,7 +702,7 @@ LISTEN     0      100        ::1:25                      :::*  </code></pre><p>�
 <p>chdir　　　   # 在执行命令之前，先切换到该目录<br>executable    # 切换shell来执行命令，需要使用命令的绝对路径<br>free_form 　 # 要执行的Linux指令，一般使用Ansible的-a参数代替。<br>creates 　      # 一个文件名，当这个文件存在，则该命令不执行,可以用来做判断<br>removes        # 一个文件名，这个文件不存在，则该命令不执行</p>
 </blockquote>
 <p>　　下面我们来看看这些命令的执行效果：</p>
-<pre><code>[root@server ~]# ansible web -m command -a 'chdir=/data/ ls'  #先切换到/data/ 目录，再执行“ls”命令
+<pre><code>[root@server ~]# ansible web -m command -a &#39;chdir=/data/ ls&#39;  #先切换到/data/ 目录，再执行“ls”命令
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 aaa.jpg
 fastdfs
@@ -718,19 +718,19 @@ mogdata
 tmp
 web
 wKgleloeYoCAMLtZAAAWEekAtkc497.jpg
-[root@server ~]# ansible web -m command -a 'creates=/data/aaa.jpg ls'  #如果/data/aaa.jpg存在，则不执行“ls”命令
+[root@server ~]# ansible web -m command -a &#39;creates=/data/aaa.jpg ls&#39;  #如果/data/aaa.jpg存在，则不执行“ls”命令
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 skipped, since /data/aaa.jpg exists
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 skipped, since /data/aaa.jpg exists
-[root@server ~]# ansible web -m command -a 'removes=/data/aaa.jpg cat /data/a' #如果/data/aaa.jpg存在，则执行“cat /data/a”命令
+[root@server ~]# ansible web -m command -a &#39;removes=/data/aaa.jpg cat /data/a&#39; #如果/data/aaa.jpg存在，则执行“cat /data/a”命令
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 hello
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 hello</code></pre><h3 id="3、shell-模块"><a href="#3、shell-模块" class="headerlink" title="3、shell 模块"></a>3、shell 模块</h3><p>　　shell模块可以在远程主机上调用shell解释器运行命令，支持shell的各种功能，例如管道等。</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /etc/passwd |grep "keer"'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /etc/passwd |grep &quot;keer&quot;&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 keer:x:10001:1000:keer:/home/keer:/bin/sh
 
@@ -741,65 +741,65 @@ keer:x:10001:10001::/home/keer:/bin/sh</code></pre><p>　　只要是我们的sh
 <p><code>src</code>　　　　 #被复制到远程主机的本地文件。可以是绝对路径，也可以是相对路径。如果路径是一个目录，则会递归复制，用法类似于”rsync”<br><code>content</code>　　#用于替换”src”，可以直接指定文件的值<br><code>dest</code>　　　   #必选项，将源文件复制到的远程主机的<strong>绝对路径</strong><br><code>backup</code>　　　#当文件内容发生改变后，在覆盖之前把源文件备份，备份文件包含时间信息<br><code>directory_mode</code>　　　　#递归设定目录的权限，默认为系统默认权限<br><code>force</code>　　　　#当目标主机包含该文件，但内容不同时，设为”yes”，表示强制覆盖；设为”no”，表示目标主机的目标位置不存在该文件才复制。默认为”yes”<br><code>others</code>　　　　#所有的 file 模块中的选项可以在这里使用</p>
 </blockquote>
 <p>用法举例如下：<br><strong>① 复制文件：</strong></p>
-<pre><code>[root@server ~]# ansible web -m copy -a 'src=~/hello dest=/data/hello' 
+<pre><code>[root@server ~]# ansible web -m copy -a &#39;src=~/hello dest=/data/hello&#39; 
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "dest": "/data/hello", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "6f5902ac237024bdd0c176cb93063dc4", 
-    "mode": "0644", 
-    "owner": "root", 
-    "size": 12, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512437093.55-228281064292921/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;dest&quot;: &quot;/data/hello&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;6f5902ac237024bdd0c176cb93063dc4&quot;, 
+    &quot;mode&quot;: &quot;0644&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 12, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512437093.55-228281064292921/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "dest": "/data/hello", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "6f5902ac237024bdd0c176cb93063dc4", 
-    "mode": "0644", 
-    "owner": "root", 
-    "size": 12, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512437093.74-44694985235189/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;dest&quot;: &quot;/data/hello&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;6f5902ac237024bdd0c176cb93063dc4&quot;, 
+    &quot;mode&quot;: &quot;0644&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 12, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512437093.74-44694985235189/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }</code></pre><p><strong>② 给定内容生成文件，并制定权限</strong></p>
-<pre><code>[root@server ~]# ansible web -m copy -a 'content="I am keer\n" dest=/data/name mode=666'
+<pre><code>[root@server ~]# ansible web -m copy -a &#39;content=&quot;I am keer\n&quot; dest=/data/name mode=666&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "0421570938940ea784f9d8598dab87f07685b968", 
-    "dest": "/data/name", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "497fa8386590a5fc89090725b07f175c", 
-    "mode": "0666", 
-    "owner": "root", 
-    "size": 10, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512437327.37-199512601767687/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;0421570938940ea784f9d8598dab87f07685b968&quot;, 
+    &quot;dest&quot;: &quot;/data/name&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;497fa8386590a5fc89090725b07f175c&quot;, 
+    &quot;mode&quot;: &quot;0666&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 10, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512437327.37-199512601767687/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "0421570938940ea784f9d8598dab87f07685b968", 
-    "dest": "/data/name", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "497fa8386590a5fc89090725b07f175c", 
-    "mode": "0666", 
-    "owner": "root", 
-    "size": 10, 
-        "src": "/root/.ansible/tmp/ansible-tmp-1512437327.55-218104039503110/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;0421570938940ea784f9d8598dab87f07685b968&quot;, 
+    &quot;dest&quot;: &quot;/data/name&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;497fa8386590a5fc89090725b07f175c&quot;, 
+    &quot;mode&quot;: &quot;0666&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 10, 
+        &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512437327.55-218104039503110/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }</code></pre><p>　　我们现在可以去查看一下我们生成的文件及其权限：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ls -l /data/'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ls -l /data/&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 total 28
 -rw-rw-rw-   1 root root   12 Dec  6 09:45 name
@@ -807,38 +807,38 @@ total 28
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 total 40
 -rw-rw-rw- 1 root     root       12 Dec  5 09:45 name</code></pre><p>　　可以看出我们的name文件已经生成，并且权限为666。<br><strong>③ 关于覆盖</strong><br> 　　我们把文件的内容修改一下，然后选择覆盖备份：</p>
-<pre><code>[root@server ~]# ansible web -m copy -a 'content="I am keerya\n" backup=yes dest=/data/name mode=666'
+<pre><code>[root@server ~]# ansible web -m copy -a &#39;content=&quot;I am keerya\n&quot; backup=yes dest=/data/name mode=666&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "backup_file": "/data/name.4394.2017-12-06@09:46:25~", 
-    "changed": true, 
-    "checksum": "064a68908ab9971ee85dbc08ea038387598e3778", 
-    "dest": "/data/name", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "8ca7c11385856155af52e560f608891c", 
-    "mode": "0666", 
-    "owner": "root", 
-    "size": 12, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512438383.78-228128616784888/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;backup_file&quot;: &quot;/data/name.4394.2017-12-06@09:46:25~&quot;, 
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;064a68908ab9971ee85dbc08ea038387598e3778&quot;, 
+    &quot;dest&quot;: &quot;/data/name&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;8ca7c11385856155af52e560f608891c&quot;, 
+    &quot;mode&quot;: &quot;0666&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 12, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512438383.78-228128616784888/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "backup_file": "/data/name.5962.2017-12-05@09:46:24~", 
-    "changed": true, 
-    "checksum": "064a68908ab9971ee85dbc08ea038387598e3778", 
-    "dest": "/data/name", 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "8ca7c11385856155af52e560f608891c", 
-    "mode": "0666", 
-    "owner": "root", 
-    "size": 12, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512438384.0-170718946740009/source", 
-    "state": "file", 
-    "uid": 0
+    &quot;backup_file&quot;: &quot;/data/name.5962.2017-12-05@09:46:24~&quot;, 
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;064a68908ab9971ee85dbc08ea038387598e3778&quot;, 
+    &quot;dest&quot;: &quot;/data/name&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;md5sum&quot;: &quot;8ca7c11385856155af52e560f608891c&quot;, 
+    &quot;mode&quot;: &quot;0666&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 12, 
+    &quot;src&quot;: &quot;/root/.ansible/tmp/ansible-tmp-1512438384.0-170718946740009/source&quot;, 
+    &quot;state&quot;: &quot;file&quot;, 
+    &quot;uid&quot;: 0
 }</code></pre><p>　　现在我们可以去查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ls -l /data/'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ls -l /data/&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 total 28
 -rw-rw-rw-   1 root root   12 Dec  6 09:46 name
@@ -848,7 +848,7 @@ total 28
 total 40
 -rw-rw-rw- 1 root     root       12 Dec  5 09:46 name
 -rw-rw-rw- 1 root     root       10 Dec  5 09:45 name.5962.2017-12-05@09:46:24~</code></pre><p>　　可以看出，我们的源文件已经被备份，我们还可以查看一下<code>name</code>文件的内容：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /data/name'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /data/name&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 I am keerya
 
@@ -860,30 +860,30 @@ I am keerya</code></pre><p>　　证明，这正是我们新导入的文件的�
 <p><code>directory</code>：如果目录不存在，就创建目录<br><code>file</code>：即使文件不存在，也不会被创建<br><code>link</code>：创建软链接<br><code>hard</code>：创建硬链接<br><code>touch</code>：如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时间<br><code>absent</code>：删除目录、文件或者取消链接文件</p>
 </blockquote>
 <p>　　用法举例如下：<br><strong>① 创建目录：</strong></p>
-<pre><code>[root@server ~]# ansible web -m file -a 'path=/data/app state=directory'
+<pre><code>[root@server ~]# ansible web -m file -a &#39;path=/data/app state=directory&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0755", 
-    "owner": "root", 
-    "path": "/data/app", 
-    "size": 6, 
-    "state": "directory", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;mode&quot;: &quot;0755&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;path&quot;: &quot;/data/app&quot;, 
+    &quot;size&quot;: 6, 
+    &quot;state&quot;: &quot;directory&quot;, 
+    &quot;uid&quot;: 0
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0755", 
-    "owner": "root", 
-    "path": "/data/app", 
-    "size": 4096, 
-    "state": "directory", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;mode&quot;: &quot;0755&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;path&quot;: &quot;/data/app&quot;, 
+    &quot;size&quot;: 4096, 
+    &quot;state&quot;: &quot;directory&quot;, 
+    &quot;uid&quot;: 0
 }</code></pre><p>　　我们可以查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ls -l /data'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ls -l /data&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 total 28
 drwxr-xr-x   2 root root    6 Dec  6 10:21 app
@@ -891,32 +891,32 @@ drwxr-xr-x   2 root root    6 Dec  6 10:21 app
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 total 44
 drwxr-xr-x 2 root     root     4096 Dec  5 10:21 app</code></pre><p>　　可以看出，我们的目录已经创建完成。<br><strong>② 创建链接文件</strong></p>
-<pre><code>[root@server ~]# ansible web -m file -a 'path=/data/bbb.jpg src=aaa.jpg state=link'
+<pre><code>[root@server ~]# ansible web -m file -a &#39;path=/data/bbb.jpg src=aaa.jpg state=link&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "dest": "/data/bbb.jpg", 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0777", 
-    "owner": "root", 
-    "size": 7, 
-    "src": "aaa.jpg", 
-    "state": "link", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;dest&quot;: &quot;/data/bbb.jpg&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;mode&quot;: &quot;0777&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 7, 
+    &quot;src&quot;: &quot;aaa.jpg&quot;, 
+    &quot;state&quot;: &quot;link&quot;, 
+    &quot;uid&quot;: 0
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "dest": "/data/bbb.jpg", 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0777", 
-    "owner": "root", 
-    "size": 7, 
-    "src": "aaa.jpg", 
-    "state": "link", 
-    "uid": 0
+    &quot;changed&quot;: true, 
+    &quot;dest&quot;: &quot;/data/bbb.jpg&quot;, 
+    &quot;gid&quot;: 0, 
+    &quot;group&quot;: &quot;root&quot;, 
+    &quot;mode&quot;: &quot;0777&quot;, 
+    &quot;owner&quot;: &quot;root&quot;, 
+    &quot;size&quot;: 7, 
+    &quot;src&quot;: &quot;aaa.jpg&quot;, 
+    &quot;state&quot;: &quot;link&quot;, 
+    &quot;uid&quot;: 0
 }</code></pre><p>　　我们可以去查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ls -l /data'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ls -l /data&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 total 28
 -rw-r--r--   1 root root 5649 Dec  5 13:49 aaa.jpg
@@ -926,18 +926,18 @@ lrwxrwxrwx   1 root root    7 Dec  6 10:25 bbb.jpg -&gt; aaa.jpg
 total 44
 -rw-r--r-- 1 root     root     5649 Dec  4 14:44 aaa.jpg
 lrwxrwxrwx 1 root     root        7 Dec  5 10:25 bbb.jpg -&gt; aaa.jpg</code></pre><p>　　我们的链接文件已经创建成功。<br><strong>③ 删除文件</strong></p>
-<pre><code>[root@server ~]# ansible web -m file -a 'path=/data/a state=absent'
+<pre><code>[root@server ~]# ansible web -m file -a &#39;path=/data/a state=absent&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "path": "/data/a", 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;path&quot;: &quot;/data/a&quot;, 
+    &quot;state&quot;: &quot;absent&quot;
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "path": "/data/a", 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;path&quot;: &quot;/data/a&quot;, 
+    &quot;state&quot;: &quot;absent&quot;
 }</code></pre><p>　　我们可以查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ls /data/a'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ls /data/a&#39;
 192.168.37.122 | FAILED | rc=2 &gt;&gt;
 ls: cannot access /data/a: No such file or directory
 
@@ -948,22 +948,22 @@ ls: cannot access /data/a: No such file or directory</code></pre><p>　　发现
 <p><code>dest</code>：用来存放文件的目录<br><code>src</code>：在远程拉取的文件，并且必须是一个<strong>file</strong>，不能是<strong>目录</strong></p>
 </blockquote>
 <p>　　具体举例如下：</p>
-<pre><code>[root@server ~]# ansible web -m fetch -a 'src=/data/hello dest=/data'  
+<pre><code>[root@server ~]# ansible web -m fetch -a &#39;src=/data/hello dest=/data&#39;  
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "dest": "/data/192.168.37.122/data/hello", 
-    "md5sum": "6f5902ac237024bdd0c176cb93063dc4", 
-    "remote_checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "remote_md5sum": null
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;dest&quot;: &quot;/data/192.168.37.122/data/hello&quot;, 
+    &quot;md5sum&quot;: &quot;6f5902ac237024bdd0c176cb93063dc4&quot;, 
+    &quot;remote_checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;remote_md5sum&quot;: null
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "dest": "/data/192.168.37.133/data/hello", 
-    "md5sum": "6f5902ac237024bdd0c176cb93063dc4", 
-    "remote_checksum": "22596363b3de40b06f981fb85d82312e8c0ed511", 
-    "remote_md5sum": null
+    &quot;changed&quot;: true, 
+    &quot;checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;dest&quot;: &quot;/data/192.168.37.133/data/hello&quot;, 
+    &quot;md5sum&quot;: &quot;6f5902ac237024bdd0c176cb93063dc4&quot;, 
+    &quot;remote_checksum&quot;: &quot;22596363b3de40b06f981fb85d82312e8c0ed511&quot;, 
+    &quot;remote_md5sum&quot;: null
 }</code></pre><p>　　我们可以在本机上查看一下文件是否复制成功。要注意，文件保存的路径是我们设置的接收目录下的<code>被管制主机ip</code>目录下：</p>
 <pre><code>[root@server ~]# cd /data/
 [root@server data]# ls
@@ -980,22 +980,22 @@ hello
 <p><code>day=</code>           #日应该运行的工作( 1-31, <em>,</em> /2, )<br><code>hour=</code>         # 小时 ( 0-23, <em>,</em> /2, )<br><code>minute=</code>     #分钟( 0-59, <em>,</em> /2, )<br><code>month=</code>       # 月( 1-12, *, /2, )<br><code>weekday=</code>       # 周 ( 0-6 for Sunday-Saturday,, )<br><code>job=</code>           #指明运行的命令是什么<br><code>name=</code>        #定时任务描述<br><code>reboot</code>      # 任务在重启时运行，不建议使用，建议使用special_time<br><code>special_time</code> #特殊的时间范围，参数：reboot（重启时），annually（每年），monthly（每月），weekly（每周），daily（每天），hourly（每小时）<br><code>state</code>        #指定状态，present表示添加定时任务，也是默认设置，absent表示删除定时任务<br><code>user</code>          # 以哪个用户的身份执行</p>
 </blockquote>
 <p>　　举例如下：<br><strong>① 添加计划任务</strong></p>
-<pre><code>[root@server ~]# ansible web -m cron -a 'name="ntp update every 5 min" minute=*/5 job="/sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null"'
+<pre><code>[root@server ~]# ansible web -m cron -a &#39;name=&quot;ntp update every 5 min&quot; minute=*/5 job=&quot;/sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null&quot;&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "envs": [], 
-    "jobs": [
-        "ntp update every 5 min"
+    &quot;changed&quot;: true, 
+    &quot;envs&quot;: [], 
+    &quot;jobs&quot;: [
+        &quot;ntp update every 5 min&quot;
     ]
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "envs": [], 
-    "jobs": [
-        "ntp update every 5 min"
+    &quot;changed&quot;: true, 
+    &quot;envs&quot;: [], 
+    &quot;jobs&quot;: [
+        &quot;ntp update every 5 min&quot;
     ]
 }</code></pre><p>　　我们可以去查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'crontab -l'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;crontab -l&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 #Ansible: ntp update every 5 min
 */5 * * * * /sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null
@@ -1003,7 +1003,7 @@ hello
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 #Ansible: ntp update every 5 min
 */5 * * * * /sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null</code></pre><p>　　可以看出，我们的计划任务已经设置成功了。<br><strong>② 删除计划任务</strong><br> 　　如果我们的计划任务添加错误，想要删除的话，则执行以下操作：<br> 　　首先我们查看一下现有的计划任务：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'crontab -l'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;crontab -l&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 #Ansible: ntp update every 5 min
 */5 * * * * /sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null
@@ -1015,22 +1015,22 @@ hello
 */5 * * * * /sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null
 #Ansible: df everyday
 * 15 * * * df -lh &gt;&gt; /tmp/disk_total &amp;&gt; /dev/null</code></pre><p>　　然后执行删除操作：</p>
-<pre><code>[root@server ~]# ansible web -m cron -a 'name="df everyday" hour=15 job="df -lh &gt;&gt; /tmp/disk_total &amp;&gt; /dev/null" state=absent'
+<pre><code>[root@server ~]# ansible web -m cron -a &#39;name=&quot;df everyday&quot; hour=15 job=&quot;df -lh &gt;&gt; /tmp/disk_total &amp;&gt; /dev/null&quot; state=absent&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "envs": [], 
-    "jobs": [
-        "ntp update every 5 min"
+    &quot;changed&quot;: true, 
+    &quot;envs&quot;: [], 
+    &quot;jobs&quot;: [
+        &quot;ntp update every 5 min&quot;
     ]
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "envs": [], 
-    "jobs": [
-        "ntp update every 5 min"
+    &quot;changed&quot;: true, 
+    &quot;envs&quot;: [], 
+    &quot;jobs&quot;: [
+        &quot;ntp update every 5 min&quot;
     ]
 }</code></pre><p>　　删除完成后，我们再查看一下现有的计划任务确认一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'crontab -l'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;crontab -l&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 #Ansible: ntp update every 5 min
 */5 * * * * /sbin/ntpdate 172.17.0.1 &amp;&gt; /dev/null
@@ -1043,21 +1043,21 @@ hello
 <p><code>name=</code>　　  #所安装的包的名称<br><code>state=</code>　　#<code>present</code>—&gt;安装， <code>latest</code>—&gt;安装最新的, <code>absent</code>—&gt; 卸载软件。<br><code>update_cache</code>　　#强制更新yum的缓存<br><code>conf_file</code>　　#指定远程yum安装时所依赖的配置文件（安装本地已有的包）。<br><code>disable_pgp_check</code>　　#是否禁止GPG checking，只用于<code>present</code>or <code>latest</code>。<br><code>disablerepo</code>　　#临时禁止使用yum库。 只用于安装或更新时。<br><code>enablerepo</code>　　 #临时使用的yum库。只用于安装或更新时。</p>
 </blockquote>
 <p>　　下面我们就来安装一个包试试看：</p>
-<pre><code>[root@server ~]# ansible web -m yum -a 'name=htop state=present'
+<pre><code>[root@server ~]# ansible web -m yum -a &#39;name=htop state=present&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "msg": "", 
-    "rc": 0, 
-    "results": [
-        "Loaded plugins: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\nResolving Dependencies\n--&gt; Running transaction check\n---&gt; Package htop.x86_64 0:2.0.2-1.el7 will be installed\n--&gt; Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package         Arch              Version                Repository       Size\n================================================================================\nInstalling:\n htop            x86_64            2.0.2-1.el7            epel             98 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 98 k\nInstalled size: 207 k\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : htop-2.0.2-1.el7.x86_64                                      1/1 \n  Verifying  : htop-2.0.2-1.el7.x86_64                                      1/1 \n\nInstalled:\n  htop.x86_64 0:2.0.2-1.el7                                                     \n\nComplete!\n"
+    &quot;changed&quot;: true, 
+    &quot;msg&quot;: &quot;&quot;, 
+    &quot;rc&quot;: 0, 
+    &quot;results&quot;: [
+        &quot;Loaded plugins: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\nResolving Dependencies\n--&gt; Running transaction check\n---&gt; Package htop.x86_64 0:2.0.2-1.el7 will be installed\n--&gt; Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package         Arch              Version                Repository       Size\n================================================================================\nInstalling:\n htop            x86_64            2.0.2-1.el7            epel             98 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 98 k\nInstalled size: 207 k\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : htop-2.0.2-1.el7.x86_64                                      1/1 \n  Verifying  : htop-2.0.2-1.el7.x86_64                                      1/1 \n\nInstalled:\n  htop.x86_64 0:2.0.2-1.el7                                                     \n\nComplete!\n&quot;
     ]
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "msg": "Warning: RPMDB altered outside of yum.\n** Found 3 pre-existing rpmdb problem(s), 'yum check' output follows:\nipa-client-4.4.0-12.el7.centos.x86_64 has installed conflicts freeipa-client: ipa-client-4.4.0-12.el7.centos.x86_64\nipa-client-common-4.4.0-12.el7.centos.noarch has installed conflicts freeipa-client-common: ipa-client-common-4.4.0-12.el7.centos.noarch\nipa-common-4.4.0-12.el7.centos.noarch has installed conflicts freeipa-common: ipa-common-4.4.0-12.el7.centos.noarch\n", 
-    "rc": 0, 
-    "results": [
-        "Loaded plugins: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\nResolving Dependencies\n--&gt; Running transaction check\n---&gt; Package htop.x86_64 0:2.0.2-1.el7 will be installed\n--&gt; Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package         Arch              Version                Repository       Size\n================================================================================\nInstalling:\n htop            x86_64            2.0.2-1.el7            epel             98 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 98 k\nInstalled size: 207 k\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : htop-2.0.2-1.el7.x86_64                                      1/1 \n  Verifying  : htop-2.0.2-1.el7.x86_64                                      1/1 \n\nInstalled:\n  htop.x86_64 0:2.0.2-1.el7                                                     \n\nComplete!\n"
+    &quot;changed&quot;: true, 
+    &quot;msg&quot;: &quot;Warning: RPMDB altered outside of yum.\n** Found 3 pre-existing rpmdb problem(s), &#39;yum check&#39; output follows:\nipa-client-4.4.0-12.el7.centos.x86_64 has installed conflicts freeipa-client: ipa-client-4.4.0-12.el7.centos.x86_64\nipa-client-common-4.4.0-12.el7.centos.noarch has installed conflicts freeipa-client-common: ipa-client-common-4.4.0-12.el7.centos.noarch\nipa-common-4.4.0-12.el7.centos.noarch has installed conflicts freeipa-common: ipa-common-4.4.0-12.el7.centos.noarch\n&quot;, 
+    &quot;rc&quot;: 0, 
+    &quot;results&quot;: [
+        &quot;Loaded plugins: fastestmirror, langpacks\nLoading mirror speeds from cached hostfile\nResolving Dependencies\n--&gt; Running transaction check\n---&gt; Package htop.x86_64 0:2.0.2-1.el7 will be installed\n--&gt; Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package         Arch              Version                Repository       Size\n================================================================================\nInstalling:\n htop            x86_64            2.0.2-1.el7            epel             98 k\n\nTransaction Summary\n================================================================================\nInstall  1 Package\n\nTotal download size: 98 k\nInstalled size: 207 k\nDownloading packages:\nRunning transaction check\nRunning transaction test\nTransaction test succeeded\nRunning transaction\n  Installing : htop-2.0.2-1.el7.x86_64                                      1/1 \n  Verifying  : htop-2.0.2-1.el7.x86_64                                      1/1 \n\nInstalled:\n  htop.x86_64 0:2.0.2-1.el7                                                     \n\nComplete!\n&quot;
     ]
 }</code></pre><p>　　安装成功。</p>
 <h3 id="9、service-模块"><a href="#9、service-模块" class="headerlink" title="9、service 模块"></a>9、service 模块</h3><p>　　该模块用于服务程序的管理。<br> 　　其主要选项如下：</p>
@@ -1065,22 +1065,22 @@ hello
 <p><code>arguments</code> #命令行提供额外的参数<br><code>enabled</code>     #设置开机启动。<br><code>name=</code> #服务名称<br><code>runlevel</code> #开机启动的级别，一般不用指定。<br><code>sleep</code> #在重启服务的过程中，是否等待。如在服务关闭以后等待2秒再启动。(定义在剧本中。)<br><code>state</code> #有四种状态，分别为：<code>started</code>—&gt;启动服务， <code>stopped</code>—&gt;停止服务， <code>restarted</code>—&gt;重启服务， <code>reloaded</code>—&gt;重载配置</p>
 </blockquote>
 <p>　　下面是一些例子：<br><strong>① 开启服务并设置自启动</strong></p>
-<pre><code>[root@server ~]# ansible web -m service -a 'name=nginx state=started enabled=true' 
+<pre><code>[root@server ~]# ansible web -m service -a &#39;name=nginx state=started enabled=true&#39; 
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "enabled": true, 
-    "name": "nginx", 
-    "state": "started", 
+    &quot;changed&quot;: true, 
+    &quot;enabled&quot;: true, 
+    &quot;name&quot;: &quot;nginx&quot;, 
+    &quot;state&quot;: &quot;started&quot;, 
     ……
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "enabled": true, 
-    "name": "nginx", 
-    "state": "started", 
+    &quot;changed&quot;: true, 
+    &quot;enabled&quot;: true, 
+    &quot;name&quot;: &quot;nginx&quot;, 
+    &quot;state&quot;: &quot;started&quot;, 
     ……
 }</code></pre><p>　　我们可以去查看一下端口是否打开：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ss -ntl'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ss -ntl&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 State      Recv-Q Send-Q Local Address:Port               Peer Address:Port              
 LISTEN     0      128          *:80                       *:*                                  
@@ -1088,20 +1088,20 @@ LISTEN     0      128          *:80                       *:*
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 State      Recv-Q Send-Q Local Address:Port               Peer Address:Port                    
 LISTEN     0      128          *:80                       *:*                  </code></pre><p>　　可以看出我们的80端口已经打开。<br><strong>② 关闭服务</strong><br> 　　我们也可以通过该模块来关闭我们的服务：</p>
-<pre><code>[root@server ~]# ansible web -m service -a 'name=nginx state=stopped'
+<pre><code>[root@server ~]# ansible web -m service -a &#39;name=nginx state=stopped&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "name": "nginx", 
-    "state": "stopped", 
+    &quot;changed&quot;: true, 
+    &quot;name&quot;: &quot;nginx&quot;, 
+    &quot;state&quot;: &quot;stopped&quot;, 
     ……
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "name": "nginx", 
-    "state": "stopped", 
+    &quot;changed&quot;: true, 
+    &quot;name&quot;: &quot;nginx&quot;, 
+    &quot;state&quot;: &quot;stopped&quot;, 
     ……
 }</code></pre><p>　　一样的，我们来查看一下端口：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'ss -ntl | grep 80'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;ss -ntl | grep 80&#39;
 192.168.37.122 | FAILED | rc=1 &gt;&gt;
 
 192.168.37.133 | FAILED | rc=1 &gt;&gt;</code></pre><p>　　可以看出，我们已经没有80端口了，说明我们的nginx服务已经关闭了。</p>
@@ -1110,55 +1110,55 @@ LISTEN     0      128          *:80                       *:*                  <
 <p><code>comment</code>　　# 用户的描述信息<br><code>createhome</code>　　# 是否创建家目录<br><code>force</code>　　# 在使用state=absent时, 行为与userdel –force一致.<br><code>group</code>　　# 指定基本组<br><code>groups</code>　　# 指定附加组，如果指定为(groups=)表示删除所有组<br><code>home</code>　　    # 指定用户家目录<br><code>move_home</code>　　# 如果设置为home=时, 试图将用户主目录移动到指定的目录<br><code>name</code>　　# 指定用户名<br><code>non_unique</code>　　# 该选项允许改变非唯一的用户ID值<br><code>password</code>　　# 指定用户密码<br><code>remove</code>　　# 在使用state=absent时, 行为是与userdel –remove一致<br><code>shell</code>　　# 指定默认shell<br><code>state</code>　　# 设置帐号状态，不指定为创建，指定值为absent表示删除<br><code>system</code>　　# 当创建一个用户，设置这个用户是系统用户。这个设置不能更改现有用户<br><code>uid</code>　　# 指定用户的uid</p>
 </blockquote>
 <p>　　举例如下：<br><strong>① 添加一个用户并指定其 uid</strong></p>
-<pre><code>[root@server ~]# ansible web -m user -a 'name=keer uid=11111'
+<pre><code>[root@server ~]# ansible web -m user -a &#39;name=keer uid=11111&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "comment": "", 
-    "createhome": true, 
-    "group": 11111, 
-    "home": "/home/keer", 
-    "name": "keer", 
-    "shell": "/bin/bash", 
-    "state": "present", 
-    "stderr": "useradd: warning: the home directory already exists.\nNot copying any file from skel directory into it.\nCreating mailbox file: File exists\n", 
-    "system": false, 
-    "uid": 11111
+    &quot;changed&quot;: true, 
+    &quot;comment&quot;: &quot;&quot;, 
+    &quot;createhome&quot;: true, 
+    &quot;group&quot;: 11111, 
+    &quot;home&quot;: &quot;/home/keer&quot;, 
+    &quot;name&quot;: &quot;keer&quot;, 
+    &quot;shell&quot;: &quot;/bin/bash&quot;, 
+    &quot;state&quot;: &quot;present&quot;, 
+    &quot;stderr&quot;: &quot;useradd: warning: the home directory already exists.\nNot copying any file from skel directory into it.\nCreating mailbox file: File exists\n&quot;, 
+    &quot;system&quot;: false, 
+    &quot;uid&quot;: 11111
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "comment": "", 
-    "createhome": true, 
-    "group": 11111, 
-    "home": "/home/keer", 
-    "name": "keer", 
-    "shell": "/bin/bash", 
-    "state": "present", 
-    "stderr": "useradd: warning: the home directory already exists.\nNot copying any file from skel directory into it.\nCreating mailbox file: File exists\n", 
-    "system": false, 
-    "uid": 11111
+    &quot;changed&quot;: true, 
+    &quot;comment&quot;: &quot;&quot;, 
+    &quot;createhome&quot;: true, 
+    &quot;group&quot;: 11111, 
+    &quot;home&quot;: &quot;/home/keer&quot;, 
+    &quot;name&quot;: &quot;keer&quot;, 
+    &quot;shell&quot;: &quot;/bin/bash&quot;, 
+    &quot;state&quot;: &quot;present&quot;, 
+    &quot;stderr&quot;: &quot;useradd: warning: the home directory already exists.\nNot copying any file from skel directory into it.\nCreating mailbox file: File exists\n&quot;, 
+    &quot;system&quot;: false, 
+    &quot;uid&quot;: 11111
 }</code></pre><p>　　添加完成，我们可以去查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /etc/passwd |grep keer'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /etc/passwd |grep keer&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 keer:x:11111:11111::/home/keer:/bin/bash
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 keer:x:11111:11111::/home/keer:/bin/bash</code></pre><p><strong>② 删除用户</strong></p>
-<pre><code>[root@server ~]# ansible web -m user -a 'name=keer state=absent'
+<pre><code>[root@server ~]# ansible web -m user -a &#39;name=keer state=absent&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "force": false, 
-    "name": "keer", 
-    "remove": false, 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;force&quot;: false, 
+    &quot;name&quot;: &quot;keer&quot;, 
+    &quot;remove&quot;: false, 
+    &quot;state&quot;: &quot;absent&quot;
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "force": false, 
-    "name": "keer", 
-    "remove": false, 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;force&quot;: false, 
+    &quot;name&quot;: &quot;keer&quot;, 
+    &quot;remove&quot;: false, 
+    &quot;state&quot;: &quot;absent&quot;
 }</code></pre><p>　　一样的，删除之后，我们去看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /etc/passwd |grep keer'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /etc/passwd |grep keer&#39;
 192.168.37.122 | FAILED | rc=1 &gt;&gt;
 
 192.168.37.133 | FAILED | rc=1 &gt;&gt;</code></pre><p>　　发现已经没有这个用户了。</p>
@@ -1167,39 +1167,39 @@ keer:x:11111:11111::/home/keer:/bin/bash</code></pre><p><strong>② 删除用户
 <p><code>gid=</code>　　#设置组的GID号<br><code>name=</code>　　#指定组的名称<br><code>state=</code>　　#指定组的状态，默认为创建，设置值为<code>absent</code>为删除<br><code>system=</code>　　#设置值为<code>yes</code>，表示创建为系统组</p>
 </blockquote>
 <p>　　举例如下：<br><strong>① 创建组</strong></p>
-<pre><code>[root@server ~]# ansible web -m group -a 'name=sanguo gid=12222'
+<pre><code>[root@server ~]# ansible web -m group -a &#39;name=sanguo gid=12222&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "gid": 12222, 
-    "name": "sanguo", 
-    "state": "present", 
-    "system": false
+    &quot;changed&quot;: true, 
+    &quot;gid&quot;: 12222, 
+    &quot;name&quot;: &quot;sanguo&quot;, 
+    &quot;state&quot;: &quot;present&quot;, 
+    &quot;system&quot;: false
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "gid": 12222, 
-    "name": "sanguo", 
-    "state": "present", 
-    "system": false
+    &quot;changed&quot;: true, 
+    &quot;gid&quot;: 12222, 
+    &quot;name&quot;: &quot;sanguo&quot;, 
+    &quot;state&quot;: &quot;present&quot;, 
+    &quot;system&quot;: false
 }</code></pre><p>　　创建过后，我们来查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /etc/group | grep 12222' 
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /etc/group | grep 12222&#39; 
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
 sanguo:x:12222:
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
 sanguo:x:12222:</code></pre><p>　　可以看出，我们的组已经创建成功了。<br><strong>② 删除组</strong></p>
-<pre><code>[root@server ~]# ansible web -m group -a 'name=sanguo state=absent'
+<pre><code>[root@server ~]# ansible web -m group -a &#39;name=sanguo state=absent&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "name": "sanguo", 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;name&quot;: &quot;sanguo&quot;, 
+    &quot;state&quot;: &quot;absent&quot;
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "name": "sanguo", 
-    "state": "absent"
+    &quot;changed&quot;: true, 
+    &quot;name&quot;: &quot;sanguo&quot;, 
+    &quot;state&quot;: &quot;absent&quot;
 }</code></pre><p>　　照例查看一下：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'cat /etc/group | grep 12222' 
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;cat /etc/group | grep 12222&#39; 
 192.168.37.122 | FAILED | rc=1 &gt;&gt;
 
 192.168.37.133 | FAILED | rc=1 &gt;&gt;</code></pre><p>　　已经没有这个组的相关信息了。</p>
@@ -1209,20 +1209,20 @@ sanguo:x:12222:</code></pre><p>　　可以看出，我们的组已经创建成�
     date &gt;&gt; /tmp/disk_total.log
     df -lh &gt;&gt; /tmp/disk_total.log 
 [root@server ~]# chmod +x /tmp/df.sh </code></pre><p>　　然后，我们直接运行命令来实现在被管理端执行该脚本：</p>
-<pre><code>[root@server ~]# ansible web -m script -a '/tmp/df.sh'
+<pre><code>[root@server ~]# ansible web -m script -a &#39;/tmp/df.sh&#39;
 192.168.37.122 | SUCCESS =&gt; {
-    "changed": true, 
-    "rc": 0, 
-    "stderr": "Shared connection to 192.168.37.122 closed.\r\n", 
-    "stdout": "", 
-    "stdout_lines": []
+    &quot;changed&quot;: true, 
+    &quot;rc&quot;: 0, 
+    &quot;stderr&quot;: &quot;Shared connection to 192.168.37.122 closed.\r\n&quot;, 
+    &quot;stdout&quot;: &quot;&quot;, 
+    &quot;stdout_lines&quot;: []
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "changed": true, 
-    "rc": 0, 
-    "stderr": "Shared connection to 192.168.37.133 closed.\r\n", 
-    "stdout": "", 
-    "stdout_lines": []
+    &quot;changed&quot;: true, 
+    &quot;rc&quot;: 0, 
+    &quot;stderr&quot;: &quot;Shared connection to 192.168.37.133 closed.\r\n&quot;, 
+    &quot;stdout&quot;: &quot;&quot;, 
+    &quot;stdout_lines&quot;: []
 }</code></pre><p>　　照例查看一下文件内容：</p>
 <pre class=" language-repl"><code class="language-repl">[root@server ~]# ansible web -m shell -a 'cat /tmp/disk_total.log'
 192.168.37.122 | SUCCESS | rc=0 >>
@@ -1252,56 +1252,56 @@ tmpfs           183M   16K  183M   1% /run/user/42
 tmpfs           183M     0  183M   0% /run/user/0</code></pre>
 <p>　　可以看出已经执行成功了。</p>
 <h3 id="13、setup-模块"><a href="#13、setup-模块" class="headerlink" title="13、setup 模块"></a>13、setup 模块</h3><p>　　该模块主要用于收集信息，是通过调用facts组件来实现的。<br> 　　facts组件是Ansible用于采集被管机器设备信息的一个功能，我们可以使用setup模块查机器的所有facts信息，可以使用filter来查看指定信息。整个facts信息被包装在一个JSON格式的数据结构中，ansible_facts是最上层的值。<br> 　　facts就是变量，内建变量 。每个主机的各种信息，cpu颗数、内存大小等。会存在facts中的某个变量中。调用后返回很多对应主机的信息，在后面的操作中可以根据不同的信息来做不同的操作。如redhat系列用yum安装，而debian系列用apt来安装软件。<br><strong>① 查看信息</strong><br> 　　我们可以直接用命令获取到变量的值，具体我们来看看例子：</p>
-<pre><code>[root@server ~]# ansible web -m setup -a 'filter="*mem*"'   #查看内存
+<pre><code>[root@server ~]# ansible web -m setup -a &#39;filter=&quot;*mem*&quot;&#39;   #查看内存
 192.168.37.122 | SUCCESS =&gt; {
-    "ansible_facts": {
-        "ansible_memfree_mb": 1116, 
-        "ansible_memory_mb": {
-            "nocache": {
-                "free": 1397, 
-                "used": 587
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_memfree_mb&quot;: 1116, 
+        &quot;ansible_memory_mb&quot;: {
+            &quot;nocache&quot;: {
+                &quot;free&quot;: 1397, 
+                &quot;used&quot;: 587
             }, 
-            "real": {
-                "free": 1116, 
-                "total": 1984, 
-                "used": 868
+            &quot;real&quot;: {
+                &quot;free&quot;: 1116, 
+                &quot;total&quot;: 1984, 
+                &quot;used&quot;: 868
             }, 
-            "swap": {
-                "cached": 0, 
-                "free": 3813, 
-                "total": 3813, 
-                "used": 0
+            &quot;swap&quot;: {
+                &quot;cached&quot;: 0, 
+                &quot;free&quot;: 3813, 
+                &quot;total&quot;: 3813, 
+                &quot;used&quot;: 0
             }
         }, 
-        "ansible_memtotal_mb": 1984
+        &quot;ansible_memtotal_mb&quot;: 1984
     }, 
-    "changed": false
+    &quot;changed&quot;: false
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "ansible_facts": {
-        "ansible_memfree_mb": 1203, 
-        "ansible_memory_mb": {
-            "nocache": {
-                "free": 1470, 
-                "used": 353
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_memfree_mb&quot;: 1203, 
+        &quot;ansible_memory_mb&quot;: {
+            &quot;nocache&quot;: {
+                &quot;free&quot;: 1470, 
+                &quot;used&quot;: 353
             }, 
-            "real": {
-                "free": 1203, 
-                "total": 1823, 
-                "used": 620
+            &quot;real&quot;: {
+                &quot;free&quot;: 1203, 
+                &quot;total&quot;: 1823, 
+                &quot;used&quot;: 620
             }, 
-            "swap": {
-                "cached": 0, 
-                "free": 3813, 
-                "total": 3813, 
-                "used": 0
+            &quot;swap&quot;: {
+                &quot;cached&quot;: 0, 
+                &quot;free&quot;: 3813, 
+                &quot;total&quot;: 3813, 
+                &quot;used&quot;: 0
             }
         }, 
-        "ansible_memtotal_mb": 1823
+        &quot;ansible_memtotal_mb&quot;: 1823
     }, 
-    "changed": false
+    &quot;changed&quot;: false
 }</code></pre><p>　　我们可以通过命令查看一下内存的大小以确认一下是否一致：</p>
-<pre><code>[root@server ~]# ansible web -m shell -a 'free -m'
+<pre><code>[root@server ~]# ansible web -m shell -a &#39;free -m&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
               total        used        free      shared  buff/cache   available
 Mem:           1984         404        1122           9         457        1346
@@ -1311,60 +1311,60 @@ Swap:          3813           0        3813
               total        used        free      shared  buff/cache   available
 Mem:           1823         292        1207           9         323        1351
 Swap:          3813           0        3813</code></pre><p>　　可以看出信息是一致的。<br><strong>② 保存信息</strong><br> 　　我们的setup模块还有一个很好用的功能就是可以保存我们所筛选的信息至我们的主机上，同时，文件名为我们被管制的主机的IP，这样方便我们知道是哪台机器出的问题。<br> 　　我们可以看一看例子：</p>
-<pre><code>[root@server tmp]# ansible web -m setup -a 'filter="*mem*"' --tree /tmp/facts
+<pre><code>[root@server tmp]# ansible web -m setup -a &#39;filter=&quot;*mem*&quot;&#39; --tree /tmp/facts
 192.168.37.122 | SUCCESS =&gt; {
-    "ansible_facts": {
-        "ansible_memfree_mb": 1115, 
-        "ansible_memory_mb": {
-            "nocache": {
-                "free": 1396, 
-                "used": 588
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_memfree_mb&quot;: 1115, 
+        &quot;ansible_memory_mb&quot;: {
+            &quot;nocache&quot;: {
+                &quot;free&quot;: 1396, 
+                &quot;used&quot;: 588
             }, 
-            "real": {
-                "free": 1115, 
-                "total": 1984, 
-                "used": 869
+            &quot;real&quot;: {
+                &quot;free&quot;: 1115, 
+                &quot;total&quot;: 1984, 
+                &quot;used&quot;: 869
             }, 
-            "swap": {
-                "cached": 0, 
-                "free": 3813, 
-                "total": 3813, 
-                "used": 0
+            &quot;swap&quot;: {
+                &quot;cached&quot;: 0, 
+                &quot;free&quot;: 3813, 
+                &quot;total&quot;: 3813, 
+                &quot;used&quot;: 0
             }
         }, 
-        "ansible_memtotal_mb": 1984
+        &quot;ansible_memtotal_mb&quot;: 1984
     }, 
-    "changed": false
+    &quot;changed&quot;: false
 }
 192.168.37.133 | SUCCESS =&gt; {
-    "ansible_facts": {
-        "ansible_memfree_mb": 1199, 
-        "ansible_memory_mb": {
-            "nocache": {
-                "free": 1467, 
-                "used": 356
+    &quot;ansible_facts&quot;: {
+        &quot;ansible_memfree_mb&quot;: 1199, 
+        &quot;ansible_memory_mb&quot;: {
+            &quot;nocache&quot;: {
+                &quot;free&quot;: 1467, 
+                &quot;used&quot;: 356
             }, 
-            "real": {
-                "free": 1199, 
-                "total": 1823, 
-                "used": 624
+            &quot;real&quot;: {
+                &quot;free&quot;: 1199, 
+                &quot;total&quot;: 1823, 
+                &quot;used&quot;: 624
             }, 
-            "swap": {
-                "cached": 0, 
-                "free": 3813, 
-                "total": 3813, 
-                "used": 0
+            &quot;swap&quot;: {
+                &quot;cached&quot;: 0, 
+                &quot;free&quot;: 3813, 
+                &quot;total&quot;: 3813, 
+                &quot;used&quot;: 0
             }
         }, 
-        "ansible_memtotal_mb": 1823
+        &quot;ansible_memtotal_mb&quot;: 1823
     }, 
-    "changed": false
+    &quot;changed&quot;: false
 }</code></pre><p>　　然后我们可以去查看一下：</p>
 <pre><code>[root@server ~]# cd /tmp/facts/
 [root@server facts]# ls
 192.168.37.122  192.168.37.133
 [root@server facts]# cat 192.168.37.122 
-{"ansible_facts": {"ansible_memfree_mb": 1115, "ansible_memory_mb": {"nocache": {"free": 1396, "used": 588}, "real": {"free": 1115, "total": 1984, "used": 869}, "swap": {"cached": 0, "free": 3813, "total": 3813, "used": 0}}, "ansible_memtotal_mb": 1984}, "changed": false}</code></pre><h2 id="六、Ansible-playbook-简介"><a href="#六、Ansible-playbook-简介" class="headerlink" title="六、Ansible playbook 简介"></a>六、Ansible playbook 简介</h2><p>　　<strong>playbook 是 ansible 用于配置，部署，和管理被控节点的剧本。</strong><br>　　通过 playbook 的详细描述，执行其中的一系列 tasks ，可以让远端主机达到预期的状态。playbook 就像 Ansible 控制器给被控节点列出的的一系列 to-do-list ，而被控节点必须要完成。<br>　　也可以这么理解，playbook 字面意思，即剧本，现实中由演员按照剧本表演，在Ansible中，这次由计算机进行表演，由计算机安装，部署应用，提供对外服务，以及组织计算机处理各种各样的事情。</p>
+{&quot;ansible_facts&quot;: {&quot;ansible_memfree_mb&quot;: 1115, &quot;ansible_memory_mb&quot;: {&quot;nocache&quot;: {&quot;free&quot;: 1396, &quot;used&quot;: 588}, &quot;real&quot;: {&quot;free&quot;: 1115, &quot;total&quot;: 1984, &quot;used&quot;: 869}, &quot;swap&quot;: {&quot;cached&quot;: 0, &quot;free&quot;: 3813, &quot;total&quot;: 3813, &quot;used&quot;: 0}}, &quot;ansible_memtotal_mb&quot;: 1984}, &quot;changed&quot;: false}</code></pre><h2 id="六、Ansible-playbook-简介"><a href="#六、Ansible-playbook-简介" class="headerlink" title="六、Ansible playbook 简介"></a>六、Ansible playbook 简介</h2><p>　　<strong>playbook 是 ansible 用于配置，部署，和管理被控节点的剧本。</strong><br>　　通过 playbook 的详细描述，执行其中的一系列 tasks ，可以让远端主机达到预期的状态。playbook 就像 Ansible 控制器给被控节点列出的的一系列 to-do-list ，而被控节点必须要完成。<br>　　也可以这么理解，playbook 字面意思，即剧本，现实中由演员按照剧本表演，在Ansible中，这次由计算机进行表演，由计算机安装，部署应用，提供对外服务，以及组织计算机处理各种各样的事情。</p>
 <h2 id="七、Ansible-playbook使用场景"><a href="#七、Ansible-playbook使用场景" class="headerlink" title="七、Ansible playbook使用场景"></a>七、Ansible playbook使用场景</h2><p>　　执行一些简单的任务，使用ad-hoc命令可以方便的解决问题，但是有时一个设施过于复杂，需要大量的操作时候，执行的ad-hoc命令是不适合的，这时最好使用playbook。<br>　　就像执行shell命令与写shell脚本一样，也可以理解为批处理任务，不过playbook有自己的语法格式。<br>　　使用playbook你可以方便的重用这些代码，可以移植到不同的机器上面，像函数一样，最大化的利用代码。在你使用Ansible的过程中，你也会发现，你所处理的大部分操作都是编写playbook。可以把常见的应用都编写成playbook，之后管理服务器会变得十分简单。</p>
 <h2 id="八、Ansible-playbook格式"><a href="#八、Ansible-playbook格式" class="headerlink" title="八、Ansible playbook格式"></a>八、Ansible playbook格式</h2><h3 id="1、格式简介"><a href="#1、格式简介" class="headerlink" title="1、格式简介"></a>1、格式简介</h3><p>　　<strong>playbook由YMAL语言编写。</strong>YAML( /ˈjæməl/ )参考了其他多种语言，包括：XML、C语言、Python、Perl以及电子邮件格式RFC2822，Clark Evans在2001年5月在首次发表了这种语言，另外Ingy döt Net与OrenBen-Kiki也是这语言的共同设计者。<br>　　YMAL格式是类似于JSON的文件格式，便于人理解和阅读，同时便于书写。首先学习了解一下YMAL的格式，对我们后面书写playbook很有帮助。以下为playbook常用到的YMAL格式：<br>　　1、文件的第一行应该以 “—“ (三个连字符)开始，表明YMAL文件的开始。<br>　　2、在同一行中，#之后的内容表示注释，类似于shell，python和ruby。<br>　　3、YMAL中的列表元素以”-”开头然后紧跟着一个空格，后面为元素内容。<br>　　4、同一个列表中的元素应该保持相同的缩进。否则会被当做错误处理。<br>　　5、play中hosts，variables，roles，tasks等对象的表示方法都是键值中间以”:”分隔表示，”:”后面还要增加一个空格。<br>　　下面是一个举例：</p>
 <pre><code>---
@@ -1418,29 +1418,29 @@ Swap:          3813           0        3813</code></pre><p>　　可以看出信
     - name: reload
       service: name=nginx state=restarted　　#为了在进程中能看出来</code></pre><p><strong>② 测试运行结果</strong><br>　　写完了以后，我们就可以运行了：</p>
 <pre><code>[root@server ansible]# ansible-playbook nginx.yml</code></pre><p>　　现在我们可以看看两台机器的端口是否开启：</p>
-<pre><code>[root@server ansible]# ansible web -m shell -a 'ss -nutlp |grep nginx'
+<pre><code>[root@server ansible]# ansible web -m shell -a &#39;ss -nutlp |grep nginx&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
-tcp    LISTEN     0      128       *:80                    *:*                   users:(("nginx",pid=8304,fd=6),("nginx",pid=8303,fd=6))
+tcp    LISTEN     0      128       *:80                    *:*                   users:((&quot;nginx&quot;,pid=8304,fd=6),(&quot;nginx&quot;,pid=8303,fd=6))
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
-tcp    LISTEN     0      128       *:80                    *:*                   users:(("nginx",pid=9671,fd=6),("nginx",pid=9670,fd=6))</code></pre><p><strong>③ 测试标签</strong><br>　　我们在里面已经打上了一个标签，所以可以直接引用标签。但是我们需要先把服务关闭，再来运行剧本并引用标签：</p>
-<pre><code>[root@server ansible]# ansible web -m shell -a 'systemctl stop nginx'
+tcp    LISTEN     0      128       *:80                    *:*                   users:((&quot;nginx&quot;,pid=9671,fd=6),(&quot;nginx&quot;,pid=9670,fd=6))</code></pre><p><strong>③ 测试标签</strong><br>　　我们在里面已经打上了一个标签，所以可以直接引用标签。但是我们需要先把服务关闭，再来运行剧本并引用标签：</p>
+<pre><code>[root@server ansible]# ansible web -m shell -a &#39;systemctl stop nginx&#39;
 [root@server ansible]# ansible-playbook nginx.yml -t startnginx</code></pre><p><strong>④ 测试notify</strong><br>　　我们还做了一个<code>notify</code>，来测试一下：<br>　　首先，它的触发条件是配置文件被改变，所以我们去把配置文件中的端口改一下：</p>
 <pre><code>[root@server ansible]# vim /tmp/nginx.conf
     listen       8080;
 </code></pre><p>　　然后我们重新加载一下这个剧本：</p>
 <pre><code> [root@server ansible]# ansible-playbook nginx.yml -t reloadnginx</code></pre><p>　　发现我们执行的就是reload段以及我们定义的<code>notify</code>部分。<br>　　我们来看一看我们的端口号：</p>
 <p>　　发现我们执行的就是reload段以及我们定义的<code>notify</code>部分。<br>　　我们来看一看我们的端口号：</p>
-<pre><code>[root@server ansible]# ansible web -m shell -a 'ss -ntlp | grep nginx'
+<pre><code>[root@server ansible]# ansible web -m shell -a &#39;ss -ntlp | grep nginx&#39;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
-LISTEN     0      128          *:8080                     *:*                   users:(("nginx",pid=2097,fd=6),("nginx",pid=2096,fd=6))
+LISTEN     0      128          *:8080                     *:*                   users:((&quot;nginx&quot;,pid=2097,fd=6),(&quot;nginx&quot;,pid=2096,fd=6))
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
-LISTEN     0      128          *:8080                     *:*                   users:(("nginx",pid=3061,fd=6),("nginx",pid=3060,fd=6))</code></pre><p>　　可以看出，我们的nginx端口已经变成了8080。　　</p>
+LISTEN     0      128          *:8080                     *:*                   users:((&quot;nginx&quot;,pid=3061,fd=6),(&quot;nginx&quot;,pid=3060,fd=6))</code></pre><p>　　可以看出，我们的nginx端口已经变成了8080。　　</p>
 <h3 id="4、variables-部分"><a href="#4、variables-部分" class="headerlink" title="4、variables 部分"></a>4、variables 部分</h3><p>　　上文中，我们说到了<code>variables</code>是变量，有四种定义方法，现在我们就来说说这四种定义方法：</p>
 <h4 id="①-facts-：可直接调用"><a href="#①-facts-：可直接调用" class="headerlink" title="① facts ：可直接调用"></a>① facts ：可直接调用</h4><p>　　上一篇中，我们有说到<code>setup</code>这个模块，这个模块就是通过调用facts组件来实现的。我们这里的<code>variables</code>也可以直接调用<code>facts</code>组件。<br>　　具体的<code>facters</code>我们可以使用<code>setup</code>模块来获取，然后直接放入我们的剧本中调用即可。</p>
-<pre><code>ansible_all_ipv4_addresses：仅显示ipv4的信息 ---&gt; [u'192.168.95.143']
-ansible_eth0['ipv4']['address']：仅显示ipv4的信息 ---&gt; eth0 的ip地址
+<pre><code>ansible_all_ipv4_addresses：仅显示ipv4的信息 ---&gt; [u&#39;192.168.95.143&#39;]
+ansible_eth0[&#39;ipv4&#39;][&#39;address&#39;]：仅显示ipv4的信息 ---&gt; eth0 的ip地址
 ansible_devices：仅显示磁盘设备信息
 ansible_distribution：显示是什么系统，例：centos,suse等
 ansible_distribution_version：仅显示系统版本
@@ -1549,10 +1549,10 @@ PLAY RECAP *********************************************************************
 <pre><code>tasks:
 - name: install conf file to centos7
   template: src=files/nginx.conf.c7.j2
-  when: ansible_distribution_major_version == "7"
+  when: ansible_distribution_major_version == &quot;7&quot;
 - name: install conf file to centos6
   template: src=files/nginx.conf.c6.j2
-  when: ansible_distribution_major_version == "6"</code></pre><p>循环：迭代，需要重复执行的任务；<br>　　对迭代项的引用，固定变量名为”item”，而后，要在task中使用with_items给定要迭代的元素列表；<br>举例如下：</p>
+  when: ansible_distribution_major_version == &quot;6&quot;</code></pre><p>循环：迭代，需要重复执行的任务；<br>　　对迭代项的引用，固定变量名为”item”，而后，要在task中使用with_items给定要迭代的元素列表；<br>举例如下：</p>
 <pre><code>tasks:
 - name: unstall web packages
   yum: name={{ item }} state=absent
@@ -1575,9 +1575,9 @@ PLAY RECAP *********************************************************************
 - name: add some users
   user: name={{ item.name }} group={{ item.group }} state=present
   with_items:
-    - { name: 'user11', group: 'group11' }
-    - { name: 'user12', group: 'group12' }
-    - { name: 'user13', group: 'group13' }</code></pre><h3 id="8、角色订制：roles"><a href="#8、角色订制：roles" class="headerlink" title="8、角色订制：roles"></a>8、角色订制：roles</h3><h4 id="①-简介"><a href="#①-简介" class="headerlink" title="① 简介"></a>① 简介</h4><p>　　对于以上所有的方式有个弊端就是无法实现复用假设在同时部署Web、db、ha 时或不同服务器组合不同的应用就需要写多个yml文件。很难实现灵活的调用。<br>　　roles 用于层次性、结构化地组织playbook。roles 能够根据层次型结构自动装载变量文件、tasks以及handlers等。要使用roles只需要在playbook中使用include指令即可。简单来讲，roles就是通过分别将变量(vars)、文件(file)、任务(tasks)、模块(modules)及处理器(handlers)放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
+    - { name: &#39;user11&#39;, group: &#39;group11&#39; }
+    - { name: &#39;user12&#39;, group: &#39;group12&#39; }
+    - { name: &#39;user13&#39;, group: &#39;group13&#39; }</code></pre><h3 id="8、角色订制：roles"><a href="#8、角色订制：roles" class="headerlink" title="8、角色订制：roles"></a>8、角色订制：roles</h3><h4 id="①-简介"><a href="#①-简介" class="headerlink" title="① 简介"></a>① 简介</h4><p>　　对于以上所有的方式有个弊端就是无法实现复用假设在同时部署Web、db、ha 时或不同服务器组合不同的应用就需要写多个yml文件。很难实现灵活的调用。<br>　　roles 用于层次性、结构化地组织playbook。roles 能够根据层次型结构自动装载变量文件、tasks以及handlers等。要使用roles只需要在playbook中使用include指令即可。简单来讲，roles就是通过分别将变量(vars)、文件(file)、任务(tasks)、模块(modules)及处理器(handlers)放置于单独的目录中，并可以便捷地include它们的一种机制。角色一般用于基于主机构建服务的场景中，但也可以是用于构建守护进程等场景中。</p>
 <h4 id="②-角色集合"><a href="#②-角色集合" class="headerlink" title="② 角色集合"></a>② 角色集合</h4><p>角色集合：roles/<br>mysql/<br>httpd/<br>nginx/<br>files/：存储由copy或script等模块调用的文件；<br>tasks/：此目录中至少应该有一个名为main.yml的文件，用于定义各task；其它的文件需要由main.yml进行“包含”调用；<br>handlers/：此目录中至少应该有一个名为main.yml的文件，用于定义各handler；其它的文件需要由main.yml进行“包含”调用；<br>vars/：此目录中至少应该有一个名为main.yml的文件，用于定义各variable；其它的文件需要由main.yml进行“包含”调用；<br>templates/：存储由template模块调用的模板文本；<br>meta/：此目录中至少应该有一个名为main.yml的文件，定义当前角色的特殊设定及其依赖关系；其它的文件需要由main.yml进行“包含”调用；<br>default/：此目录中至少应该有一个名为main.yml的文件，用于设定默认变量；</p>
 <h4 id="③-角色定制实例"><a href="#③-角色定制实例" class="headerlink" title="③ 角色定制实例"></a>③ 角色定制实例</h4><p><strong>1. 在roles目录下生成对应的目录结构</strong></p>
 <pre><code>[root@server ansible]# cd roles/
@@ -1679,12 +1679,12 @@ changed: [192.168.37.133]
 PLAY RECAP *********************************************************************
 192.168.37.122             : ok=6    changed=4    unreachable=0    failed=0   
 192.168.37.133             : ok=6    changed=4    unreachable=0    failed=0   </code></pre><p>　　启动过后照例查看端口号：</p>
-<pre><code>[root@server ansible]# ansible web -m shell -a "ss -ntulp |grep 9999"
+<pre><code>[root@server ansible]# ansible web -m shell -a &quot;ss -ntulp |grep 9999&quot;
 192.168.37.122 | SUCCESS | rc=0 &gt;&gt;
-tcp    LISTEN     0      128       *:9999                  *:*                   users:(("nginx",pid=7831,fd=6),("nginx",pid=7830,fd=6),("nginx",pid=7829,fd=6))
+tcp    LISTEN     0      128       *:9999                  *:*                   users:((&quot;nginx&quot;,pid=7831,fd=6),(&quot;nginx&quot;,pid=7830,fd=6),(&quot;nginx&quot;,pid=7829,fd=6))
 
 192.168.37.133 | SUCCESS | rc=0 &gt;&gt;
-tcp    LISTEN     0      128       *:9999                  *:*                   users:(("nginx",pid=9654,fd=6),("nginx",pid=9653,fd=6),("nginx",pid=9652,fd=6))</code></pre><p>　　可以看出我们的剧本已经执行成功。</p>
+tcp    LISTEN     0      128       *:9999                  *:*                   users:((&quot;nginx&quot;,pid=9654,fd=6),(&quot;nginx&quot;,pid=9653,fd=6),(&quot;nginx&quot;,pid=9652,fd=6))</code></pre><p>　　可以看出我们的剧本已经执行成功。</p>
 <h2 id="九、Ansible使用jinja2管理配置文件以及jinja2语法简介"><a href="#九、Ansible使用jinja2管理配置文件以及jinja2语法简介" class="headerlink" title="九、Ansible使用jinja2管理配置文件以及jinja2语法简介"></a>九、Ansible使用jinja2管理配置文件以及jinja2语法简介</h2><h3 id="1、Jinja2介绍"><a href="#1、Jinja2介绍" class="headerlink" title="1、Jinja2介绍"></a>1、Jinja2介绍</h3><p>Jinja2是基于python的模板引擎，功能比较类似于PHP的smarty，J2ee的Freemarker和velocity。它能完全支持unicode，并具有集成的沙箱执行环境，应用广泛。jinja2使用BSD授权</p>
 <p>Jinja2的语法是由variables(变量)和statement(语句)组成，如下；</p>
 <h4 id="1、variables：可以输出数据"><a href="#1、variables：可以输出数据" class="headerlink" title="1、variables：可以输出数据"></a>1、variables：可以输出数据</h4><pre><code> my_variables </code></pre>{{ some_dudes_name | capitalize }}
@@ -1885,19 +1885,19 @@ bind_address<span class="token operator">=</span>10.0.90.27:3306</code></pre>
 <h4 id="3、创建apache的jinja2模板文件，如下："><a href="#3、创建apache的jinja2模板文件，如下：" class="headerlink" title="3、创建apache的jinja2模板文件，如下："></a>3、创建apache的jinja2模板文件，如下：</h4><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#cat apache.config.j2 </span>
 NameVirtualHost <span class="token operator">*</span><span class="token operator">:</span><span class="token number">80</span>
 <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> vhost in apache_vhost <span class="token operator">%</span><span class="token punctuation">}</span>
-<span class="token operator">&lt;</span>virtualhost <span class="token operator">*</span><span class="token operator">:</span><span class="token number">80</span><span class="token operator">=</span><span class="token string">""</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>VirtualHost <span class="token operator">*</span><span class="token operator">:</span><span class="token number">80</span><span class="token operator">></span>
 ServerName <span class="token punctuation">{</span><span class="token punctuation">{</span> vhost<span class="token punctuation">.</span>servername <span class="token punctuation">}</span><span class="token punctuation">}</span>
 DocumentRoot <span class="token punctuation">{</span><span class="token punctuation">{</span> vhost<span class="token punctuation">.</span>documentroot <span class="token punctuation">}</span><span class="token punctuation">}</span>
 <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">if</span> vhost<span class="token punctuation">.</span>serveradmin is defined <span class="token operator">%</span><span class="token punctuation">}</span>
 ServerAdmin <span class="token punctuation">{</span><span class="token punctuation">{</span> vhost<span class="token punctuation">.</span>serveradmin <span class="token punctuation">}</span><span class="token punctuation">}</span>
 <span class="token punctuation">{</span><span class="token operator">%</span> endif <span class="token operator">%</span><span class="token punctuation">}</span>
-<span class="token operator">&lt;</span>directory <span class="token string">"{{="</span><span class="token string">" vhost.documentroot="</span><span class="token string">" }}"</span><span class="token operator">=</span><span class="token string">""</span><span class="token operator">></span>
+<span class="token operator">&lt;</span>Directory <span class="token string">"{{ vhost.documentroot }}"</span><span class="token operator">></span>
 AllowOverride All
 Options <span class="token operator">-</span>Indexes FollowSymLinks
 Order allow<span class="token punctuation">,</span>deny
 Allow from all
-<span class="token operator">&lt;</span><span class="token operator">/</span>directory<span class="token operator">></span>
-<span class="token operator">&lt;</span><span class="token operator">/</span>virtualhost<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>Directory<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>VirtualHost<span class="token operator">></span>
 <span class="token punctuation">{</span><span class="token operator">%</span> endfor <span class="token operator">%</span><span class="token punctuation">}</span></code></pre>
 <h4 id="4、创建变量，如下："><a href="#4、创建变量，如下：" class="headerlink" title="4、创建变量，如下："></a>4、创建变量，如下：</h4><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#cat vars/main.yml</span>
 apache_vhost:
@@ -2150,25 +2150,7 @@ server <span class="token punctuation">{</span>
     index index.html index.html<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>到这里，就结束了。用同样的模板通过简单的if和变量设置就可以完成不同类型主机的Nginx conf配置，所以一方面在了解Ansible强大的模板功能的同时，也需要看到模板质量的重要性。</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -2193,7 +2175,7 @@ server <span class="token punctuation">{</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/04/16/linux/ansible/">https://cyylog.gitee.io/2019/04/16/linux/ansible/</a>
+                    <a href="https://cyylog.github.io/2019/04/16/linux/ansible/">https://cyylog.github.io/2019/04/16/linux/ansible/</a>
                 </span>
             </div>
             <div class="reprint__notice">

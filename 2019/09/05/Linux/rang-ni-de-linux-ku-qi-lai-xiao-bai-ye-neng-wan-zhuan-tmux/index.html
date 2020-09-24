@@ -581,20 +581,20 @@ set-option -g status-utf8 on                      # 开启状态栏的UTF-8支�
 
 ---
 set-option -g status-bg blue
-set-option -g status-fg '#bbbbbb'
+set-option -g status-fg &#39;#bbbbbb&#39;
 set-option -g status-left-fg green
 set-option -g status-left-bg blue
 set-option -g status-right-fg green
 set-option -g status-right-bg blue
 set-option -g status-left-length 10               # 状态栏左方的内容长度；
 set-option -g status-right-length 15              # 状态栏右方的内容长度；建议把更多的空间留给状态栏左方（用于列出当前窗口）
-set-option -g status-left '[#(whoami)]'           # 状态栏左方的内容
-set-option -g status-right '[#(date +" %m-%d %H:%M ")]'     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
-set-option -g status-justify "centre"             # 窗口列表居中显示
-set-option -g default-terminal "screen-256color"  # 支持256色显示
+set-option -g status-left &#39;[#(whoami)]&#39;           # 状态栏左方的内容
+set-option -g status-right &#39;[#(date +&quot; %m-%d %H:%M &quot;)]&#39;     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
+set-option -g status-justify &quot;centre&quot;             # 窗口列表居中显示
+set-option -g default-terminal &quot;screen-256color&quot;  # 支持256色显示
 分割窗口边界的颜色
-set-option -g pane-active-border-fg '#55ff55'
-set-option -g pane-border-fg '#555555'
+set-option -g pane-active-border-fg &#39;#55ff55&#39;
+set-option -g pane-border-fg &#39;#555555&#39;
 
 ---
 此类设置可以在命令行模式中输入show-window-options -g查询
@@ -606,8 +606,8 @@ set-window-option -g mode-mouse on   # 窗口切换后让人可以用鼠标上�
 窗口切分快捷键(没设置成功)
 bind \ split-window -h                      # 使用 \ 将窗口竖切
 bind - split-window -v                      # 使用 - 将窗口横切
-bind K confirm-before -p "kill-window #W? (y/n)" kill-window    # 使用大写 K 来关闭窗口
-bind '"' choose-window                      # 双引号选择窗口
+bind K confirm-before -p &quot;kill-window #W? (y/n)&quot; kill-window    # 使用大写 K 来关闭窗口
+bind &#39;&quot;&#39; choose-window                      # 双引号选择窗口
 
 ---
 Pane之间切换的快捷键
@@ -622,13 +622,13 @@ setw -g window-status-current-bg red
 setw -g window-status-current-fg white
 setw -g window-status-current-attr bright
 setw -g window-status-attr bright
-set-option -g window-status-format '#I #W'
-set-option -g window-status-current-format ' #I #W '
+set-option -g window-status-format &#39;#I #W&#39;
+set-option -g window-status-current-format &#39; #I #W &#39;
 setw -g window-status-current-bg blue
 setw -g window-status-current-fg green
 不使用prefix键，使用Ctrl和左右方向键方便切换窗口
-bind-key -n "C-Left" select-window -t :-
-bind-key -n "C-Right" select-window -t :+</code></pre><h3 id="tmux-session-使用介绍"><a href="#tmux-session-使用介绍" class="headerlink" title="tmux session 使用介绍"></a>tmux session 使用介绍</h3><pre><code>运行tmux并开启一个新的会话
+bind-key -n &quot;C-Left&quot; select-window -t :-
+bind-key -n &quot;C-Right&quot; select-window -t :+</code></pre><h3 id="tmux-session-使用介绍"><a href="#tmux-session-使用介绍" class="headerlink" title="tmux session 使用介绍"></a>tmux session 使用介绍</h3><pre><code>运行tmux并开启一个新的会话
 tmux
 
 显示所有会话
@@ -672,7 +672,7 @@ Ctrl+b  [           //粘贴
 ctrl+b ?            显示快捷键帮助
 ctrl+b 空格键       采用下一个内置布局，这个很有意思，在多屏时，用这个就会将多有屏幕竖着展示
 ctrl+b !            把当前窗口变为新窗口
-ctrl+b  "           模向分隔窗口
+ctrl+b  &quot;           模向分隔窗口
 ctrl+b %            纵向分隔窗口
 ctrl+b q            显示分隔窗口的编号
 ctrl+b o            跳到下一个分隔窗口。多屏之间的切换
@@ -741,20 +741,20 @@ set-option -g status-utf8 on                      # 开启状态栏的UTF-8支�
 
 ---
 set-option -g status-bg blue
-set-option -g status-fg '#bbbbbb'
+set-option -g status-fg &#39;#bbbbbb&#39;
 set-option -g status-left-fg green
 set-option -g status-left-bg blue
 set-option -g status-right-fg green
 set-option -g status-right-bg blue
 set-option -g status-left-length 10               # 状态栏左方的内容长度；
 set-option -g status-right-length 15              # 状态栏右方的内容长度；建议把更多的空间留给状态栏左方（用于列出当前窗口）
-set-option -g status-left '[#(whoami)]'           # 状态栏左方的内容
-set-option -g status-right '[#(date +" %m-%d %H:%M ")]'     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
-set-option -g status-justify "centre"             # 窗口列表居中显示
-set-option -g default-terminal "screen-256color"  # 支持256色显示
+set-option -g status-left &#39;[#(whoami)]&#39;           # 状态栏左方的内容
+set-option -g status-right &#39;[#(date +&quot; %m-%d %H:%M &quot;)]&#39;     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
+set-option -g status-justify &quot;centre&quot;             # 窗口列表居中显示
+set-option -g default-terminal &quot;screen-256color&quot;  # 支持256色显示
 分割窗口边界的颜色
-set-option -g pane-active-border-fg '#55ff55'
-set-option -g pane-border-fg '#555555'
+set-option -g pane-active-border-fg &#39;#55ff55&#39;
+set-option -g pane-border-fg &#39;#555555&#39;
 
 ---
 此类设置可以在命令行模式中输入show-window-options -g查询
@@ -766,8 +766,8 @@ set-window-option -g mode-mouse on   # 窗口切换后让人可以用鼠标上�
 窗口切分快捷键(没设置成功)
 bind \ split-window -h                      # 使用 \ 将窗口竖切
 bind - split-window -v                      # 使用 - 将窗口横切
-bind K confirm-before -p "kill-window #W? (y/n)" kill-window    # 使用大写 K 来关闭窗口
-bind '"' choose-window                      # 双引号选择窗口
+bind K confirm-before -p &quot;kill-window #W? (y/n)&quot; kill-window    # 使用大写 K 来关闭窗口
+bind &#39;&quot;&#39; choose-window                      # 双引号选择窗口
 
 ---
 Pane之间切换的快捷键
@@ -782,13 +782,13 @@ setw -g window-status-current-bg red
 setw -g window-status-current-fg white
 setw -g window-status-current-attr bright
 setw -g window-status-attr bright
-set-option -g window-status-format '#I #W'
-set-option -g window-status-current-format ' #I #W '
+set-option -g window-status-format &#39;#I #W&#39;
+set-option -g window-status-current-format &#39; #I #W &#39;
 setw -g window-status-current-bg blue
 setw -g window-status-current-fg green
 不使用prefix键，使用Ctrl和左右方向键方便切换窗口
-bind-key -n "C-Left" select-window -t :-
-bind-key -n "C-Right" select-window -t :+
+bind-key -n &quot;C-Left&quot; select-window -t :-
+bind-key -n &quot;C-Right&quot; select-window -t :+
 ​```
 
 ### tmux session 使用介绍
@@ -843,7 +843,7 @@ Ctrl+b  [           //粘贴
 ctrl+b ?            显示快捷键帮助
 ctrl+b 空格键       采用下一个内置布局，这个很有意思，在多屏时，用这个就会将多有屏幕竖着展示
 ctrl+b !            把当前窗口变为新窗口
-ctrl+b  "           模向分隔窗口
+ctrl+b  &quot;           模向分隔窗口
 ctrl+b %            纵向分隔窗口
 ctrl+b q            显示分隔窗口的编号
 ctrl+b o            跳到下一个分隔窗口。多屏之间的切换
@@ -870,7 +870,7 @@ ctrl+b d           脱离当前会话；这样可以暂时返回Shell界面，�
 2）默认创建一个会话，以数字命名。（不推荐）
 [root@Centos6 ~]# tmux
 　　
-3）新建会话，比如新创建一个会话以"ccc"命名
+3）新建会话，比如新创建一个会话以&quot;ccc&quot;命名
 [root@Centos6 ~]# tmux new -s ccc
 
 加上参数-d，表示在后台新建会话
@@ -965,20 +965,20 @@ set-option -g status-utf8 on                      # 开启状态栏的UTF-8支�
 
 ---
 set-option -g status-bg blue
-set-option -g status-fg '#bbbbbb'
+set-option -g status-fg &#39;#bbbbbb&#39;
 set-option -g status-left-fg green
 set-option -g status-left-bg blue
 set-option -g status-right-fg green
 set-option -g status-right-bg blue
 set-option -g status-left-length 10               # 状态栏左方的内容长度；
 set-option -g status-right-length 15              # 状态栏右方的内容长度；建议把更多的空间留给状态栏左方（用于列出当前窗口）
-set-option -g status-left '[#(whoami)]'           # 状态栏左方的内容
-set-option -g status-right '[#(date +" %m-%d %H:%M ")]'     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
-set-option -g status-justify "centre"             # 窗口列表居中显示
-set-option -g default-terminal "screen-256color"  # 支持256色显示
+set-option -g status-left &#39;[#(whoami)]&#39;           # 状态栏左方的内容
+set-option -g status-right &#39;[#(date +&quot; %m-%d %H:%M &quot;)]&#39;     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
+set-option -g status-justify &quot;centre&quot;             # 窗口列表居中显示
+set-option -g default-terminal &quot;screen-256color&quot;  # 支持256色显示
 分割窗口边界的颜色
-set-option -g pane-active-border-fg '#55ff55'
-set-option -g pane-border-fg '#555555'
+set-option -g pane-active-border-fg &#39;#55ff55&#39;
+set-option -g pane-border-fg &#39;#555555&#39;
 
 ---
 此类设置可以在命令行模式中输入show-window-options -g查询
@@ -990,8 +990,8 @@ set-window-option -g mode-mouse on   # 窗口切换后让人可以用鼠标上�
 窗口切分快捷键(没设置成功)
 bind \ split-window -h                      # 使用 \ 将窗口竖切
 bind - split-window -v                      # 使用 - 将窗口横切
-bind K confirm-before -p "kill-window #W? (y/n)" kill-window    # 使用大写 K 来关闭窗口
-bind '"' choose-window                      # 双引号选择窗口
+bind K confirm-before -p &quot;kill-window #W? (y/n)&quot; kill-window    # 使用大写 K 来关闭窗口
+bind &#39;&quot;&#39; choose-window                      # 双引号选择窗口
 
 ---
 Pane之间切换的快捷键
@@ -1006,13 +1006,13 @@ setw -g window-status-current-bg red
 setw -g window-status-current-fg white
 setw -g window-status-current-attr bright
 setw -g window-status-attr bright
-set-option -g window-status-format '#I #W'
-set-option -g window-status-current-format ' #I #W '
+set-option -g window-status-format &#39;#I #W&#39;
+set-option -g window-status-current-format &#39; #I #W &#39;
 setw -g window-status-current-bg blue
 setw -g window-status-current-fg green
 不使用prefix键，使用Ctrl和左右方向键方便切换窗口
-bind-key -n "C-Left" select-window -t :-
-bind-key -n "C-Right" select-window -t :+
+bind-key -n &quot;C-Left&quot; select-window -t :-
+bind-key -n &quot;C-Right&quot; select-window -t :+
 ​```
 
 ### tmux session 使用介绍
@@ -1067,7 +1067,7 @@ Ctrl+b  [           //粘贴
 ctrl+b ?            显示快捷键帮助
 ctrl+b 空格键       采用下一个内置布局，这个很有意思，在多屏时，用这个就会将多有屏幕竖着展示
 ctrl+b !            把当前窗口变为新窗口
-ctrl+b  "           模向分隔窗口
+ctrl+b  &quot;           模向分隔窗口
 ctrl+b %            纵向分隔窗口
 ctrl+b q            显示分隔窗口的编号
 ctrl+b o            跳到下一个分隔窗口。多屏之间的切换
@@ -1142,20 +1142,20 @@ set-option -g status-utf8 on                      # 开启状态栏的UTF-8支�
 
 ---
 set-option -g status-bg blue
-set-option -g status-fg '#bbbbbb'
+set-option -g status-fg &#39;#bbbbbb&#39;
 set-option -g status-left-fg green
 set-option -g status-left-bg blue
 set-option -g status-right-fg green
 set-option -g status-right-bg blue
 set-option -g status-left-length 10               # 状态栏左方的内容长度；
 set-option -g status-right-length 15              # 状态栏右方的内容长度；建议把更多的空间留给状态栏左方（用于列出当前窗口）
-set-option -g status-left '[#(whoami)]'           # 状态栏左方的内容
-set-option -g status-right '[#(date +" %m-%d %H:%M ")]'     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
-set-option -g status-justify "centre"             # 窗口列表居中显示
-set-option -g default-terminal "screen-256color"  # 支持256色显示
+set-option -g status-left &#39;[#(whoami)]&#39;           # 状态栏左方的内容
+set-option -g status-right &#39;[#(date +&quot; %m-%d %H:%M &quot;)]&#39;     # 状态栏右方的内容；这里的设置将得到类似23:59的显示
+set-option -g status-justify &quot;centre&quot;             # 窗口列表居中显示
+set-option -g default-terminal &quot;screen-256color&quot;  # 支持256色显示
 分割窗口边界的颜色
-set-option -g pane-active-border-fg '#55ff55'
-set-option -g pane-border-fg '#555555'
+set-option -g pane-active-border-fg &#39;#55ff55&#39;
+set-option -g pane-border-fg &#39;#555555&#39;
 
 ---
 此类设置可以在命令行模式中输入show-window-options -g查询
@@ -1167,8 +1167,8 @@ set-window-option -g mode-mouse on   # 窗口切换后让人可以用鼠标上�
 窗口切分快捷键(没设置成功)
 bind \ split-window -h                      # 使用 \ 将窗口竖切
 bind - split-window -v                      # 使用 - 将窗口横切
-bind K confirm-before -p "kill-window #W? (y/n)" kill-window    # 使用大写 K 来关闭窗口
-bind '"' choose-window                      # 双引号选择窗口
+bind K confirm-before -p &quot;kill-window #W? (y/n)&quot; kill-window    # 使用大写 K 来关闭窗口
+bind &#39;&quot;&#39; choose-window                      # 双引号选择窗口
 
 ---
 Pane之间切换的快捷键
@@ -1183,13 +1183,13 @@ setw -g window-status-current-bg red
 setw -g window-status-current-fg white
 setw -g window-status-current-attr bright
 setw -g window-status-attr bright
-set-option -g window-status-format '#I #W'
-set-option -g window-status-current-format ' #I #W '
+set-option -g window-status-format &#39;#I #W&#39;
+set-option -g window-status-current-format &#39; #I #W &#39;
 setw -g window-status-current-bg blue
 setw -g window-status-current-fg green
 不使用prefix键，使用Ctrl和左右方向键方便切换窗口
-bind-key -n "C-Left" select-window -t :-
-bind-key -n "C-Right" select-window -t :+
+bind-key -n &quot;C-Left&quot; select-window -t :-
+bind-key -n &quot;C-Right&quot; select-window -t :+
 ​```
 
 ### tmux session 使用介绍
@@ -1244,7 +1244,7 @@ Ctrl+b  [           //粘贴
 ctrl+b ?            显示快捷键帮助
 ctrl+b 空格键       采用下一个内置布局，这个很有意思，在多屏时，用这个就会将多有屏幕竖着展示
 ctrl+b !            把当前窗口变为新窗口
-ctrl+b  "           模向分隔窗口
+ctrl+b  &quot;           模向分隔窗口
 ctrl+b %            纵向分隔窗口
 ctrl+b q            显示分隔窗口的编号
 ctrl+b o            跳到下一个分隔窗口。多屏之间的切换
@@ -1271,7 +1271,7 @@ ctrl+b d           脱离当前会话；这样可以暂时返回Shell界面，�
 2）默认创建一个会话，以数字命名。（不推荐）
 [root@1000phone ~]# tmux
 　　
-3）新建会话，比如新创建一个会话以"ccc"命名
+3）新建会话，比如新创建一个会话以&quot;ccc&quot;命名
 [root@1000phone ~]# tmux new -s ccc
 
 加上参数-d，表示在后台新建会话
@@ -1318,7 +1318,7 @@ tigerfive: 1 windows (created Sun Sep 30 10:17:00 2018) [136x29] (attached)
 2）默认创建一个会话，以数字命名。（不推荐）
 [root@1000phone ~]# tmux
 　　
-3）新建会话，比如新创建一个会话以"ccc"命名
+3）新建会话，比如新创建一个会话以&quot;ccc&quot;命名
 [root@1000phone ~]# tmux new -s ccc
 
 加上参数-d，表示在后台新建会话
@@ -1360,25 +1360,7 @@ wangshibo: 1 windows (created Sun Sep 30 10:17:00 2018) [136x29] (attached)
 kevin: 1 windows (created Sun Sep 30 10:17:00 2018) [136x29] (attached)
 
 ​```
-</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+</code></pre>
             </div>
             <hr/>
 
@@ -1403,7 +1385,7 @@ kevin: 1 windows (created Sun Sep 30 10:17:00 2018) [136x29] (attached)
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/">https://cyylog.gitee.io/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/</a>
+                    <a href="https://cyylog.github.io/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/">https://cyylog.github.io/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/</a>
                 </span>
             </div>
             <div class="reprint__notice">

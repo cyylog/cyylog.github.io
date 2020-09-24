@@ -754,7 +754,7 @@ tar -zxvf otp_src_21.3.tar.gz
 cd otp_src_21.3
 ./configure --prefix=/usr/local/bin/erlang --without-javac
 make &amp;&amp; make install
-echo "export PATH=$PATH:/usr/local/bin/erlang/bin:/usr/local/bin/rabbitmq_server-3.6.15/sbin" &gt;&gt; /etc/profile
+echo &quot;export PATH=$PATH:/usr/local/bin/erlang/bin:/usr/local/bin/rabbitmq_server-3.6.15/sbin&quot; &gt;&gt; /etc/profile
 source /etc/profile</code></pre><p>出现 erl 命令则说明安装成功；</p>
 <p><strong>2、安装rabbitmq</strong></p>
 <p>编译安装</p>
@@ -762,7 +762,7 @@ source /etc/profile</code></pre><p>出现 erl 命令则说明安装成功；</p>
 yum install -y xz
 xz -d rabbitmq-server-generic-unix-3.6.15.tar.xz
 tar -xvf rabbitmq-server-generic-unix-3.6.15.tar -C /usr/local/bin/
-echo "export PATH=$PATH:/usr/local/bin/erlang/bin:/usr/local/bin/rabbitmq_server-3.6.15/sbin" &gt;&gt; /etc/profile
+echo &quot;export PATH=$PATH:/usr/local/bin/erlang/bin:/usr/local/bin/rabbitmq_server-3.6.15/sbin&quot; &gt;&gt; /etc/profile
 source /etc/profile</code></pre><p><strong>3、导入 rabbitmq 的管理界面</strong></p>
 <pre><code>rabbitmq-plugins enable rabbitmq_management</code></pre><p><strong>4、设置 erlang</strong></p>
 <p>找到erlang cookie文件的位置，官方在介绍集群的文档中提到过.erlang.cookie 一般会存在这两个地址：第一个是<code>home/.erlang.cookie</code>；第二个地方就是<code>/var/lib/rabbitmq/.erlang.cookie</code>。如果我们使用解压缩方式安装部署的rabbitmq，那么这个文件会在{home}目录下，也就是<code>$home/.erlang.cookie</code>。如果我们使用rpm等安装包方式进行安装的，那么这个文件会在<code>/var/lib/rabbitmq</code>目录下。</p>
@@ -776,7 +776,7 @@ rabbitmq-server -detached</code></pre><p>然后可以通过 <code>rabbitmqctl cl
 <p>由于guest这个用户,只能在本地访问,所以我们要新增一个用户并赋予权限:</p>
 <p>添加用户并设置密码:</p>
 <pre><code>rabbitmqctl add_user  admin 123456</code></pre><p>添加权限（使admin用户对虚拟主机“/” 具有所有权限）:</p>
-<pre><code>rabbitmqctl set_permissions -p "/" admin ".*" ".*" ".*"</code></pre><p>修改用户角色（加入administrator用户组）</p>
+<pre><code>rabbitmqctl set_permissions -p &quot;/&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</code></pre><p>修改用户角色（加入administrator用户组）</p>
 <pre><code>rabbitmqctl set_user_tags admin administrator</code></pre><p>然后就可以远程访问了，然后可直接配置用户权限等信息。到此,就可以通过<a href="http://ip:15672" target="_blank" rel="noopener">http://ip:15672</a> 使用admin 123456 进行登陆了。</p>
 <p>到这里的话，每个节点是作为单独的一台RabbitMQ存在的，也可以正常提供服务了</p>
 <h5 id="3、组成集群"><a href="#3、组成集群" class="headerlink" title="3、组成集群"></a>3、组成集群</h5><p>rabbitmq-server 启动时，会一起启动节点和应用，它预先设置RabbitMQ应用为standalone模式。要将一个节点加入到现有的集群中，你需要停止这个应用，并将节点设置为原始状态。如果使用./rabbitmqctl stop，应用和节点都将被关闭。所以使用rabbitmqctl stop_app仅仅关闭应用。</p>
@@ -793,7 +793,7 @@ node2 # rabbitmqctl join_cluster --ram rabbit@node1</code></pre><p>3、在 Rabbi
 Cluster status of node rabbit@node3 ...
 [{nodes,[{disc,[rabbit@node1,rabbit@node2,rabbit@node3]}]},
  {running_nodes,[rabbit@node1,rabbit@node2,rabbit@node3]},
- {cluster_name,&lt;"rabbit@node1"&gt;},      #集群的名称默认为 rabbit@node1
+ {cluster_name,&lt;&quot;rabbit@node1&quot;&gt;},      #集群的名称默认为 rabbit@node1
  {partitions,[]},
  {alarms,[{rabbit@node1,[]},{rabbit@node2,[]},{rabbit@node3,[]}]}]
 </code></pre><p>4、也可通过在web页面上的“Queues”的列表中，查看有如下显示为“同步镜像到node2”，则也表示集群配置成功</p>
@@ -802,7 +802,7 @@ Cluster status of node rabbit@node3 ...
 <p>在任意一个节点上执行如下操作（这里在node1上执行）</p>
 <p>首先，在web界面，登陆后，点击“Admin–Virtual Hosts（页面右侧）”，在打开的页面上的下方的“Add a new virtual host”处增加一个虚拟主机，同时给用户“admin”和“guest”均加上权限（在页面直接设置、点点点即可）；</p>
 <p>然后，在linux中执行如下命令</p>
-<pre><code>rabbitmqctl set_policy -p coresystem  ha-all "^" '{"ha-mode":"all"}'</code></pre><p>“coresystem” vhost名称， “^”匹配所有的队列， ha-all 策略名称为ha-all, ‘{“ha-mode”:”all”}’ 策略模式为 all 即复制到所有节点，包含新增节点。</p>
+<pre><code>rabbitmqctl set_policy -p coresystem  ha-all &quot;^&quot; &#39;{&quot;ha-mode&quot;:&quot;all&quot;}&#39;</code></pre><p>“coresystem” vhost名称， “^”匹配所有的队列， ha-all 策略名称为ha-all, ‘{“ha-mode”:”all”}’ 策略模式为 all 即复制到所有节点，包含新增节点。</p>
 <p>则此时镜像队列设置成功。（这里的虚拟主机coresystem是代码中需要用到的虚拟主机，虚拟主机的作用是做一个消息的隔离，本质上可认为是一个rabbitmq-server，是否增加虚拟主机，增加几个，这是由开发中的业务决定，即有哪几类服务，哪些服务用哪一个虚拟主机，这是一个规划）。</p>
 <p>6、镜像队列策略设置说明</p>
 <pre><code>rabbitmqctl set_policy [-p Vhost] Name Pattern Definition [Priority]
@@ -868,14 +868,14 @@ attempted to contact: [rabbit@web2]
 
 rabbit@web2:
   * connected to epmd (port 4369) on web2
-  * epmd reports node 'rabbit' running on port 25672
+  * epmd reports node &#39;rabbit&#39; running on port 25672
   * TCP connection succeeded but Erlang distribution failed
 
-  * Hostname mismatch: node "rabbit@mq2" believes its host is different. Please ensure that hostnames resolve the same way locally and on "rabbit@mq2"
+  * Hostname mismatch: node &quot;rabbit@mq2&quot; believes its host is different. Please ensure that hostnames resolve the same way locally and on &quot;rabbit@mq2&quot;
 
 
 current node details:
-- node name: 'rabbitmq-cli-11@web2'
+- node name: &#39;rabbitmq-cli-11@web2&#39;
 - home dir: /root
 - cookie hash: SGwxMdJ3PjEXG1asIEFpBg==</code></pre><p>此时先<code>ps aux | grep mq</code>，然后<code>kill -9</code> 该进程，然后再<code>rabbitmq-server -detached</code>即可解决。（即先强杀，再重新启动）</p>
 <p>3、使用<code>rabbitmqctl stop</code>，<code>rabbitmq-server -detached</code>重新启动后，原先添加的用户admin、虚拟主机coresystem等均丢失，还需要重新添加。</p>
@@ -908,25 +908,7 @@ rabbitmqctl    stop             #关闭节点和应用</code></pre><p>4、常用
   Write: 一个正则表达式match哪些配置资源能够被该用户读。
   Read: 一个正则表达式match哪些配置资源能够被该用户访问。</code></pre><p>6、获取服务器状态信息</p>
 <pre><code> 服务器状态：rabbitmqctl status     ##其中可查看rabbitmq的版本信息</code></pre><p>7、获取集群状态信息</p>
-<pre><code>rabbitmqctl cluster_status</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+<pre><code>rabbitmqctl cluster_status</code></pre>
             </div>
             <hr/>
 
@@ -951,7 +933,7 @@ rabbitmqctl    stop             #关闭节点和应用</code></pre><p>4、常用
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/">https://cyylog.gitee.io/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/</a>
+                    <a href="https://cyylog.github.io/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/">https://cyylog.github.io/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/</a>
                 </span>
             </div>
             <div class="reprint__notice">

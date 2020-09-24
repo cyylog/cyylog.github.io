@@ -597,29 +597,29 @@
 <p>当在 <code>pipeline</code> 块的顶部没有全局代理， 该参数将会被分配到整个流水线的运行中并且每个 <code>stage</code> 部分都需要包含他自己的 <code>agent</code> 部分。比如: <code>agent none</code></p>
 </li>
 <li><p>label</p>
-<p>在提供了标签的 Jenkins 环境中可用的代理上执行流水线或阶段。 例如: <code>agent { label 'my-defined-label' }</code></p>
+<p>在提供了标签的 Jenkins 环境中可用的代理上执行流水线或阶段。 例如: <code>agent { label &#39;my-defined-label&#39; }</code></p>
 </li>
 <li><p>node</p>
-<p><code>agent { node { label 'labelName' } }</code> 和 <code>agent { label 'labelName' }</code> 一样, 但是 <code>node</code> 允许额外的选项 (比如 <code>customWorkspace</code> )。</p>
+<p><code>agent { node { label &#39;labelName&#39; } }</code> 和 <code>agent { label &#39;labelName&#39; }</code> 一样, 但是 <code>node</code> 允许额外的选项 (比如 <code>customWorkspace</code> )。</p>
 </li>
 <li><p>docker</p>
 <p>使用给定的容器执行流水线或阶段。该容器将在预置的 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#../glossary#node" target="_blank" rel="noopener">node</a>上，或在匹配可选定义的<code>label</code> 参数上，动态的供应来接受基于Docker的流水线。 <code>docker</code> 也可以选择的接受 <code>args</code> 参数，该参数可能包含直接传递到 <code>docker run</code> 调用的参数, 以及 <code>alwaysPull</code> 选项, 该选项强制 <code>docker pull</code> ，即使镜像名称已经存在。 比如: </p>
 <pre><code>agent {
     docker {
-        image 'maven:3-alpine'
-        label 'my-defined-label'
-        args  '-v /tmp:/tmp'
+        image &#39;maven:3-alpine&#39;
+        label &#39;my-defined-label&#39;
+        args  &#39;-v /tmp:/tmp&#39;
     }
 }</code></pre></li>
 <li><p>dockerfile</p>
-<p>执行流水线或阶段, 使用从源代码库包含的 <code>Dockerfile</code> 构建的容器。为了使用该选项， <code>Jenkinsfile</code> 必须从多个分支流水线中加载, 或者加载 “Pipeline from SCM.” 通常，这是源代码仓库的根目录下的 <code>Dockerfile</code> : <code>agent { dockerfile true }</code>. 如果在另一个目录下构建 <code>Dockerfile</code> , 使用 <code>dir</code> 选项: <code>agent { dockerfile {dir 'someSubDir' } }</code>。如果 <code>Dockerfile</code> 有另一个名称, 你可以使用 <code>filename</code> 选项指定该文件名。你可以传递额外的参数到 <code>docker build ...</code> 使用 <code>additionalBuildArgs</code> 选项提交, 比如 <code>agent { dockerfile {additionalBuildArgs '--build-arg foo=bar' } }</code>。 例如, 一个带有 <code>build/Dockerfile.build</code> 的仓库,期望一个构建参数 <code>version</code>:</p>
+<p>执行流水线或阶段, 使用从源代码库包含的 <code>Dockerfile</code> 构建的容器。为了使用该选项， <code>Jenkinsfile</code> 必须从多个分支流水线中加载, 或者加载 “Pipeline from SCM.” 通常，这是源代码仓库的根目录下的 <code>Dockerfile</code> : <code>agent { dockerfile true }</code>. 如果在另一个目录下构建 <code>Dockerfile</code> , 使用 <code>dir</code> 选项: <code>agent { dockerfile {dir &#39;someSubDir&#39; } }</code>。如果 <code>Dockerfile</code> 有另一个名称, 你可以使用 <code>filename</code> 选项指定该文件名。你可以传递额外的参数到 <code>docker build ...</code> 使用 <code>additionalBuildArgs</code> 选项提交, 比如 <code>agent { dockerfile {additionalBuildArgs &#39;--build-arg foo=bar&#39; } }</code>。 例如, 一个带有 <code>build/Dockerfile.build</code> 的仓库,期望一个构建参数 <code>version</code>:</p>
 <pre><code>agent {
-    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+    // Equivalent to &quot;docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
     dockerfile {
-        filename 'Dockerfile.build'
-        dir 'build'
-        label 'my-defined-label'
-        additionalBuildArgs  '--build-arg version=1.0.2'
+        filename &#39;Dockerfile.build&#39;
+        dir &#39;build&#39;
+        label &#39;my-defined-label&#39;
+        additionalBuildArgs  &#39;--build-arg version=1.0.2&#39;
     }
 }</code></pre></li>
 </ul>
@@ -632,8 +632,8 @@
 <p>一个字符串。在自定义工作区运行应用了 <code>agent</code> 的流水线或个别的 <code>stage</code>, 而不是默认值。 它既可以是一个相对路径, 在这种情况下，自定义工作区会存在于节点工作区根目录下, 或者一个绝对路径。比如:</p>
 <pre><code>agent {
     node {
-        label 'my-defined-label'
-        customWorkspace '/some/other/path'
+        label &#39;my-defined-label&#39;
+        customWorkspace &#39;/some/other/path&#39;
     }
 }</code></pre><p>该选项对 <code>node</code>, <code>docker</code> 和 <code>dockerfile</code> 有用 。</p>
 </li>
@@ -904,7 +904,7 @@
 </tbody></table>
 <h5 id="可用选项"><a href="#可用选项" class="headerlink" title="可用选项"></a>可用选项</h5><ul>
 <li><p>buildDiscarder</p>
-<p>为最近的流水线运行的特定数量保存组件和控制台输出。例如: <code>options { buildDiscarder(logRotator(numToKeepStr: '1')) }</code></p>
+<p>为最近的流水线运行的特定数量保存组件和控制台输出。例如: <code>options { buildDiscarder(logRotator(numToKeepStr: &#39;1&#39;)) }</code></p>
 </li>
 <li><p>disableConcurrentBuilds</p>
 <p>不允许同时执行流水线。 可被用来防止同时访问共享资源等。 例如: <code>options { disableConcurrentBuilds() }</code></p>
@@ -919,10 +919,10 @@
 <p>一旦构建状态变得UNSTABLE，跳过该阶段。例如: <code>options { skipStagesAfterUnstable() }</code></p>
 </li>
 <li><p>checkoutToSubdirectory</p>
-<p>在工作空间的子目录中自动地执行源代码控制检出。例如: <code>options { checkoutToSubdirectory('foo') }</code></p>
+<p>在工作空间的子目录中自动地执行源代码控制检出。例如: <code>options { checkoutToSubdirectory(&#39;foo&#39;) }</code></p>
 </li>
 <li><p>timeout</p>
-<p>设置流水线运行的超时时间, 在此之后，Jenkins将中止流水线。例如: <code>options { timeout(time: 1, unit: 'HOURS') }</code></p>
+<p>设置流水线运行的超时时间, 在此之后，Jenkins将中止流水线。例如: <code>options { timeout(time: 1, unit: &#39;HOURS&#39;) }</code></p>
 </li>
 <li><p>retry</p>
 <p>在失败时, 重新尝试整个流水线的指定次数。 For example: <code>options { retry(3) }</code></p>
@@ -976,7 +976,7 @@
 <p>在 <code>agent</code> 指令中跳过默认的从源代码控制中检出代码。例如: <code>options { skipDefaultCheckout() }</code></p>
 </li>
 <li><p>timeout</p>
-<p>设置此阶段的超时时间, 在此之后， Jenkins 会终止该阶段。 例如: <code>options { timeout(time: 1, unit: 'HOURS') }</code></p>
+<p>设置此阶段的超时时间, 在此之后， Jenkins 会终止该阶段。 例如: <code>options { timeout(time: 1, unit: &#39;HOURS&#39;) }</code></p>
 </li>
 <li><p>retry</p>
 <p>在失败时, 重试此阶段指定次数。 例如: <code>options { retry(3) }</code></p>
@@ -1000,25 +1000,7 @@
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <p>指定 <code>Example</code> 阶段的执行超时时间, 在此之后，Jenkins 将中止流水线运行。</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -1043,7 +1025,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/">https://cyylog.gitee.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/</a>
+                    <a href="https://cyylog.github.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/">https://cyylog.github.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/</a>
                 </span>
             </div>
             <div class="reprint__notice">

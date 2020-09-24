@@ -639,7 +639,7 @@ echo
 [root@cyy alertscripts]# ./wechat.sh  "这里一个测试"     //可以这样直接调试，然后登陆到企业微信查看该部门的群成员是否收到此信息
 
 脚本测试通过后就是在zabbix控制台上设置了</code></pre>
-<h3 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h3><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -> 报警媒介类型 -> 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
+<h3 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h3><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
 <pre class=" language-shell"><code class="language-shell">--AgentID=1000002
 
 --CorpID=ww74c********56c    
@@ -649,28 +649,10 @@ echo
 --Msg={ALERT.MESSAGE}
 
 --UserID={ALERT.SENDTO}</code></pre>
-<h5 id="2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）"><a href="#2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）" class="headerlink" title="2.然后再设置上用户：点管理 —> 创建用户（微信报警的用户）"></a>2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0XYOe.png" alt="J0XYOe.png"></p>
+<h5 id="2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）"><a href="#2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）" class="headerlink" title="2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）"></a>2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0XYOe.png" alt="J0XYOe.png"></p>
 <h5 id="3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）"><a href="#3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）" class="headerlink" title="3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）"></a>3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）</h5><p><strong>第一步的第3点获取的账号</strong></p>
 <p><img src="https://s1.ax1x.com/2020/04/24/J0XaTA.png" alt="J0XaTA.png"></p>
-<h6 id="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"><a href="#到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。" class="headerlink" title="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"></a>到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。</h6><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+<h6 id="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"><a href="#到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。" class="headerlink" title="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"></a>到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。</h6>
             </div>
             <hr/>
 
@@ -695,7 +677,7 @@ echo
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/">https://cyylog.gitee.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</a>
+                    <a href="https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/">https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -924,9 +906,9 @@ echo
                             
 
 Dockerfile构建镜像通过Dockerfile创建镜像
-虽然可以自己制作 rootfs(见'容器文件系统那些事儿')，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
+虽然可以自己制作 rootfs(见&#39;容器文件系统那些事儿&#39;)，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
 
-docker build命令用于根据给定的
+docker build命
                         
                     </div>
                     <div class="publish-info">

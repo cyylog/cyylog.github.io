@@ -639,7 +639,7 @@ redis.conf 是一个默认的配置文件。我们可以根据需要使用自己
 127.0.0.1:6379&gt; set 2020 GZ
 OK
 127.0.0.1:6379&gt; get 2020
-"GZ"
+&quot;GZ&quot;
 127.0.0.1:6379&gt; ping
 PONG
 </code></pre><h3 id="redis配置"><a href="#redis配置" class="headerlink" title="redis配置"></a>redis配置</h3><pre><code>redis的配置默认位于redis安装目录下，文件名未redis.conf
@@ -649,104 +649,104 @@ redis 127.0.0.1:6379&gt; CONFIG GET CONFIG_SETTING_NAME
 
 也可以通过命令查看或设置相关配置
 127.0.0.1:6379&gt; config get loglevel
-1) "loglevel"
-2) "notice"
+1) &quot;loglevel&quot;
+2) &quot;notice&quot;
 
 
 通过* 查看所有配置
 127.0.0.1:6379&gt; config get *
-  1) "dbfilename"
-  2) "dump.rdb"
-  3) "requirepass"
-  4) ""
-  5) "masterauth"
-  6) ""
-  7) "cluster-announce-ip"
-  8) ""
-  9) "unixsocket"
- 10) ""
- 11) "logfile"
- 12) ""
- 13) "pidfile"
- 14) ""
- 15) "slave-announce-ip"
- 16) ""
- 17) "replica-announce-ip"
- 18) ""
- 19) "maxmemory"
- 20) "0"
- 21) "proto-max-bulk-len"
- 22) "536870912"
- 23) "client-query-buffer-limit"
- 24) "1073741824"
- 25) "maxmemory-samples"
- 26) "5"
- 27) "lfu-log-factor"
- 28) "10"
- 29) "lfu-decay-time"
- 30) "1"
- 31) "timeout"
- 32) "0"
- 33) "active-defrag-threshold-lower"
- 34) "10"
- 35) "active-defrag-threshold-upper"
- 36) "100"
- 37) "active-defrag-ignore-bytes"
- 38) "104857600"
- 39) "active-defrag-cycle-min"
- 40) "5"
- 41) "active-defrag-cycle-max"
- 42) "75"
- 43) "active-defrag-max-scan-fields"
- 44) "1000"
- 45) "auto-aof-rewrite-percentage"
- 46) "100"
- 47) "auto-aof-rewrite-min-size"
- 48) "67108864"
- 49) "hash-max-ziplist-entries"
- 50) "512"
- 51) "hash-max-ziplist-value"
- 52) "64"
- 53) "stream-node-max-bytes"
- 54) "4096"
- 55) "stream-node-max-entries"
- 56) "100"
- 57) "list-max-ziplist-size"
- 58) "-2"
- 59) "list-compress-depth"
- 60) "0"
- 61) "set-max-intset-entries"
- 62) "512"
- 63) "zset-max-ziplist-entries"
- 64) "128"
- 65) "zset-max-ziplist-value"
- 66) "64"
- 67) "hll-sparse-max-bytes"
- 68) "3000"
- 69) "lua-time-limit"
- 70) "5000"
- 71) "slowlog-log-slower-than"
- 72) "10000"
- 73) "latency-monitor-threshold"
- 74) "0"
- 75) "slowlog-max-len"
- 76) "128"
- 77) "port"
- 78) "6379"
- 79) "cluster-announce-port"
- 80) "0"
+  1) &quot;dbfilename&quot;
+  2) &quot;dump.rdb&quot;
+  3) &quot;requirepass&quot;
+  4) &quot;&quot;
+  5) &quot;masterauth&quot;
+  6) &quot;&quot;
+  7) &quot;cluster-announce-ip&quot;
+  8) &quot;&quot;
+  9) &quot;unixsocket&quot;
+ 10) &quot;&quot;
+ 11) &quot;logfile&quot;
+ 12) &quot;&quot;
+ 13) &quot;pidfile&quot;
+ 14) &quot;&quot;
+ 15) &quot;slave-announce-ip&quot;
+ 16) &quot;&quot;
+ 17) &quot;replica-announce-ip&quot;
+ 18) &quot;&quot;
+ 19) &quot;maxmemory&quot;
+ 20) &quot;0&quot;
+ 21) &quot;proto-max-bulk-len&quot;
+ 22) &quot;536870912&quot;
+ 23) &quot;client-query-buffer-limit&quot;
+ 24) &quot;1073741824&quot;
+ 25) &quot;maxmemory-samples&quot;
+ 26) &quot;5&quot;
+ 27) &quot;lfu-log-factor&quot;
+ 28) &quot;10&quot;
+ 29) &quot;lfu-decay-time&quot;
+ 30) &quot;1&quot;
+ 31) &quot;timeout&quot;
+ 32) &quot;0&quot;
+ 33) &quot;active-defrag-threshold-lower&quot;
+ 34) &quot;10&quot;
+ 35) &quot;active-defrag-threshold-upper&quot;
+ 36) &quot;100&quot;
+ 37) &quot;active-defrag-ignore-bytes&quot;
+ 38) &quot;104857600&quot;
+ 39) &quot;active-defrag-cycle-min&quot;
+ 40) &quot;5&quot;
+ 41) &quot;active-defrag-cycle-max&quot;
+ 42) &quot;75&quot;
+ 43) &quot;active-defrag-max-scan-fields&quot;
+ 44) &quot;1000&quot;
+ 45) &quot;auto-aof-rewrite-percentage&quot;
+ 46) &quot;100&quot;
+ 47) &quot;auto-aof-rewrite-min-size&quot;
+ 48) &quot;67108864&quot;
+ 49) &quot;hash-max-ziplist-entries&quot;
+ 50) &quot;512&quot;
+ 51) &quot;hash-max-ziplist-value&quot;
+ 52) &quot;64&quot;
+ 53) &quot;stream-node-max-bytes&quot;
+ 54) &quot;4096&quot;
+ 55) &quot;stream-node-max-entries&quot;
+ 56) &quot;100&quot;
+ 57) &quot;list-max-ziplist-size&quot;
+ 58) &quot;-2&quot;
+ 59) &quot;list-compress-depth&quot;
+ 60) &quot;0&quot;
+ 61) &quot;set-max-intset-entries&quot;
+ 62) &quot;512&quot;
+ 63) &quot;zset-max-ziplist-entries&quot;
+ 64) &quot;128&quot;
+ 65) &quot;zset-max-ziplist-value&quot;
+ 66) &quot;64&quot;
+ 67) &quot;hll-sparse-max-bytes&quot;
+ 68) &quot;3000&quot;
+ 69) &quot;lua-time-limit&quot;
+ 70) &quot;5000&quot;
+ 71) &quot;slowlog-log-slower-than&quot;
+ 72) &quot;10000&quot;
+ 73) &quot;latency-monitor-threshold&quot;
+ 74) &quot;0&quot;
+ 75) &quot;slowlog-max-len&quot;
+ 76) &quot;128&quot;
+ 77) &quot;port&quot;
+ 78) &quot;6379&quot;
+ 79) &quot;cluster-announce-port&quot;
+ 80) &quot;0&quot;
 。。。</code></pre><p>编辑配置</p>
 <p>可以通过修改redis.conf文件或者使用 CONFIG setm命令修改配置</p>
 <pre><code>CONFIG set 语法如下
 redis 127.0.0.1:6379&gt; CONFIG SET CONFIG_SETTING_NAME NEW_CONFIG_VALUE
 
 示例
-redis 127.0.0.1:6379&gt; CONFIG SET loglevel "notice"
+redis 127.0.0.1:6379&gt; CONFIG SET loglevel &quot;notice&quot;
 OK
 redis 127.0.0.1:6379&gt; CONFIG GET loglevel
 
-1) "loglevel"
-2) "notice"</code></pre><p>相关配置参数详解</p>
+1) &quot;loglevel&quot;
+2) &quot;notice&quot;</code></pre><p>相关配置参数详解</p>
 <pre><code> Redis配置文件参数说明:
 
 
@@ -894,7 +894,7 @@ string 类型是 Redis 最基本的数据类型，string 类型的值最大能�
 127.0.0.1:6379&gt; set name cyylog
 OK
 127.0.0.1:6379&gt; get name
-"cyylog"
+&quot;cyylog&quot;
 
 我们使用了 Redis 的 SET 和 GET 命令。键为 name，对应的值为 cyylog</code></pre><h4 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h4><pre><code>Redis hash 是一个键值(key=&gt;value)对集合。
 
@@ -904,9 +904,9 @@ Redis hash 是一个 string 类型的 field 和 value 的映射表，hash 特别
 127.0.0.1:6379&gt; hmset myhash name tiger name2 five
 OK
 127.0.0.1:6379&gt; hget myhash name
-"tiger"
+&quot;tiger&quot;
 127.0.0.1:6379&gt; hget myhash name2
-"five"
+&quot;five&quot;
 
 实例中我们使用了 Redis HMSET, HGET 命令，HMSET 设置了两个 field=&gt;value 对, HGET 获取对应 field 对应的 value。
 
@@ -920,17 +920,17 @@ OK
 127.0.0.1:6379&gt; lpush mylist tiger 2020
 (integer) 6
 127.0.0.1:6379&gt; lrange mylist 0 3
-1) "2020"
-2) "tiger"
-3) "redis4"
-4) "redis3"
+1) &quot;2020&quot;
+2) &quot;tiger&quot;
+3) &quot;redis4&quot;
+4) &quot;redis3&quot;
 127.0.0.1:6379&gt; lrange mylist 0 10
-1) "2020"
-2) "tiger"
-3) "redis4"
-4) "redis3"
-5) "redis2"
-6) "redis1"
+1) &quot;2020&quot;
+2) &quot;tiger&quot;
+3) &quot;redis4&quot;
+4) &quot;redis3&quot;
+5) &quot;redis2&quot;
+6) &quot;redis1&quot;
 
 上述示例我们通过 lpush 创建list并添加数据，通过lrange获取列表中的数据
 列表最多可存储 232 - 1 元素 (4294967295, 每个列表可存储40多亿)。</code></pre><h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><pre><code>Redis的Set是string类型的无序集合。
@@ -949,20 +949,20 @@ sadd 命令
 127.0.0.1:6379&gt; sadd myset TJ
 (integer) 0
 127.0.0.1:6379&gt; smembers myset 
-1) "BJ"
-2) "BK"
-3) "TJ"
-4) "GZ"
-5) "ZZ"
+1) &quot;BJ&quot;
+2) &quot;BK&quot;
+3) &quot;TJ&quot;
+4) &quot;GZ&quot;
+5) &quot;ZZ&quot;
 127.0.0.1:6379&gt; sadd myset SZ
 (integer) 1
 127.0.0.1:6379&gt; smembers myset 
-1) "BJ"
-2) "BK"
-3) "TJ"
-4) "GZ"
-5) "ZZ"
-6) "SZ"
+1) &quot;BJ&quot;
+2) &quot;BK&quot;
+3) &quot;TJ&quot;
+4) &quot;GZ&quot;
+5) &quot;ZZ&quot;
+6) &quot;SZ&quot;
 
 注意：以上实例中 TJ 添加了两次，但根据集合内元素的唯一性，第二次插入的元素将被忽略。
 
@@ -983,9 +983,9 @@ zadd 命令
 127.0.0.1:6379&gt; zadd myzset 0 ZZ
 (integer) 1
 127.0.0.1:6379&gt; zrangebyscore myzset 0 5
-1) "BJ"
-2) "GZ"
-3) "ZZ"
+1) &quot;BJ&quot;
+2) &quot;GZ&quot;
+3) &quot;ZZ&quot;
 </code></pre><pre><code>注意：Redis支持多个数据库，并且每个数据库的数据是隔离的不能共享，并且基于单机才有，如果是集群就没有数据库的概念。
 
 Redis是一个字典结构的存储服务器，而实际上一个Redis实例提供了多个用来存储数据的字典，客户端可以指定将数据存储在哪个字典中。这与我们熟知的在一个关系数据库实例中可以创建多个数据库类似，所以可以将其中的每个字典都理解成一个独立的数据库。
@@ -1002,11 +1002,11 @@ OK
 127.0.0.1:6379[1]&gt; select 0
 OK
 127.0.0.1:6379&gt; get name
-"cyylog"
+&quot;cyylog&quot;
 127.0.0.1:6379&gt; zrangebyscore myzset 0 2
-1) "BJ"
-2) "GZ"
-3) "ZZ"
+1) &quot;BJ&quot;
+2) &quot;GZ&quot;
+3) &quot;ZZ&quot;
 
 然而这些以数字命名的数据库又与我们理解的数据库有所区别。首先Redis不支持自定义数据库的名字，每个数据库都以编号命名，开发者必须自己记录哪些数据库存储了哪些数据。另外Redis也不支持为每个数据库设置不同的访问密码，所以一个客户端要么可以访问全部数据库，要么连一个数据库也没有权限访问。最重要的一点是多个数据库之间并不是完全隔离的，比如FLUSHALL命令可以清空一个Redis实例中所有数据库中的数据。综上所述，这些数据库更像是一种命名空间，而不适宜存储不同应用程序的数据。比如可以使用0号数据库存储某个应用生产环境中的数据，使用1号数据库存储测试环境中的数据，但不适宜使用0号数据库存储A应用的数据而使用1号数据库B应用的数据，不同的应用应该使用不同的Redis实例存储数据。由于Redis非常轻量级，一个空Redis实例占用的内在只有1M左右，所以不用担心多个Redis实例会额外占用很多内存。</code></pre><h3 id="redis命令"><a href="#redis命令" class="headerlink" title="redis命令"></a>redis命令</h3><pre><code>Redis 命令用于在 redis 服务上执行操作。
 
@@ -1035,8 +1035,8 @@ OK
 恢复数据
 如果需要恢复数据，只需将备份文件 (dump.rdb) 移动到 redis 安装目录并启动服务即可。获取 redis 目录可以使用 CONFIG 命令，如下所示：
 127.0.0.1:6379&gt; config get dir
-1) "dir"
-2) "/usr/local/redis/src"
+1) &quot;dir&quot;
+2) &quot;/usr/local/redis/src&quot;
 以上命令 CONFIG GET dir 输出的 redis 安装目录为/usr/local/redis/src
 
 Bgsave
@@ -1046,25 +1046,25 @@ Bgsave
 Background saving started</code></pre><h3 id="redis安全"><a href="#redis安全" class="headerlink" title="redis安全"></a>redis安全</h3><pre><code>我们可以通过 redis 的配置文件设置密码参数，这样客户端连接到 redis 服务就需要密码验证，这样可以让你的 redis 服务更安全。
 
 127.0.0.1:6379&gt; CONFIG get requirepass
-1) "requirepass"
-2) ""
+1) &quot;requirepass&quot;
+2) &quot;&quot;
 默认情况下 requirepass 参数是空的，这就意味着你无需通过密码验证就可以连接到 redis 服务。
 你可以通过以下命令来修改该参数：
-127.0.0.1:6379&gt; CONFIG set requirepass "tiger"
+127.0.0.1:6379&gt; CONFIG set requirepass &quot;tiger&quot;
 OK
 127.0.0.1:6379&gt; CONFIG get requirepass
-1) "requirepass"
-2) "tiger"
+1) &quot;requirepass&quot;
+2) &quot;tiger&quot;
 
 登录redis-cli -h 127.0.0.1 -p 6379 -a tiger
 
 或者登陆后认证
-127.0.0.1:6379&gt; AUTH "tiger"
+127.0.0.1:6379&gt; AUTH &quot;tiger&quot;
 OK
-127.0.0.1:6379&gt; SET name "Test value"
+127.0.0.1:6379&gt; SET name &quot;Test value&quot;
 OK
 127.0.0.1:6379&gt; GET name
-"Test value"</code></pre><h3 id="redis持久化"><a href="#redis持久化" class="headerlink" title="redis持久化"></a>redis持久化</h3><pre><code>redis持久化 – 两种方式
+&quot;Test value&quot;</code></pre><h3 id="redis持久化"><a href="#redis持久化" class="headerlink" title="redis持久化"></a>redis持久化</h3><pre><code>redis持久化 – 两种方式
 开启持久化功能后，重启redis后，数据会自动通过持久化文件恢复！！
 
 redis提供了两种持久化的方式，分别是RDB（Redis DataBase）和AOF（Append Only File）。
@@ -1182,7 +1182,7 @@ redis&gt; EXEC //执行
 127.0.0.1:6379&gt; multi
 OK
 127.0.0.1:6379&gt; haha //一个明显错误的指令
-(error) ERR unknown command 'haha'
+(error) ERR unknown command &#39;haha&#39;
 127.0.0.1:6379&gt; ping
 QUEUED
 127.0.0.1:6379&gt; exec
@@ -1204,7 +1204,7 @@ QUEUED
 2) (error) WRONGTYPE Operation against a key holding the wrong kind of value
 3) OK
 127.0.0.1:6379&gt; get age
-"29" //可以看出第3条指令被成功执行了
+&quot;29&quot; //可以看出第3条指令被成功执行了
 最后一个指令“WATCH”，这是一个很好用的指令，它可以帮我们实现类似于“乐观锁”的效果，即CAS（check and set）。
 
 WATCH本身的作用是“监视key是否被改动过”，而且支持同时监视多个key，只要还没真正触发事务，WATCH都会尽职尽责的监视，一旦发现某个key被修改了，在执行EXEC时就会返回nil，表示事务无法触发。
@@ -1258,19 +1258,19 @@ redis-slave2:192.168.19.135   vm5
 1.首先三台服务器将redis单机部署完成。
 编辑master的redis配置文件:
 [root@redis-master ~]# cd /usr/local/redis-5.0.4
-[root@redis-master redis]# vim redis.conf</code></pre><img src="https://i.loli.net/2019/05/07/5cd19e2caa3bf.jpg">
+[root@redis-master redis]# vim redis.conf</code></pre><img src="https://i.loli.net/2019/05/07/5cd19e2caa3bf.jpg" />
 
 <p>2.修改slave1的配置文件：<br>[root@redis-slave1 ~]# cd /data/application/redis/<br>[root@redis-slave1 redis]# vim redis.conf      —修改如下：</p>
-<img src="https://i.loli.net/2019/05/07/5cd19e5ea0f84.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd19e5ea0f84.jpg" />
 
-<img src="https://i.loli.net/2019/05/07/5cd19e838e43e.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd19e838e43e.jpg" />
 
 <p>3.配置slave2的配置文件:<br>[root@redis-slave2 ~]# cd /data/application/redis/<br>[root@redis-slave2 redis]# vim redis.conf       —修改如下  和slave1 相同</p>
 <p>4.重启三台redis</p>
-<img src="https://i.loli.net/2019/05/07/5cd19ebbe787b.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd19ebbe787b.jpg" />
 
 <p>5.测试主从</p>
-<img src="https://i.loli.net/2019/05/07/5cd19f3641529.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd19f3641529.jpg" />
 
 <p><img src="C:%5CUsers%5Cw%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1557241701339.png" alt="1557241701339"></p>
 <p>三台均测试无误，主从同步部署完成</p>
@@ -1292,13 +1292,13 @@ sentinel failover-timeout mymaster 10000</code></pre><pre><code>3.每台机器�
         # ./src/redis-sentinel sentinel.conf
 注意:在生产环境下将哨兵模式启动放到后台执行:         ./src/redis-sentinel sentinel.conf &amp;
 在master上面执行
-这是启动成功的！</code></pre><img src="https://i.loli.net/2019/05/07/5cd1a228086b6.jpg">
+这是启动成功的！</code></pre><img src="https://i.loli.net/2019/05/07/5cd1a228086b6.jpg" />
 
-<img src="https://i.loli.net/2019/05/07/5cd1a2797a3e7.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd1a2797a3e7.jpg" />
 
 <p>将master的哨兵模式退出，再将redis服务stop了，在两台slave上面查看其中一台是否切换为master:(没有优先级，为随机切换)</p>
 <p>master 192.168.19.129</p>
-<img src="https://i.loli.net/2019/05/07/5cd1a2ef82487.jpg">
+<img src="https://i.loli.net/2019/05/07/5cd1a2ef82487.jpg" />
 
 <p>slave 192.168.19.136</p>
 <p><img src="C:%5CUsers%5Cw%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1557242911037.png" alt="1557242911037"></p>
@@ -1307,25 +1307,7 @@ sentinel failover-timeout mymaster 10000</code></pre><pre><code>3.每台机器�
 <p>了解</p>
 <p>主从+哨兵+lvs  制作redis主从的高科用</p>
 <p>redis切片等</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -1350,7 +1332,7 @@ sentinel failover-timeout mymaster 10000</code></pre><pre><code>3.每台机器�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2018/12/05/sql/redis/">https://cyylog.gitee.io/2018/12/05/sql/redis/</a>
+                    <a href="https://cyylog.github.io/2018/12/05/sql/redis/">https://cyylog.github.io/2018/12/05/sql/redis/</a>
                 </span>
             </div>
             <div class="reprint__notice">

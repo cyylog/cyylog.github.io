@@ -693,14 +693,14 @@ find / -user root -perm -4000 -print -exec md5sum {} ;</code></pre><p>将检查�
 <p>Chkrootkit 的使用比较简单，直接执行 Chkrootkit 命令即可自动开始检测系统。</p>
 <p>下面是某个系统的检测结果：</p>
 <pre><code>[root@server chkrootkit]# /usr/local/chkrootkit/chkrootkit
-Checking `ifconfig'... INFECTED
-Checking `ls'... INFECTED
-Checking `login'... INFECTED
-Checking `netstat'... INFECTED
-Checking `ps'... INFECTED
-Checking `top'... INFECTED
-Checking `sshd'... not infected
-Checking `syslogd'... not tested</code></pre><p>从输出可以看出，此系统的 ifconfig、ls、login、netstat、ps 和 top 命令已经被感染。</p>
+Checking `ifconfig&#39;... INFECTED
+Checking `ls&#39;... INFECTED
+Checking `login&#39;... INFECTED
+Checking `netstat&#39;... INFECTED
+Checking `ps&#39;... INFECTED
+Checking `top&#39;... INFECTED
+Checking `sshd&#39;... not infected
+Checking `syslogd&#39;... not tested</code></pre><p>从输出可以看出，此系统的 ifconfig、ls、login、netstat、ps 和 top 命令已经被感染。</p>
 <p>针对被感染 Rootkit 的系统，最安全而有效的方法就是备份数据重新安装系统。</p>
 <p>Chkrootkit 在检查 Rootkit 的过程中使用了部分系统命令，因此，如果服务器被黑客入侵，那么依赖的系统命令可能也已经被入侵者替换，此时 Chkrootkit 的检测结果将变得完全不可信。</p>
 <p>为了避免 Chkrootkit 的这个问题，可以在服务器对外开放前，事先将 Chkrootkit 使用的系统命令进行备份，在需要的时候使用备份的原始系统命令让 Chkrootkit 对 Rootkit 进行检测。</p>
@@ -760,25 +760,7 @@ S.5....T  c /etc/sudoers</code></pre><h4 id="⑥重新安装系统恢复数据">
 <p>原文链接如下：</p>
 <p><a href="https://www.cnblogs.com/MYSQLZOUQI/p/5317916.html" target="_blank" rel="noopener">https://www.cnblogs.com/MYSQLZOUQI/p/5317916.html</a></p>
 </blockquote>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -803,7 +785,7 @@ S.5....T  c /etc/sudoers</code></pre><h4 id="⑥重新安装系统恢复数据">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/10/05/linux/fu-wu-qi-bei-hei-pai-cha-si-lu/">https://cyylog.gitee.io/2019/10/05/linux/fu-wu-qi-bei-hei-pai-cha-si-lu/</a>
+                    <a href="https://cyylog.github.io/2019/10/05/linux/fu-wu-qi-bei-hei-pai-cha-si-lu/">https://cyylog.github.io/2019/10/05/linux/fu-wu-qi-bei-hei-pai-cha-si-lu/</a>
                 </span>
             </div>
             <div class="reprint__notice">

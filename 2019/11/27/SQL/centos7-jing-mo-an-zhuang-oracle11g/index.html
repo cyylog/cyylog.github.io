@@ -564,10 +564,10 @@
 x86_64
 [root@cyylog ~]# cat /etc/redhat-release 
 CentOS Linux release 7.2.1511 (Core) </code></pre><h1 id="安装前的准备："><a href="#安装前的准备：" class="headerlink" title="安装前的准备："></a><strong>安装前的准备：</strong></h1><p><strong>1. 修改主机名</strong></p>
-<pre><code>#sed -i "s/HOSTNAME=localhost.localdomain/HOSTNAME=oracledb/" /etc/sysconfig/network</code></pre><p><strong>2.添加主机名与IP对应记录</strong></p>
+<pre><code>#sed -i &quot;s/HOSTNAME=localhost.localdomain/HOSTNAME=oracledb/&quot; /etc/sysconfig/network</code></pre><p><strong>2.添加主机名与IP对应记录</strong></p>
 <pre><code># vim /etc/hosts 
 192.168.0.9 oracledb</code></pre><p><strong>3.关闭Selinux</strong></p>
-<pre><code># sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config 
+<pre><code># sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/&quot; /etc/selinux/config 
 
 # setenforce 0 </code></pre><p><strong>4.检查是否有swap分区.</strong></p>
 <p>(我的机器是没有这个,所有后面有报错) Linux一切皆文件,没有就自己造一个</p>
@@ -753,8 +753,8 @@ oracle hard stack 10240
 </code></pre><p>在/etc/pam.d/login 文件中，使用文本编辑器或vi命令增加或修改以下内容</p>
 <pre><code>session required /lib64/security/pam_limits.so
 session required pam_limits.so</code></pre><p>在/etc/profile 文件中，使用文本编辑器或vi命令增加或修改以下内容</p>
-<pre><code>if [ $USER = "oracle" ]; then
- if [ $SHELL = "/bin/ksh" ]; then
+<pre><code>if [ $USER = &quot;oracle&quot; ]; then
+ if [ $SHELL = &quot;/bin/ksh&quot; ]; then
  ulimit -p 16384
  ulimit -n 65536
  else
@@ -842,9 +842,9 @@ export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib
 export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1
 export PATH=$PATH:$ORACLE_HOME/bin
 
-export LANG="zh_CN.UTF-8"
-export NLS_LANG="SIMPLIFIED CHINESE_CHINA.AL32UTF8"
-export NLS_DATE_FORMAT='yyyy-mm-dd hh24:mi:ss'
+export LANG=&quot;zh_CN.UTF-8&quot;
+export NLS_LANG=&quot;SIMPLIFIED CHINESE_CHINA.AL32UTF8&quot;
+export NLS_DATE_FORMAT=&#39;yyyy-mm-dd hh24:mi:ss&#39;
 
 
 刷新环境变量
@@ -852,8 +852,8 @@ export NLS_DATE_FORMAT='yyyy-mm-dd hh24:mi:ss'
 <pre><code>[oracle@cyylog ~]$ netca /silent /responsefile /home/oracle/etc/netca.rsp
 
 Parsing command line arguments:
-Parameter "silent" = true
-Parameter "responsefile" = /home/oracle/etc/netca.rsp
+Parameter &quot;silent&quot; = true
+Parameter &quot;responsefile&quot; = /home/oracle/etc/netca.rsp
 Done parsing command line arguments.
 Oracle Net Services Configuration:
 Profile configuration complete.
@@ -898,13 +898,13 @@ The command completed successfully</code></pre><p>静默dbca建库</p>
 <p>编辑应答文件</p>
 <pre><code>[oracle@cyylog ~]$ vi etc/dbca.rsp
 [GENERAL]
-RESPONSEFILE_VERSION = "11.2.0"
-OPERATION_TYPE = "createDatabase"
+RESPONSEFILE_VERSION = &quot;11.2.0&quot;
+OPERATION_TYPE = &quot;createDatabase&quot;
 [CREATEDATABASE]
-GDBNAME = "dbsrv2"
-SID = "dbsrv2"
-TEMPLATENAME = "General_Purpose.dbc"
-CHARACTERSET = "AL32UTF8"</code></pre><p><strong><em>建库(我的finashell会闪屏,但是不影响使用，因为这个是因为无图形界面的情况)</em></strong></p>
+GDBNAME = &quot;dbsrv2&quot;
+SID = &quot;dbsrv2&quot;
+TEMPLATENAME = &quot;General_Purpose.dbc&quot;
+CHARACTERSET = &quot;AL32UTF8&quot;</code></pre><p><strong><em>建库(我的finashell会闪屏,但是不影响使用，因为这个是因为无图形界面的情况)</em></strong></p>
 <pre><code>[oracle@cyylog ~]$ dbca -silent -responseFile etc/dbca.rsp
 
 Enter SYS user password: 
@@ -937,7 +937,7 @@ Completing Database Creation
 85% complete
 96% complete
 100% complete
-Look at the log file Look at the log file "/u01/app/oracle/cfgtoollogs/dbca/orcl11g/orcl11g.log" for further details.</code></pre><pre><code>[oracle@cyylog ~]$ dbca -silent -responseFile etc/dbca.rsp
+Look at the log file Look at the log file &quot;/u01/app/oracle/cfgtoollogs/dbca/orcl11g/orcl11g.log&quot; for further details.</code></pre><pre><code>[oracle@cyylog ~]$ dbca -silent -responseFile etc/dbca.rsp
 
 Enter SYS user password: 
 
@@ -969,7 +969,7 @@ Completing Database Creation
 85% complete
 96% complete
 100% complete
-Look at the log file Look at the log file "/u01/app/oracle/cfgtoollogs/dbca/orcl11g/orcl11g.log" for further details.</code></pre><p>查看输出日志</p>
+Look at the log file Look at the log file &quot;/u01/app/oracle/cfgtoollogs/dbca/orcl11g/orcl11g.log&quot; for further details.</code></pre><p>查看输出日志</p>
 <pre><code>[oracle@cyylog ~]$ tailf /u01/app/oracle/cfgtoollogs/dbca/silent.log
 Copying database files
 DBCA_PROGRESS : 1%
@@ -1003,25 +1003,7 @@ System Identifier(SID):dbsrv2</code></pre><p><strong>至此完成数据库实例
 <p><strong>附：</strong></p>
 <p>删除实例：</p>
 <pre><code>[oracle@cyylog ~]$ dbca -silent -deleteDatabase -sourcedb dbsrv2</code></pre><p>文章来源:<a href="https://www.cnblogs.com/zydev/p/5827207.html" target="_blank" rel="noopener">https://www.cnblogs.com/zydev/p/5827207.html</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -1046,7 +1028,7 @@ System Identifier(SID):dbsrv2</code></pre><p><strong>至此完成数据库实例
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/">https://cyylog.gitee.io/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/</a>
+                    <a href="https://cyylog.github.io/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/">https://cyylog.github.io/2019/11/27/sql/centos7-jing-mo-an-zhuang-oracle11g/</a>
                 </span>
             </div>
             <div class="reprint__notice">

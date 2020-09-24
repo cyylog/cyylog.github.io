@@ -576,10 +576,10 @@
 </tbody></table>
 <h5 id="可用参数"><a href="#可用参数" class="headerlink" title="可用参数"></a>可用参数</h5><ul>
 <li><p>string</p>
-<p>字符串类型的参数, 例如: <code>parameters { string(name: 'DEPLOY_ENV', defaultValue: 'staging', description: '') }</code></p>
+<p>字符串类型的参数, 例如: <code>parameters { string(name: &#39;DEPLOY_ENV&#39;, defaultValue: &#39;staging&#39;, description: &#39;&#39;) }</code></p>
 </li>
 <li><p>booleanParam</p>
-<p>布尔参数, 例如: <code>parameters { booleanParam(name: 'DEBUG_BUILD', defaultValue: true, description: '') }</code></p>
+<p>布尔参数, 例如: <code>parameters { booleanParam(name: &#39;DEBUG_BUILD&#39;, defaultValue: true, description: &#39;&#39;) }</code></p>
 </li>
 </ul>
 <h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>Jenkinsfile (Declarative Pipeline)</p>
@@ -627,13 +627,13 @@
 </tbody></table>
 <ul>
 <li><p>cron</p>
-<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron('H */4 * * 1-5') }</code></p>
+<p>接收 cron 样式的字符串来定义要重新触发流水线的常规间隔 ,比如: <code>triggers { cron(&#39;H */4 * * 1-5&#39;) }</code></p>
 </li>
 <li><p>pollSCM</p>
-<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM('H */4 * * 1-5') }</code></p>
+<p>接收 cron 样式的字符串来定义一个固定的间隔，在这个间隔中，Jenkins 会检查新的源代码更新。如果存在更改, 流水线就会被重新触发。例如: <code>triggers { pollSCM(&#39;H */4 * * 1-5&#39;) }</code></p>
 </li>
 <li><p>upstream</p>
-<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS) }</code></p>
+<p>接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。例如: <code>triggers { upstream(upstreamProjects: &#39;job1,job2&#39;, threshold: hudson.model.Result.SUCCESS) }</code></p>
 </li>
 </ul>
 <table>
@@ -798,22 +798,22 @@
 </tbody></table>
 <h5 id="内置条件"><a href="#内置条件" class="headerlink" title="内置条件"></a>内置条件</h5><ul>
 <li><p>branch</p>
-<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch 'master' }</code>。注意，这只适用于多分支流水线。</p>
+<p>当正在构建的分支与模式给定的分支匹配时，执行这个阶段, 例如: <code>when { branch &#39;master&#39; }</code>。注意，这只适用于多分支流水线。</p>
 </li>
 <li><p>environment</p>
-<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: 'DEPLOY_TO', value: 'production' }</code></p>
+<p>当指定的环境变量是给定的值时，执行这个步骤, 例如: <code>when { environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; }</code></p>
 </li>
 <li><p>expression</p>
 <p>当指定的Groovy表达式评估为true时，执行这个阶段, 例如: <code>when { expression { return params.DEBUG_BUILD } }</code></p>
 </li>
 <li><p>not</p>
-<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch 'master' } }</code></p>
+<p>当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如: <code>when { not { branch &#39;master&#39; } }</code></p>
 </li>
 <li><p>allOf</p>
-<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch 'master'; environment name: 'DEPLOY_TO', value: 'production' } }</code></p>
+<p>当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如: <code>when { allOf { branch &#39;master&#39;; environment name: &#39;DEPLOY_TO&#39;, value: &#39;production&#39; } }</code></p>
 </li>
 <li><p>anyOf</p>
-<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch 'master'; branch 'staging' } }</code></p>
+<p>当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如: <code>when { anyOf { branch &#39;master&#39;; branch &#39;staging&#39; } }</code></p>
 </li>
 </ul>
 <h5 id="在进入-stage-的-agent-前评估-when"><a href="#在进入-stage-的-agent-前评估-when" class="headerlink" title="在进入 stage 的 agent 前评估 when"></a>在进入 <code>stage</code> 的 <code>agent</code> 前评估 <code>when</code></h5><p>默认情况下, 如果定义了某个阶段的代理，在进入该<code>stage</code> 的 <code>agent</code> 后该 <code>stage</code> 的 <code>when</code> 条件将会被评估。但是, 可以通过在 <code>when</code> 块中指定 <code>beforeAgent</code> 选项来更改此选项。 如果 <code>beforeAgent</code> 被设置为 <code>true</code>, 那么就会首先对 <code>when</code> 条件进行评估 , 并且只有在 <code>when</code> 条件验证为真时才会进入 <code>agent</code> 。</p>
@@ -1036,25 +1036,7 @@
 <p>由于它是一个功能齐全的编程环境, 脚本化流水线为Jenkins用户提供了 大量的灵活性性和可扩展性。 Groovy学习曲线通常不适合给定团队的所有成员, 因此创造了声明式流水线来为编写Jenkins流水线提供一种更简单、更有主见的语法。</p>
 <p>两者本质上是相同的流水线子系统。 underneath. 他们都是 “流水线即代码” 的持久实现。它们都能够使用构建到流水线中或插件提供的步骤。它们都能够使用 <a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#shared-libraries#" target="_blank" rel="noopener">共享库</a></p>
 <p>但是它们的区别在于语法和灵活性。 声明式限制了用户使用更严格和预定义的结构， 使其成为更简单的持续交付流水线的理想选择。 脚本化提供了很少的限制, 以至于对脚本和语法的唯一限制往往是由Groovy子集本身定义的，而不是任何特定于流水线的系统, 这使他成为权利用户和那些有更复杂需求的人的理想选择。 顾名思义, 声明式流水线鼓励 声明式编程模型。 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_3" target="_blank" rel="noopener">3</a>] 而脚本化流水线遵循一个更命令式的编程模型 [<a href="https://www.jenkins.io/zh/doc/book/pipeline/syntax/#_footnotedef_4" target="_blank" rel="noopener">4</a>]</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -1079,7 +1061,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/">https://cyylog.gitee.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</a>
+                    <a href="https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/">https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</a>
                 </span>
             </div>
             <div class="reprint__notice">

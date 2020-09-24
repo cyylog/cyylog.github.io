@@ -565,7 +565,7 @@ $ kubectl get no -o wide
 $ kubectl describe no
 $ kubectl get no - o yaml
 $ kubectl get node - - sel ect or =[ l abel _name]
-$ kubectl get nodes -o jsonpath=' {.items[*].status.addresses [?(@.type=="ExternalIP")].address}'
+$ kubectl get nodes -o jsonpath=&#39; {.items[*].status.addresses [?(@.type==&quot;ExternalIP&quot;)].address}&#39;
 $ kubectl top node [node_name]</code></pre><h5 id="Pods"><a href="#Pods" class="headerlink" title="Pods"></a>Pods</h5><pre><code>$ kubectl get po -o wide
 $ kubectl describe po
 $ kubectl get po
@@ -640,25 +640,7 @@ $ kubectl run -h
 $ kubectl explain deploy.spec</code></pre><p>Requests    //请求</p>
 <h5 id="API-Call"><a href="#API-Call" class="headerlink" title="API Call"></a>API Call</h5><pre><code>$ kubectl get --raw /apis/metrics.k8s.io/</code></pre><h5 id="Cluster-Info"><a href="#Cluster-Info" class="headerlink" title="Cluster Info"></a>Cluster Info</h5><pre><code>$ kubectl config 
 $ kubectl cluster-info
-$ kubectl get componentstatuses</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+$ kubectl get componentstatuses</code></pre>
             </div>
             <hr/>
 
@@ -683,7 +665,7 @@ $ kubectl get componentstatuses</code></pre><script>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/">https://cyylog.gitee.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/</a>
+                    <a href="https://cyylog.github.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/">https://cyylog.github.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/</a>
                 </span>
             </div>
             <div class="reprint__notice">

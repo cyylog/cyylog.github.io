@@ -661,12 +661,12 @@
 <pre><code>[root@along ~]# yum -y install java-1.8.0</code></pre><p>（2）这里kafka下载包已经包括zookeeper服务，所以只需修改配置文件，启动即可。</p>
 <p>如果需要下载指定zookeeper版本；可以单独去zookeeper官网<a href="http://mirrors.shu.edu.cn/apache/zookeeper/" target="_blank" rel="noopener">http://mirrors.shu.edu.cn/apache/zookeeper/</a>下载指定版本。</p>
 <pre><code>[root@along ~]# cd /data/kafka_2.11-2.1.0/
-[root@along kafka_2.11-2.1.0]# grep "^[^#]" config/zookeeper.properties 
+[root@along kafka_2.11-2.1.0]# grep &quot;^[^#]&quot; config/zookeeper.properties 
 dataDir=/tmp/zookeeper        #数据存储目录
 clientPort=2181               #zookeeper端口
 maxClientCnxns=0</code></pre><p>注：可自行添加修改zookeeper配置</p>
 <h3 id="3-3-配置kafka"><a href="#3-3-配置kafka" class="headerlink" title="3.3 配置kafka"></a><strong>3.3 配置kafka</strong></h3><p>（1）修改配置文件</p>
-<pre><code>[root@along kafka_2.11-2.1.0]# grep "^[^#]" config/server.properties 
+<pre><code>[root@along kafka_2.11-2.1.0]# grep &quot;^[^#]&quot; config/server.properties 
 broker.id=0 
 listeners=PLAINTEXT://localhost:9092
 num.network.threads=3 
@@ -694,8 +694,8 @@ group.initial.rebalance.delay.ms=0</code></pre><p>注：可根据自己需求修
 </ul>
 <p>（2）配置环境变量</p>
 <pre><code>[root@along ~]# vim /etc/profile.d/kafka.sh
-export KAFKA_HOME="/data/kafka_2.11-2.1.0"
-export PATH="${KAFKA_HOME}/bin:$PATH"
+export KAFKA_HOME=&quot;/data/kafka_2.11-2.1.0&quot;
+export PATH=&quot;${KAFKA_HOME}/bin:$PATH&quot;
 [root@along ~]# source /etc/profile.d/kafka.sh</code></pre><p>　　</p>
 <p>（3）配置服务启动脚本</p>
 <pre class=" language-shell"><code class="language-shell">[root@along ~]# vim /etc/init.d/kafka
@@ -812,7 +812,7 @@ tcp   LISTEN     0      50      ::ffff:127.0.0.1:9093                           
 tcp   LISTEN     0      50      ::ffff:127.0.0.1:9094                              :::*</code></pre><p>　　</p>
 <h3 id="5-3-在集群中进行操作"><a href="#5-3-在集群中进行操作" class="headerlink" title="5.3 在集群中进行操作"></a><strong>5.3 在集群中进行操作</strong></h3><p>（1）现在创建一个复制因子为3的新主题my-replicated-topic</p>
 <pre><code>[root@along ~]# kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic my-replicated-topic 
-Created topic "my-replicated-topic".</code></pre><p>　　</p>
+Created topic &quot;my-replicated-topic&quot;.</code></pre><p>　　</p>
 <p>（2）在一个集群中，运行“describe topics”命令查看哪个broker正在做什么</p>
 <pre><code>[root@along ~]# kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic 
 Topic:my-replicated-topic   PartitionCount:1    ReplicationFactor:3 Configs:
@@ -837,7 +837,7 @@ Topic: along    Partition: 0    Leader: 0   Replicas: 0 Isr: 0</code></pre><p>�
 my test message 1
 my test message 2</code></pre><p>　　</p>
 <h3 id="5-4-测试集群的容错性"><a href="#5-4-测试集群的容错性" class="headerlink" title="5.4 测试集群的容错性"></a><strong>5.4 测试集群的容错性</strong></h3><p>（1）现在让我们测试一下容错性。Broker 2 充当leader 所以让我们杀了它：</p>
-<pre><code>[root@along ~]# ps aux | grep server-2.properties |awk '{print $2}'
+<pre><code>[root@along ~]# ps aux | grep server-2.properties |awk &#39;{print $2}&#39;
 106737
 [root@along ~]# kill -9 106737
 [root@along ~]# ss -nutl
@@ -855,7 +855,7 @@ my test message 2</code></pre><p>　　</p>
 <h2 id="6、-使用Kafka-Connect导入-导出数据"><a href="#6、-使用Kafka-Connect导入-导出数据" class="headerlink" title="6、**使用Kafka Connect导入/导出数据**"></a><strong>6、**</strong>使用Kafka Connect导入/导出数据**</h2><p>　　从控制台写入数据并将其写回控制台是一个方便的起点，但有时候可能希望使用<strong>其他来源的数据或将数据从Kafka导出到其他系统</strong>。对于许多系统，您可以<strong>使用Kafka Connect导入或导出数据</strong>，而不是编写自定义集成代码。</p>
 <p>　　<strong>Kafka Connect是Kafka附带的工具，用于向Kafka导入和导出数据</strong>。它是一个可扩展的工具，运行连接器，实现与外部系统交互的自定义逻辑。在本快速入门中，我们将了解如何使用简单的连接器运行Kafka Connect，这些连接器将数据从文件导入Kafka主题并将数据从Kafka主题导出到文件。</p>
 <p>（1）首先创建一些种子数据进行测试：</p>
-<pre><code>[root@along ~]# echo -e "foo\nbar" &gt; test.txt</code></pre><p>或者在Windows上：</p>
+<pre><code>[root@along ~]# echo -e &quot;foo\nbar&quot; &gt; test.txt</code></pre><p>或者在Windows上：</p>
 <pre><code>&gt; echo foo&gt; test.txt&gt; echo bar&gt;&gt; test.txt</code></pre><p>　　</p>
 <p>（2）接下来，<strong>启动两个以独立模式运行的连接器</strong>，这意味着它们在单个本地专用进程中运行。提供三个配置文件作为参数。</p>
 <ul>
@@ -875,8 +875,8 @@ foo
 bar</code></pre><p>　　</p>
 <p>② 请注意，数据存储在Kafka主题中connect-test，因此我们还可以运行控制台使用者来查看主题中的数据（或使用自定义使用者代码来处理它）：</p>
 <pre><code>[root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
-{"schema":{"type":"string","optional":false},"payload":"foo"}
-{"schema":{"type":"string","optional":false},"payload":"bar"}</code></pre><p>　　</p>
+{&quot;schema&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false},&quot;payload&quot;:&quot;foo&quot;}
+{&quot;schema&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false},&quot;payload&quot;:&quot;bar&quot;}</code></pre><p>　　</p>
 <p>（4）继续追加数据，验证</p>
 <pre><code>[root@along ~]# echo Another line&gt;&gt; test.txt   
 [root@along ~]# cat test.sink.txt
@@ -884,27 +884,9 @@ foo
 bar
 Another line
 [root@along ~]# kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic connect-test --from-beginning
-{"schema":{"type":"string","optional":false},"payload":"foo"}
-{"schema":{"type":"string","optional":false},"payload":"bar"}
-{"schema":{"type":"string","optional":false},"payload":"Another line"}</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+{&quot;schema&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false},&quot;payload&quot;:&quot;foo&quot;}
+{&quot;schema&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false},&quot;payload&quot;:&quot;bar&quot;}
+{&quot;schema&quot;:{&quot;type&quot;:&quot;string&quot;,&quot;optional&quot;:false},&quot;payload&quot;:&quot;Another line&quot;}</code></pre>
             </div>
             <hr/>
 
@@ -929,7 +911,7 @@ Another line
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/04/26/sql/kafka-ru-men/">https://cyylog.gitee.io/2019/04/26/sql/kafka-ru-men/</a>
+                    <a href="https://cyylog.github.io/2019/04/26/sql/kafka-ru-men/">https://cyylog.github.io/2019/04/26/sql/kafka-ru-men/</a>
                 </span>
             </div>
             <div class="reprint__notice">

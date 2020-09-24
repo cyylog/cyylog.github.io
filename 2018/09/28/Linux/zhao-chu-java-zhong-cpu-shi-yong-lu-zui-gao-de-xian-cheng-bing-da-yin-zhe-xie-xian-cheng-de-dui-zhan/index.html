@@ -708,25 +708,7 @@ ps -Leo pid,lwp,user,comm,pcpu --no-headers | {
     awk -v "pid=${pid}" '$1==pid,$4=="java"{print $0}'
 } | sort -k5 -r -n | head --lines "${count}" | printStackOfThread</code></pre>
 <p>原文地址：<a href="https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files-cdn.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -751,7 +733,7 @@ ps -Leo pid,lwp,user,comm,pcpu --no-headers | {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2018/09/28/linux/zhao-chu-java-zhong-cpu-shi-yong-lu-zui-gao-de-xian-cheng-bing-da-yin-zhe-xie-xian-cheng-de-dui-zhan/">https://cyylog.gitee.io/2018/09/28/linux/zhao-chu-java-zhong-cpu-shi-yong-lu-zui-gao-de-xian-cheng-bing-da-yin-zhe-xie-xian-cheng-de-dui-zhan/</a>
+                    <a href="https://cyylog.github.io/2018/09/28/linux/zhao-chu-java-zhong-cpu-shi-yong-lu-zui-gao-de-xian-cheng-bing-da-yin-zhe-xie-xian-cheng-de-dui-zhan/">https://cyylog.github.io/2018/09/28/linux/zhao-chu-java-zhong-cpu-shi-yong-lu-zui-gao-de-xian-cheng-bing-da-yin-zhe-xie-xian-cheng-de-dui-zhan/</a>
                 </span>
             </div>
             <div class="reprint__notice">

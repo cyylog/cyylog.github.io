@@ -576,8 +576,8 @@ docs  examples  host-manager  logs  manager  memtest  memtest.war  ROOT</code></
 <p><strong>方法二</strong></p>
 <pre><code>[root@web03 ~]# vim /application/tomcat/conf/server.xml +125
 …… #添加上这两行
-        &lt;Context path="" docBase="/application/tomcat/webapps/memtest" debug="0" reloadable="false" crossContext="true"/&gt;
-        &lt;Context path="/40team" docBase="/application/tomcat/webapps/memtest" debug="0" reloadable="false" crossContext="true"/&gt;
+        &lt;Context path=&quot;&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
+        &lt;Context path=&quot;/40team&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
 ……</code></pre><p>修改配置文件后，要重启服务</p>
 <pre><code>[root@web03 ~]# /application/tomcat/bin/shutdown.sh 
 [root@web03 ~]# /application/tomcat/bin/startup.sh  </code></pre><h5 id="3、部署开源站点（jpress）"><a href="#3、部署开源站点（jpress）" class="headerlink" title="3、部署开源站点（jpress）"></a>3、部署开源站点（jpress）</h5><p>jpress官网：<a href="http://jpress.io" target="_blank" rel="noopener">http://jpress.io</a></p>
@@ -587,7 +587,7 @@ docs  examples  host-manager  logs  manager  memtest  memtest.war  ROOT</code></
 systemctl start mariadb.service</code></pre><p>​         #配置数据库</p>
 <pre><code>mysql
 create database jpress DEFAULT CHARACTER SET utf8;
-grant all on jpress.* to jpress@'localhost' identified by '123456';
+grant all on jpress.* to jpress@&#39;localhost&#39; identified by &#39;123456&#39;;
 exit</code></pre><p>​         第二个里程碑：jpress站点上线</p>
 <pre><code>[root@web03 webapps]# pwd
 /application/tomcat/webapps
@@ -610,25 +610,25 @@ exit</code></pre><p>​         第二个里程碑：jpress站点上线</p>
     tar xf apache-tomcat-8.0.27.tar.gz
     cp -a apache-tomqcat-8.0.27 tomcat8_1
     cp -a apache-tomcat-8.0.27 tomcat8_2</code></pre><p>修改端口，以启动多实例。多实例之间端口不能一致</p>
-<pre><code>sed -i 's#8005#8011#;s#8080#8081#' tomcat8_1/conf/server.xml
-sed -i 's#8005#8012#;s#8080#8082#' tomcat8_2/conf/server.xml
+<pre><code>sed -i &#39;s#8005#8011#;s#8080#8081#&#39; tomcat8_1/conf/server.xml
+sed -i &#39;s#8005#8012#;s#8080#8082#&#39; tomcat8_2/conf/server.xml
 [root@web03 application]# diff tomcat8_1/conf/server.xml tomcat8_2/conf/server.xml
 22c22
-&lt; &lt;Server port="8011" shutdown="SHUTDOWN"&gt;
+&lt; &lt;Server port=&quot;8011&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
 ---
-&gt; &lt;Server port="8012" shutdown="SHUTDOWN"&gt;
+&gt; &lt;Server port=&quot;8012&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
 67c67
 &lt;          Define a non-SSL/TLS HTTP/1.1 Connector on port 8081
 ---
 &gt;          Define a non-SSL/TLS HTTP/1.1 Connector on port 8082
 69c69
-&lt;     &lt;Connector port="8081" protocol="HTTP/1.1"
+&lt;     &lt;Connector port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;
 ---
-&gt;     &lt;Connector port="8082" protocol="HTTP/1.1"
+&gt;     &lt;Connector port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;
 75c75
-&lt;                port="8081" protocol="HTTP/1.1"
+&lt;                port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;
 ---
-&gt;                port="8082" protocol="HTTP/1.1"</code></pre><p>　　 将配置好的tomcat程序打包，以备之后使用</p>
+&gt;                port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;</code></pre><p>　　 将配置好的tomcat程序打包，以备之后使用</p>
 <pre><code>tar zcf muti_tomcat8.tar.gz ./tomcat8_1 ./tomcat8_2</code></pre><p>启动tomcat多实例</p>
 <pre><code> /application/tomcat8_1/bin/startup.sh 
  /application/tomcat8_2/bin/startup.sh</code></pre><p>检查端口是否启动</p>
@@ -657,7 +657,7 @@ iptables: Firewall is not running.</code></pre><p>负载均衡软件使用nginx�
 <p><a href="http://www.cnblogs.com/clsn/p/7750615.html" target="_blank" rel="noopener">http://www.cnblogs.com/clsn/p/7750615.html</a></p>
 <h5 id="2、配置负载均衡器"><a href="#2、配置负载均衡器" class="headerlink" title="2、配置负载均衡器"></a>2、配置负载均衡器</h5><p>备份原配置文件</p>
 <pre><code>mv  /application/nginx/conf/nginx.conf{,.20171127}
-    egrep -v '#|^$' /application/nginx/conf/nginx.conf.default  &gt; /application/nginx/conf/nginx.conf</code></pre><p>​         配置文件内容</p>
+    egrep -v &#39;#|^$&#39; /application/nginx/conf/nginx.conf.default  &gt; /application/nginx/conf/nginx.conf</code></pre><p>​         配置文件内容</p>
 <pre><code>[root@lb01 ~]# cat /application/nginx/conf/nginx.conf
 worker_processes  1;
 events {
@@ -693,35 +693,17 @@ http {
 8081
 [root@lb01 ~]# curl -s 10.0.0.5|tail -1
 8082</code></pre><p>使用curl 命令进行测试，awk进行关键字提取</p>
-<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|awk 'END{print}'
+<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END{print}&#39;
 8082
-[root@lb01 ~]# curl -s 10.0.0.5|awk 'END{print}'
+[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END{print}&#39;
 8081</code></pre><p> 使用curl 命令进行测试，sed进行关键字提取</p>
-<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|sed -n '$p'
+<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;
 8082
-[root@lb01 ~]# curl -s 10.0.0.5|sed -n '$p'
+[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;
 8081</code></pre><h5 id="4、在浏览器上进行访问测试"><a href="#4、在浏览器上进行访问测试" class="headerlink" title="4、在浏览器上进行访问测试"></a>4、在浏览器上进行访问测试</h5><p><img src="https://s1.ax1x.com/2020/05/21/YHPjLq.png" alt="YHPjLq.png"></p>
 <p><img src="https://s1.ax1x.com/2020/05/21/YHPxe0.png" alt="YHPxe0.png"></p>
 <p>​         建议使用google浏览器chrome 的隐身模式进行访问，使用ctrl+f5 进行强制刷新</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
             </div>
             <hr/>
 
@@ -746,7 +728,7 @@ http {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/03/25/linux/tomcat/tomcat-02/">https://cyylog.gitee.io/2020/03/25/linux/tomcat/tomcat-02/</a>
+                    <a href="https://cyylog.github.io/2020/03/25/linux/tomcat/tomcat-02/">https://cyylog.github.io/2020/03/25/linux/tomcat/tomcat-02/</a>
                 </span>
             </div>
             <div class="reprint__notice">

@@ -560,7 +560,7 @@
                 <a id="more"></a>
 
 <h4 id="Dockerfile构建镜像"><a href="#Dockerfile构建镜像" class="headerlink" title="Dockerfile构建镜像"></a>Dockerfile构建镜像</h4><pre><code>通过Dockerfile创建镜像
-虽然可以自己制作 rootfs(见'容器文件系统那些事儿')，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
+虽然可以自己制作 rootfs(见&#39;容器文件系统那些事儿&#39;)，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
 
 docker build命令用于根据给定的Dockerfile和上下文以构建Docker镜像。
 
@@ -574,7 +574,7 @@ docker build语法：
 --compress，默认false。设置该选项，将使用gzip压缩构建的上下文
 --disable-content-trust，默认true。设置该选项，将对镜像进行验证
 --file, -f，Dockerfile的完整路径，默认值为‘PATH/Dockerfile’
---isolation，默认--isolation="default"，即Linux命名空间；其他还有process或hyperv
+--isolation，默认--isolation=&quot;default&quot;，即Linux命名空间；其他还有process或hyperv
 --label，为生成的镜像设置metadata
 --squash，默认false。设置该选项，将新构建出的多个层压缩为一个新层，但是将无法在多个镜像之间共享新层；设置该选项，实际上是创建了新image，同时保留原有image。
 --tag, -t，镜像的名字及tag，通常name:tag或者name格式；可以在一次构建中为一个镜像设置多个tag
@@ -617,7 +617,7 @@ docker build语法：
          RUN gem install sinatra 
 
           格式说明： 
-          每行命令都是以  INSTRUCTION statement 形式，就是命令+ 清单的模式。命令要大写，"#"是注解。 
+          每行命令都是以  INSTRUCTION statement 形式，就是命令+ 清单的模式。命令要大写，&quot;#&quot;是注解。 
          FROM 命令是告诉docker 我们的镜像什么。 
          MAINTAINER 是描述 镜像的创建人。 
          RUN 命令是在镜像内部执行。就是说他后面的命令应该是针对镜像可以运行的命令。 
@@ -628,7 +628,7 @@ docker build语法：
          -t 是标识新建的镜像属于 ouruser的  
          sinatra是仓库的名称  
         ：v2 是tag 
-          "."是用来指明 我们的使用的Dockerfile文件当前目录的 
+          &quot;.&quot;是用来指明 我们的使用的Dockerfile文件当前目录的 
 
          详细执行过程：
         [root@master sinatra]# docker build -t tiger/sinatra:v2 . 
@@ -690,7 +690,7 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/nginx
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]</code></pre><p>需要先下载nginx-1.14.2.tar.gz在Dockerfile同级目录下，然后执行如下命令 docker build -t nginx_image ./Dockerfile</p>
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]</code></pre><p>需要先下载nginx-1.14.2.tar.gz在Dockerfile同级目录下，然后执行如下命令 docker build -t nginx_image ./Dockerfile</p>
 <h5 id="tomcat-dockerfile示例"><a href="#tomcat-dockerfile示例" class="headerlink" title="tomcat-dockerfile示例"></a>tomcat-dockerfile示例</h5><pre><code>FROM centos:7.4.1708
 
 ADD jdk-8u171-linux-x64.tar.gz /usr/local/
@@ -747,25 +747,7 @@ docker容器的网络会附属在主机上，两者是互通的。
 2、使用新的网络类型创建并启动容器
 #docker run -it --name userserver --net staticnet --ip 192.168.0.2 centos:6 /bin/bash
 
-通过docker inspect可以查看容器ip为192.168.0.2，关闭容器并重启，发现容器ip并未发生改变</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+通过docker inspect可以查看容器ip为192.168.0.2，关闭容器并重启，发现容器ip并未发生改变</code></pre>
             </div>
             <hr/>
 
@@ -790,7 +772,7 @@ docker容器的网络会附属在主机上，两者是互通的。
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/11/15/rong-qi/dockerfilee-000/">https://cyylog.gitee.io/2019/11/15/rong-qi/dockerfilee-000/</a>
+                    <a href="https://cyylog.github.io/2019/11/15/rong-qi/dockerfilee-000/">https://cyylog.github.io/2019/11/15/rong-qi/dockerfilee-000/</a>
                 </span>
             </div>
             <div class="reprint__notice">

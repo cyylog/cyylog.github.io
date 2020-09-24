@@ -583,19 +583,19 @@ system.cpu.intr  --cpu中断数量、api中参数history需指定为3
 system.cpu.load[percpu,avg1]  --cpu每分钟的负载值，按照核数做平均值(Processor load (1 min average per core))，api中参数history需指定为0
 system.cpu.load[percpu,avg5]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (5 min average per core))，api中参数history需指定为0
 system.cpu.load[percpu,avg15]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (15 min average per core))，api中参数history需指定为0</code></pre><h4 id="zabbix的自定义常用项"><a href="#zabbix的自定义常用项" class="headerlink" title="zabbix的自定义常用项"></a>zabbix的自定义常用项</h4><h5 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/catcarm.conf
-UserParameter=ram.info[*],/bin/cat  /proc/meminfo  |awk '/^$1:{print $2}'
+UserParameter=ram.info[*],/bin/cat  /proc/meminfo  |awk &#39;/^$1:{print $2}&#39;
 ram.info[Cached] --检测内存的缓存使用量、返回整数，需要定义1024倍
 ram.info[MemFree] --检测内存的空余量，返回整数，需要定义1024倍
 ram.info[Buffers] --检测内存的使用量，返回整数，需要定义1024倍</code></pre><h5 id="TCP相关的自定义项"><a href="#TCP相关的自定义项" class="headerlink" title="TCP相关的自定义项"></a>TCP相关的自定义项</h5><pre><code>vim /usr/local/zabbix/share/zabbix/alertscripts/tcp_connection.sh
 #!/bin/bash
 function ESTAB { 
-/usr/sbin/ss -ant |awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'ESTAB' | awk '{print $2}'
+/usr/sbin/ss -ant |awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;ESTAB&#39; | awk &#39;{print $2}&#39;
 }
 function TIMEWAIT {
-/usr/sbin/ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'TIME-WAIT' | awk '{print $2}'
+/usr/sbin/ss -ant | awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;TIME-WAIT&#39; | awk &#39;{print $2}&#39;
 }
 function LISTEN {
-/usr/sbin/ss -ant | awk '{++s[$1]} END {for(k in s) print k,s[k]}' | grep 'LISTEN' | awk '{print $2}'
+/usr/sbin/ss -ant | awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;LISTEN&#39; | awk &#39;{print $2}&#39;
 }
 $1
 
@@ -615,13 +615,13 @@ tcp[LISTEN] --检测TCP的监听数，返回整数</code></pre><h5 id="nginx相�
 
 
 vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/nginx.conf
-UserParameter=Nginx.active,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/Active/ {print $NF}'
-UserParameter=Nginx.read,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Reading' | cut -d" " -f2
-UserParameter=Nginx.wrie,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Writing' | cut -d" " -f4
-UserParameter=Nginx.wait,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | grep 'Waiting' | cut -d" " -f6
-UserParameter=Nginx.accepted,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $1}'
-UserParameter=Nginx.handled,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $2}'
-UserParameter=Nginx.requests,/usr/bin/curl -s "http://127.0.0.1:80/nginx-status" | awk '/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $3}'
+UserParameter=Nginx.active,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/Active/ {print $NF}&#39;
+UserParameter=Nginx.read,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Reading&#39; | cut -d&quot; &quot; -f2
+UserParameter=Nginx.wrie,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Writing&#39; | cut -d&quot; &quot; -f4
+UserParameter=Nginx.wait,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Waiting&#39; | cut -d&quot; &quot; -f6
+UserParameter=Nginx.accepted,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $1}&#39;
+UserParameter=Nginx.handled,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $2}&#39;
+UserParameter=Nginx.requests,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $3}&#39;
 
 PHP.listenqueue --检测PHP队列数，返回整数
 PHP.idle --检测PHP空闲进程数，返回整数
@@ -630,15 +630,15 @@ PHP.conn --检测PHP请求数,返回整数
 PHP.reached --检测PHP达到限制次数，返回整数
 PHP.requets --检测PHP慢请求书，返回整数</code></pre><h5 id="redis相关的自定义项"><a href="#redis相关的自定义项" class="headerlink" title="redis相关的自定义项"></a>redis相关的自定义项</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/redis.conf
 UserParameter=Redis.Status,/usr/local/redis/bin/redis-cli -h 127.0.0.1 -p 6379 ping |grep -c PONG
-UserParameter=Redis_conn[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "connected_clients" | awk -F':' '{print $2}'
-UserParameter=Redis_rss_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_memory_rss" | awk -F':' '{print $2}'
-UserParameter=Redis_lua_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_memory_lua" | awk -F':' '{print $2}'
-UserParameter=Redis_cpu_sys[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_sys" | awk -F':' '{print $2}'
-UserParameter=Redis_cpu_user[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_user" | awk -F':' '{print $2}'
-UserParameter=Redis_cpu_sys_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_sys_children" | awk -F':' '{print $2}'
-UserParameter=Redis_cpu_user_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "used_cpu_user_children" | awk -F':' '{print $2}'
-UserParameter=Redis_keys_num[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w "$$1" | grep -w "keys" | grep db$3 | awk -F'=' '{print $2}' | awk -F',' '{print $1}'
-UserParameter=Redis_loading[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep loading | awk -F':' '{print $$2}'
+UserParameter=Redis_conn[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;connected_clients&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_rss_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_rss&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_lua_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_lua&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_cpu_sys[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_cpu_user[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_cpu_sys_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys_children&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_cpu_user_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user_children&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
+UserParameter=Redis_keys_num[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;$$1&quot; | grep -w &quot;keys&quot; | grep db$3 | awk -F&#39;=&#39; &#39;{print $2}&#39; | awk -F&#39;,&#39; &#39;{print $1}&#39;
+UserParameter=Redis_loading[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep loading | awk -F&#39;:&#39; &#39;{print $$2}&#39;
 
 Redis.Status --检测Redis运行状态， 返回整数
 Redis_conn  --检测Redis成功连接数，返回整数
@@ -695,25 +695,7 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
 如果open_files_limit&lt;&gt;0，则open_files/open_files_limit，否则为0
 
 9、表缓存使用率
-如果table_open_cache&lt;&gt;0，则open_tables/table_open_cache，否则为0</code></pre><script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+如果table_open_cache&lt;&gt;0，则open_tables/table_open_cache，否则为0</code></pre>
             </div>
             <hr/>
 
@@ -738,7 +720,7 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/">https://cyylog.gitee.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</a>
+                    <a href="https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/">https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</a>
                 </span>
             </div>
             <div class="reprint__notice">

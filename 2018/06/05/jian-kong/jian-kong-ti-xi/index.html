@@ -571,7 +571,7 @@ OpenIPMI-2.0.19-11.el7.x86_64</code></pre><p>使用IPMI有两种方式<br>1、�
 <pre><code>[root@localhost ~]# systemctl start ipmi  #启动
 本次以Centos7进行演示</code></pre><p>IPMI相关命令</p>
 <pre><code>[root@localhost ~]# ipmitool --help
-ipmitool: invalid option -- '-'
+ipmitool: invalid option -- &#39;-&#39;
 ipmitool version 1.8.13
 usage: ipmitool [options...] &lt;command&gt;
        -h             This help
@@ -595,7 +595,7 @@ usage: ipmitool [options...] &lt;command&gt;
        -k key         Use Kg key for IPMIv2 authentication
        -y hex_key     Use hexadecimal-encoded Kg key for IPMIv2 authentication
        -L level       Remote session privilege level [default=ADMINISTRATOR]
-                      Append a '+' to use name/privilege lookup in RAKP1
+                      Append a &#39;+&#39; to use name/privilege lookup in RAKP1
        -A authtype    Force use of auth type NONE, PASSWORD, MD2, MD5 or OEM
        -P password    Remote session password
        -E             Read password from IPMI_PASSWORD environment variable
@@ -606,7 +606,7 @@ usage: ipmitool [options...] &lt;command&gt;
        -B channel     Set transit channel for bridged request (dual bridge)
        -T address     Set transit address for bridge request (dual bridge)
        -l lun         Set destination lun for raw commands
-       -o oemtype     Setup for OEM (use 'list' to see available OEM types)
+       -o oemtype     Setup for OEM (use &#39;list&#39; to see available OEM types)
        -O seloem      Use file for OEM SEL event descriptions
        -N seconds     Specify timeout for lan [default=2] / lanplus [default=1] interface
        -R retry       Set the number of retries for lan/lanplus interface [default=4]
@@ -770,15 +770,15 @@ xvda              0.00         0.00         0.00          0          0</code></p
 <p>我们可以直接输入一个c 一个m一个d。这个是实时的一个状态</p>
 <p><img src="https://i.loli.net/2018/12/14/5c139b6978986.jpg" alt="nmon1"></p>
 <pre><code>./nmon16e_x86_rhel72 --help
-./nmon16e_x86_rhel72: invalid option -- '-'
+./nmon16e_x86_rhel72: invalid option -- &#39;-&#39;
 Hint for nmon16e_x86_rhel72 version 16e
     Full Help Info : nmon16e_x86_rhel72 -h
     On-screen Stats: nmon16e_x86_rhel72
     Data Collection: nmon16e_x86_rhel72 -f [-s &lt;seconds&gt;] [-c &lt;count&gt;] [-t|-T]
     Capacity Plan  : nmon16e_x86_rhel72 -x
 Interactive-Mode:
-    Read the Welcome screen &amp; at any time type: "h" for more help
-    Type "q" to exit nmon
+    Read the Welcome screen &amp; at any time type: &quot;h&quot; for more help
+    Type &quot;q&quot; to exit nmon
 For Data-Collect-Mode
     -f            Must be the first option on the line (switches off interactive mode)
                   Saves data to a CSV Spreadsheet format .nmon file in then local directory
@@ -840,25 +840,7 @@ server accepts handled requests
 Reading: 0 Writing: 1 Waiting: 0</code></pre><p>Active connections: 当前活跃的连接数<br>3—-&gt; 一共处理了多少个链接（请求）<br>3—-&gt; 成功创建多少次握手<br>163–&gt; 总共创建了多少个请求<br>Reading:当前读取客户端heardr的数量<br>Writing:当前返回给客户端heardr的数量 　#如果这个指标飙升，说明是后面的节点挂掉了，例如数据库等。<br>Waiting:大体意思是已经处理完，等待下次请求的数量<br>提示：我们只需要关注活动链接即可</p>
 <p>监控最基础的功能<br>采集 存储 展示 告警</p>
 <p>几款监控软件说明：<br>几款监控软件大家都知道应该是zabbix，这个入门和部署比较简单，对于中小企业都是友好的，但是难以细化和深入化。<br>后来因业务需求从zabbix逐渐转用小米的开源监控open-falcon，这个对于新手不太友好，但是后期的添加和细化都是特别友好的，模块化、分支化</p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -883,7 +865,7 @@ Reading: 0 Writing: 1 Waiting: 0</code></pre><p>Active connections: 当前活跃
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2018/06/05/jian-kong/jian-kong-ti-xi/">https://cyylog.gitee.io/2018/06/05/jian-kong/jian-kong-ti-xi/</a>
+                    <a href="https://cyylog.github.io/2018/06/05/jian-kong/jian-kong-ti-xi/">https://cyylog.github.io/2018/06/05/jian-kong/jian-kong-ti-xi/</a>
                 </span>
             </div>
             <div class="reprint__notice">

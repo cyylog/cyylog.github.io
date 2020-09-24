@@ -566,11 +566,11 @@ long mm = rtm.maxMemory()/1024/1024;
 long tm = rtm.totalMemory()/1024/1024;
 long fm = rtm.freeMemory()/1024/1024;
 
-out.println("JVM memory detail info :&lt;br&gt;");
-out.println("Max memory:"+mm+"MB"+"&lt;br&gt;");
-out.println("Total memory:"+tm+"MB"+"&lt;br&gt;");
-out.println("Free memory:"+fm+"MB"+"&lt;br&gt;");
-out.println("Available memory can be used is :"+(mm+fm-tm)+"MB"+"&lt;br&gt;");
+out.println(&quot;JVM memory detail info :&lt;br&gt;&quot;);
+out.println(&quot;Max memory:&quot;+mm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);
+out.println(&quot;Total memory:&quot;+tm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);
+out.println(&quot;Free memory:&quot;+fm+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);
+out.println(&quot;Available memory can be used is :&quot;+(mm+fm-tm)+&quot;MB&quot;+&quot;&lt;br&gt;&quot;);
 %&gt;</code></pre><h5 id="2、方法二：使用jps命令进行监控"><a href="#2、方法二：使用jps命令进行监控" class="headerlink" title="2、方法二：使用jps命令进行监控"></a>2、方法二：使用jps命令进行监控</h5><pre><code>[root@web03 ~]# jps -lvm
 
 31906 org.apache.catalina.startup.Bootstrap start -Djava.util.logging.config.file=/application/tomcat8_1/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs=/application/tomcat8_1/endorsed -Dcatalina.base=/application/tomcat8_1 -Dcatalina.home=/application/tomcat8_1 -Djava.io.tmpdir=/application/tomcat8_1/temp
@@ -582,12 +582,12 @@ out.println("Available memory can be used is :"+(mm+fm-tm)+"MB"+"&lt;br&gt;");
 32079 sun.tools.jps.Jps -lvm -Denv.class.path=.:/application/jdk/lib:/application/jdk/jre/lib:/application/jdk/lib/tools.jar -Dapplication.home=/application/jdk1.8.0_60 -Xms8m</code></pre><h5 id="3、Tomcat远程监控功能"><a href="#3、Tomcat远程监控功能" class="headerlink" title="3、Tomcat远程监控功能"></a>3、Tomcat远程监控功能</h5><p>修改配置文件，开启远程监控</p>
 <pre><code>vim /application/tomcat8_1/bin/catalina.sh +97
 
-CATALINA_OPTS="$CATALINA_OPTS
+CATALINA_OPTS=&quot;$CATALINA_OPTS
 -Dcom.sun.management.jmxremote 
 -Dcom.sun.management.jmxremote.port=12345  
 -Dcom.sun.management.jmxremote.authenticate=false 
 -Dcom.sun.management.jmxremote.ssl=false 
--Djava.rmi.server.hostname=10.0.0.17"</code></pre><p>​         重启服务，检查12345端口是否开启</p>
+-Djava.rmi.server.hostname=10.0.0.17&quot;</code></pre><p>​         重启服务，检查12345端口是否开启</p>
 <pre><code>/application/tomcat8_1/bin/shutdown.sh 
 /application/tomcat8_1/bin/startup.sh 
 netstat -tunlp|grep 12345</code></pre><p>​         检查端口</p>
@@ -600,7 +600,7 @@ tcp6       0      0 :::12345           :::*          LISTEN      33158/java  </c
 <p><strong>服务端安装配置java**</strong>监控服务**</p>
 <pre><code>[root@m01 ~]# yum install zabbix-java-gateway -y</code></pre><p><strong>查看配置文件</strong></p>
 <pre><code>配置文件路径：/etc/zabbix/zabbix_java_gateway.conf
-sed -i -e '220a JavaGateway=127.0.0.1' -e '236a StartJavaPollers=5'  /etc/zabbix/zabbix_server.conf</code></pre><p>启动zabbix-java-gateway服务，与zabbix服务</p>
+sed -i -e &#39;220a JavaGateway=127.0.0.1&#39; -e &#39;236a StartJavaPollers=5&#39;  /etc/zabbix/zabbix_server.conf</code></pre><p>启动zabbix-java-gateway服务，与zabbix服务</p>
 <pre><code>systemctl start zabbix-java-gateway.service
 systemctl restart zabbix-server.service</code></pre><p>检查java端口是否开启</p>
 <pre><code>[root@m01 ~]# netstat -lntup |grep java
@@ -621,25 +621,7 @@ zabbix    73259  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java 
 <p>b. 使用sh show-busy-java-threads.sh脚本进行检测</p>
 <p>脚本下载地址</p>
 <p><em><a href="https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh" target="_blank" rel="noopener">https://files.cnblogs.com/files/clsn/show-busy-java-threads.sh</a></em></p>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -664,7 +646,7 @@ zabbix    73259  73226  0 11:35 ?        00:00:00 /usr/sbin/zabbix_server: java 
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2020/03/27/linux/tomcat/tomcat-03/">https://cyylog.gitee.io/2020/03/27/linux/tomcat/tomcat-03/</a>
+                    <a href="https://cyylog.github.io/2020/03/27/linux/tomcat/tomcat-03/">https://cyylog.github.io/2020/03/27/linux/tomcat/tomcat-03/</a>
                 </span>
             </div>
             <div class="reprint__notice">

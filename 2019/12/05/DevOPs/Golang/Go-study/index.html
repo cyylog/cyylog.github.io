@@ -566,7 +566,7 @@ long_query_time=2
 slow-query-log-file =/mylog/slow.log
 
 
-docker run -it --rm --entrypoint="/bin/bash" mysql:5.7 -c "cat /etc/group "
+docker run -it --rm --entrypoint=&quot;/bin/bash&quot; mysql:5.7 -c &quot;cat /etc/group &quot;
 
 因为容器默认使用的是mysql用户。 因此我们需要把映射的文件夹修改owner
 
@@ -626,25 +626,7 @@ alpine ./gin
 nginx:alpine
 </code></pre>
 <h4 id="Redis-容器"><a href="#Redis-容器" class="headerlink" title="Redis 容器"></a>Redis 容器</h4><pre class=" language-shell"><code class="language-shell">docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-servver</code></pre>
-<script>
-        document.querySelectorAll('.github-emoji')
-          .forEach(el => {
-            if (!el.dataset.src) { return; }
-            const img = document.createElement('img');
-            img.style = 'display:none !important;';
-            img.src = el.dataset.src;
-            img.addEventListener('error', () => {
-              img.remove();
-              el.style.color = 'inherit';
-              el.style.backgroundImage = 'none';
-              el.style.background = 'none';
-            });
-            img.addEventListener('load', () => {
-              img.remove();
-            });
-            document.body.appendChild(img);
-          });
-      </script>
+
             </div>
             <hr/>
 
@@ -669,7 +651,7 @@ nginx:alpine
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.gitee.io/2019/12/05/devops/golang/go-study/">https://cyylog.gitee.io/2019/12/05/devops/golang/go-study/</a>
+                    <a href="https://cyylog.github.io/2019/12/05/devops/golang/go-study/">https://cyylog.github.io/2019/12/05/devops/golang/go-study/</a>
                 </span>
             </div>
             <div class="reprint__notice">
