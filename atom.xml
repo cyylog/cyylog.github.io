@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-09-04T01:52:11.327Z</updated>
+  <updated>2020-09-28T15:11:11.420Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mycat</title>
+    <link href="https://cyylog.github.io/2020/09/28/sql/mycat/"/>
+    <id>https://cyylog.github.io/2020/09/28/sql/mycat/</id>
+    <published>2020-09-28T15:06:46.000Z</published>
+    <updated>2020-09-28T15:11:11.420Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;MySQL-Replication&quot;&gt;&lt;a href=&quot;#MySQL-Replication&quot; class=&quot;headerlink&quot; title=&quot;MySQL-Replication&quot;&gt;&lt;/a&gt;MySQL-Replication&lt;/h2&gt;&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
+    
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
+    
+    <category term="Mycat" scheme="https://cyylog.github.io/tags/Mycat/"/>
+    
+  </entry>
   
   <entry>
     <title>[xshell突出显示集]</title>
@@ -124,7 +151,7 @@
     <link href="https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/"/>
     <id>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</id>
     <published>2020-07-16T03:54:04.000Z</published>
-    <updated>2020-08-15T13:54:34.922Z</updated>
+    <updated>2020-09-28T15:05:09.472Z</updated>
     
     
       
@@ -518,33 +545,6 @@
     
     
     <category term="Tomcat" scheme="https://cyylog.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes常用命令</title>
-    <link href="https://cyylog.github.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/"/>
-    <id>https://cyylog.github.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/</id>
-    <published>2020-03-28T17:21:16.000Z</published>
-    <updated>2020-05-25T13:43:46.812Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h4 id=&quot;常用命令&quot;&gt;&lt;a href=&quot;#常用命令&quot; class=&quot;headerlink&quot; title=&quot;常用命令&quot;&gt;&lt;/a&gt;常用命令&lt;/h4&gt;&lt;h5 id=&quot;Kubernetes-Cheat-Sheet&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
