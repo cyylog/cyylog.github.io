@@ -31,19 +31,6 @@
     
     
     <entry>
-      <title>[xshell突出显示集]</title>
-      <link href="2020/09/24/xshell-tu-chu-xian-shi-ji/"/>
-      <url>2020/09/24/xshell-tu-chu-xian-shi-ji/</url>
-      
-        <content type="html"><![CDATA[<h1 id="xshell突出显示集"><a href="#xshell突出显示集" class="headerlink" title="[xshell突出显示集]"></a>[xshell突出显示集]</h1><h3 id="xshell突出显示集（参考mobaxterm，直接拷贝过来不行，应该是xshell对正则表达式的支持不够好）"><a href="#xshell突出显示集（参考mobaxterm，直接拷贝过来不行，应该是xshell对正则表达式的支持不够好）" class="headerlink" title="xshell突出显示集（参考mobaxterm，直接拷贝过来不行，应该是xshell对正则表达式的支持不够好）:"></a>xshell突出显示集（参考mobaxterm，直接拷贝过来不行，应该是xshell对正则表达式的支持不够好）:</h3><p>Underline:</p><pre class=" language-shell"><code class="language-shell">\b(http(s)?://[A-Za-z0-9_./&?=%~#{}()@+-]+)\b</code></pre><p>Red:</p><pre class=" language-shell"><code class="language-shell">(\b((bad|wrong|incorrect|improper|invalid|unsupported|bad)( file| memory)? (descriptor|alloc(ation)?|addr(ess)?|owner(ship)?|arg(ument)?|param(eter)?|setting|length|filename)|not properly|improperly|(operation |connection |authentication |access |permission )?(false|no|ko|denied|disallowed|not allowed|refused|problem|failed|failure|not permitted)|no [A-Za-z]+( [A-Za-z]+)? found|invalid|unsupported|not supported|seg(mentation )?fault|corruption|corrupted|corrupt|overflow|underrun|not ok|unimplemented|unsuccessfull|not implemented|permerrors?|fehlers?|errore|errors?|erreurs?|fejl|virhe|greška|erro|fel|\(ee\)|\(ni\))\b)</code></pre><p>Green:</p><pre class=" language-shell"><code class="language-shell">(\b(true|yes|ok|accepted|allowed|enabled|connected|erfolgreich|exitoso|successo|sucedido|framgångsrik|successfully|successful|succeeded|success)\b)</code></pre><p>Yellow:</p><pre><code>(\b(\[\-w[A-Za-z-]+\]|caught signal [0-9]+|cannot|(connection (to (remote host|[a-z0-9.]+) )?)?(closed|terminated|stopped|not responding)|exited|no more [A-Za-z] available|unexpected|(command |binary |file )?not found|(o)+ps|out of (space|memory)|low (memory|disk)|unknown|disabled|disconnected|deprecated|refused|disconnect(ion)?|advertencia|avvertimento|attention|warnings?|achtung|exclamation|alerts?|warnungs?|advarsel|pedwarn|aviso|varoitus|upozorenje|peringatan|uyari|varning|avertissement|\(ww\)|\(\?\?\)|could not|unable to)\b)</code></pre><p>shellMagenta:</p><pre class=" language-shell"><code class="language-shell">(\b(localhost|([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])\.[0-9]+\.[0-9]+\.[0-9]+|null|none)\b)</code></pre><p>Cyan:</p><pre class=" language-shell"><code class="language-shell">(\b(last (failed )?login:|launching|checking|loading|creating|building|important|booting|starting|notice|informational|informationen|informazioni|informação|oplysninger|informations?|info|información|informasi|note|\(ii\)|\(\!\!\))\b)</code></pre>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>搭建 NFS 服务</title>
       <link href="2020/09/24/linux/bu-shu-nfs-fu-wu/"/>
       <url>2020/09/24/linux/bu-shu-nfs-fu-wu/</url>
