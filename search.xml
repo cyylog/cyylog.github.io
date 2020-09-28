@@ -4,106 +4,6 @@
   
     
     <entry>
-      <title>Interview System_001--undone</title>
-      <link href="2020/09/24/interview/interview-system-001/"/>
-      <url>2020/09/24/interview/interview-system-001/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><p>操作系统：</p><ol><li>进程、线程、协程有什么区别？4个线程执行3个文件句柄是共享这3个文件么？</li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Interview </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> System </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Interview Network_001--undone</title>
-      <link href="2020/09/24/interview/interview-network-001/"/>
-      <url>2020/09/24/interview/interview-network-001/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><p>网络</p><ol><li>http的3次握手</li></ol><ol start="2"><li>https的连接过程？双方使用的加密套件是由客户端决定的，还是服务端决定的？</li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Interview </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Network </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Interview MySQL_001--undone</title>
-      <link href="2020/09/24/interview/interview-mysql-001/"/>
-      <url>2020/09/24/interview/interview-mysql-001/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><p>mysql：</p><ol><li>mysql事务的隔离级别</li></ol><ol start="2"><li>什么是乐观锁和悲观锁？乐观锁的一致性怎么保证</li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Interview </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> MySQL </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Interview Go_001--undone</title>
-      <link href="2020/09/24/interview/interview-go-001/"/>
-      <url>2020/09/24/interview/interview-go-001/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><h4 id="go："><a href="#go：" class="headerlink" title="go："></a>go：</h4><ol><li>超时退出</li><li>context的初始形态？怎么使用contenxt？</li><li>wait group的使用？不加add直接wait是否会panic？</li><li>new和make有什么区别？哪个可以初始化内存为0？</li><li>runtime是什么？runtime属于线程还是协程</li></ol><h4 id="项目："><a href="#项目：" class="headerlink" title="项目："></a>项目：</h4><ol><li><p>什么是JWT？JWT有几部分组成？用什么签名算法？如何实现把一个用户从登陆状态踢出？JWT和session什么区别？</p></li><li><p>什么是前缀树？</p></li></ol><ol start="3"><li>gin中间件原理？中间件用到了什么设计模式？</li></ol><ol start="4"><li>跨域</li></ol><ol start="5"><li>gin文件传送的时候怎么接收？http头部的content-type写什么</li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Interview </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Go </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>[xshell突出显示集]</title>
       <link href="2020/09/24/xshell-tu-chu-xian-shi-ji/"/>
       <url>2020/09/24/xshell-tu-chu-xian-shi-ji/</url>
@@ -184,31 +84,6 @@
         <tags>
             
             <tag> Kubernetes </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>分布式见解--undone</title>
-      <link href="2020/08/22/interview/fen-bu-shi-jian-jie/"/>
-      <url>2020/08/22/interview/fen-bu-shi-jian-jie/</url>
-      
-        <content type="html"><![CDATA[<a id="more"></a><h4 id="三大-协议"><a href="#三大-协议" class="headerlink" title="三大 协议"></a>三大 协议</h4><p>raft zab gossip</p><p>raft是etcd用的.    zab是zookeepr用的   gossip是redis集群用的</p><ol><li>raft  一言以蔽之 就是 状态机+ 操作日志 +快照</li></ol><h6 id="见解："><a href="#见解：" class="headerlink" title="见解："></a>见解：</h6><ol><li><p>所谓的分布式 最关键的 就是  各个节点之间“产生关联”，所谓的分布式 最关键的 就是  各个节点之间“产生关联”</p><p>所谓的分布式 最关键的 就是  各个节点之间“产生关联”</p><p>如果 没有“关联” 那么 这只能叫做分开部署</p><p>一旦有了关联  才叫 “分布式“</p></li></ol><ol start="2"><li><p>分布式 有简单的 场景  最基础的是 主从</p><p>譬如MySQL主从  redis主从</p><p>后来逐步演化为 选主。 一旦有了选主 那么就真正叫做集群了</p></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Interview </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Go </tag>
             
         </tags>
       
@@ -384,6 +259,131 @@
         <tags>
             
             <tag> Jenkins </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Interview Go_001--undone</title>
+      <link href="2020/04/22/interview/interview-go-001/"/>
+      <url>2020/04/22/interview/interview-go-001/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><h4 id="go："><a href="#go：" class="headerlink" title="go："></a>go：</h4><ol><li>超时退出</li><li>context的初始形态？怎么使用contenxt？</li><li>wait group的使用？不加add直接wait是否会panic？</li><li>new和make有什么区别？哪个可以初始化内存为0？</li><li>runtime是什么？runtime属于线程还是协程</li></ol><h4 id="项目："><a href="#项目：" class="headerlink" title="项目："></a>项目：</h4><ol><li><p>什么是JWT？JWT有几部分组成？用什么签名算法？如何实现把一个用户从登陆状态踢出？JWT和session什么区别？</p></li><li><p>什么是前缀树？</p></li></ol><ol start="3"><li>gin中间件原理？中间件用到了什么设计模式？</li></ol><ol start="4"><li>跨域</li></ol><ol start="5"><li>gin文件传送的时候怎么接收？http头部的content-type写什么</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Interview MySQL_001--undone</title>
+      <link href="2020/04/22/interview/interview-mysql-001/"/>
+      <url>2020/04/22/interview/interview-mysql-001/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><p>mysql：</p><ol><li>mysql事务的隔离级别</li></ol><ol start="2"><li>什么是乐观锁和悲观锁？乐观锁的一致性怎么保证</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Interview Network_001--undone</title>
+      <link href="2020/04/22/interview/interview-network-001/"/>
+      <url>2020/04/22/interview/interview-network-001/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><p>网络</p><ol><li>http的3次握手</li></ol><ol start="2"><li>https的连接过程？双方使用的加密套件是由客户端决定的，还是服务端决定的？</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Network </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Interview System_001--undone</title>
+      <link href="2020/04/22/interview/interview-system-001/"/>
+      <url>2020/04/22/interview/interview-system-001/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><p>操作系统：</p><ol><li>进程、线程、协程有什么区别？4个线程执行3个文件句柄是共享这3个文件么？</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> System </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分布式见解--undone</title>
+      <link href="2020/04/22/interview/fen-bu-shi-jian-jie/"/>
+      <url>2020/04/22/interview/fen-bu-shi-jian-jie/</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><h4 id="三大-协议"><a href="#三大-协议" class="headerlink" title="三大 协议"></a>三大 协议</h4><p>raft zab gossip</p><p>raft是etcd用的.    zab是zookeepr用的   gossip是redis集群用的</p><ol><li>raft  一言以蔽之 就是 状态机+ 操作日志 +快照</li></ol><h6 id="见解："><a href="#见解：" class="headerlink" title="见解："></a>见解：</h6><ol><li><p>所谓的分布式 最关键的 就是  各个节点之间“产生关联”，所谓的分布式 最关键的 就是  各个节点之间“产生关联”</p><p>所谓的分布式 最关键的 就是  各个节点之间“产生关联”</p><p>如果 没有“关联” 那么 这只能叫做分开部署</p><p>一旦有了关联  才叫 “分布式“</p></li></ol><ol start="2"><li><p>分布式 有简单的 场景  最基础的是 主从</p><p>譬如MySQL主从  redis主从</p><p>后来逐步演化为 选主。 一旦有了选主 那么就真正叫做集群了</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
             
         </tags>
       

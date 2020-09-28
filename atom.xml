@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-09-14T02:48:25.656Z</updated>
+  <updated>2020-09-04T01:52:11.327Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,122 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Interview System_001--undone</title>
-    <link href="https://cyylog.github.io/2020/09/24/interview/interview-system-001/"/>
-    <id>https://cyylog.github.io/2020/09/24/interview/interview-system-001/</id>
-    <published>2020-09-24T08:07:55.578Z</published>
-    <updated>2020-09-14T02:48:25.656Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="System" scheme="https://cyylog.github.io/tags/System/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Interview Network_001--undone</title>
-    <link href="https://cyylog.github.io/2020/09/24/interview/interview-network-001/"/>
-    <id>https://cyylog.github.io/2020/09/24/interview/interview-network-001/</id>
-    <published>2020-09-24T08:07:55.575Z</published>
-    <updated>2020-09-14T02:48:21.810Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;网络&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;http的3次握手&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Network" scheme="https://cyylog.github.io/tags/Network/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Interview MySQL_001--undone</title>
-    <link href="https://cyylog.github.io/2020/09/24/interview/interview-mysql-001/"/>
-    <id>https://cyylog.github.io/2020/09/24/interview/interview-mysql-001/</id>
-    <published>2020-09-24T08:07:55.572Z</published>
-    <updated>2020-09-14T02:48:17.214Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-
-
-&lt;p&gt;mysql：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;mysql事务的隔离级别&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Interview Go_001--undone</title>
-    <link href="https://cyylog.github.io/2020/09/24/interview/interview-go-001/"/>
-    <id>https://cyylog.github.io/2020/09/24/interview/interview-go-001/</id>
-    <published>2020-09-24T08:07:55.569Z</published>
-    <updated>2020-09-14T02:49:25.489Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h4 id=&quot;go：&quot;&gt;&lt;a href=&quot;#go：&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
-    
-  </entry>
   
   <entry>
     <title>[xshell突出显示集]</title>
@@ -232,34 +116,6 @@
     
     
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>分布式见解--undone</title>
-    <link href="https://cyylog.github.io/2020/08/22/interview/fen-bu-shi-jian-jie/"/>
-    <id>https://cyylog.github.io/2020/08/22/interview/fen-bu-shi-jian-jie/</id>
-    <published>2020-08-21T17:55:39.000Z</published>
-    <updated>2020-09-14T02:48:30.548Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h4 id=&quot;三大-协议&quot;&gt;&lt;a href=&quot;#三大-协议&quot; class=&quot;headerlink&quot; title=&quot;三大 协议&quot;&gt;&lt;/a&gt;三大 协议&lt;/h4&gt;&lt;p&gt;raft zab gossip&lt;/p&gt;
-&lt;p&gt;raft是etcd用的.   </summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
     
   </entry>
   
@@ -435,6 +291,150 @@
     
     
     <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview Go_001--undone</title>
+    <link href="https://cyylog.github.io/2020/04/22/interview/interview-go-001/"/>
+    <id>https://cyylog.github.io/2020/04/22/interview/interview-go-001/</id>
+    <published>2020-04-21T21:55:39.000Z</published>
+    <updated>2020-09-28T05:06:55.642Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;go：&quot;&gt;&lt;a href=&quot;#go：&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview MySQL_001--undone</title>
+    <link href="https://cyylog.github.io/2020/04/22/interview/interview-mysql-001/"/>
+    <id>https://cyylog.github.io/2020/04/22/interview/interview-mysql-001/</id>
+    <published>2020-04-21T20:55:39.000Z</published>
+    <updated>2020-09-28T05:06:49.484Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+
+
+&lt;p&gt;mysql：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;mysql事务的隔离级别&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview Network_001--undone</title>
+    <link href="https://cyylog.github.io/2020/04/22/interview/interview-network-001/"/>
+    <id>https://cyylog.github.io/2020/04/22/interview/interview-network-001/</id>
+    <published>2020-04-21T19:55:39.000Z</published>
+    <updated>2020-09-28T05:06:40.754Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;p&gt;网络&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;http的3次握手&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Network" scheme="https://cyylog.github.io/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Interview System_001--undone</title>
+    <link href="https://cyylog.github.io/2020/04/22/interview/interview-system-001/"/>
+    <id>https://cyylog.github.io/2020/04/22/interview/interview-system-001/</id>
+    <published>2020-04-21T18:55:39.000Z</published>
+    <updated>2020-09-28T05:06:35.260Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="System" scheme="https://cyylog.github.io/tags/System/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>分布式见解--undone</title>
+    <link href="https://cyylog.github.io/2020/04/22/interview/fen-bu-shi-jian-jie/"/>
+    <id>https://cyylog.github.io/2020/04/22/interview/fen-bu-shi-jian-jie/</id>
+    <published>2020-04-21T17:55:39.000Z</published>
+    <updated>2020-09-28T05:06:30.178Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+&lt;h4 id=&quot;三大-协议&quot;&gt;&lt;a href=&quot;#三大-协议&quot; class=&quot;headerlink&quot; title=&quot;三大 协议&quot;&gt;&lt;/a&gt;三大 协议&lt;/h4&gt;&lt;p&gt;raft zab gossip&lt;/p&gt;
+&lt;p&gt;raft是etcd用的.   </summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
     
   </entry>
   
