@@ -1092,6 +1092,33 @@
     
     
     <entry>
+      <title>ansible-roles</title>
+      <link href="2019/04/18/linux/ansible-roles/"/>
+      <url>2019/04/18/linux/ansible-roles/</url>
+      
+        <content type="html"><![CDATA[<h2 id="ansible-roles"><a href="#ansible-roles" class="headerlink" title="ansible-roles"></a>ansible-roles</h2><h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>roles则是在ansible中，playbooks的目录组织结构。<br>而模块化之后，成为roles的组织结构，易读，代码可重用，层次清晰。</p><h3 id="2-目标"><a href="#2-目标" class="headerlink" title="2.目标"></a>2.目标</h3><p>通过role远程部署nginx并配置</p><h3 id="3-目录结构"><a href="#3-目录结构" class="headerlink" title="3.目录结构"></a>3.目录结构</h3><p>[<img src="https://s1.ax1x.com/2020/09/28/0VbuwT.md.png" alt="0VbuwT.md.png"></p><pre><code>files/：存储由copy或script等模块调用的文件；tasks/：此目录中至少应该有一个名为main.yml的文件，用于定义各task；其它的文件需要由main.yml进行“包含”调用；handlers/：此目录中至少应该有一个名为main.yml的文件，用于定义各handler；其它的文件需要由main.yml进行“包含”调用；vars/：此目录中至少应该有一个名为main.yml的文件，用于定义各variable；其它的文件需要由main.yml进行“包含”调用；templates/：存储由template模块调用的模板文本；meta/：此目录中至少应该有一个名为main.yml的文件，定义当前角色的特殊设定及其依赖关系；其它的文件需要由main.yml进行“包含”调用；default/：此目录中至少应该有一个名为main.yml的文件，用于设定默认变量；</code></pre><p>准备目录结构</p><pre><code>mkdir roles/nginx/{files,handlers,tasks,templates,vars} -ptouch roles/site.yaml roles/nginx/{handlers,tasks,vars}/main.yamlecho tiger &gt; roles/nginx/files/index.htmlyum install -y nginx &amp;&amp; cp /etc/nginx/nginx.conf roles/nginx/templates/nginx.conf.j2</code></pre><h3 id="4-编写任务"><a href="#4-编写任务" class="headerlink" title="4.编写任务"></a>4.编写任务</h3><pre><code>vim roles/nginx/tasks/main.yaml---- name: install nginx packge  yum: name={{ item }} state=latest  with_items:  - epel-release  - nginx- name: copy index.html  copy: src=index.html dest=/usr/share/nginx/html/index.html- name: copy nginx.conf template  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf  notify: restart nginx- name: make sure nginx service running  service: name=nginx state=started enabled=yes</code></pre><h3 id="5-准备配置文件"><a href="#5-准备配置文件" class="headerlink" title="5.准备配置文件"></a>5.准备配置文件</h3><pre><code>vim roles/nginx/templates/nginx.conf.j2worker_processes  {{ ansible_processor_cores }};   //调用内部已知变量worker_connections {{ worker_connections }};    //自定义变量</code></pre><h3 id="6-编写变量"><a href="#6-编写变量" class="headerlink" title="6.编写变量"></a>6.编写变量</h3><pre><code>vim roles/nginx/vars/main.yamlworker_connections: 10240</code></pre><h3 id="7-编写处理程序"><a href="#7-编写处理程序" class="headerlink" title="7.编写处理程序"></a>7.编写处理程序</h3><pre><code>vim roles/nginx/handlers/main.yaml---- name: restart nginx  service: name=nginx state=restarted</code></pre><h3 id="8-编写剧本"><a href="#8-编写剧本" class="headerlink" title="8.编写剧本"></a>8.编写剧本</h3><pre><code>vim roles/site.yaml- hosts: host4  roles:  - nginx</code></pre><h3 id="9-实施"><a href="#9-实施" class="headerlink" title="9.实施"></a>9.实施</h3><pre><code>ansible-playbook site.yaml --syntax-check  //测试ansible-playbook site.yaml    //实施剧本</code></pre><p>验证hosts</p><p><a href="https://imgchr.com/i/0VbwkD" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/09/28/0VbwkD.png" alt="0VbwkD.png"></a></p><p>引用变量案例：</p><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># tree </span><span class="token keyword">.</span>├── site.yml├── templates│   └── order.j2└── vars    └── main.yml2 directories, 3 files</code></pre><p>总调度yml文件：</p><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cat site.yml </span>---- hosts: 192.168.19.154  user: root  vars:  - PROJECT: <span class="token string">"JAVA"</span>    SWITCH: <span class="token string">"ON"</span>    DBPORT: <span class="token string">"8080"</span>  tasks:  - name: create<span class="token punctuation">{</span><span class="token punctuation">{</span> PROJECT <span class="token punctuation">}</span><span class="token punctuation">}</span>directory    file: path<span class="token operator">=</span>/data/<span class="token punctuation">{</span><span class="token punctuation">{</span> PROJECT <span class="token punctuation">}</span><span class="token punctuation">}</span> state<span class="token operator">=</span>directory  - name: template transfor java    template: src<span class="token operator">=</span>order.j2 dest<span class="token operator">=</span>/data/<span class="token punctuation">{</span><span class="token punctuation">{</span> PROJECT <span class="token punctuation">}</span><span class="token punctuation">}</span>/order.conf</code></pre><p>注意:这里 - role: template 和 - template 是一样的！</p><p>其他yml文件，如下：</p><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cat templates/order.j2 </span>project: <span class="token punctuation">{</span><span class="token punctuation">{</span> PROJECT <span class="token punctuation">}</span><span class="token punctuation">}</span>switch: <span class="token punctuation">{</span><span class="token punctuation">{</span> SWITCH <span class="token punctuation">}</span><span class="token punctuation">}</span>dbport: <span class="token punctuation">{</span><span class="token punctuation">{</span> DBPORT <span class="token punctuation">}</span><span class="token punctuation">}</span>测试：<span class="token comment" spellcheck="true"># ansible-playbook templates.yml --syntax-check</span>playbook: templates.yml执行：PLAY <span class="token punctuation">[</span>192.168.19.154<span class="token punctuation">]</span> **********************************************************TASK <span class="token punctuation">[</span>Gathering Facts<span class="token punctuation">]</span> *********************************************************ok: <span class="token punctuation">[</span>192.168.19.154<span class="token punctuation">]</span>TASK <span class="token punctuation">[</span>createJAVAdirectory<span class="token punctuation">]</span> *****************************************************changed: <span class="token punctuation">[</span>192.168.19.154<span class="token punctuation">]</span>TASK <span class="token punctuation">[</span>template transfor java<span class="token punctuation">]</span> **************************************************changed: <span class="token punctuation">[</span>192.168.19.154<span class="token punctuation">]</span>PLAY RECAP *********************************************************************192.168.19.154             <span class="token keyword">:</span> ok<span class="token operator">=</span>3    changed<span class="token operator">=</span>2    unreachable<span class="token operator">=</span>0    failed<span class="token operator">=</span>0 <span class="token comment" spellcheck="true">#cat /data/JAVA/order.conf</span>project: JAVAswitch: ONdbport: 8080</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Tools </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Ansible </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ansible</title>
       <link href="2019/04/16/linux/ansible/"/>
       <url>2019/04/16/linux/ansible/</url>
@@ -1101,14 +1128,16 @@
       
       <categories>
           
-          <category> Linux </category>
+          <category> Tools </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Tools </tag>
+            <tag> Linux </tag>
+            
+            <tag> Ansible </tag>
             
         </tags>
       
