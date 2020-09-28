@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="kubeadm快速部署kubernetes集群, Cyylog">
+    <meta name="keywords" content="网络解析与抓包工具, Cyylog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>kubeadm快速部署kubernetes集群 | Cyylog</title>
+    <title>网络解析与抓包工具 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">kubeadm快速部署kubernetes集群</h1>
+                    <h1 class="description center-align post-title">网络解析与抓包工具</h1>
                 </div>
             </div>
         </div>
@@ -516,8 +516,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
+                            <a href="/tags/Tools/">
+                                <span class="chip bg-color">Tools</span>
                             </a>
                         
                     </div>
@@ -528,8 +528,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                容器
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-17
+                    2020-05-21
                 </div>
                 
 
@@ -559,122 +559,34 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。</p>
-<p>这个工具能通过两条指令完成一个kubernetes集群的部署：</p>
-<pre><code># 创建一个 Master 节点
-$ kubeadm init
-
-# 将一个 Node 节点加入到当前集群中
-$ kubeadm join &lt;Master节点的IP和端口 &gt;</code></pre><h2 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
+<h1 id="网络解析与抓包–简介"><a href="#网络解析与抓包–简介" class="headerlink" title="网络解析与抓包–简介"></a>网络解析与抓包–简介</h1><p>本文简述一下内容：</p>
+<p>TCP三次握手和四次挥手</p>
+<p>网络分析工具tcpdump抓包</p>
+<p><strong>No.1 tcp三次握手和四次挥手</strong></p>
+<p>—确认ACK, 仅当ACK=1时, 确认号字段才有效. TCP规定在连接建立后所有报文的传输都必须把ACK置1</p>
+<p>—同步SYN, 在连接建立时用来同步序号. 当SYN=1 ACK=0 表明是连接请求报文, 若同意连接则响应报文中应该使SYN=1 ACK=1</p>
+<p>—终止FIN, 用来释放连接. 当FIN=1表明此报文的发送方的数据已经发送完毕并且要求释放</p>
+<p>三次握手_建立连接</p>
 <ul>
-<li>一台或多台机器，操作系统 CentOS7.x-86_x64</li>
-<li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多</li>
-<li>集群中所有机器之间网络互通</li>
-<li>可以访问外网，需要拉取镜像</li>
-<li>禁止swap分区</li>
+<li>第一次握手:Client将标志位SYN置为1, 随机产生一个值seq=x, 并将该数据包发送给Server, Client进入SYN_SENT状态, 等待Server确认</li>
+<li>第二次握手:Server收到数据包后由标志位SYN=1知道Client请求建立连接, Server将标志位SYN和ACK都置为1, ack=x+1, 随机产生一个值seq=y, 并将该数据包发送给Client以确认连接请求, Server进入SYN_RCVD状态</li>
+<li>第三次握手: Client收到确认后, 检查ack是否为x+1, ACK是否为1, 如果正确则将标志位ACK置为1, ack=y+1并将该数据包发送给Server, Server检查ack是否为y+1, ACK是否为1, 如果正确则连接建立成功, Client和Server进入ESTABLISHED状态, 完成三次握手, 随后Client与Server之间可以开始传输数据了</li>
 </ul>
-<h2 id="2-学习目标"><a href="#2-学习目标" class="headerlink" title="2. 学习目标"></a>2. 学习目标</h2><ol>
-<li>在所有节点上安装Docker和kubeadm</li>
-<li>部署Kubernetes Master</li>
-<li>部署容器网络插件</li>
-<li>部署 Kubernetes Node，将节点加入Kubernetes集群中</li>
-<li>部署Dashboard Web页面，可视化查看Kubernetes资源</li>
-</ol>
-<h2 id="3-准备环境"><a href="#3-准备环境" class="headerlink" title="3. 准备环境"></a>3. 准备环境</h2><p><img src="http://p9.pstatp.com/large/pgc-image/d244ddcca380403e816a8705da3898c6" alt="kubeadm快速部署kubernetes集群"></p>
-<p>Kubernetes 架构图</p>
-<p><img src="http://p3.pstatp.com/large/pgc-image/8f8781176b8d4670b94214caa934d880" alt="kubeadm快速部署kubernetes集群"></p>
-<p>Kubernetes 架构图</p>
-<pre><code>关闭防火墙：
-$ systemctl stop firewalld
-$ systemctl disable firewalld
-
-关闭selinux：
-$ sed -i &#39;s/enforcing/disabled/&#39; /etc/selinux/config 
-$ setenforce 0
-
-关闭swap：
-$ swapoff -a  $ 临时
-$ vim /etc/fstab  $ 永久
-
-添加主机名与IP对应关系（记得设置主机名）：
-$ cat /etc/hosts
-192.168.31.63 k8s-master
-192.168.31.65 k8s-node1
-192.168.31.66 k8s-node2
-
-将桥接的IPv4流量传递到iptables的链：
-$ cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-$ sysctl --system</code></pre><h2 id="4-所有节点安装Docker-kubeadm-kubelet"><a href="#4-所有节点安装Docker-kubeadm-kubelet" class="headerlink" title="4. 所有节点安装Docker/kubeadm/kubelet"></a>4. 所有节点安装Docker/kubeadm/kubelet</h2><p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。</p>
-<h3 id="4-1-安装Docker"><a href="#4-1-安装Docker" class="headerlink" title="4.1 安装Docker"></a>4.1 安装Docker</h3><pre><code>$ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
-$ yum -y install docker-ce-18.06.1.ce-3.el7
-$ systemctl enable docker &amp;&amp; systemctl start docker
-$ docker --version
-Docker version 18.06.1-ce, build e68fc7a</code></pre><h3 id="4-2-添加阿里云YUM软件源"><a href="#4-2-添加阿里云YUM软件源" class="headerlink" title="4.2 添加阿里云YUM软件源"></a>4.2 添加阿里云YUM软件源</h3><pre><code>$ cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF
-[kubernetes]
-name=Kubernetes
-baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
-EOF</code></pre><h3 id="4-3-安装kubeadm，kubelet和kubectl"><a href="#4-3-安装kubeadm，kubelet和kubectl" class="headerlink" title="4.3 安装kubeadm，kubelet和kubectl"></a>4.3 安装kubeadm，kubelet和kubectl</h3><p>由于版本更新频繁，这里指定版本号部署：</p>
-<pre><code>$ yum install -y kubelet-1.14.0 kubeadm-1.14.0 kubectl-1.14.0
-$ systemctl enable kubelet</code></pre><h2 id="5-部署Kubernetes-Master"><a href="#5-部署Kubernetes-Master" class="headerlink" title="5. 部署Kubernetes Master"></a>5. 部署Kubernetes Master</h2><p>在192.168.31.63（Master）执行。</p>
-<pre><code>$ kubeadm init \
-  --apiserver-advertise-address=192.168.31.63 \
-  --image-repository registry.aliyuncs.com/google_containers \
-  --kubernetes-version v1.14.0 \
-  --service-cidr=10.1.0.0/16 \
-  --pod-network-cidr=10.244.0.0/16</code></pre><p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址。</p>
-<p>使用kubectl工具：</p>
-<pre><code>mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-$ kubectl get nodes</code></pre><h2 id="6-安装Pod网络插件（CNI）"><a href="#6-安装Pod网络插件（CNI）" class="headerlink" title="6. 安装Pod网络插件（CNI）"></a>6. 安装Pod网络插件（CNI）</h2><pre><code>$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml</code></pre><p>确保能够访问到quay.io这个registery。 master执行</p>
-<p># kubectl get pods -n kube-system</p>
-<h2 id="7-加入Kubernetes-Node"><a href="#7-加入Kubernetes-Node" class="headerlink" title="7. 加入Kubernetes Node"></a>7. 加入Kubernetes Node</h2><p>在192.168.31.65/66（Node）执行。</p>
-<p>向集群添加新节点，执行在kubeadm init输出的kubeadm join命令：</p>
-<pre><code>$  kubeadm join 192.168.31.63:6443 --token l79g5t.6ov4jkddwqki1dxe --discovery-token-ca-cert-hash sha256:4f07f9068c543130461c9db368d62b4aabc22105451057f887defa35f47fa076</code></pre><h2 id="8-测试kubernetes集群"><a href="#8-测试kubernetes集群" class="headerlink" title="8. 测试kubernetes集群"></a>8. 测试kubernetes集群</h2><p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
-<pre><code>$ kubectl create deployment nginx --image=nginx
-$ kubectl expose deployment nginx --port=80 --type=NodePort
-$ kubectl get pod,svc
-$ kubectl get pod,svc -o wide</code></pre><p>访问地址：<a href="http://NodeIP:Port">http://NodeIP:Port</a></p>
-<h2 id="9-部署-Dashboard"><a href="#9-部署-Dashboard" class="headerlink" title="9. 部署 Dashboard"></a>9. 部署 Dashboard</h2><pre><code>$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
-
-镜像下载因为网络的原因：
-镜像难以下载，需要修改以下两个地方
-        image: tigerfive/kubernetes-dashboard-amd64:v1.10.1
-
-
-spec:
-  type: NodePort
-  ports:
-    - port: 443
-      targetPort: 8443
-</code></pre><p>默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部：</p>
-<pre><code>kind: Service
-apiVersion: v1
-metadata:
-  labels:
-    k8s-app: kubernetes-dashboard
-  name: kubernetes-dashboard
-  namespace: kube-system
-spec:
-  type: NodePort
-  ports:
-    - port: 443
-      targetPort: 8443
-      nodePort: 30001
-  selector:
-    k8s-app: kubernetes-dashboard
-$ kubectl apply -f kubernetes-dashboard.yaml</code></pre><p>访问地址：<a href="http://NodeIP:30001" target="_blank" rel="noopener">http://NodeIP:30001</a></p>
-<p>创建service account并绑定默认cluster-admin管理员集群角色：</p>
-<pre><code>$ kubectl create serviceaccount dashboard-admin -n kube-system
-$ kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kube-system:dashboard-admin
-$ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | awk &#39;/dashboard-admin/{print $1}&#39;)</code></pre><p>使用输出的token登录Dashboard。</p>
+<p><img src="http://pb3.pstatp.com/large/pgc-image/b58d300a5a7c45e7ae396651edf473a7" alt="img"></p>
+<p>四次挥手_断开连接</p>
+<ul>
+<li>第一次挥手：Client发送一个FIN, 用来关闭Client到Server的数据传送, Client进入FIN_WAIT_1状态</li>
+<li>第二次挥手：Server收到FIN后, 发送一个ACK给Client, 确认序号为收到序号+1, Server进入CLOSE_WAIT状</li>
+<li>第三次挥手：Server发送一个FIN, 用来关闭Server到Client的数据传送, Server进入LAST_ACK状态</li>
+<li>第四次挥手：Client收到FIN后, Client进入TIME_WAIT状态, 接着发送一个ACK给Server, 确认序号为收到序号+1, Server进入CLOSED状态, 完成四次挥手</li>
+</ul>
+<p><img src="http://pb3.pstatp.com/large/pgc-image/5ab36dab139a42e6be52ff4976cc84ea" alt="img"></p>
+<p><strong>No.2 网络分析工具tcpdump抓包</strong></p>
+<p>抓取tcp的三次握手</p>
+<p>tcpdump -S host 192.168.0.108 and 151.101.100.133</p>
+<p><img src="http://pb3.pstatp.com/large/pgc-image/cde15b7285c641cd9ce597ecebf0599e" alt="img"></p>
+<p>抓取tcp的四次挥手</p>
+<p>（算了，懒得写了）在上方的基础上断开连接即可</p>
 
             </div>
             <hr/>
@@ -700,7 +612,7 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/">https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</a>
+                    <a href="https://cyylog.github.io/2020/05/21/wang-luo-jie-xi-yu-zhua-bao-gong-ju/">https://cyylog.github.io/2020/05/21/wang-luo-jie-xi-yu-zhua-bao-gong-ju/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -738,8 +650,8 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
+                                <a href="/tags/Tools/">
+                                    <span class="chip bg-color">Tools</span>
                                 </a>
                             
                         </div>
@@ -914,32 +826,31 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/21/xshell-tu-chu-xian-shi-ji/">
+                <a href="/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="xshell突出显示集">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Jenkins_流水线语法_001">
                         
-                        <span class="card-title">xshell突出显示集</span>
+                        <span class="card-title">Jenkins_流水线语法_001</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            [xshell突出显示集]xshell突出显示集（参考mobaxterm，直接拷贝过来不行，应该是xshell对正则表达式的支持不够好）:Underline:
-\b(http(s)?://[A-Za-z0-9_./&?=%~#{}()@+-
+                            流水线语法本节是建立在 流水线入门内容的基础上，而且，应当被当作一个参考。 对于在实际示例中如何使用流水线语法的更多信息, 请参阅本章在流水线插件的2.5版本中的 使用 Jenkinsfile部分, 流水线支持两种离散的语法，具体如下对于每
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-21
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-28
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/DevOps/" class="post-category">
+                                    DevOps
                                 </a>
                             
                             
@@ -949,8 +860,8 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Tools/">
-                        <span class="chip bg-color">Tools</span>
+                    <a href="/tags/Jenkins/">
+                        <span class="chip bg-color">Jenkins</span>
                     </a>
                     
                 </div>
@@ -964,13 +875,13 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/14/rong-qi/kubernetes-ru-men/">
+                <a href="/2020/04/22/interview/interview-go-001/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Kubernetes入门">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Interview Go_001--undone">
                         
-                        <span class="card-title">Kubernetes入门</span>
+                        <span class="card-title">Interview Go_001--undone</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -978,19 +889,24 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
                         
                             
 
-Kubernetes功能​        官方定义k8s能够对容器化软件进行部署管理，在不停机的前提下提供简单快速的发布和更新方式。换句话说，如果项目需要多机器节点的微服务架构，并且采用Docker image（镜像）进行容器化部署，那
+go：
+超时退出
+context的初始形态？怎么使用contenxt？
+wait group的使用？不加add直接wait是否会panic？
+new和make有什么区别？哪个可以初始化内存为0？
+runtime是什么？runtime属于
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
                                 </a>
                             
                             
@@ -1000,8 +916,8 @@ Kubernetes功能​        官方定义k8s能够对容器化软件进行部署�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>
