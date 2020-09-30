@@ -559,18 +559,13 @@
             <div id="articleContent">
                 <a id="more"></a>
 
-<p><strong>操作系统：</strong></p>
-<pre><code>[root@cyylog ~]# uname -m
+<h5 id="操作系统："><a href="#操作系统：" class="headerlink" title="操作系统："></a><strong>操作系统：</strong></h5><pre><code>[root@cyylog ~]# uname -m
 x86_64
 [root@cyylog ~]# cat /etc/redhat-release 
-CentOS Linux release 7.2.1511 (Core) </code></pre><h1 id="安装前的准备："><a href="#安装前的准备：" class="headerlink" title="安装前的准备："></a><strong>安装前的准备：</strong></h1><p><strong>1. 修改主机名</strong></p>
-<pre><code>#sed -i &quot;s/HOSTNAME=localhost.localdomain/HOSTNAME=oracledb/&quot; /etc/sysconfig/network</code></pre><p><strong>2.添加主机名与IP对应记录</strong></p>
-<pre><code># vim /etc/hosts 
-192.168.0.9 oracledb</code></pre><p><strong>3.关闭Selinux</strong></p>
-<pre><code># sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/&quot; /etc/selinux/config 
+CentOS Linux release 7.2.1511 (Core) </code></pre><h1 id="安装前的准备："><a href="#安装前的准备：" class="headerlink" title="安装前的准备："></a><strong>安装前的准备：</strong></h1><h5 id="1-修改主机名"><a href="#1-修改主机名" class="headerlink" title="1. 修改主机名"></a><strong>1. 修改主机名</strong></h5><pre><code>#sed -i &quot;s/HOSTNAME=localhost.localdomain/HOSTNAME=oracledb/&quot; /etc/sysconfig/network</code></pre><h5 id="2-添加主机名与IP对应记录"><a href="#2-添加主机名与IP对应记录" class="headerlink" title="2.添加主机名与IP对应记录"></a><strong>2.添加主机名与IP对应记录</strong></h5><pre><code># vim /etc/hosts 
+192.168.0.9 oracledb</code></pre><h5 id="3-关闭Selinux"><a href="#3-关闭Selinux" class="headerlink" title="3.关闭Selinux"></a><strong>3.关闭Selinux</strong></h5><pre><code># sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/&quot; /etc/selinux/config 
 
-# setenforce 0 </code></pre><p><strong>4.检查是否有swap分区.</strong></p>
-<p>(我的机器是没有这个,所有后面有报错) Linux一切皆文件,没有就自己造一个</p>
+# setenforce 0 </code></pre><h5 id="4-检查是否有swap分区"><a href="#4-检查是否有swap分区" class="headerlink" title="4.检查是否有swap分区."></a><strong>4.检查是否有swap分区.</strong></h5><p>(我的机器是没有这个,所有后面有报错) Linux一切皆文件,没有就自己造一个</p>
 <pre><code>1、检查 Swap 空间在设置 Swap 文件之前，有必要先检查一下系统里有没有既存的 Swap 文件。运行以下命令：
 
 # swapon -s
@@ -609,15 +604,14 @@ CentOS Linux release 7.2.1511 (Core) </code></pre><h1 id="安装前的准备："
 
 # chown root:root /swapfile 
 # chmod 0600 /swapfile
-</code></pre><p><strong>5.安装常用工具,配置阿里源</strong></p>
-<p>(个人习惯,在使用的主机上面配置这些常用工具)</p>
+</code></pre><h5 id="5-安装常用工具-配置阿里源"><a href="#5-安装常用工具-配置阿里源" class="headerlink" title="5.安装常用工具,配置阿里源"></a><strong>5.安装常用工具,配置阿里源</strong></h5><p>(个人习惯,在使用的主机上面配置这些常用工具)</p>
 <pre><code># curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 # curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 # yum clean all
 # yum makecache fast
 
 # yum install -y wget ntpdate net-tools vim bash-completion ShellCheck
-# ntpdate -b ntp1.aliyun.com</code></pre><h1 id="安装软件包："><a href="#安装软件包：" class="headerlink" title="安装软件包："></a><strong>安装软件包：</strong></h1><p>参考官方：<a href="http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD" target="_blank" rel="noopener">http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD</a></p>
+# ntpdate -b ntp1.aliyun.com</code></pre><h4 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h4><p>参考官方：<a href="http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD" target="_blank" rel="noopener">http://docs.oracle.com/cd/E11882_01/install.112/e24326/toc.htm#BHCCADGD</a></p>
 <ul>
 <li>The following or later version of packages for Oracle Linux 7, and Red Hat Enterprise Linux 7 must be installed:</li>
 </ul>
@@ -681,9 +675,7 @@ sysstat-10.1.5-1.el7.x86_64
 unixODBC-2.3.1-6.el7.x86_64 or later
 unixODBC-2.3.1-6.el7.i686 or later
 unixODBC-devel-2.3.1-6.el7.x86_64 or later
-unixODBC-devel-2.3.1-6.el7.i686 or later</code></pre><p><strong>用yum进行安装</strong></p>
-<pre><code>yum -y install binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33*i686 compat-libstdc++-33*.devel compat-libstdc++-33 compat-libstdc++-33*.devel gcc gcc-c++ glibc glibc*.i686 glibc-devel glibc-devel*.i686 ksh libaio libaio*.i686 libaio-devel libaio-devel*.devel libgcc libgcc*.i686 libstdc++ libstdc++*.i686 libstdc++-devel libstdc++-devel*.devel libXi libXi*.i686 libXtst libXtst*.i686 make sysstat unixODBC unixODBC*.i686 unixODBC-devel unixODBC-devel*.i686</code></pre><p><strong>检测是否31个包都有安装</strong></p>
-<p>开放源码绿色蓝色按钮样式</p>
+unixODBC-devel-2.3.1-6.el7.i686 or later</code></pre><h5 id="用yum进行安装"><a href="#用yum进行安装" class="headerlink" title="用yum进行安装"></a><strong>用yum进行安装</strong></h5><pre><code>yum -y install binutils compat-libcap1 compat-libstdc++-33 compat-libstdc++-33*i686 compat-libstdc++-33*.devel compat-libstdc++-33 compat-libstdc++-33*.devel gcc gcc-c++ glibc glibc*.i686 glibc-devel glibc-devel*.i686 ksh libaio libaio*.i686 libaio-devel libaio-devel*.devel libgcc libgcc*.i686 libstdc++ libstdc++*.i686 libstdc++-devel libstdc++-devel*.devel libXi libXi*.i686 libXtst libXtst*.i686 make sysstat unixODBC unixODBC*.i686 unixODBC-devel unixODBC-devel*.i686</code></pre><h5 id="检测是否31个包都有安装"><a href="#检测是否31个包都有安装" class="headerlink" title="检测是否31个包都有安装"></a><strong>检测是否31个包都有安装</strong></h5><p>开放源码绿色蓝色按钮样式</p>
 <pre><code>[root@cyylog ~]# rpm -q binutils compat-libcap1 compat-libstdc++-33 gcc gcc-c++ glibc glibc-devel ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel libXi libXtst make sysstat unixODBC unixODBC-devel
 binutils-2.23.52.0.1-55.el7.x86_64
 compat-libcap1-1.10-7.el7.x86_64
@@ -722,7 +714,7 @@ unixODBC-devel-2.3.1-11.el7.i686</code></pre><p>版本号只能大于规定的�
 <pre><code># useradd -g oinstall -G dba oracle</code></pre><p>设置oracle用户密码</p>
 <pre><code># passwd oracle</code></pre><p>验证创建是否正确</p>
 <pre><code>[root@cyylog ~]# id oracle
-uid=1000(oracle) gid=1000(oinstall) groups=1000(oinstall),1001(dba)</code></pre><h1 id="配置内核参数"><a href="#配置内核参数" class="headerlink" title="配置内核参数"></a>配置内核参数</h1><pre><code>[root@cyylog ~]# vim /etc/sysctl.conf 
+uid=1000(oracle) gid=1000(oinstall) groups=1000(oinstall),1001(dba)</code></pre><h5 id="配置内核参数"><a href="#配置内核参数" class="headerlink" title="配置内核参数"></a>配置内核参数</h5><pre><code>[root@cyylog ~]# vim /etc/sysctl.conf 
 
 # System default settings live in /usr/lib/sysctl.d/00-system.conf.
 # To override those settings, enter new settings here, or in an /etc/sysctl.d/&lt;name&gt;.conf file
@@ -1257,10 +1249,8 @@ System Identifier(SID):dbsrv2</code></pre><p><strong>至此完成数据库实例
                             
 
 步骤：
-1：查看ORACLE_HOME是否设置
-$ echo $ORACLE_HOME
-/u01/app/oracle/product/11.2.0/db_12：执行dbstart 数据库自带启动脚本
-[oracle@njdzjkdb 
+1：查看ORACLE_HOME是否设置$ echo $ORACLE_HOME
+/u01/app/oracle/product/11.2.0/db_12：执行dbstart 数据库自带启动脚本[oracle@njdzjkdb ~]
                         
                     </div>
                     <div class="publish-info">
