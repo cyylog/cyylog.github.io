@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-09-28T15:17:13.849Z</updated>
+  <updated>2020-09-30T05:50:48.822Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>运维工程师</title>
+    <link href="https://cyylog.github.io/10007/06/07/si-wei-dao-tu/"/>
+    <id>https://cyylog.github.io/10007/06/07/si-wei-dao-tu/</id>
+    <published>+010007-06-06T16:24:11.000Z</published>
+    <updated>2020-09-30T05:50:48.822Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://s1.ax1x.com/2020/09/29/0evdtx.png&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Mycat</title>
@@ -515,33 +540,6 @@
     <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 
 &lt;h3 id=&quot;JVM-运维实用排障工具&quot;&gt;&lt;a href=&quot;#JVM-运维实用排障工具&quot; class=&quot;headerlink&quot; title=&quot;JVM 运维实用排障工具&quot;&gt;&lt;/a&gt;JVM 运维实用排障工具&lt;/h3&gt;&lt;h4</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="Tomcat" scheme="https://cyylog.github.io/tags/Tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tomcat_04_安全优化</title>
-    <link href="https://cyylog.github.io/2020/03/30/linux/tomcat/tomcat-04/"/>
-    <id>https://cyylog.github.io/2020/03/30/linux/tomcat/tomcat-04/</id>
-    <published>2020-03-29T16:36:31.000Z</published>
-    <updated>2020-05-25T13:58:16.512Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h4 id=&quot;10、Tomcat安全优化&quot;&gt;&lt;a href=&quot;#10、Tomcat安全优化&quot; class=&quot;headerlink&quot; title=&quot;10、Tomcat安全优化&quot;&gt;&lt;/a&gt;10、Tomcat安全优化&lt;/h4&gt;&lt;h5</summary>
         
       
     
