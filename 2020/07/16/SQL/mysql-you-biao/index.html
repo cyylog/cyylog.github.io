@@ -557,14 +557,14 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="mysql游标的用法及作用"><a href="#mysql游标的用法及作用" class="headerlink" title="[mysql游标的用法及作用]"></a>[mysql游标的用法及作用]</h1><p>例子：</p>
+                <h5 id="mysql游标的用法及作用"><a href="#mysql游标的用法及作用" class="headerlink" title="[mysql游标的用法及作用]"></a>[mysql游标的用法及作用]</h5><p>例子：</p>
 <p>当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；<br>常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据，<br>难道要执行2000多次？显然是不现实的；最终找到写一个存储过程然后通过循环来更新C表，<br>然而存储过程中的写法用的就是游标的形式。</p>
-<h1 id="【简介】"><a href="#【简介】" class="headerlink" title="【简介】"></a>【简介】</h1><p>​    游标实际上是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。</p>
+<h5 id="【简介】"><a href="#【简介】" class="headerlink" title="【简介】"></a>【简介】</h5><p>​    游标实际上是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。</p>
 <p>​    游标充当指针的作用。</p>
 <p>​    尽管游标能遍历结果中的所有行，但他一次只指向一行。</p>
 <p>​    游标的作用就是用于对查询数据库所返回的记录进行遍历，以便进行相应的操作。</p>
-<h1 id="【用法】"><a href="#【用法】" class="headerlink" title="【用法】"></a>【用法】</h1><p>​    一、声明一个游标: declare 游标名称 CURSOR for table;(这里的table可以是你查询出来的任意集合)<br>​    二、打开定义的游标:open 游标名称;<br>​    三、获得下一行数据:FETCH  游标名称 into testrangeid,versionid;<br>​    四、需要执行的语句(增删改查):这里视具体情况而定<br>​    五、释放游标:CLOSE 游标名称;<br>  注:mysql存储过程每一句后面必须用;结尾，使用的临时字段需要在定义游标之前进行声明。</p>
-<h1 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a>【实例】</h1><pre class=" language-sql"><code class="language-sql"><span class="token operator">-</span>  
+<h5 id="【用法】"><a href="#【用法】" class="headerlink" title="【用法】"></a>【用法】</h5><p>​    一、声明一个游标: declare 游标名称 CURSOR for table;(这里的table可以是你查询出来的任意集合)<br>​    二、打开定义的游标:open 游标名称;<br>​    三、获得下一行数据:FETCH  游标名称 into testrangeid,versionid;<br>​    四、需要执行的语句(增删改查):这里视具体情况而定<br>​    五、释放游标:CLOSE 游标名称;<br>  注:mysql存储过程每一句后面必须用;结尾，使用的临时字段需要在定义游标之前进行声明。</p>
+<h5 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a>【实例】</h5><pre class=" language-sql"><code class="language-sql"><span class="token operator">-</span>  
 <span class="token keyword">BEGIN</span>  
 
 <span class="token comment" spellcheck="true">--定义变量  </span>
@@ -696,7 +696,7 @@
 <span class="token keyword">END</span><span class="token punctuation">;</span>  
 
 <span class="token keyword">call</span> StatisticStore2<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="游标嵌套"><a href="#游标嵌套" class="headerlink" title="游标嵌套"></a>游标嵌套</h3><p>在mysql中，每个begin end 块都是一个独立的scope区域，由于MySql中同一个error的事件只能定义一次，如果多定义的话在编译时会提示Duplicate handler declared in the same block。</p>
+<h5 id="游标嵌套"><a href="#游标嵌套" class="headerlink" title="游标嵌套"></a>游标嵌套</h5><p>在mysql中，每个begin end 块都是一个独立的scope区域，由于MySql中同一个error的事件只能定义一次，如果多定义的话在编译时会提示Duplicate handler declared in the same block。</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> StatisticStore3<span class="token punctuation">;</span>  
 <span class="token keyword">CREATE</span> <span class="token keyword">PROCEDURE</span> StatisticStore3<span class="token punctuation">(</span><span class="token punctuation">)</span>  
 <span class="token keyword">BEGIN</span>  
@@ -757,7 +757,7 @@
 
 <span class="token keyword">call</span> StatisticStore3<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  </code></pre>
 <p>上面就是实现一个嵌套循环，当然这个例子比较牵强。凑合看看就行。</p>
-<h3 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h3><p>Mysql 支持动态SQL的功能</p>
+<h5 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h5><p>Mysql 支持动态SQL的功能</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token variable">@sqlStr</span><span class="token operator">=</span><span class="token string">'select * from table where condition1 = ?'</span><span class="token punctuation">;</span>  
 prepare s1 <span class="token keyword">for</span> <span class="token variable">@sqlStr</span><span class="token punctuation">;</span>  
 <span class="token comment" spellcheck="true">--如果有多个参数用逗号分隔  </span>
