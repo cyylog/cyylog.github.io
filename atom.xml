@@ -69,6 +69,31 @@
   </entry>
   
   <entry>
+    <title>gitlab-ci</title>
+    <link href="https://cyylog.github.io/2020/09/26/devops/gitlab-ci-ru-men/"/>
+    <id>https://cyylog.github.io/2020/09/26/devops/gitlab-ci-ru-men/</id>
+    <published>2020-09-26T12:30:39.000Z</published>
+    <updated>2020-10-01T14:49:25.878Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;gitlab-ci入门&quot;&gt;&lt;a href=&quot;#gitlab-ci入门&quot; class=&quot;headerlink&quot; title=&quot;gitlab-ci入门&quot;&gt;&lt;/a&gt;gitlab-ci入门&lt;/h5&gt;&lt;h6 id=&quot;示范：&quot;&gt;&lt;a href=&quot;#示范：&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    
+    
+    <category term="Gitlab" scheme="https://cyylog.github.io/tags/Gitlab/"/>
+    
+  </entry>
+  
+  <entry>
     <title>搭建 NFS 服务</title>
     <link href="https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/"/>
     <id>https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/</id>
@@ -94,31 +119,6 @@
     
     
     <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>gitlab-ci</title>
-    <link href="https://cyylog.github.io/2020/09/20/devops/gitlab-ci-ru-men/"/>
-    <id>https://cyylog.github.io/2020/09/20/devops/gitlab-ci-ru-men/</id>
-    <published>2020-09-20T12:30:39.000Z</published>
-    <updated>2020-10-01T14:46:54.100Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h5 id=&quot;gitlab-ci入门&quot;&gt;&lt;a href=&quot;#gitlab-ci入门&quot; class=&quot;headerlink&quot; title=&quot;gitlab-ci入门&quot;&gt;&lt;/a&gt;gitlab-ci入门&lt;/h5&gt;&lt;h6 id=&quot;示范：&quot;&gt;&lt;a href=&quot;#示范：&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Gitlab" scheme="https://cyylog.github.io/tags/Gitlab/"/>
     
   </entry>
   
