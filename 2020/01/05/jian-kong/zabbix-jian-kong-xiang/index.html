@@ -557,15 +557,9 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <a id="more"></a>
-
-<ul>
-<li><img src="https://sf3-ttcdn-tos.pstatp.com/img/user-avatar/e6b34034d49299efa443ddeafa9643a9~120x256.image" alt="img"> </li>
-</ul>
-<h1 id="Zabbix-监控"><a href="#Zabbix-监控" class="headerlink" title="Zabbix 监控"></a>Zabbix 监控</h1><p>cyylog 2020-04-07 22:08:29</p>
-<h1 id="Zabbix监控什么？"><a href="#Zabbix监控什么？" class="headerlink" title="Zabbix监控什么？"></a>Zabbix监控什么？</h1><p><img src="http://p1.pstatp.com/large/pgc-image/1ee9df63b32b4108a8537cc27eb9252b" alt="Zabbix 监控"></p>
+                <h4 id="Zabbix监控什么？"><a href="#Zabbix监控什么？" class="headerlink" title="Zabbix监控什么？"></a>Zabbix监控什么？</h4><p><img src="http://p1.pstatp.com/large/pgc-image/1ee9df63b32b4108a8537cc27eb9252b" alt="Zabbix 监控"></p>
 <p>监控项</p>
-<h1 id="Zabbix常用监控项"><a href="#Zabbix常用监控项" class="headerlink" title="Zabbix常用监控项"></a>Zabbix常用监控项</h1><p><strong>zabbix自带的常用监控项</strong></p>
+<h4 id="Zabbix常用监控项"><a href="#Zabbix常用监控项" class="headerlink" title="Zabbix常用监控项"></a>Zabbix常用监控项</h4><p><strong>zabbix自带的常用监控项</strong></p>
 <pre><code>agent.ping 检测客户端可达性、返回nothing表示不可达。1表示可达
 system.cpu.load --检测cpu负载。返回浮点数
 system.cpu.util -- 检测cpu使用率。返回浮点数
@@ -574,7 +568,7 @@ vfs.dev.write -- 检测硬盘写入数据。返回是sps.ops.bps浮点类型，�
 net.if.out[br0] --检测网卡流速、流出方向，时间间隔为60S
 net-if-in[br0] --检测网卡流速，流入方向（单位：字节） 时间间隔60S
 proc.num[]  目前系统中的进程总数，时间间隔60s
-proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</code></pre><h4 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h4><pre><code>通过zabbix_get 获取负载值
+proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</code></pre><h5 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h5><pre><code>通过zabbix_get 获取负载值
 合理的控制用户态、系统态、IO等待时间剋保证进程高效率的运行
 系统态运行时间较高说明进程进行系统调用的次数比较多，一般的程序如果系统态运行时间占用过高就需要优化程序，减少系统调用
 io等待时间过高则表明硬盘的io性能差，如果是读写文件比较频繁、读写效率要求比较高，可以考虑更换硬盘，或者使用多磁盘做raid的方案

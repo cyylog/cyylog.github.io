@@ -557,11 +557,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <a id="more"></a>
-
-
-
-<h1 id="zabbix-微信报警设置"><a href="#zabbix-微信报警设置" class="headerlink" title="zabbix 微信报警设置"></a>zabbix 微信报警设置</h1><h3 id="一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret："><a href="#一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret：" class="headerlink" title="一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret："></a>一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret：</h3><h5 id="1-获取企业ID"><a href="#1-获取企业ID" class="headerlink" title="1.获取企业ID"></a>1.获取企业ID</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0OeUI.png" alt="J0OeUI.png"></p>
+                <h2 id="zabbix-微信报警设置"><a href="#zabbix-微信报警设置" class="headerlink" title="zabbix 微信报警设置"></a>zabbix 微信报警设置</h2><h4 id="一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret："><a href="#一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret：" class="headerlink" title="一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret："></a>一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret：</h4><h5 id="1-获取企业ID"><a href="#1-获取企业ID" class="headerlink" title="1.获取企业ID"></a>1.获取企业ID</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0OeUI.png" alt="J0OeUI.png"></p>
 <h5 id="2-获取AgentId-和Secret3"><a href="#2-获取AgentId-和Secret3" class="headerlink" title="2.获取AgentId,和Secret3"></a>2.获取AgentId,和Secret3</h5><p>这里要先点通讯录创建一个部门，然后再点应用小程序创建应用，填写logo、名称、和选择部门就可以了</p>
 <p><a href="https://imgchr.com/i/J0Om5t" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0Om5t.png" alt="J0Om5t.png"></a></p>
 <h5 id="3-获取用户账号"><a href="#3-获取用户账号" class="headerlink" title="3.获取用户账号"></a>3.获取用户账号</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0OYan.png" alt="J0OYan.png"></p>
@@ -570,7 +566,7 @@
 <p>这里看到有HTTP/1.1 200 OK 就说明接口有效了，其它的不管。</p>
 <p><img src="https://s1.ax1x.com/2020/04/24/J0OyZ9.png" alt="J0OyZ9.png"></p>
 <p><img src="https://s1.ax1x.com/2020/04/24/J0O2Px.png" alt="J0O2Px.png"></p>
-<h3 id="二、调用的shell脚本方式，脚本如下："><a href="#二、调用的shell脚本方式，脚本如下：" class="headerlink" title="二、调用的shell脚本方式，脚本如下："></a>二、调用的shell脚本方式，脚本如下：</h3><h5 id="这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。"><a href="#这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。" class="headerlink" title="这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。"></a>这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0O7dA.png" alt="J0O7dA.png"></p>
+<h4 id="二、调用的shell脚本方式，脚本如下："><a href="#二、调用的shell脚本方式，脚本如下：" class="headerlink" title="二、调用的shell脚本方式，脚本如下："></a>二、调用的shell脚本方式，脚本如下：</h4><h6 id="这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。"><a href="#这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。" class="headerlink" title="这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。"></a>这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。</h6><p><img src="https://s1.ax1x.com/2020/04/24/J0O7dA.png" alt="J0O7dA.png"></p>
 <pre class=" language-shell"><code class="language-shell">[root@cyy alertscripts]# vim wechat.sh
 
 
@@ -639,7 +635,7 @@ echo
 [root@cyy alertscripts]# ./wechat.sh  "这里一个测试"     //可以这样直接调试，然后登陆到企业微信查看该部门的群成员是否收到此信息
 
 脚本测试通过后就是在zabbix控制台上设置了</code></pre>
-<h3 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h3><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
+<h4 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h4><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
 <pre class=" language-shell"><code class="language-shell">--AgentID=1000002
 
 --CorpID=ww74c********56c    
