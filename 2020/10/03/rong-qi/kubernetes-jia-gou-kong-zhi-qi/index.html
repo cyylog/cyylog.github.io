@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="搭建 NFS 服务, Cyylog">
+    <meta name="keywords" content="Kubernetes架构—控制器, Cyylog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>搭建 NFS 服务 | Cyylog</title>
+    <title>Kubernetes架构—控制器 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">搭建 NFS 服务</h1>
+                    <h1 class="description center-align post-title">Kubernetes架构—控制器</h1>
                 </div>
             </div>
         </div>
@@ -516,8 +516,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/NFS/">
-                                <span class="chip bg-color">NFS</span>
+                            <a href="/tags/Kubernetes/">
+                                <span class="chip bg-color">Kubernetes</span>
                             </a>
                         
                     </div>
@@ -528,8 +528,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                容器
                             </a>
                         
                     </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-09-24
+                    2020-10-03
                 </div>
                 
 
@@ -557,116 +557,37 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <a id="more"></a>
-
-<p>目的：部署 NFS 服务进行跨主机文件共享</p>
-<p>Network File System<br>      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。</p>
-<h3 id="1、环境准备"><a href="#1、环境准备" class="headerlink" title="1、环境准备"></a>1、环境准备</h3><pre class=" language-shell"><code class="language-shell">1.系统版本：CentOS7.4
-2.NFS版本：nfs-utils （使用当前最新版本）
-3.初始化系统环境
-4.关闭防火墙
-[root@localhost ~]#  systemctl stop iptables firewalld
-[root@localhost ~]#  systemctl disable iptables firewalld
-5.关闭SELinux
-[root@localhost ~]#  sed -ri '/SELINUX=/cSELINUX=disabled' /etc/selinux/config
-[root@localhost ~]#  setenforce 0           # 临时关闭SELinux
-</code></pre>
-<h3 id="2、部署NFS"><a href="#2、部署NFS" class="headerlink" title="2、部署NFS"></a>2、部署NFS</h3><pre class=" language-shell"><code class="language-shell">    1、sudo yum -y install nfs-utils 
-
-    2、配置
-    sudo vi /etc/sysconfig/nfs
-    加入
-     LOCKD_TCPPORT=30001 #TCP锁使用端口
-    LOCKD_UDPPORT=30002 #UDP锁使用端口
-    MOUNTD_PORT=30003 #挂载使用端口
-    STATD_PORT=30004 #状态使用端口</code></pre>
-<h3 id="3、启动-重启服务"><a href="#3、启动-重启服务" class="headerlink" title="3、启动/重启服务"></a>3、启动/重启服务</h3><pre class=" language-shell"><code class="language-shell">1、sudo systemctl restart rpcbind.service 
-2、sudo systemctl restart nfs-server.service
-开机启动：
-1、sudo  systemctl enable rpcbind.service
-2、 sudo systemctl enable nfs-server.service
-</code></pre>
-<h3 id="4、编辑共享目录"><a href="#4、编辑共享目录" class="headerlink" title="4、编辑共享目录"></a>4、编辑共享目录</h3><pre class=" language-shell"><code class="language-shell">编辑/etc/exports
-  sudo vi /etc/exports
- 写入如下内容
-   /home/cyy/goapi    10.0.0.0/24(rw,async,insecure,no_root_squash)
-
-</code></pre>
-<h6 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h6><table>
-<thead>
-<tr>
-<th align="center">参数</th>
-<th align="center">作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">ro</td>
-<td align="center">只读</td>
-</tr>
-<tr>
-<td align="center">rw</td>
-<td align="center">读写</td>
-</tr>
-<tr>
-<td align="center">root_squash</td>
-<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td align="center">no_root_squash</td>
-<td align="center">当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
-</tr>
-<tr>
-<td align="center">all_squash</td>
-<td align="center">无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td align="center">sync</td>
-<td align="center">同时将数据写入到内存与硬盘中，保证不丢失数据</td>
-</tr>
-<tr>
-<td align="center">async</td>
-<td align="center">优先将数据保存到内存，然后再写入硬盘;这样效率更高，但可能会丢失数据</td>
-</tr>
-<tr>
-<td align="center">secure（默认）</td>
-<td align="center">限制客户端只能从小于1024的tcp/ip端口连接服务器</td>
-</tr>
-<tr>
-<td align="center">insecure</td>
-<td align="center">允许客户端从大于1024的tcp/ip端口连接服务器</td>
-</tr>
-<tr>
-<td align="center">anonuid</td>
-<td align="center">匿名用户的UID值，通常是nobody或nfsnobody，可以在此处自行设定</td>
-</tr>
-<tr>
-<td align="center">anongid</td>
-<td align="center">匿名用户的GID值</td>
-</tr>
-<tr>
-<td align="center">no_subtree_check</td>
-<td align="center">如果NFS输出的是一个子目录，则无需检查其父目录的权限（可以提高效率）</td>
-</tr>
-</tbody></table>
-<h3 id="5、查看挂载"><a href="#5、查看挂载" class="headerlink" title="5、查看挂载"></a>5、查看挂载</h3><pre class=" language-shell"><code class="language-shell">showmount -e localhost
-发现没有
-
-重启nfs服务  (sudo systemctl restart nfs-server.service)
-
-接下来 
- 创建刚才的文件夹 
-</code></pre>
-<h5 id="来到另外一台服务器上"><a href="#来到另外一台服务器上" class="headerlink" title="来到另外一台服务器上"></a>来到另外一台服务器上</h5><pre class=" language-shell"><code class="language-shell">sudo yum -y install nfs-utils 
-
-不需要启动nfs服务
-直接执行如下：
-showmount -e 10.0.0.145
-
-尝试进行挂载  
-mount -t nfs 10.0.0.145:/home/cyy/goapi   /home/cyy/goapi
-卸载只需 
-umount /home/cyy/goapi
-</code></pre>
+                <h1 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h1><p>在机器人技术和自动化领域，控制回路（Control Loop）是一个非终止回路，用于调节系统状态。</p>
+<p>这是一个控制环的例子：房间里的温度自动调节器。</p>
+<p>当你设置了温度，告诉了温度自动调节器你的<em>期望状态（Desired State）</em>。 房间的实际温度是<em>当前状态（Current State）</em>。 通过对设备的开关控制，温度自动调节器让其当前状态接近期望状态。</p>
+<p>控制器通过 </p>
+<p>apiserver</p>
+<p> 监控集群的公共状态，并致力于将当前状态转变为期望的状态。</p>
+<h2 id="控制器模式"><a href="#控制器模式" class="headerlink" title="控制器模式"></a>控制器模式</h2><p>一个控制器至少追踪一种类型的 Kubernetes 资源。这些 <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/kubernetes-objects/" target="_blank" rel="noopener">对象</a> 有一个代表期望状态的 <code>spec</code> 字段。 该资源的控制器负责确保其当前状态接近期望状态。</p>
+<p>控制器可能会自行执行操作；在 Kubernetes 中更常见的是一个控制器会发送信息给 <a href="https://kubernetes.io/docs/reference/generated/kube-apiserver/" target="_blank" rel="noopener">API 服务器</a>，这会有副作用。 具体可参看后文的例子。</p>
+<h3 id="通过-API-服务器来控制"><a href="#通过-API-服务器来控制" class="headerlink" title="通过 API 服务器来控制"></a>通过 API 服务器来控制</h3><p><a href="https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion" target="_blank" rel="noopener">Job</a> 控制器是一个 Kubernetes 内置控制器的例子。 内置控制器通过和集群 API 服务器交互来管理状态。</p>
+<p>Job 是一种 Kubernetes 资源，它运行一个或者多个 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/" target="_blank" rel="noopener">Pod</a>， 来执行一个任务然后停止。 （一旦<a href="https://kubernetes.io/zh/docs/concepts/scheduling-eviction/" target="_blank" rel="noopener">被调度了</a>，对 <code>kubelet</code> 来说 Pod 对象就会变成了期望状态的一部分）。</p>
+<p>在集群中，当 Job 控制器拿到新任务时，它会保证一组 Node 节点上的 <code>kubelet</code> 可以运行正确数量的 Pod 来完成工作。 Job 控制器不会自己运行任何的 Pod 或者容器。Job 控制器是通知 API 服务器来创建或者移除 Pod。 <a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-control-plane" target="_blank" rel="noopener">控制面</a>中的其它组件 根据新的消息作出反应（调度并运行新 Pod）并且最终完成工作。</p>
+<p>创建新 Job 后，所期望的状态就是完成这个 Job。Job 控制器会让 Job 的当前状态不断接近期望状态：创建为 Job 要完成工作所需要的 Pod，使 Job 的状态接近完成。</p>
+<p>控制器也会更新配置对象。例如：一旦 Job 的工作完成了，Job 控制器会更新 Job 对象的状态为 <code>Finished</code>。</p>
+<p>（这有点像温度自动调节器关闭了一个灯，以此来告诉你房间的温度现在到你设定的值了）。</p>
+<h3 id="直接控制"><a href="#直接控制" class="headerlink" title="直接控制"></a>直接控制</h3><p>相比 Job 控制器，有些控制器需要对集群外的一些东西进行修改。</p>
+<p>例如，如果你使用一个控制环来保证集群中有足够的<a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/" target="_blank" rel="noopener">节点</a>，那么控制就需要当前集群外的一些服务在需要时创建新节点。</p>
+<p>和外部状态交互的控制器从 API 服务器获取到它想要的状态，然后直接和外部系统进行通信并使当前状态更接近期望状态。</p>
+<p>（实际上有一个控制器可以水平地扩展集群中的节点。请参阅 <a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/cluster-management/#cluster-autoscaling" target="_blank" rel="noopener">集群自动扩缩容</a>）。</p>
+<h2 id="期望状态与当前状态"><a href="#期望状态与当前状态" class="headerlink" title="期望状态与当前状态"></a>期望状态与当前状态</h2><p>Kubernetes 采用了系统的云原生视图，并且可以处理持续的变化。</p>
+<p>在任务执行时，集群随时都可能被修改，并且控制回路会自动修复故障。这意味着很可能集群永远不会达到稳定状态。</p>
+<p>只要集群中控制器的在运行并且进行有效的修改，整体状态的稳定与否是无关紧要的。</p>
+<h2 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h2><p>作为设计原则之一，Kubernetes 使用了很多控制器，每个控制器管理集群状态的一个特定方面。 最常见的一个特定的控制器使用一种类型的资源作为它的期望状态， 控制器管理控制另外一种类型的资源向它的期望状态演化。</p>
+<p>使用简单的控制器而不是一组相互连接的单体控制回路是很有用的。 控制器会失败，所以 Kubernetes 的设计正是考虑到了这一点。</p>
+<blockquote>
+<p>说明：</p>
+<p>可以有多个控制器来创建或者更新相同类型的对象。 在后台，Kubernetes 控制器确保它们只关心与其控制资源相关联的资源。</p>
+<p>例如，你可以创建 Deployment 和 Job；它们都可以创建 Pod。 Job 控制器不会删除 Deployment 所创建的 Pod，因为有信息 （<a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/" target="_blank" rel="noopener">标签</a>）让控制器可以区分这些 Pod。</p>
+</blockquote>
+<h2 id="运行控制器的方式"><a href="#运行控制器的方式" class="headerlink" title="运行控制器的方式"></a>运行控制器的方式</h2><p>Kubernetes 内置一组控制器，运行在 <a href="https://kubernetes.io/docs/reference/generated/kube-controller-manager/" target="_blank" rel="noopener">kube-controller-manager</a> 内。 这些内置的控制器提供了重要的核心功能。</p>
+<p>Deployment 控制器和 Job 控制器是 Kubernetes 内置控制器的典型例子。 Kubernetes 允许你运行一个稳定的控制平面，这样即使某些内置控制器失败了， 控制平面的其他部分会接替它们的工作。</p>
+<p>你会遇到某些控制器运行在控制面之外，用以扩展 Kubernetes。 或者，如果你愿意，你也可以自己编写新控制器。 你可以以一组 Pod 来运行你的控制器，或者运行在 Kubernetes 之外。 最合适的方案取决于控制器所要执行的功能是什么。</p>
 
             </div>
             <hr/>
@@ -692,7 +613,7 @@ umount /home/cyy/goapi
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/">https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/</a>
+                    <a href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/">https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -730,8 +651,8 @@ umount /home/cyy/goapi
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/NFS/">
-                                    <span class="chip bg-color">NFS</span>
+                                <a href="/tags/Kubernetes/">
+                                    <span class="chip bg-color">Kubernetes</span>
                                 </a>
                             
                         </div>
@@ -906,33 +827,32 @@ umount /home/cyy/goapi
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/09/26/devops/gitlab-ci-ru-men/">
+                <a href="/10007/06/07/si-wei-dao-tu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="gitlab-ci">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="运维工程师">
                         
-                        <span class="card-title">gitlab-ci</span>
+                        <span class="card-title">运维工程师</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            gitlab-ci入门示范：docker run -d --name gitlab-runner   \
-  -v /data/cyy/gitlab-runner:/etc/gitlab-runner \
-  -v /var/run/doc
+                            
+
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-26
+                            <i class="far fa-clock fa-fw icon-date"></i>10007-06-07
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/DevOps/" class="post-category">
-                                    DevOps
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -942,8 +862,8 @@ umount /home/cyy/goapi
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Gitlab/">
-                        <span class="chip bg-color">Gitlab</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -957,32 +877,32 @@ umount /home/cyy/goapi
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/16/sql/mysql-you-biao/">
+                <a href="/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Mysql 游标">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Kubernetes架构—节点">
                         
-                        <span class="card-title">Mysql 游标</span>
+                        <span class="card-title">Kubernetes架构—节点</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            [mysql游标的用法及作用]例子：
-当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据
+                            节点Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。 节点可以是一个虚拟机或者物理机器，取决于所在的集群配置。每个节点都包含用于运行 Pod 所需要的服务，这些服务由 控制面负责管理。
+通常集群
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -992,8 +912,8 @@ umount /home/cyy/goapi
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>

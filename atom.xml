@@ -42,6 +42,81 @@
   </entry>
   
   <entry>
+    <title>Kubernetes架构—控制器</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
+    <published>2020-10-03T12:57:00.000Z</published>
+    <updated>2020-10-03T14:11:13.385Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes架构—节点</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
+    <published>2020-10-03T12:57:00.000Z</published>
+    <updated>2020-10-03T14:09:56.039Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes架构—组件</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</id>
+    <published>2020-10-03T11:57:00.000Z</published>
+    <updated>2020-10-03T14:07:22.651Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Kubernetes-组件&quot;&gt;&lt;a href=&quot;#Kubernetes-组件&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes 组件&quot;&gt;&lt;/a&gt;Kubernetes 组件&lt;/h1&gt;&lt;p&gt;当你部署完 Kubernetes,</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Mycat</title>
     <link href="https://cyylog.github.io/2020/09/28/sql/mycat/"/>
     <id>https://cyylog.github.io/2020/09/28/sql/mycat/</id>
@@ -119,31 +194,6 @@
     
     
     <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes组件—介绍002</title>
-    <link href="https://cyylog.github.io/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/"/>
-    <id>https://cyylog.github.io/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/</id>
-    <published>2020-09-15T11:57:00.000Z</published>
-    <updated>2020-10-01T14:33:11.268Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h5 id=&quot;本文档描述了-Kubernetes-的组件。&quot;&gt;&lt;a href=&quot;#本文档描述了-Kubernetes-的组件。&quot; class=&quot;headerlink&quot; title=&quot;本文档描述了 Kubernetes 的组件。&quot;&gt;&lt;/a&gt;本文档描述了 Kubernetes</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
@@ -490,62 +540,6 @@
     
     
     <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes组件—介绍001</title>
-    <link href="https://cyylog.github.io/2020/04/04/rong-qi/kubernetes-zu-jian-jie-shao-001/"/>
-    <id>https://cyylog.github.io/2020/04/04/rong-qi/kubernetes-zu-jian-jie-shao-001/</id>
-    <published>2020-04-04T11:57:00.000Z</published>
-    <updated>2020-10-01T14:34:42.089Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-
-&lt;p&gt;本文档描述了 Kubernetes 的主要组件。&lt;/p&gt;
-&lt;h3 id=&quot;Master组件&quot;&gt;&lt;a href=&quot;#Master组件&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tomcat__05_JVM_排障工具</title>
-    <link href="https://cyylog.github.io/2020/04/02/linux/tomcat/tomcat-05/"/>
-    <id>https://cyylog.github.io/2020/04/02/linux/tomcat/tomcat-05/</id>
-    <published>2020-04-01T16:36:51.000Z</published>
-    <updated>2020-05-25T13:58:25.372Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h3 id=&quot;JVM-运维实用排障工具&quot;&gt;&lt;a href=&quot;#JVM-运维实用排障工具&quot; class=&quot;headerlink&quot; title=&quot;JVM 运维实用排障工具&quot;&gt;&lt;/a&gt;JVM 运维实用排障工具&lt;/h3&gt;&lt;h4</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="Tomcat" scheme="https://cyylog.github.io/tags/Tomcat/"/>
     
   </entry>
   

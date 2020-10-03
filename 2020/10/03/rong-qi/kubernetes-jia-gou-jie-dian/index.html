@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Kubernetes组件—介绍002, Cyylog">
+    <meta name="keywords" content="Kubernetes架构—节点, Cyylog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Kubernetes组件—介绍002 | Cyylog</title>
+    <title>Kubernetes架构—节点 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Kubernetes组件—介绍002</h1>
+                    <h1 class="description center-align post-title">Kubernetes架构—节点</h1>
                 </div>
             </div>
         </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-09-15
+                    2020-10-03
                 </div>
                 
 
@@ -557,19 +557,103 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h5 id="本文档描述了-Kubernetes-的组件。"><a href="#本文档描述了-Kubernetes-的组件。" class="headerlink" title="本文档描述了 Kubernetes 的组件。"></a>本文档描述了 Kubernetes 的组件。</h5><h5 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h5><p>Namespace是对一组资源和对象的抽象集合， 用来将系统内部的对象划分为不同的项目组或用户组  </p>
-<p>常用来隔离不同的用户，比如Kubernetes自带的服务一般运行在kube-system namespace中。</p>
-<h5 id="ingress"><a href="#ingress" class="headerlink" title="ingress"></a>ingress</h5><p>ingress 相当于一个7层负载均衡器，理解为进行反代并定义规则的一个api对象<br>ingress Controller 通过监听 Ingress  api 转化为各自的配置(常用的有nginx -ingress,  trafik-ingress )</p>
-<h5 id="Port"><a href="#Port" class="headerlink" title="Port"></a>Port</h5><h6 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a><strong>NodePort</strong></h6><p>​    在所有节点（虚拟机）上开放一个特定端口，任何发送到该端口的流量都被转发到对应服务</p>
-<p>端口范围30000-32767</p>
-<h6 id="hostPort"><a href="#hostPort" class="headerlink" title="hostPort"></a><strong>hostPort</strong></h6><p>直接将容器的端口与所调度的节点上的端口进行映射</p>
-<h6 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h6><p>  创建集群内的服务， 应用只要在集群内都可以访问,外部（如公网）无法访问它。</p>
-<p>k8s-coredns：</p>
-<p>在同一个命名空间内：<br>    可以通过  service_name 直接解析</p>
-<p>  不同命名空间内容：<br> service_name. namespace_name</p>
-<h5 id="PVC-和-PV"><a href="#PVC-和-PV" class="headerlink" title="PVC 和 PV"></a>PVC 和 PV</h5><p>Persistent Volume Claim(PVC)和Persistent Volume（PV）</p>
-<p>  PV： 定义Volume的类型、挂载目录、远程存储服务器等<br>  PVC：定义 Pod想要使用的持久化属性，比如存储大小、读写权限等..</p>
-<p>StorageClass： PV的模板，自动为PVC创建PV</p>
+                <h1 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h1><p>Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。 节点可以是一个虚拟机或者物理机器，取决于所在的集群配置。每个节点都包含用于运行 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/" target="_blank" rel="noopener">Pod</a> 所需要的服务，这些服务由 <a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-control-plane" target="_blank" rel="noopener">控制面</a>负责管理。</p>
+<p>通常集群中会有若干个节点；而在一个学习用或者资源受限的环境中，你的集群中也可能 只有一个节点。</p>
+<p>节点上的<a href="https://kubernetes.io/zh/docs/concepts/overview/components/#node-components" target="_blank" rel="noopener">组件</a>包括 <a href="https://kubernetes.io/docs/reference/generated/kubelet" target="_blank" rel="noopener">kubelet</a>、 <a href="https://kubernetes.io/docs/reference/generated/container-runtime" target="_blank" rel="noopener">容器运行时</a>以及 <a href="https://kubernetes.io/zh/docs/reference/command-line-tools-reference/kube-proxy/" target="_blank" rel="noopener">kube-proxy</a>。</p>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><p>向 <a href="https://kubernetes.io/docs/reference/generated/kube-apiserver/" target="_blank" rel="noopener">API 服务器</a>添加节点的方式主要有两种：</p>
+<ol>
+<li>节点上的 <code>kubelet</code> 向控制面执行自注册；</li>
+<li>你，或者别的什么人，手动添加一个 Node 对象。</li>
+</ol>
+<p>在你创建了 Node 对象或者节点上的 <code>kubelet</code> 执行了自注册操作之后， 控制面会检查新的 Node 对象是否合法。例如，如果你使用下面的 JSON 对象来创建 Node 对象：</p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"kind"</span><span class="token operator">:</span> <span class="token string">"Node"</span><span class="token punctuation">,</span>
+  <span class="token property">"apiVersion"</span><span class="token operator">:</span> <span class="token string">"v1"</span><span class="token punctuation">,</span>
+  <span class="token property">"metadata"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"10.240.79.157"</span><span class="token punctuation">,</span>
+    <span class="token property">"labels"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"my-first-k8s-node"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Kubernetes 会在内部创建一个 Node 对象作为节点的表示。Kubernetes 检查 <code>kubelet</code> 向 API 服务器注册节点时使用的 <code>metadata.name</code> 字段是否匹配。 如果节点是健康的（即所有必要的服务都在运行中），则该节点可以用来运行 Pod。 否则，直到该节点变为健康之前，所有的集群活动都会忽略该节点。</p>
+<blockquote>
+<p><strong>说明：</strong> Kubernetes 会一直保存着非法节点对应的对象，并持续检查该节点是否已经 变得健康。 你，或者某个<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>必需显式地 删除该 Node 对象以停止健康检查操作。</p>
+</blockquote>
+<p>Node 对象的名称必须是合法的 <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/names#dns-subdomain-names" target="_blank" rel="noopener">DNS 子域名</a>。</p>
+<h3 id="节点自注册"><a href="#节点自注册" class="headerlink" title="节点自注册"></a>节点自注册</h3><p>当 kubelet 标志 <code>--register-node</code> 为 true（默认）时，它会尝试向 API 服务注册自己。 这是首选模式，被绝大多数发行版选用。</p>
+<p>对于自注册模式，kubelet 使用下列参数启动：</p>
+<ul>
+<li><code>--kubeconfig</code> - 用于向 API 服务器表明身份的凭据路径。</li>
+<li><code>--cloud-provider</code> - 与某<a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-cloud-provider" target="_blank" rel="noopener">云驱动</a> 进行通信以读取与自身相关的元数据的方式。</li>
+<li><code>--register-node</code> - 自动向 API 服务注册。</li>
+<li><code>--register-with-taints</code> - 使用所给的污点列表（逗号分隔的 <code>&lt;key&gt;=&lt;value&gt;:&lt;effect&gt;</code>）注册节点。 当 <code>register-node</code> 为 false 时无效。</li>
+<li><code>--node-ip</code> - 节点 IP 地址。</li>
+<li><code>--node-labels</code> - 在集群中注册节点时要添加的 <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/" target="_blank" rel="noopener">标签</a>。 （参见 <a href="https://kubernetes.io/zh/docs/reference/access-authn-authz/admission-controllers/#noderestriction" target="_blank" rel="noopener">NodeRestriction 准入控制插件</a>所实施的标签限制）。</li>
+<li><code>--node-status-update-frequency</code> - 指定 kubelet 向控制面发送状态的频率。</li>
+</ul>
+<p>启用<a href="https://kubernetes.io/zh/docs/reference/access-authn-authz/node/" target="_blank" rel="noopener">节点授权模式</a>和 <a href="https://kubernetes.io/zh/docs/reference/access-authn-authz/admission-controllers/#noderestriction" target="_blank" rel="noopener">NodeRestriction 准入插件</a> 时，仅授权 <code>kubelet</code> 创建或修改其自己的节点资源。</p>
+<h4 id="手动节点管理"><a href="#手动节点管理" class="headerlink" title="手动节点管理"></a>手动节点管理</h4><p>你可以使用 <a href="https://kubernetes.io/docs/user-guide/kubectl-overview/" target="_blank" rel="noopener">kubectl</a> 来创建和修改 Node 对象。</p>
+<p>如果你希望手动创建节点对象时，请设置 kubelet 标志 <code>--register-node=false</code>。</p>
+<p>你可以修改 Node 对象（忽略 <code>--register-node</code> 设置）。 例如，修改节点上的标签或标记其为不可调度。</p>
+<p>你可以结合使用节点上的标签和 Pod 上的选择算符来控制调度。 例如，你可以限制某 Pod 只能在符合要求的节点子集上运行。</p>
+<p>如果标记节点为不可调度（unschedulable），将阻止新 Pod 调度到该节点之上，但不会 影响任何已经在其上的 Pod。 这是重启节点或者执行其他维护操作之前的一个有用的准备步骤。</p>
+<p>要标记一个节点为不可调度，执行以下命令：</p>
+<pre class=" language-shell"><code class="language-shell">kubectl cordon $NODENAME</code></pre>
+<blockquote>
+<p><strong>说明：</strong> 被 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/" target="_blank" rel="noopener">DaemonSet</a> 控制器创建的 Pod 能够容忍节点的不可调度属性。 DaemonSet 通常提供节点本地的服务，即使节点上的负载应用已经被腾空，这些服务也仍需 运行在节点之上。</p>
+</blockquote>
+<h2 id="节点状态"><a href="#节点状态" class="headerlink" title="节点状态"></a>节点状态</h2><p>一个节点的状态包含以下信息:</p>
+<ul>
+<li><a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/#addresses" target="_blank" rel="noopener">地址</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/#condition" target="_blank" rel="noopener">状况</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/#capacity" target="_blank" rel="noopener">容量与可分配</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/#info" target="_blank" rel="noopener">信息</a></li>
+</ul>
+<p>你可以使用 <code>kubectl</code> 来查看节点状态和其他细节信息：</p>
+<pre class=" language-shell"><code class="language-shell">kubectl describe node <节点名称></code></pre>
+<p>下面对每个部分进行详细描述。</p>
+<h3 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h3><p>这些字段的用法取决于你的云服务商或者物理机配置。</p>
+<ul>
+<li>HostName：由节点的内核设置。可以通过 kubelet 的 <code>--hostname-override</code> 参数覆盖。</li>
+<li>ExternalIP：通常是节点的可外部路由（从集群外可访问）的 IP 地址。</li>
+<li>InternalIP：通常是节点的仅可在集群内部路由的 IP 地址。</li>
+</ul>
+<h3 id="状况"><a href="#状况" class="headerlink" title="状况"></a>状况</h3><p><code>conditions</code> 字段描述了所有 <code>Running</code> 节点的状态。状况的示例包括：</p>
+<blockquote>
+<p><strong>说明：</strong> 如果使用命令行工具来打印已保护（Cordoned）节点的细节，其中的 Condition 字段可能 包括 <code>SchedulingDisabled</code>。<code>SchedulingDisabled</code> 不是 Kubernetes API 中定义的 Condition，被保护起来的节点在其规约中被标记为不可调度（Unschedulable）。</p>
+</blockquote>
+<p>节点条件使用 JSON 对象表示。例如，下面的响应描述了一个健康的节点。</p>
+<pre class=" language-json"><code class="language-json"><span class="token property">"conditions"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"Ready"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"True"</span><span class="token punctuation">,</span>
+    <span class="token property">"reason"</span><span class="token operator">:</span> <span class="token string">"KubeletReady"</span><span class="token punctuation">,</span>
+    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"kubelet is posting ready status"</span><span class="token punctuation">,</span>
+    <span class="token property">"lastHeartbeatTime"</span><span class="token operator">:</span> <span class="token string">"2019-06-05T18:38:35Z"</span><span class="token punctuation">,</span>
+    <span class="token property">"lastTransitionTime"</span><span class="token operator">:</span> <span class="token string">"2019-06-05T11:41:27Z"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span></code></pre>
+<p>如果 Ready 条件处于 <code>Unknown</code> 或者 <code>False</code> 状态的时间超过了 <code>pod-eviction-timeout</code> 值， （一个传递给 <a href="https://kubernetes.io/docs/reference/generated/kube-controller-manager/" target="_blank" rel="noopener">kube-controller-manager</a> 的参数）， 节点上的所有 Pod 都会被节点控制器计划删除。默认的逐出超时时长为 <strong>5 分钟</strong>。 某些情况下，当节点不可达时，API 服务器不能和其上的 kubelet 通信。 删除 Pod 的决定不能传达给 kubelet，直到它重新建立和 API 服务器的连接为止。 与此同时，被计划删除的 Pod 可能会继续在游离的节点上运行。</p>
+<p>节点控制器在确认 Pod 在集群中已经停止运行前，不会强制删除它们。 你可以看到这些可能在无法访问的节点上运行的 Pod 处于 <code>Terminating</code> 或者 <code>Unknown</code> 状态。 如果 kubernetes 不能基于下层基础设施推断出某节点是否已经永久离开了集群， 集群管理员可能需要手动删除该节点对象。 从 Kubernetes 删除节点对象将导致 API 服务器删除节点上所有运行的 Pod 对象并释放它们的名字。</p>
+<p>节点生命周期控制器会自动创建代表状况的 <a href="https://kubernetes.io/zh/docs/concepts/scheduling-eviction/taint-and-toleration/" target="_blank" rel="noopener">污点</a>。 当调度器将 Pod 指派给某节点时，会考虑节点上的污点。 Pod 则可以通过容忍度（Toleration）表达所能容忍的污点。</p>
+<p><code>capacity</code> 块中的字段标示节点拥有的资源总量。 <code>allocatable</code> 块指示节点上可供普通 Pod 消耗的资源量。</p>
+<p>可以在学习如何在节点上<a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/reserve-compute-resources/#node-allocatable" target="_blank" rel="noopener">预留计算资源</a> 的时候了解有关容量和可分配资源的更多信息。</p>
+<p>第二个是保持节点控制器内的节点列表与云服务商所提供的可用机器列表同步。 如果在云环境下运行，只要某节点不健康，节点控制器就会询问云服务是否节点的虚拟机仍可用。 如果不可用，节点控制器会将该节点从它的节点列表删除。</p>
+<p>第三个是监控节点的健康情况。节点控制器负责在节点不可达 （即，节点控制器因为某些原因没有收到心跳，例如节点宕机）时， 将节点状态的 <code>NodeReady</code> 状况更新为 “<code>Unknown</code>“。 如果节点接下来持续处于不可达状态，节点控制器将逐出节点上的所有 Pod（使用体面终止）。 默认情况下 40 秒后开始报告 “<code>Unknown</code>“，在那之后 5 分钟开始逐出 Pod。 节点控制器每隔 <code>--node-monitor-period</code> 秒检查每个节点的状态。</p>
+<p><code>kubelet</code> 负责创建和更新 <code>NodeStatus</code> 和 <code>Lease</code> 对象。</p>
+<p>当一个可用区域（Availability Zone）中的节点变为不健康时，节点的驱逐行为将发生改变。 节点控制器会同时检查可用区域中不健康（NodeReady 状况为 Unknown 或 False） 的节点的百分比。如果不健康节点的比例超过 <code>--unhealthy-zone-threshold</code> （默认为 0.55）， 驱逐速率将会降低：如果集群较小（意即小于等于 <code>--large-cluster-size-threshold</code> 个节点 - 默认为 50），驱逐操作将会停止，否则驱逐速率将降为每秒 <code>--secondary-node-eviction-rate</code> 个（默认为 0.01）。 在单个可用区域实施这些策略的原因是当一个可用区域可能从控制面脱离时其它可用区域 可能仍然保持连接。 如果你的集群没有跨越云服务商的多个可用区域，那（整个集群）就只有一个可用区域。</p>
+<p>跨多个可用区域部署你的节点的一个关键原因是当某个可用区域整体出现故障时， 工作负载可以转移到健康的可用区域。 因此，如果一个可用区域中的所有节点都不健康时，节点控制器会以正常的速率 <code>--node-eviction-rate</code> 进行驱逐操作。 在所有的可用区域都不健康（也即集群中没有健康节点）的极端情况下， 节点控制器将假设控制面节点的连接出了某些问题， 它将停止所有驱逐动作直到一些连接恢复。</p>
+<p>节点控制器还负责驱逐运行在拥有 <code>NoExecute</code> 污点的节点上的 Pod， 除非这些 Pod 能够容忍此污点。 节点控制器还负责根据节点故障（例如节点不可访问或没有就绪）为其添加 <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/" target="_blank" rel="noopener">污点</a>。 这意味着调度器不会将 Pod 调度到不健康的节点上。</p>
+<blockquote>
+<p><strong>注意：</strong> <code>kubectl cordon</code> 会将节点标记为“不可调度（Unschedulable）”。 此操作的副作用是，服务控制器会将该节点从负载均衡器中之前的目标节点列表中移除， 从而使得来自负载均衡器的网络请求不会到达被保护起来的节点。</p>
+</blockquote>
+<p>Kubernetes <a href="https://kubernetes.io/docs/reference/generated/kube-scheduler/" target="_blank" rel="noopener">调度器</a>保证节点上 有足够的资源供其上的所有 Pod 使用。它会检查节点上所有容器的请求的总和不会超过节点的容量。 总的请求包括由 kubelet 启动的所有容器，但不包括由容器运行时直接启动的容器， 也不包括不受 <code>kubelet</code> 控制的其他进程。</p>
+<blockquote>
+<p><strong>说明：</strong> 如果要为非 Pod 进程显式保留资源。请参考 <a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/reserve-compute-resources/#system-reserved" target="_blank" rel="noopener">为系统守护进程预留资源</a>。</p>
+</blockquote>
+<h2 id="节点拓扑"><a href="#节点拓扑" class="headerlink" title="节点拓扑"></a>节点拓扑</h2><p><strong>FEATURE STATE:</strong> <code>Kubernetes v1.16 [alpha]</code></p>
+<p>如果启用了 <code>TopologyManager</code> <a href="https://kubernetes.io/zh/docs/reference/command-line-tools-reference/feature-gates/" target="_blank" rel="noopener">特性门控</a>， <code>kubelet</code> 可以在作出资源分配决策时使用拓扑提示。 参考<a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/topology-manager/" target="_blank" rel="noopener">控制节点上拓扑管理策略</a> 了解详细信息。</p>
 
             </div>
             <hr/>
@@ -595,7 +679,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/">https://cyylog.github.io/2020/09/15/rong-qi/kubernetes-zu-jian-jie-shao-002/</a>
+                    <a href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/">https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -809,36 +893,33 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/09/24/linux/bu-shu-nfs-fu-wu/">
+                <a href="/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="搭建 NFS 服务">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes架构—控制器">
                         
-                        <span class="card-title">搭建 NFS 服务</span>
+                        <span class="card-title">Kubernetes架构—控制器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-
-目的：部署 NFS 服务进行跨主机文件共享
-Network File System      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。
-1、环境准备1.系统版本：CentOS7.4
-2.NFS版本：nfs-utils 
+                            控制器在机器人技术和自动化领域，控制回路（Control Loop）是一个非终止回路，用于调节系统状态。
+这是一个控制环的例子：房间里的温度自动调节器。
+当你设置了温度，告诉了温度自动调节器你的期望状态（Desired State）。 房间
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-03
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -848,8 +929,8 @@ Network File System      通过网络，让不同的机器、不同的操作系�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/NFS/">
-                        <span class="chip bg-color">NFS</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>
@@ -863,32 +944,32 @@ Network File System      通过网络，让不同的机器、不同的操作系�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/16/sql/mysql-you-biao/">
+                <a href="/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Mysql 游标">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Kubernetes架构—组件">
                         
-                        <span class="card-title">Mysql 游标</span>
+                        <span class="card-title">Kubernetes架构—组件</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            [mysql游标的用法及作用]例子：
-当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据
+                            Kubernetes 组件当你部署完 Kubernetes, 即拥有了一个完整的集群。
+一个 Kubernetes 集群包含 集群由一组被称作节点的机器组成。这些节点上运行 Kubernetes 所管理的容器化应用。集群具有至少一个工作节点
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -898,8 +979,8 @@ Network File System      通过网络，让不同的机器、不同的操作系�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>
