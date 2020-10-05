@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Kubernetes架构—组件, Cyylog">
+    <meta name="keywords" content="Kubernetes-Pod—Pods, Cyylog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Kubernetes架构—组件 | Cyylog</title>
+    <title>Kubernetes-Pod—Pods | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Kubernetes架构—组件</h1>
+                    <h1 class="description center-align post-title">Kubernetes-Pod—Pods</h1>
                 </div>
             </div>
         </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-10-03
+                    2020-10-06
                 </div>
                 
 
@@ -557,54 +557,77 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Kubernetes-组件"><a href="#Kubernetes-组件" class="headerlink" title="Kubernetes 组件"></a>Kubernetes 组件</h1><p>当你部署完 Kubernetes, 即拥有了一个完整的集群。</p>
-<p>一个 Kubernetes 集群包含 集群由一组被称作节点的机器组成。这些节点上运行 Kubernetes 所管理的容器化应用。集群具有至少一个工作节点和至少一个主节点。</p>
-<p>工作节点托管作为应用程序组件的 Pod 。主节点管理集群中的工作节点和 Pod 。多个主节点用于为集群提供故障转移和高可用性。</p>
-<p>本文档概述了交付正常运行的 Kubernetes 集群所需的各种组件。</p>
-<p>这张图表展示了包含所有相互关联组件的 Kubernetes 集群。</p>
-<p><img src="https://d33wubrfki0l68.cloudfront.net/7016517375d10c702489167e704dcb99e570df85/7bb53/images/docs/components-of-kubernetes.png" alt="Kubernetes 组件"></p>
-<h2 id="控制平面组件（Control-Plane-Components）"><a href="#控制平面组件（Control-Plane-Components）" class="headerlink" title="控制平面组件（Control Plane Components）"></a>控制平面组件（Control Plane Components）</h2><p>控制平面的组件对集群做出全局决策(比如调度)，以及检测和响应集群事件（例如，当不满足部署的 <code>replicas</code> 字段时，启动新的 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/" target="_blank" rel="noopener">pod</a>）。</p>
-<p>控制平面组件可以在集群中的任何节点上运行。 然而，为了简单起见，设置脚本通常会在同一个计算机上启动所有控制平面组件，并且不会在此计算机上运行用户容器。 请参阅<a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/high-availability/" target="_blank" rel="noopener">构建高可用性集群</a> 中对于多主机 VM 的设置示例。</p>
-<h3 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h3><p>主节点上负责提供 Kubernetes API 服务的组件；它是 Kubernetes 控制面的前端。</p>
-<p>kube-apiserver 在设计上考虑了水平扩缩的需要。 换言之，通过部署多个实例可以实现扩缩。 参见<a href="https://kubernetes.io/docs/admin/high-availability/" target="_blank" rel="noopener">构造高可用集群</a>。</p>
-<h3 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h3><p>etcd 是兼具一致性和高可用性的键值数据库，可以作为保存 Kubernetes 所有集群数据的后台数据库。</p>
-<p>您的 Kubernetes 集群的 etcd 数据库通常需要有个备份计划。要了解 etcd 更深层次的信息，请参考 <a href="https://etcd.io/docs" target="_blank" rel="noopener">etcd 文档</a>。</p>
-<h3 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h3><p>主节点上的组件，该组件监视那些新创建的未指定运行节点的 Pod，并选择节点让 Pod 在上面运行。</p>
-<p>调度决策考虑的因素包括单个 Pod 和 Pod 集合的资源需求、硬件/软件/策略约束、亲和性和反亲和性规范、数据位置、工作负载间的干扰和最后时限。</p>
-<h3 id="kube-controller-manager"><a href="#kube-controller-manager" class="headerlink" title="kube-controller-manager"></a>kube-controller-manager</h3><p>在主节点上运行<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>的组件。</p>
-<p>从逻辑上讲，每个<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>都是一个单独的进程，但是为了降低复杂性，它们都被编译到同一个可执行文件，并在一个进程中运行。</p>
-<p>这些控制器包括:</p>
+                <h1 id="Pods"><a href="#Pods" class="headerlink" title="Pods"></a>Pods</h1><p><em>Pod</em> 是可以在 Kubernetes 中创建和管理的、最小的可部署的计算单元。</p>
+<p><em>Pod</em> （就像在鲸鱼荚或者豌豆荚中）是一组（一个或多个） <a href="https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/#why-containers" target="_blank" rel="noopener">容器</a>； 这些容器共享存储、网络、以及怎样运行这些容器的声明。 Pod 中的内容总是并置（colocated）的并且一同调度，在共享的上下文中运行。 Pod 所建模的是特定于应用的“逻辑主机”，其中包含一个或多个应用容器， 这些容器是相对紧密的耦合在一起的。 在非云环境中，在相同的物理机或虚拟机上运行的应用类似于 在同一逻辑主机上运行的云应用。</p>
+<p>除了应用容器，Pod 还可以包含在 Pod 启动期间运行的 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/" target="_blank" rel="noopener">Init 容器</a>。 你也可以在集群中支持<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/ephemeral-containers/" target="_blank" rel="noopener">临时性容器</a> 的情况外，为调试的目的注入临时性容器。</p>
+<h2 id="什么是-Pod？"><a href="#什么是-Pod？" class="headerlink" title="什么是 Pod？"></a>什么是 Pod？</h2><blockquote>
+<p><strong>说明：</strong> 除了 Docker 之外，Kubernetes 支持 很多其他<a href="https://kubernetes.io/docs/reference/generated/container-runtime" target="_blank" rel="noopener">容器运行时</a>， <a href="https://www.docker.com/" target="_blank" rel="noopener">Docker</a> 是最有名的运行时， 使用 Docker 的术语来描述 Pod 会很有帮助。</p>
+</blockquote>
+<p>Pod 的共享上下文包括一组 Linux 名字空间、控制组（cgroup）和可能一些其他的隔离 方面，即用来隔离 Docker 容器的技术。 在 Pod 的上下文中，每个独立的应用可能会进一步实施隔离。</p>
+<p>就 Docker 概念的术语而言，Pod 类似于共享名字空间和文件系统卷的一组 Docker 容器。</p>
+<h2 id="使用-Pod"><a href="#使用-Pod" class="headerlink" title="使用 Pod"></a>使用 Pod</h2><p>通常你不需要直接创建 Pod，甚至单实例 Pod。 相反，你会使用诸如 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a> 或 <a href="https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion" target="_blank" rel="noopener">Job</a> 这类工作负载资源 来创建 Pod。如果 Pod 需要跟踪状态， 可以考虑 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/statefulset/" target="_blank" rel="noopener">StatefulSet</a> 资源。</p>
+<p>Kubernetes 集群中的 Pod 主要有两种用法：</p>
 <ul>
-<li>节点控制器（Node Controller）: 负责在节点出现故障时进行通知和响应。</li>
-<li>副本控制器（Replication Controller）: 负责为系统中的每个副本控制器对象维护正确数量的 Pod。</li>
-<li>端点控制器（Endpoints Controller）: 填充端点(Endpoints)对象(即加入 Service 与 Pod)。</li>
-<li>服务帐户和令牌控制器（Service Account &amp; Token Controllers）: 为新的命名空间创建默认帐户和 API 访问令牌.</li>
+<li><p><strong>运行单个容器的 Pod</strong>。”每个 Pod 一个容器”模型是最常见的 Kubernetes 用例； 在这种情况下，可以将 Pod 看作单个容器的包装器，并且 Kubernetes 直接管理 Pod，而不是容器。</p>
+</li>
+<li><p><strong>运行多个协同工作的容器的 Pod</strong>。 Pod 可能封装由多个紧密耦合且需要共享资源的共处容器组成的应用程序。 这些位于同一位置的容器可能形成单个内聚的服务单元 —— 一个容器将文件从共享卷提供给公众， 而另一个单独的“挂斗”（sidecar）容器则刷新或更新这些文件。 Pod 将这些容器和存储资源打包为一个可管理的实体。</p>
+<blockquote>
+<p><strong>说明：</strong> 将多个并置、同管的容器组织到一个 Pod 中是一种相对高级的使用场景。 只有在一些场景中，容器之间紧密关联时你才应该使用这种模式。</p>
+</blockquote>
+</li>
 </ul>
-<h3 id="cloud-controller-manager"><a href="#cloud-controller-manager" class="headerlink" title="cloud-controller-manager"></a>cloud-controller-manager</h3><p>云控制器管理器是 1.8 的 alpha 特性。在未来发布的版本中，这是将 Kubernetes 与任何其他云集成的最佳方式。</p>
-<p><code>cloud-controller-manager</code> 进运行特定于云平台的控制回路。 如果你在自己的环境中运行 Kubernetes，或者在本地计算机中运行学习环境， 所部属的环境中不需要云控制器管理器。</p>
-<p>与 <code>kube-controller-manager</code> 类似，<code>cloud-controller-manager</code> 将若干逻辑上独立的 控制回路组合到同一个可执行文件中，供你以同一进程的方式运行。 你可以对其执行水平扩容（运行不止一个副本）以提升性能或者增强容错能力。</p>
-<p>下面的控制器都包含对云平台驱动的依赖：</p>
+<p>每个 Pod 都旨在运行给定应用程序的单个实例。如果希望横向扩展应用程序（例如，运行多个实例 以提供更多的资源），则应该使用多个 Pod，每个实例使用一个 Pod。 在 Kubernetes 中，这通常被称为 <em>副本（Replication）</em>。 通常使用一种工作负载资源及其<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a> 来创建和管理一组 Pod 副本。</p>
+<p>参见 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/#pods-and-controllers" target="_blank" rel="noopener">Pod 和控制器</a>以了解 Kubernetes 如何使用工作负载资源及其控制器以实现应用的扩缩和自动修复。</p>
+<h3 id="Pod-怎样管理多个容器"><a href="#Pod-怎样管理多个容器" class="headerlink" title="Pod 怎样管理多个容器"></a>Pod 怎样管理多个容器</h3><p>Pod 被设计成支持形成内聚服务单元的多个协作过程（形式为容器）。 Pod 中的容器被自动安排到集群中的同一物理机或虚拟机上，并可以一起进行调度。 容器之间可以共享资源和依赖、彼此通信、协调何时以及何种方式终止自身。</p>
+<p>例如，你可能有一个容器，为共享卷中的文件提供 Web 服务器支持，以及一个单独的 “sidecar（挂斗）”容器负责从远端更新这些文件，如下图所示：</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/aecab1f649bc640ebef1f05581bfcc91a48038c4/728d6/images/docs/pod.svg" alt="example pod diagram"></p>
+<p>有些 Pod 具有 <a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-init-container" target="_blank" rel="noopener">Init 容器</a> 和 <a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-app-container" target="_blank" rel="noopener">应用容器</a>。 Init 容器会在启动应用容器之前运行并完成。</p>
+<p>Pod 天生地为其成员容器提供了两种共享资源：<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/#pod-networking" target="_blank" rel="noopener">网络</a>和 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/#pod-storage" target="_blank" rel="noopener">存储</a>。</p>
+<h2 id="使用-Pod-1"><a href="#使用-Pod-1" class="headerlink" title="使用 Pod"></a>使用 Pod</h2><p>你很少在 Kubernetes 中直接创建一个个的 Pod，甚至是单实例（Singleton）的 Pod。 这是因为 Pod 被设计成了相对临时性的、用后即抛的一次性实体。 当 Pod 由你或者间接地由 <a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a> 创建时，它被调度在集群中的<a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/" target="_blank" rel="noopener">节点</a>上运行。 Pod 会保持在该节点上运行，直到 Pod 结束执行、Pod 对象被删除、Pod 因资源不足而被 <em>驱逐</em> 或者节点失效为止。</p>
+<blockquote>
+<p><strong>说明：</strong> 重启 Pod 中的容器不应与重启 Pod 混淆。 Pod 不是进程，而是容器运行的环境。 在被删除之前，Pod 会一直存在。</p>
+</blockquote>
+<p>当你为 Pod 对象创建清单时，要确保所指定的 Pod 名称是合法的 <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/names#dns-subdomain-names" target="_blank" rel="noopener">DNS 子域名</a>。</p>
+<h3 id="Pod-和控制器"><a href="#Pod-和控制器" class="headerlink" title="Pod 和控制器"></a>Pod 和控制器</h3><p>你可以使用工作负载资源来创建和管理多个 Pod。 资源的控制器能够处理副本的管理、上线，并在 Pod 失效时提供自愈能力。 例如，如果一个节点失败，控制器注意到该节点上的 Pod 已经停止工作， 就可以创建替换性的 Pod。调度器会将替身 Pod 调度到一个健康的节点执行。</p>
+<p>下面是一些管理一个或者多个 Pod 的工作负载资源的示例：</p>
 <ul>
-<li>节点控制器（Node Controller）: 用于在节点终止响应后检查云提供商以确定节点是否已被删除</li>
-<li>路由控制器（Route Controller）: 用于在底层云基础架构中设置路由</li>
-<li>服务控制器（Service Controller）: 用于创建、更新和删除云提供商负载均衡器</li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/statefulset/" target="_blank" rel="noopener">StatefulSet</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/" target="_blank" rel="noopener">DaemonSet</a></li>
 </ul>
-<h2 id="Node-组件"><a href="#Node-组件" class="headerlink" title="Node 组件"></a>Node 组件</h2><p>节点组件在每个节点上运行，维护运行的 Pod 并提供 Kubernetes 运行环境。</p>
-<h3 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h3><p>一个在集群中每个节点上运行的代理。它保证容器都运行在 Pod 中。</p>
-<p>kubelet 接收一组通过各类机制提供给它的 PodSpecs，确保这些 PodSpecs 中描述的容器处于运行状态且健康。kubelet 不会管理不是由 Kubernetes 创建的容器。</p>
-<h3 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h3><p><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/" target="_blank" rel="noopener">kube-proxy</a> 是集群中每个节点上运行的网络代理,实现 Kubernetes <a href="https://kubernetes.io/zh/docs/concepts/services-networking/service/" target="_blank" rel="noopener">Service</a> 概念的一部分。</p>
-<p>kube-proxy 维护节点上的网络规则。这些网络规则允许从集群内部或外部的网络会话与 Pod 进行网络通信。</p>
-<p>如果操作系统提供了数据包过滤层并可用的话，kube-proxy会通过它来实现网络规则。否则，kube-proxy 仅转发流量本身。</p>
-<h3 id="容器运行时（Container-Runtime）"><a href="#容器运行时（Container-Runtime）" class="headerlink" title="容器运行时（Container Runtime）"></a>容器运行时（Container Runtime）</h3><p>容器运行环境是负责运行容器的软件。</p>
-<p>Kubernetes 支持多个容器运行环境: <a href="http://www.docker.com/" target="_blank" rel="noopener">Docker</a>、 <a href="https://containerd.io/" target="_blank" rel="noopener">containerd</a>、<a href="https://cri-o.io/" target="_blank" rel="noopener">cri-o</a>、 <a href="https://github.com/kubernetes-incubator/rktlet" target="_blank" rel="noopener">rktlet</a> 以及任何实现 <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md" target="_blank" rel="noopener">Kubernetes CRI (容器运行环境接口)</a>。</p>
-<h2 id="插件（Addons）"><a href="#插件（Addons）" class="headerlink" title="插件（Addons）"></a>插件（Addons）</h2><p>插件使用 Kubernetes 资源（<a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/" target="_blank" rel="noopener">DaemonSet</a>、 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a>等）实现集群功能。 因为这些插件提供集群级别的功能，插件中命名空间域的资源属于 <code>kube-system</code> 命名空间。</p>
-<p>下面描述众多插件中的几种。有关可用插件的完整列表，请参见 <a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/addons/" target="_blank" rel="noopener">插件（Addons）</a>。</p>
-<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>尽管其他插件都并非严格意义上的必需组件，但几乎所有 Kubernetes 集群都应该 有<a href="https://kubernetes.io/zh/docs/concepts/services-networking/dns-pod-service/" target="_blank" rel="noopener">集群 DNS</a>， 因为很多示例都需要 DNS 服务。</p>
-<p>集群 DNS 是一个 DNS 服务器，和环境中的其他 DNS 服务器一起工作，它为 Kubernetes 服务提供 DNS 记录。</p>
-<p>Kubernetes 启动的容器自动将此 DNS 服务器包含在其 DNS 搜索列表中。</p>
-<h3 id="Web-界面（仪表盘）"><a href="#Web-界面（仪表盘）" class="headerlink" title="Web 界面（仪表盘）"></a>Web 界面（仪表盘）</h3><p><a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/web-ui-dashboard/" target="_blank" rel="noopener">Dashboard</a> 是K ubernetes 集群的通用的、基于 Web 的用户界面。 它使用户可以管理集群中运行的应用程序以及集群本身并进行故障排除。</p>
-<h3 id="容器资源监控"><a href="#容器资源监控" class="headerlink" title="容器资源监控"></a>容器资源监控</h3><p><a href="https://kubernetes.io/zh/docs/tasks/debug-application-cluster/resource-usage-monitoring/" target="_blank" rel="noopener">容器资源监控</a> 将关于容器的一些常见的时间序列度量值保存到一个集中的数据库中，并提供用于浏览这些数据的界面。</p>
-<h3 id="集群层面日志"><a href="#集群层面日志" class="headerlink" title="集群层面日志"></a>集群层面日志</h3><p><a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/logging/" target="_blank" rel="noopener">集群层面日志</a> 机制负责将容器的日志数据 保存到一个集中的日志存储中，该存储能够提供搜索和浏览接口。</p>
+<h3 id="Pod-模版"><a href="#Pod-模版" class="headerlink" title="Pod 模版"></a>Pod 模版</h3><p><a href="https://kubernetes.io/zh/docs/concepts/workloads/" target="_blank" rel="noopener">负载</a>资源的控制器通常使用 <em>Pod 模板（Pod Template）</em> 来替你创建 Pod 并管理它们。</p>
+<p>Pod 模板是包含在工作负载对象中的规范，用来创建 Pod。这类负载资源包括 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a>、 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/job/" target="_blank" rel="noopener">Job</a> 和 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/" target="_blank" rel="noopener">DaemonSets</a>等。</p>
+<p>工作负载的控制器会使用负载对象中的 <code>PodTemplate</code> 来生成实际的 Pod。 <code>PodTemplate</code> 是你用来运行应用时指定的负载资源的目标状态的一部分。</p>
+<p>下面的示例是一个简单的 Job 的清单，其中的 <code>template</code> 指示启动一个容器。 该 Pod 中的容器会打印一条消息之后暂停。</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> batch/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Job
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> hello
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 这里是 Pod 模版</span>
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> hello
+        <span class="token key atrule">image</span><span class="token punctuation">:</span> busybox
+        <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'sh'</span><span class="token punctuation">,</span> <span class="token string">'-c'</span><span class="token punctuation">,</span> <span class="token string">'echo "Hello, Kubernetes!" &amp;&amp; sleep 3600'</span><span class="token punctuation">]</span>
+      <span class="token key atrule">restartPolicy</span><span class="token punctuation">:</span> OnFailure
+    <span class="token comment" spellcheck="true"># 以上为 Pod 模版</span></code></pre>
+<p>修改 Pod 模版或者切换到新的 Pod 模版都不会对已经存在的 Pod 起作用。 Pod 不会直接收到模版的更新。相反， 新的 Pod 会被创建出来，与更改后的 Pod 模版匹配。</p>
+<p>例如，Deployment 控制器针对每个 Deployment 对象确保运行中的 Pod 与当前的 Pod 模版匹配。如果模版被更新，则 Deployment 必须删除现有的 Pod，基于更新后的模版 创建新的 Pod。每个工作负载资源都实现了自己的规则，用来处理对 Pod 模版的更新。</p>
+<p>在节点上，<a href="https://kubernetes.io/docs/reference/generated/kubelet" target="_blank" rel="noopener">kubelet</a>并不直接监测 或管理与 Pod 模版相关的细节或模版的更新，这些细节都被抽象出来。 这种抽象和关注点分离简化了整个系统的语义，并且使得用户可以在不改变现有代码的 前提下就能扩展集群的行为。</p>
+<h3 id="资源共享和通信"><a href="#资源共享和通信" class="headerlink" title="资源共享和通信"></a>资源共享和通信</h3><p>Pod 使它的成员容器间能够进行数据共享和通信。</p>
+<h3 id="Pod-中的存储"><a href="#Pod-中的存储" class="headerlink" title="Pod 中的存储"></a>Pod 中的存储</h3><p>一个 Pod 可以设置一组共享的存储<a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/" target="_blank" rel="noopener">卷</a>。 Pod 中的所有容器都可以访问该共享卷，从而允许这些容器共享数据。 卷还允许 Pod 中的持久数据保留下来，即使其中的容器需要重新启动。 有关 Kubernetes 如何在 Pod 中实现共享存储并将其提供给 Pod 的更多信息， 请参考<a href="https://kubernetes.io/zh/docs/concepts/storage/" target="_blank" rel="noopener">卷</a>。</p>
+<h3 id="Pod-联网"><a href="#Pod-联网" class="headerlink" title="Pod 联网"></a>Pod 联网</h3><p>每个 Pod 都在每个地址族中获得一个唯一的 IP 地址。 Pod 中的每个容器共享网络名字空间，包括 IP 地址和网络端口。 <em>Pod 内</em> 的容器可以使用 <code>localhost</code> 互相通信。 当 Pod 中的容器与 <em>Pod 之外</em> 的实体通信时，它们必须协调如何使用共享的网络资源 （例如端口）。</p>
+<p>在同一个 Pod 内，所有容器共享一个 IP 地址和端口空间，并且可以通过 <code>localhost</code> 发现对方。 他们也能通过如 SystemV 信号量或 POSIX 共享内存这类标准的进程间通信方式互相通信。 不同 Pod 中的容器的 IP 地址互不相同，没有 <a href="https://kubernetes.io/zh/docs/concepts/policy/pod-security-policy/" target="_blank" rel="noopener">特殊配置</a> 就不能使用 IPC 进行通信。 如果某容器希望与运行于其他 Pod 中的容器通信，可以通过 IP 联网的方式实现。</p>
+<p>Pod 中的容器所看到的系统主机名与为 Pod 配置的 <code>name</code> 属性值相同。 <a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/networking/" target="_blank" rel="noopener">网络</a>部分提供了更多有关此内容的信息。</p>
+<h2 id="容器的特权模式"><a href="#容器的特权模式" class="headerlink" title="容器的特权模式"></a>容器的特权模式</h2><p>Pod 中的任何容器都可以使用容器规约中的 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/" target="_blank" rel="noopener">安全性上下文</a>中的 <code>privileged</code> 参数启用特权模式。 这对于想要使用使用操作系统管理权能（Capabilities，如操纵网络堆栈和访问设备） 的容器很有用。 容器内的进程几乎可以获得与容器外的进程相同的特权。</p>
+<blockquote>
+<p><strong>说明：</strong> 你的<a href="https://kubernetes.io/docs/reference/generated/container-runtime" target="_blank" rel="noopener">容器运行时</a>必须支持 特权容器的概念才能使用这一配置。</p>
+</blockquote>
+<h2 id="静态-Pod"><a href="#静态-Pod" class="headerlink" title="静态 Pod"></a>静态 Pod</h2><p><em>静态 Pod（Static Pod）</em> 直接由特定节点上的 <code>kubelet</code> 守护进程管理， 不需要<a href="https://kubernetes.io/docs/reference/generated/kube-apiserver/" target="_blank" rel="noopener">API 服务器</a>看到它们。 尽管大多数 Pod 都是通过控制面（例如，<a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a>） 来管理的，对于静态 Pod 而言，<code>kubelet</code> 直接监控每个 Pod，并在其失效时重启之。</p>
+<p>静态 Pod 通常绑定到某个节点上的 <a href="https://kubernetes.io/docs/reference/generated/kubelet" target="_blank" rel="noopener">kubelet</a>。 其主要用途是运行自托管的控制面。 在自托管场景中，使用 <code>kubelet</code> 来管理各个独立的 <a href="https://kubernetes.io/zh/docs/concepts/overview/components/#control-plane-components" target="_blank" rel="noopener">控制面组件</a>。</p>
+<p><code>kubelet</code> 自动尝试为每个静态 Pod 在 Kubernetes API 服务器上创建一个 <a href="https://kubernetes.io/zh/docs/reference/glossary/?all=true#term-mirror-pod" target="_blank" rel="noopener">镜像 Pod</a>。 这意味着在节点上运行的 Pod 在 API 服务器上是可见的，但不可以通过 API 服务器来控制。</p>
 
             </div>
             <hr/>
@@ -630,7 +653,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/">https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</a>
+                    <a href="https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pods/">https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pods/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -844,26 +867,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/">
+                <a href="/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes架构—控制器">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Kubernetes-Pod—生命周期">
                         
-                        <span class="card-title">Kubernetes架构—控制器</span>
+                        <span class="card-title">Kubernetes-Pod—生命周期</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            控制器在机器人技术和自动化领域，控制回路（Control Loop）是一个非终止回路，用于调节系统状态。
-这是一个控制环的例子：房间里的温度自动调节器。
-当你设置了温度，告诉了温度自动调节器你的期望状态（Desired State）。 房间
+                            Pod 的生命周期本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 Pending 阶段，如果至少 其中有一个主要容器正常启动，则进入 Running，之后取决于 Pod 中是否有容器以 失败状态结束而进入 Suc
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-03
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
                         </span>
                         <span class="publish-author">
                             
@@ -895,26 +916,26 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/09/28/sql/mycat/">
+                <a href="/2020/10/05/sql/redis-shao-bing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Mycat">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Redis-哨兵">
                         
-                        <span class="card-title">Mycat</span>
+                        <span class="card-title">Redis-哨兵</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            MySQL-ReplicationMySQL Replication主从复制（也称 AB 复制）允许将来自一个MySQL数据库服务器（主服务器）的数据复制到一个或多个MySQL数据库服务器（从服务器）。
-
-复制是异步的 从站不需要永久连接以
+                            1 哨兵的作用哨兵是redis集群架构中非常重要的一个组件,主要功能如下： 
+​     1. 集群监控：负责监控redis master和slave进程是否正常工作 
+​     2. 消息通知：如果某个redis实例有故障,那么哨兵负责
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-05
                             </span>
                         <span class="publish-author">
                             
@@ -931,12 +952,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Mysql/">
-                        <span class="chip bg-color">Mysql</span>
-                    </a>
-                    
-                    <a href="/tags/Mycat/">
-                        <span class="chip bg-color">Mycat</span>
+                    <a href="/tags/Redis/">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>
