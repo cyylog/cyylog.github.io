@@ -558,7 +558,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
-<h4 id="akw"><a href="#akw" class="headerlink" title="akw"></a>akw</h4><ol>
+<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -569,6 +569,11 @@ $ awk -v st=${start_dt} -v ent=${end_dt} -F'[][ ]' '$5 == st,$5 == ent  {print $
       4 1.69.17.127
       1 113.25.94.69
       1 110.183.58.144</code></pre>
+<pre class=" language-shell"><code class="language-shell">awk '$4>="[30/May/2020:01:08:25" && $4<="[30/May/2020:01:10:25"{a[$2]++} END {for(v in a) print v,a[v]}' access.log
+awk '$4>="[29/May/2020:20:39:11" && $4<="[30/May/2020:01:08:27" {a[$1]++} END {for(v in a)print  v,a[v]}' access.log
+
+[29/May/2020:18:53:53
+[29/May/2020:18:54:23</code></pre>
 <h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><ol>
 <li>HAproxy，  LVS， Nginx   有何区别，工作中会怎么选择</li>
 </ol>
@@ -869,7 +874,7 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     <div class="summary block-with-text">
                         
                             PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-akw
+awk
 统计日志中某个时间范围的 IP 访问量，并进行排序
 
 $ start_dt='10/May/2018:23:47:43
