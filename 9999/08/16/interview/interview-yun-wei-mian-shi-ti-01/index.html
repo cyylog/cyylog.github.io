@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Prometheus学习笔记_01, Cyylog">
+    <meta name="keywords" content="运维面试题-01, Cyylog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Prometheus学习笔记_01 | Cyylog</title>
+    <title>运维面试题-01 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Prometheus学习笔记_01</h1>
+                    <h1 class="description center-align post-title">运维面试题-01</h1>
                 </div>
             </div>
         </div>
@@ -516,8 +516,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Prometheus/">
-                                <span class="chip bg-color">Prometheus</span>
+                            <a href="/tags/Go/">
+                                <span class="chip bg-color">Go</span>
                             </a>
                         
                     </div>
@@ -528,8 +528,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                监控
+                            <a href="/categories/Interview/" class="post-category">
+                                Interview
                             </a>
                         
                     </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-18
+                    9999-08-16
                 </div>
                 
 
@@ -557,68 +557,65 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="Prometheus-监控"><a href="#Prometheus-监控" class="headerlink" title="Prometheus 监控"></a>Prometheus 监控</h3><h3 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h3><p>本文介绍Prometheus 监控及在k8s集群中使用node-exporter、prometheus、grafana对集群进行监控。实现原理类似ELK、EFK组合。node-exporter组件负责收集节点上的metrics监控数据，并将数据推送给prometheus, prometheus负责存储这些数据，grafana将这些数据通过网页以图形的形式展现给用户。</p>
-<p>在开始之前有必要了解下Prometheus是什么?<br>        Prometheus （中文名：普罗米修斯）是由 SoundCloud 开发的开源监控报警系统和时间序列数据库(TSDB).自2012年起,许多公司及组织已经采用 Prometheus,并且该项目有着非常活跃的开发者和用户社区.现在已经成为一个独立的开源项目。Prometheus 在2016加入 CNCF ( Cloud Native Computing Foundation 云原生计算基金会 ), 作为在 kubernetes 之后的第二个由基金会主持的项目。 Prometheus 的实现参考了Google内部的监控实现，与源自Google的Kubernetes结合起来非常合适。另外相比influxdb的方案，性能更加突出，而且还内置了报警功能。它针对大规模的集群环境设计了拉取式的数据采集方式，只需要在应用里面实现一个metrics接口，然后把这个接口告诉Prometheus就可以完成数据采集了，下图为prometheus的架构图。</p>
-<p><img src="https://s1.ax1x.com/2020/06/18/NZwhWt.png" alt="NZwhWt.png"></p>
-<p>​        promethues是一套开源的系统监控报警框架。Prometheus 所有采集的监控数据均以指标（metric）的形式保存在内置的<a href="https://www.wikiwand.com/zh/時間序列" target="_blank" rel="noopener">时间序列</a>数据库当中（TSDB）：属于同一指标名称，同一标签集合的、有时间戳标记的数据流。除了存储的时间序列，Prometheus 还可以根据查询请求产生临时的、衍生的时间序列作为返回结果。包含了以下组件</p>
-<ul>
-<li>prometheus server: 主要负责数据采集和存储，提供promQL查询语言支持。prometheus是一个时序数据库，将采集到的监控数据按照时间序列的方式存储到本地磁盘。</li>
-<li>Push Gateway: 支持临时性job主动推送指标的中间网关。</li>
-<li>PromDash： 使用rails开发的dashboard，用于可视化指标数据。</li>
-<li>Exporters: 负责监控机器运行状态，提供被监控组件信息的 HTTP 接口被叫做 exporter。<ul>
-<li>直接采集： exporter内置了prometheus支持，直接向prometheus暴露数据端点。</li>
-<li>间接采集：原不支持prometheus。通过prometheus提供的clien library编写的目标监控采集程序。</li>
-</ul>
-</li>
-<li>Altermanager: 从 Prometheus server 端接收到 alerts 后，会进行去除重复数据，分组，并路由到对收的接受方式，发出报警。常见的接收方式有：电子邮件，企业微信，钉钉 ,  webhook </li>
-<li>WebUI: Prometheus内置一个简单的Web控制台，可以查询指标，查看配置信息或者Service Discovery等，实际工作中，查看指标或者创建仪表盘通常使用Grafana，Prometheus作为Grafana的数据源；9090提供图形化界面功能。</li>
-</ul>
-<p>promethues 的各个组件基本都是用 golang 编写,对编译和部署十分友好.并且没有特殊依赖.基本都是独立工作。</p>
-<h3 id="二、基本工作原理"><a href="#二、基本工作原理" class="headerlink" title="二、基本工作原理"></a><strong>二、基本工作原理</strong></h3><ul>
-<li>Prometheus server 定期从配置好的 jobs 或者 exporters 中拉 metrics，或者接收来自 Pushgateway 发过来的 metrics，或者从其他的 Prometheus server 中拉 metrics。</li>
-<li>Prometheus server 在本地存储收集到的 metrics，并运行已定义好的 alert.rules，记录新的时间序列或者向 Alertmanager 推送警报。</li>
-<li>Alertmanager 根据配置文件，对接收到的警报进行处理，发出告警。</li>
-<li>在图形界面中，可视化采集数据。</li>
-</ul>
-<h3 id="三、Prometheus-的优势和不足"><a href="#三、Prometheus-的优势和不足" class="headerlink" title="三、Prometheus 的优势和不足"></a>三、Prometheus 的优势和不足</h3><h4 id="1、prometheus-的优势"><a href="#1、prometheus-的优势" class="headerlink" title="1、prometheus 的优势"></a>1、prometheus 的优势</h4><ol>
-<li>强大的多维度数据模型：<br>时间序列数据通过 metric 名和键值对来区分。<br>所有的 metrics 都可以设置任意的多维标签。<br>数据模型更随意，不需要刻意设置为以点分隔的字符串。<br>可以对数据模型进行聚合，切割和切片操作。<br>支持双精度浮点类型，标签可以设为全 unicode。</li>
-<li>灵活而强大的查询语句（PromQL）：<br>在同一个查询语句，可以对多个 metrics 进行乘法、加法、连接、取分数位等操作。</li>
-<li>易于管理：<br>Prometheus server 是一个单独的二进制文件，可直接在本地工作，不依赖于分布式存储。</li>
-<li>高效：<br>平均每个采样点仅占 3.5 bytes，且一个 Prometheus server 可以处理数百万的 metrics。<br>使用 pull 模式采集时间序列数据，这样不仅有利于本机测试而且可以避免有问题的服务器推送坏的 metrics。</li>
-<li>可以采用 push gateway 的方式把时间序列数据推送至 Prometheus server 端。</li>
-<li>可以通过服务发现或者静态配置去获取监控的 targets。</li>
-<li>有多种可视化图形界面。</li>
-<li>易于伸缩。</li>
+                <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
+<h4 id="akw"><a href="#akw" class="headerlink" title="akw"></a>akw</h4><ol>
+<li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
-<h4 id="2、prometheus-的不足-有待于改进"><a href="#2、prometheus-的不足-有待于改进" class="headerlink" title="2、prometheus 的不足 有待于改进"></a>2、prometheus 的不足 有待于改进</h4><ol>
-<li>不支持集群化 (这个是当前最迫切的需求)</li>
-<li>被监控集群过大后 本身性能有一定瓶颈(如果有集群 就可以解决这个问题)</li>
-<li>偶尔发生数据丢失(这个问题 在2.0之前 会偶尔发生几次， 2.0之后貌似已经彻底解决 )</li>
-<li>中文支持不好 中文资料也很少(这个问题 也是老生常谈了 往往新的 很牛的国外工具都不太支持中文)</li>
+<pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
+$ end_dt='10/May/2018:23:49:05'
+$ awk -v st=${start_dt} -v ent=${end_dt} -F'[][ ]' '$5 == st,$5 == ent  {print $1}' app.log  |sort |uniq -c |sort -nr |head -n 10
+     66 223.13.142.15
+      6 110.183.13.212
+      4 1.69.17.127
+      1 113.25.94.69
+      1 110.183.58.144</code></pre>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><ol>
+<li>HAproxy，  LVS， Nginx   有何区别，工作中会怎么选择</li>
 </ol>
-<p>注：<br>    由于数据采集可能会有丢失，所以 Prometheus 不适用对采集数据要 100% 准确的情形。但如果用于记录时间序列数据，Prometheus 具有很大的查询优势，此外，Prometheus 适用于微服务的体系架构。</p>
-<h3 id="四、prometheus-的基本概念"><a href="#四、prometheus-的基本概念" class="headerlink" title="四、prometheus 的基本概念"></a><strong>四、prometheus 的基本概念</strong></h3><h4 id="1、数据模型"><a href="#1、数据模型" class="headerlink" title="1、数据模型"></a><strong>1、数据模型</strong></h4><p>  prometheus中存储的数据为时间序列，是由Metric的名字和一系列的标签（键值对）唯一标识的，不同的标签代表不同的时间序列。</p>
-<p> 样本：实际时间序列，每个序列包括一个float64的值和一个毫秒级的时间戳。（指标+时间戳+样本值）</p>
-<p> metric名字： 具有语义，表示功能：例如：http_requeststotal, 表示 http 请求的总数。其中，metric 名字由 ASCII 字符，数字，下划线，以及冒号组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
-<p> 标签：使一个时间序列有不同未读的识别。例如 http_requeststotal{method=”Get”} 表示所有 http 请求中的 Get 请求。当 method=”post” 时，则为新的一个 metric。标签中的键由 ASCII 字符，数字，以及下划线组成，且必须满足正则表达式[a-zA-Z:][a-zA-Z0-9_:]*。</p>
-<p> 格式：<metric name>{<label name>=<label value>, …}，例如：http_requests_total{method=”POST”,endpoint=”/api/tracks”}。</p>
-<h4 id="2、Metric类型"><a href="#2、Metric类型" class="headerlink" title="2、Metric类型"></a><strong>2、Metric类型</strong></h4><p>Prometheus 客户端库主要提供四种主要的 metric 类型：</p>
-<h5 id="1、Counter（累加性metirc）"><a href="#1、Counter（累加性metirc）" class="headerlink" title="1、Counter（累加性metirc）"></a>1、Counter（累加性metirc）</h5><p>一种累加的 metric，典型的应用如：<br>    请求的个数<br>    结束的任务数<br>    出现的错误数<br>    。。。</p>
-<p>例如：<br>    查询 promhttp_metric_handler_requests_total{code=”200”,instance=”localhost:9090”,job=”prometheus”}<br>    返回 8，10 秒后再次查询，则返回 14。</p>
-<h5 id="2、Gauge（可增减性metric）"><a href="#2、Gauge（可增减性metric）" class="headerlink" title="2、Gauge（可增减性metric）"></a>2、Gauge（可增减性metric）</h5><p>一种常规的 metric，典型的应用如：<br>    温度<br>    运行的 go routines 的个数<br>可以任意加减。</p>
-<p>例如：<br>    go_goroutines{instance=”localhost:9090”,job=”prometheus”}<br>    返回值 147，10 秒后返回 124。</p>
-<p>注：<br>    routines: go的日常工作？</p>
-<h5 id="3、Histogram（树状图）"><a href="#3、Histogram（树状图）" class="headerlink" title="3、Histogram（树状图）"></a>3、Histogram（树状图）</h5><p>注：<br> histogram    英[ˈhɪstəɡræm] 美[ˈhɪstəɡræm]   直方图；矩形图</p>
-<p> 可以理解为柱状图，典型的应用如：<br>     请求持续时间<br>     响应大小<br> 可以对观察结果采样，分组及统计。</p>
-<p> 例如：<br>     查询 go_gc_duration_seconds_sum{instance=”localhost:9090”,job=”prometheus”}时<br>      返回结果如下：Histogram metric 返回结果图</p>
-<p><img src="https://s1.ax1x.com/2020/06/18/NZwjWq.png" alt="NZwjWq.png"></p>
-<h5 id="4、Summary（汇总）"><a href="#4、Summary（汇总）" class="headerlink" title="4、Summary（汇总）"></a>4、Summary（汇总）</h5><p>类似于 Histogram，典型的应用如：<br>    请求持续时间<br>    响应大小<br>提供观测值的 count 和 sum 功能。<br>提供百分位的功能，即可以按百分比划分跟踪结果。</p>
-<p>instance 和 jobs<br>instance:<br>    一个单独 scrape(抓取) 的目标， 一般对应于一个进程。</p>
-<p>jobs:<br>    一组同种类型的 instances（主要用于保证可扩展性和可靠性），例如：<br>注：<br>    scrape    英[skreɪp] 美[skreɪp] 刮掉; 削去; 擦坏; 擦伤; 刮坏; 蹭破; (使) 发出刺耳的刮擦声</p>
-<p>当 scrape 目标时，Prometheus 会自动给这个 scrape 的时间序列附加一些标签以便更好的分别<br>例如： instance，job。</p>
-<p>下面以实际的 metric 为例，对上述概念进行说明：<br>Metrics 示例</p>
-<p><img src="https://s1.ax1x.com/2020/06/18/NZwzlV.png" alt="NZwzlV.png"></p>
-<p>如图所示，这三个 metric 的名字都一样，他们仅凭 handler 不同而被标识为不同的 metrics。<br>这类 metrics 只会向上累加，是属于 Counter 类型的 metric，且 metrics 中都含有 instance 和 job 这两个标签。</p>
+<pre class=" language-shell"><code class="language-shell">LVS： 是基于四层的转发
+HAproxy： 是基于四层和七层的转发，是专业的代理服务器
+Nginx： 是WEB服务器，缓存服务器，又是反向代理服务器，可以做七层的转发
+
+区别： LVS由于是基于四层的转发所以只能做端口的转发
+而基于URL的、基于目录的这种转发LVS就做不了
+
+工作选择：
+
+HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都可以做
+在很大并发量的时候我们就要选择LVS，像中小型公司的话并发量没那么大
+选择HAproxy或者Nginx足已，由于HAproxy由是专业的代理服务器
+配置简单，所以中小型企业推荐使用HAproxy</code></pre>
+<h4 id="灰度发布"><a href="#灰度发布" class="headerlink" title="灰度发布"></a>灰度发布</h4><ol>
+<li>灰度发布过程中出现问题，数据库中有脏数据怎么解决</li>
+</ol>
+<pre class=" language-txt"><code class="language-txt">灰度发布大部分用户都是公司中的人，少部分是外面的用户，如果出现错误，叫DBA进行数据库回滚就可以的，在灰度发布的数据中都有标记
+，外面的用户只能叫DBA进行修改</code></pre>
+<h4 id="Iptables"><a href="#Iptables" class="headerlink" title="Iptables"></a>Iptables</h4><ol>
+<li>本地80端口的请求转发到8080端口，当前主机IP为192.168.2.1</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">iptables -t nat -A PREROUTING -d 192.168.2.1 -p tcp -dport 80 -j DNAT -to 192.168.2.1:8080 </code></pre>
+<ol start="2">
+<li>允许本机对外连接80端口（本机能连外界服务器为80）</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">iptables -A OUTPUT -p tcp –dport 80 -j ACCEPT  </code></pre>
+<ol start="3">
+<li>禁止外界ping本服务器</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">iptables -A INPUT -p icmp -j DROP</code></pre>
+<h4 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h4><ol>
+<li>查看最近一次innodb表锁记录</li>
+</ol>
+<pre class=" language-mysql"><code class="language-mysql">show ENGINE INNODB STATUS ;</code></pre>
+<p>列出数据库所有线程</p>
+<pre class=" language-mysql"><code class="language-mysql">show full processlist</code></pre>
+<ol start="2">
+<li>MySQL 的每天的数据量，主从，mysql主库数据量大造成从库同步延迟怎么办</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">带宽，配置不当，性能不一致,待补充</code></pre>
+<ol start="3">
+<li>用SQL语名查询年龄小于平均年龄的作者姓名、图书名、出版社并按姓名降序排序。 图书(图书号，图书名，作者编号，出版社，出版日期)  作者(作者姓名，作者编号，年龄，性别)</li>
+</ol>
+<pre class=" language-MYSQL"><code class="language-MYSQL">select aname,bname,pub from anthor a join book b on (a.ano = b.ano) where age < (select avg(age) from author)</code></pre>
 
             </div>
             <hr/>
@@ -644,7 +641,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/">https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/</a>
+                    <a href="https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/">https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -682,8 +679,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Prometheus/">
-                                    <span class="chip bg-color">Prometheus</span>
+                                <a href="/tags/Go/">
+                                    <span class="chip bg-color">Go</span>
                                 </a>
                             
                         </div>
@@ -854,47 +851,53 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/07/16/sql/mysql-you-biao/">
+                <a href="/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Mysql 游标">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="运维面试题-01">
                         
-                        <span class="card-title">Mysql 游标</span>
+                        <span class="card-title">运维面试题-01</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            [mysql游标的用法及作用]例子：
-当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据
+                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
+akw
+统计日志中某个时间范围的 IP 访问量，并进行排序
+
+$ start_dt='10/May/2018:23:47:43
+$ end_dt='10/
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-16
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>9999-08-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>
@@ -908,32 +911,31 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/31/devops/python-zhi-fabric-mo-kuai/">
+                <a href="/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="python-fabric">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Kubernetes-Pod—生命周期">
                         
-                        <span class="card-title">python-fabric</span>
+                        <span class="card-title">Kubernetes-Pod—生命周期</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            python 之 fabric 模块Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。
-# doc http://docs.fabfile.org
+                            Pod 的生命周期本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 Pending 阶段，如果至少 其中有一个主要容器正常启动，则进入 Running，之后取决于 Pod 中是否有容器以 失败状态结束而进入 Suc
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/DevOps/" class="post-category">
-                                    DevOps
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -943,8 +945,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Python/">
-                        <span class="chip bg-color">Python</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>
@@ -1127,7 +1129,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
     <div class="container row center-align" style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
-            <span id="year">2018</span>
+            <span id="year">2019</span>
             <a href="/about" target="_blank">Cyylog</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
@@ -1255,6 +1257,11 @@ $(function () {
 
     
 
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
     
 
     

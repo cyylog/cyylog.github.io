@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-10-05T17:02:53.809Z</updated>
+  <updated>2020-10-07T07:33:06.122Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>运维面试题-01</title>
+    <link href="https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/"/>
+    <id>https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/</id>
+    <published>9999-08-16T01:59:59.000Z</published>
+    <updated>2020-10-07T07:33:06.122Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&quot;akw&quot;&gt;&lt;a href=&quot;#akw&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubernetes-Pod—生命周期</title>
@@ -274,20 +300,12 @@
   </entry>
   
   <entry>
-    <title>Prometheus学习笔记_01</title>
-    <link href="https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/"/>
-    <id>https://cyylog.github.io/2020/06/18/jian-kong/prometheus-xue-xi-bi-ji-1/</id>
-    <published>2020-06-17T16:48:56.000Z</published>
-    <updated>2020-10-01T14:32:38.278Z</updated>
+    <title>Prometheus（2）</title>
+    <link href="https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/"/>
+    <id>https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/</id>
+    <published>2020-06-18T16:48:56.000Z</published>
+    <updated>2020-10-07T03:16:22.280Z</updated>
     
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;Prometheus-监控&quot;&gt;&lt;a href=&quot;#Prometheus-监控&quot; class=&quot;headerlink&quot; title=&quot;Prometheus 监控&quot;&gt;&lt;/a&gt;Prometheus 监控&lt;/h3&gt;&lt;h3 id=&quot;一、介绍&quot;&gt;&lt;a</summary>
-        
-      
     
     
     
@@ -299,27 +317,27 @@
   </entry>
   
   <entry>
-    <title>python-fabric</title>
-    <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
-    <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
-    <published>2020-05-31T08:20:44.000Z</published>
-    <updated>2020-09-30T20:04:46.494Z</updated>
+    <title>Prometheus（1）</title>
+    <link href="https://cyylog.github.io/2020/06/18/jian-kong/prometheus-1/"/>
+    <id>https://cyylog.github.io/2020/06/18/jian-kong/prometheus-1/</id>
+    <published>2020-06-17T16:48:56.000Z</published>
+    <updated>2020-10-07T01:49:51.105Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
+    <summary type="html">&lt;h1 id=&quot;Prometheus搭建简单的监控告警系统&quot;&gt;&lt;a href=&quot;#Prometheus搭建简单的监控告警系统&quot; class=&quot;headerlink&quot;</summary>
         
       
     
     
     
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
     
     
-    <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
     
   </entry>
   
@@ -345,6 +363,31 @@
     
     
     <category term="Vue" scheme="https://cyylog.github.io/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python-fabric</title>
+    <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
+    <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-09-30T20:04:46.494Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    
+    
+    <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
     
   </entry>
   
@@ -474,70 +517,6 @@
     
     
     <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Interview MySQL_001--undone</title>
-    <link href="https://cyylog.github.io/2020/04/22/interview/interview-mysql-001/"/>
-    <id>https://cyylog.github.io/2020/04/22/interview/interview-mysql-001/</id>
-    <published>2020-04-21T20:55:39.000Z</published>
-    <updated>2020-09-28T05:06:49.484Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-
-
-&lt;p&gt;mysql：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;mysql事务的隔离级别&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Interview Network_001--undone</title>
-    <link href="https://cyylog.github.io/2020/04/22/interview/interview-network-001/"/>
-    <id>https://cyylog.github.io/2020/04/22/interview/interview-network-001/</id>
-    <published>2020-04-21T19:55:39.000Z</published>
-    <updated>2020-09-28T05:06:40.754Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;网络&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;http的3次握手&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ol</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Network" scheme="https://cyylog.github.io/tags/Network/"/>
     
   </entry>
   
