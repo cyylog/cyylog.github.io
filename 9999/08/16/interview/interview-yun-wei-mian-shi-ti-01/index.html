@@ -516,8 +516,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Go/">
-                                <span class="chip bg-color">Go</span>
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
                     </div>
@@ -621,6 +621,13 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 <li>用SQL语名查询年龄小于平均年龄的作者姓名、图书名、出版社并按姓名降序排序。 图书(图书号，图书名，作者编号，出版社，出版日期)  作者(作者姓名，作者编号，年龄，性别)</li>
 </ol>
 <pre class=" language-MYSQL"><code class="language-MYSQL">select aname,bname,pub from anthor a join book b on (a.ano = b.ano) where age < (select avg(age) from author)</code></pre>
+<h4 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h4><p>从技术角度描述一下用户打开<a href="http://www.iyunke.net所经过的所有过程，越详细越好。" target="_blank" rel="noopener">www.iyunke.net所经过的所有过程，越详细越好。</a>   （DNS+HTTP协议）</p>
+<pre class=" language-txt"><code class="language-txt">1. 域名解析
+2. 发起TCP的3次握手
+3. 建立TCP连接后发起HTTP请求
+4. 服务器端响应http请求，浏览器得到html代码
+5. 浏览器解析html代码，并请求html代码中的资源
+6. 浏览器对页面进行渲染呈现给用户</code></pre>
 
             </div>
             <hr/>
@@ -684,8 +691,8 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Go/">
-                                    <span class="chip bg-color">Go</span>
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
                                 </a>
                             
                         </div>
@@ -901,8 +908,8 @@ $ end_dt='10/
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Go/">
-                        <span class="chip bg-color">Go</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -916,31 +923,35 @@ $ end_dt='10/
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/">
+                <a href="/9998/08/16/interview/xi-tong-diao-you/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Kubernetes-Pod—生命周期">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="系统调优">
                         
-                        <span class="card-title">Kubernetes-Pod—生命周期</span>
+                        <span class="card-title">系统调优</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Pod 的生命周期本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 Pending 阶段，如果至少 其中有一个主要容器正常启动，则进入 Running，之后取决于 Pod 中是否有容器以 失败状态结束而进入 Suc
+                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
+性能优化优化的目的
+1. 提高资源的利用率
+2. 找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）
+3. 通过性能管理实现合理
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
+                                <i class="far fa-clock fa-fw icon-date"></i>9998-08-16
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
                                 </a>
                             
                             
@@ -950,8 +961,8 @@ $ end_dt='10/
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
