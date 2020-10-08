@@ -558,7 +558,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
-<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
+<h4 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h4><h6 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h6><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -574,6 +574,11 @@ awk '$4>="[29/May/2020:20:39:11" && $4<="[30/May/2020:01:08:27" {a[$1]++} END {f
 
 [29/May/2020:18:53:53
 [29/May/2020:18:54:23</code></pre>
+<h6 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h6><h6 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h6><h6 id="find"><a href="#find" class="headerlink" title="find"></a>find</h6><ol>
+<li>查找/data目录下5天前，大于100M的文件并删除    </li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">find /data -type -size +100M -atime +5 -exec rm -rf {} \;  
+find /data -type -size +100M -atime +5|xargs -i rm -rf </code></pre>
 <h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><ol>
 <li>HAproxy，  LVS， Nginx   有何区别，工作中会怎么选择</li>
 </ol>
@@ -611,24 +616,29 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 <li>查看最近一次innodb表锁记录</li>
 </ol>
 <pre class=" language-mysql"><code class="language-mysql">show ENGINE INNODB STATUS ;</code></pre>
-<p>列出数据库所有线程</p>
-<pre class=" language-mysql"><code class="language-mysql">show full processlist</code></pre>
 <ol start="2">
+<li>列出数据库所有线程</li>
+</ol>
+<pre class=" language-mysql"><code class="language-mysql">show full processlist</code></pre>
+<ol start="3">
 <li>MySQL 的每天的数据量，主从，mysql主库数据量大造成从库同步延迟怎么办</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">带宽，配置不当，性能不一致,待补充</code></pre>
-<ol start="3">
+<ol start="4">
 <li>用SQL语名查询年龄小于平均年龄的作者姓名、图书名、出版社并按姓名降序排序。 图书(图书号，图书名，作者编号，出版社，出版日期)  作者(作者姓名，作者编号，年龄，性别)</li>
 </ol>
 <pre class=" language-MYSQL"><code class="language-MYSQL">select aname,bname,pub from anthor a join book b on (a.ano = b.ano) where age < (select avg(age) from author)</code></pre>
-<h4 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h4><p>从技术角度描述一下用户打开<a href="http://www.iyunke.net所经过的所有过程，越详细越好。" target="_blank" rel="noopener">www.iyunke.net所经过的所有过程，越详细越好。</a>   （DNS+HTTP协议）</p>
+<h4 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h4><p>从技术角度描述一下用户打开<a href="https://cyylog.netlify.app所经过的所有过程，越详细越好。" target="_blank" rel="noopener">https://cyylog.netlify.app所经过的所有过程，越详细越好。</a>   （DNS+HTTP协议）</p>
 <pre class=" language-txt"><code class="language-txt">1. 域名解析
 2. 发起TCP的3次握手
 3. 建立TCP连接后发起HTTP请求
 4. 服务器端响应http请求，浏览器得到html代码
 5. 浏览器解析html代码，并请求html代码中的资源
 6. 浏览器对页面进行渲染呈现给用户</code></pre>
-
+<h4 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h4><h4 id="Zabbix"><a href="#Zabbix" class="headerlink" title="Zabbix"></a>Zabbix</h4><h4 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a>ELK</h4><h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><h4 id="常用web服务器"><a href="#常用web服务器" class="headerlink" title="常用web服务器"></a>常用web服务器</h4><blockquote>
+<p>Apache、Nginx、Tomcat</p>
+</blockquote>
+<h4 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h4><h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h4><h4 id="K8S"><a href="#K8S" class="headerlink" title="K8S"></a>K8S</h4>
             </div>
             <hr/>
 
@@ -653,7 +663,7 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/">https://cyylog.github.io/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/</a>
+                    <a href="https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/">https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -868,7 +878,7 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/9999/08/16/interview/interview-yun-wei-mian-shi-ti-01/">
+                <a href="/9999/08/16/interview/yun-wei-mian-shi-ti-01/">
                     <div class="card-image">
                         
                         
@@ -881,11 +891,11 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     <div class="summary block-with-text">
                         
                             PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-awk
+四剑客awk
 统计日志中某个时间范围的 IP 访问量，并进行排序
 
 $ start_dt='10/May/2018:23:47:43
-$ end_dt='10/
+$ end_dt='
                         
                     </div>
                     <div class="publish-info">
