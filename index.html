@@ -904,9 +904,10 @@ Pod （就像在鲸鱼荚或者豌豆荚中）是一组（一个或多个） 容
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                1 哨兵的作用哨兵是redis集群架构中非常重要的一个组件,主要功能如下： 
-​     1. 集群监控：负责监控redis master和slave进程是否正常工作 
-​     2. 消息通知：如果某个redis实例有故障,那么哨兵负责
+                                Redis宕机后如何实现快速恢复一、部署模式Redis在部署时，可以采用多种方式部署，每种部署方式对应不同的可用级别。
+
+单节点部署 ：只有一个节点提供服务，读写均在此节点，此节点宕机则数据全部丢失，直接影响业务。
+master-slave
                             
                         </div>
                         <div class="publish-info">
