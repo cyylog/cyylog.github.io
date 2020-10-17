@@ -558,7 +558,19 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
-<h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
+<h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><ol>
+<li>写脚本找到本机的IP地址</li>
+</ol>
+<pre><code>ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
+
+ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
+命令解释
+ ifconfig -a  　　　　 和window下执行此命令一样道理，返回本机所有ip信息
+ grep inet               　   截取包含ip的行
+ grep -v 127.0.0.1      去掉本地指向的那行
+ grep -v inet6             去掉包含inet6的行
+ awk { print $2}         $2 表示默认以空格分割的第二组 同理 $1表示第一组​
+ tr -d &quot;addr:               删除&quot;addr:&quot;这个字符串</code></pre><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -575,11 +587,19 @@ awk '$4>="[29/May/2020:20:39:11" && $4<="[30/May/2020:01:08:27" {a[$1]++} END {f
 [29/May/2020:18:53:53
 [29/May/2020:18:54:23</code></pre>
 <h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><ol>
-<li>关闭selinux<pre class=" language-shell"><code class="language-shell">sed -ri s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
+<li><p>关闭selinux</p>
+<pre class=" language-shell"><code class="language-shell">sed -ri s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
 setenforce 0</code></pre>
 </li>
+<li><p>将nginx.conf中的所有server_name中baidu.com替换成linkdood.cn</p>
+</li>
 </ol>
-<h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><ol>
+<pre class=" language-shell"><code class="language-shell">sed -ri s/server\_name/baidu\.com/g nginx.conf</code></pre>
+<h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><ol>
+<li>用命令如何查找/opt/目录下文件名qypay.conf的文件中是否有redis=127.0.0.1的配置</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">grep "redis\=127\.0\.0\.1"/opt/qypay.conf </code></pre>
+<h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><ol>
 <li>查找/data目录下5天前，大于100M的文件并删除    </li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">find /data -type -size +100M -atime +5 -exec rm -rf {} \;  
@@ -903,11 +923,10 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     <div class="summary block-with-text">
                         
                             PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-四剑客awk
-统计日志中某个时间范围的 IP 访问量，并进行排序
+四剑客shell
+写脚本找到本机的IP地址
 
-$ start_dt='10/May/2018:23:47:43
-$ end_dt='
+ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {pri
                         
                     </div>
                     <div class="publish-info">
