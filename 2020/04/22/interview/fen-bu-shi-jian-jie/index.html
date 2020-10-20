@@ -834,7 +834,8 @@
 
 进程、线程、协程有什么区别？4个线程执行3个文件句柄是共享这3个文件么？
 
-
+epoll的原理过程
+1、首先执行epoll_create在内核专属于epoll的高速cache区，并在该缓冲区建立红黑树和就绪链表，用户态传入的
                         
                     </div>
                     <div class="publish-info">

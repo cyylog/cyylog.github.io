@@ -2918,7 +2918,9 @@ cgroups.txt               devices.txt      memory.txt
 四剑客shell
 写脚本找到本机的IP地址
 
-ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {pri
+获取当前主机ens33的ip
+
+ifconfig ens33 | grep &quot;inet &quot
                         
                     </div>
                     <div class="publish-info">

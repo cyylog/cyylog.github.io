@@ -561,7 +561,11 @@
 <h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><ol>
 <li>写脚本找到本机的IP地址</li>
 </ol>
-<pre><code>ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
+<pre><code>获取当前主机ens33的ip
+
+ifconfig ens33 | grep &quot;inet &quot; | sed &#39;s/^.*inet //g&#39; | sed &#39;s/ *netmask.*$//g&#39;
+
+ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
 
 ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
 命令解释
@@ -570,7 +574,11 @@ ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &q
  grep -v 127.0.0.1      去掉本地指向的那行
  grep -v inet6             去掉包含inet6的行
  awk { print $2}         $2 表示默认以空格分割的第二组 同理 $1表示第一组​
- tr -d &quot;addr:               删除&quot;addr:&quot;这个字符串</code></pre><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
+ tr -d &quot;addr:               删除&quot;addr:&quot;这个字符串</code></pre><ol start="2">
+<li>如何查看系统每个ip的连接数</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">netstat -tan| awk '/tcp & gt; /{ split ($5,ip,":"); count[ip[1]]++} END {for(i in count) { print i, count[i]} }'</code></pre>
+<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -586,6 +594,14 @@ awk '$4>="[29/May/2020:20:39:11" && $4<="[30/May/2020:01:08:27" {a[$1]++} END {f
 
 [29/May/2020:18:53:53
 [29/May/2020:18:54:23</code></pre>
+<ol start="2">
+<li>按URL的请求数排序，出访问这些url的ｉｐ</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">按URL的请求数排序
+awk -F\" '{print $2}' access.log | awk '{print $2}' | sort | uniq -c | sort -r
+
+找出访问这些url的ｉｐ
+awk -F\" '($2 ~ "/phpmyadmin/index.php"){print $1}' access.log | awk '{print $1}' | sort | uniq -c | sort -r</code></pre>
 <h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><ol>
 <li><p>关闭selinux</p>
 <pre class=" language-shell"><code class="language-shell">sed -ri s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
@@ -653,24 +669,30 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 <li>用SQL语名查询年龄小于平均年龄的作者姓名、图书名、出版社并按姓名降序排序。 图书(图书号，图书名，作者编号，出版社，出版日期)  作者(作者姓名，作者编号，年龄，性别)</li>
 </ol>
 <pre class=" language-MYSQL"><code class="language-MYSQL">select aname,bname,pub from anthor a join book b on (a.ano = b.ano) where age < (select avg(age) from author)</code></pre>
-<h3 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h3><ol>
-<li>从技术角度描述一下用户打开<a href="https://cyylog.netlify.app所经过的所有过程，越详细越好。" target="_blank" rel="noopener">https://cyylog.netlify.app所经过的所有过程，越详细越好。</a>   （DNS+HTTP协议）</li>
+<ol start="5">
+<li><pre><code></code></pre></li>
 </ol>
-<pre class=" language-txt"><code class="language-txt">1. 域名解析
+<pre><code>
+
+
+### 网络基础
+
+1. 从技术角度描述一下用户打开https://cyylog.netlify.app所经过的所有过程，越详细越好。   （DNS+HTTP协议）
+
+~~~txt
+1. 域名解析
 2. 发起TCP的3次握手
 3. 建立TCP连接后发起HTTP请求
 4. 服务器端响应http请求，浏览器得到html代码
 5. 浏览器解析html代码，并请求html代码中的资源
-6. 浏览器对页面进行渲染呈现给用户</code></pre>
-<ol start="2">
-<li><p>tcpdump 抓本机 192.168.23.1 的80端口</p>
-<pre class=" language-shell"><code class="language-shell">tcpdump -i ens33 host 192.168.23.1 port 80</code></pre>
-</li>
+6. 浏览器对页面进行渲染呈现给用户</code></pre><ol start="2">
+<li>tcpdump 抓本机 192.168.23.1 的80端口</li>
 </ol>
-<h3 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h3><h3 id="Zabbix"><a href="#Zabbix" class="headerlink" title="Zabbix"></a>Zabbix</h3><h4 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a>ELK</h4><h4 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h4><h3 id="常用web服务器"><a href="#常用web服务器" class="headerlink" title="常用web服务器"></a>常用web服务器</h3><blockquote>
+<pre class=" language-shell"><code class="language-shell">tcpdump -i ens33 host 192.168.23.1 port 80</code></pre>
+<h3 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h3><h3 id="Zabbix"><a href="#Zabbix" class="headerlink" title="Zabbix"></a>Zabbix</h3><h3 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a>ELK</h3><h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><h3 id="常用web服务器"><a href="#常用web服务器" class="headerlink" title="常用web服务器"></a>常用web服务器</h3><blockquote>
 <p>Apache、Nginx、Tomcat</p>
 </blockquote>
-<h3 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h3><h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h4><h4 id="K8S"><a href="#K8S" class="headerlink" title="K8S"></a>K8S</h4>
+<h3 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h3><h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><h3 id="K8S"><a href="#K8S" class="headerlink" title="K8S"></a>K8S</h3>
             </div>
             <hr/>
 
@@ -926,7 +948,9 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 四剑客shell
 写脚本找到本机的IP地址
 
-ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {pri
+获取当前主机ens33的ip
+
+ifconfig ens33 | grep &quot;inet &quot
                         
                     </div>
                     <div class="publish-info">
