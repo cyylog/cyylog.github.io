@@ -558,27 +558,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
-<h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h4><ol>
-<li>写脚本找到本机的IP地址</li>
-</ol>
-<pre><code>获取当前主机ens33的ip
-
-ifconfig ens33 | grep &quot;inet &quot; | sed &#39;s/^.*inet //g&#39; | sed &#39;s/ *netmask.*$//g&#39;
-
-ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
-
-ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
-命令解释
- ifconfig -a  　　　　 和window下执行此命令一样道理，返回本机所有ip信息
- grep inet               　   截取包含ip的行
- grep -v 127.0.0.1      去掉本地指向的那行
- grep -v inet6             去掉包含inet6的行
- awk { print $2}         $2 表示默认以空格分割的第二组 同理 $1表示第一组​
- tr -d &quot;addr:               删除&quot;addr:&quot;这个字符串</code></pre><ol start="2">
-<li>如何查看系统每个ip的连接数</li>
-</ol>
-<pre class=" language-shell"><code class="language-shell">netstat -tan| awk '/tcp & gt; /{ split ($5,ip,":"); count[ip[1]]++} END {for(i in count) { print i, count[i]} }'</code></pre>
-<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
+<h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -620,6 +600,26 @@ setenforce 0</code></pre>
 </ol>
 <pre class=" language-shell"><code class="language-shell">find /data -type -size +100M -atime +5 -exec rm -rf {} \;  
 find /data -type -size +100M -atime +5|xargs -i rm -rf </code></pre>
+<h3 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h3><ol>
+<li>写脚本找到本机的IP地址</li>
+</ol>
+<pre><code>获取当前主机ens33的ip
+
+ifconfig ens33 | grep &quot;inet &quot; | sed &#39;s/^.*inet //g&#39; | sed &#39;s/ *netmask.*$//g&#39;
+
+ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
+
+ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &quot;\\1&quot;, &quot;g&quot;, $2)}&#39;
+命令解释
+ ifconfig -a  　　　　 和window下执行此命令一样道理，返回本机所有ip信息
+ grep inet               　   截取包含ip的行
+ grep -v 127.0.0.1      去掉本地指向的那行
+ grep -v inet6             去掉包含inet6的行
+ awk { print $2}         $2 表示默认以空格分割的第二组 同理 $1表示第一组​
+ tr -d &quot;addr:               删除&quot;addr:&quot;这个字符串</code></pre><ol start="2">
+<li>如何查看系统每个ip的连接数</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">netstat -tan| awk '/tcp & gt; /{ split ($5,ip,":"); count[ip[1]]++} END {for(i in count) { print i, count[i]} }'</code></pre>
 <h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><ol>
 <li>HAproxy，  LVS， Nginx   有何区别，工作中会怎么选择</li>
 </ol>
@@ -945,12 +945,11 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
                     <div class="summary block-with-text">
                         
                             PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-四剑客shell
-写脚本找到本机的IP地址
+四剑客awk
+统计日志中某个时间范围的 IP 访问量，并进行排序
 
-获取当前主机ens33的ip
-
-ifconfig ens33 | grep &quot;inet &quot
+$ start_dt='10/May/2018:23:47:43
+$ end_dt='
                         
                     </div>
                     <div class="publish-info">
