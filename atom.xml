@@ -69,6 +69,35 @@
   </entry>
   
   <entry>
+    <title>Go-单例模式</title>
+    <link href="https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/"/>
+    <id>https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/</id>
+    <published>2020-10-22T13:55:39.000Z</published>
+    <updated>2020-10-23T13:30:45.207Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+   </summary>
+        
+      
+    
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/categories/Go/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Kubernetes-Pod—生命周期</title>
     <link href="https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/"/>
     <id>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</id>
@@ -488,33 +517,6 @@
     
     
     <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>网络解析与抓包工具</title>
-    <link href="https://cyylog.github.io/2020/05/21/wang-luo-jie-xi-yu-zhua-bao-gong-ju/"/>
-    <id>https://cyylog.github.io/2020/05/21/wang-luo-jie-xi-yu-zhua-bao-gong-ju/</id>
-    <published>2020-05-20T16:24:11.000Z</published>
-    <updated>2020-10-01T14:25:36.005Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h3 id=&quot;网络解析与抓包–简介&quot;&gt;&lt;a href=&quot;#网络解析与抓包–简介&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="Tools" scheme="https://cyylog.github.io/tags/Tools/"/>
     
   </entry>
   

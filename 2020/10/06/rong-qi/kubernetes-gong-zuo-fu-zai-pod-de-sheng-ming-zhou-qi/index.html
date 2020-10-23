@@ -118,6 +118,15 @@
   
   <li class="hide-on-med-and-down nav-item">
     
+    <a href="/" class="waves-effect waves-light">
+      
+      <span>sitemap</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
     <a href="" class="waves-effect waves-light">
 
       
@@ -256,6 +265,17 @@
 			    <i class="fa-fw fas fa-address-book"></i>
 			
 			友情链接
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+				<i class="fas fa-fw fa-link"></i>
+			
+			sitemap
 		</a>
           
         </li>
@@ -994,35 +1014,44 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/9998/08/16/interview/xi-tong-diao-you/">
+                <a href="/2020/10/22/devops/golang/go-dan-li-mo-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="系统调优">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Go-单例模式">
                         
-                        <span class="card-title">系统调优</span>
+                        <span class="card-title">Go-单例模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-性能优化优化的目的
-1. 提高资源的利用率
-2. 找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）
-3. 通过性能管理实现合理
+                            单例模式package main
+
+import (
+    &quot;fmt&quot;
+    &quot;sync&quot;
+)
+
+//单例模式
+
+type WebConfig struct {
+    Port int
+}
+
+v
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>9998-08-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-22
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Interview/" class="post-category">
-                                    Interview
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
                                 </a>
                             
                             
@@ -1032,8 +1061,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
                     </a>
                     
                 </div>

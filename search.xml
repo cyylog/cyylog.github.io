@@ -54,6 +54,31 @@
     
     
     <entry>
+      <title>Go-单例模式</title>
+      <link href="2020/10/22/devops/golang/go-dan-li-mo-shi/"/>
+      <url>2020/10/22/devops/golang/go-dan-li-mo-shi/</url>
+      
+        <content type="html"><![CDATA[<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><pre><code>package mainimport (    &quot;fmt&quot;    &quot;sync&quot;)//单例模式type WebConfig struct {    Port int}var cc *WebConfigvar once sync.Oncefunc GetConfig() *WebConfig {    once.Do(func() {        cc = &amp;WebConfig{Port: 8080}    })    return cc}func main() {    c := GetConfig()    c2 := GetConfig()    c.Port = 9090    fmt.Println(c2, c == c2)}</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Go </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Go </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Kubernetes-Pod—生命周期</title>
       <link href="2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/"/>
       <url>2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</url>
