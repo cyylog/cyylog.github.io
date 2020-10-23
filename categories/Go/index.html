@@ -484,20 +484,20 @@
                 </a>
                 
                 
-                <a href="/categories/Interview/" title="Interview: 7">
+                <a href="/categories/Tools/" title="Tools: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D5F5E3;">Interview
-                        <span class="tag-length">7</span>
+                            style="background-color: #D5F5E3;">Tools
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/Tools/" title="Tools: 2">
+                <a href="/categories/Interview/" title="Interview: 7">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #E8F8F5;">Tools
-                        <span class="tag-length">2</span>
+                            style="background-color: #E8F8F5;">Interview
+                        <span class="tag-length">7</span>
                     </span>
                 </a>
                 
@@ -529,11 +529,11 @@
                 </a>
                 
                 
-                <a href="/categories/Go/" title="Go: 1">
+                <a href="/categories/Go/" title="Go: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
                             style="background-color: #D7BDE2;">Go
-                        <span class="tag-length">1</span>
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -548,6 +548,56 @@
 
     <article id="articles" class="container articles">
         <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/10/23/devops/golang/go-redis/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Go-Redis">
+                            
+                            <span class="card-title">Go-Redis</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Redis 容器docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-23
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Go/">
+                            <span class="chip bg-color">Go</span>
+                        </a>
+                        
+                        <a href="/tags/Redis/">
+                            <span class="chip bg-color">Redis</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
@@ -566,8 +616,8 @@
                                 单例模式package main
 
 import (
-    &quot;fmt&quot;
-    &quot;sync&quot;
+    "fmt"
+    "sync"
 )
 
 //单例模式
@@ -576,7 +626,8 @@ type WebConfig struct {
     Port int
 }
 
-v
+var cc *WebConfig
+var
                             
                         </div>
                         <div class="publish-info">

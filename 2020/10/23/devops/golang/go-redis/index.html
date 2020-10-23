@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Go-单例模式, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Go-Redis, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="Cyylog技术栈，精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Go-单例模式 | Cyylog技术栈</title>
+    <title>Go-Redis | Cyylog技术栈</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -414,12 +414,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Go-单例模式</h1>
+                    <h1 class="description center-align post-title">Go-Redis</h1>
                 </div>
             </div>
         </div>
@@ -540,6 +540,10 @@
                                 <span class="chip bg-color">Go</span>
                             </a>
                         
+                            <a href="/tags/Redis/">
+                                <span class="chip bg-color">Redis</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -561,7 +565,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-10-22
+                    2020-10-23
                 </div>
                 
 
@@ -577,38 +581,102 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><pre class=" language-go"><code class="language-go"><span class="token keyword">package</span> main
-
-<span class="token keyword">import</span> <span class="token punctuation">(</span>
-    <span class="token string">"fmt"</span>
-    <span class="token string">"sync"</span>
+                <h4 id="Redis-容器"><a href="#Redis-容器" class="headerlink" title="Redis 容器"></a>Redis 容器</h4><pre class=" language-shell"><code class="language-shell">docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-servver</code></pre>
+<h4 id="使用的库"><a href="#使用的库" class="headerlink" title="使用的库"></a>使用的库</h4><p><a href="https://github.com/go-redis/redis" target="_blank" rel="noopener">https://github.com/go-redis/redis</a></p>
+<pre class=" language-shell"><code class="language-shell">go get github.com/go-redis/redis/v8</code></pre>
+<h5 id="Quickstart"><a href="#Quickstart" class="headerlink" title="Quickstart"></a>Quickstart</h5><pre class=" language-go"><code class="language-go"><span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"context"</span>
+    <span class="token string">"github.com/go-redis/redis/v8"</span>
 <span class="token punctuation">)</span>
 
-<span class="token comment" spellcheck="true">//单例模式</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">Background</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-<span class="token keyword">type</span> WebConfig <span class="token keyword">struct</span> <span class="token punctuation">{</span>
-    Port <span class="token builtin">int</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">var</span> cc <span class="token operator">*</span>WebConfig
-<span class="token keyword">var</span> once sync<span class="token punctuation">.</span>Once
-
-<span class="token keyword">func</span> <span class="token function">GetConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span>WebConfig <span class="token punctuation">{</span>
-
-    once<span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span><span class="token keyword">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        cc <span class="token operator">=</span> <span class="token operator">&amp;</span>WebConfig<span class="token punctuation">{</span>Port<span class="token punctuation">:</span> <span class="token number">8080</span><span class="token punctuation">}</span>
+<span class="token keyword">func</span> <span class="token function">ExampleClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    rdb <span class="token operator">:=</span> redis<span class="token punctuation">.</span><span class="token function">NewClient</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>Options<span class="token punctuation">{</span>
+        Addr<span class="token punctuation">:</span>     <span class="token string">"localhost:6379"</span><span class="token punctuation">,</span>
+        Password<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// no password set</span>
+        DB<span class="token punctuation">:</span>       <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">// use default DB</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token keyword">return</span> cc
-<span class="token punctuation">}</span>
 
-<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    c <span class="token operator">:=</span> <span class="token function">GetConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    c2 <span class="token operator">:=</span> <span class="token function">GetConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    c<span class="token punctuation">.</span>Port <span class="token operator">=</span> <span class="token number">9090</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>c2<span class="token punctuation">,</span> c <span class="token operator">==</span> c2<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
+    err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Err</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
 
-</code></pre>
+    val<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"key"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"key"</span><span class="token punctuation">,</span> val<span class="token punctuation">)</span>
+
+    val2<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Get</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"key2"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">==</span> redis<span class="token punctuation">.</span>Nil <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"key2 does not exist"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token function">panic</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"key2"</span><span class="token punctuation">,</span> val2<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// Output: key value</span>
+    <span class="token comment" spellcheck="true">// key2 does not exist</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="Look-and-feel"><a href="#Look-and-feel" class="headerlink" title="Look and feel"></a>Look and feel</h5><p>Some corner cases:</p>
+<pre class=" language-go"><code class="language-go"><span class="token comment" spellcheck="true">// SET key value EX 10 NX</span>
+set<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">SetNX</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token operator">*</span>time<span class="token punctuation">.</span>Second<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// SET key value keepttl NX</span>
+set<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">SetNX</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">,</span> redis<span class="token punctuation">.</span>KeepTTL<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// SORT list LIMIT 0 2 ASC</span>
+vals<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Sort</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"list"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>Sort<span class="token punctuation">{</span>Offset<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> Count<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> Order<span class="token punctuation">:</span> <span class="token string">"ASC"</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// ZRANGEBYSCORE zset -inf +inf WITHSCORES LIMIT 0 2</span>
+vals<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">ZRangeByScoreWithScores</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"zset"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>ZRangeBy<span class="token punctuation">{</span>
+    Min<span class="token punctuation">:</span> <span class="token string">"-inf"</span><span class="token punctuation">,</span>
+    Max<span class="token punctuation">:</span> <span class="token string">"+inf"</span><span class="token punctuation">,</span>
+    Offset<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    Count<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3 AGGREGATE SUM</span>
+vals<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">ZInterStore</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"out"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>redis<span class="token punctuation">.</span>ZStore<span class="token punctuation">{</span>
+    Keys<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token string">"zset1"</span><span class="token punctuation">,</span> <span class="token string">"zset2"</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    Weights<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int64</span><span class="token punctuation">{</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// EVAL "return {KEYS[1],ARGV[1]}" 1 "key" "hello"</span>
+vals<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Eval</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"return {KEYS[1],ARGV[1]}"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">{</span><span class="token string">"key"</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// custom command</span>
+res<span class="token punctuation">,</span> err <span class="token operator">:=</span> rdb<span class="token punctuation">.</span><span class="token function">Do</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"set"</span><span class="token punctuation">,</span> <span class="token string">"key"</span><span class="token punctuation">,</span> <span class="token string">"value"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Result</span><span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h6 id="常用类型"><a href="#常用类型" class="headerlink" title="常用类型"></a>常用类型</h6><table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>封装类名</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>String （字符串）</td>
+<td>StringOperation</td>
+</tr>
+<tr>
+<td>Hash（哈希）</td>
+<td>HashOperation</td>
+</tr>
+<tr>
+<td>List （列表）</td>
+<td>ListOperation</td>
+</tr>
+<tr>
+<td>Set （集合）</td>
+<td>SetOperation</td>
+</tr>
+<tr>
+<td>Zset（有序集合)</td>
+<td>ZSetOperation</td>
+</tr>
+</tbody></table>
 
             </div>
             <hr/>
@@ -634,7 +702,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/">https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/</a>
+                    <a href="https://cyylog.github.io/2020/10/23/devops/golang/go-redis/">https://cyylog.github.io/2020/10/23/devops/golang/go-redis/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -674,6 +742,10 @@
                             
                                 <a href="/tags/Go/">
                                     <span class="chip bg-color">Go</span>
+                                </a>
+                            
+                                <a href="/tags/Redis/">
+                                    <span class="chip bg-color">Redis</span>
                                 </a>
                             
                         </div>
@@ -848,25 +920,92 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/10/23/devops/golang/go-redis/">
+                <a href="/9998/08/16/interview/xi-tong-diao-you/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Go-Redis">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="系统调优">
                         
-                        <span class="card-title">Go-Redis</span>
+                        <span class="card-title">系统调优</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Redis 容器docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-
+                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
+性能优化优化的目的
+1. 提高资源的利用率
+2. 找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）
+3. 通过性能管理实现合理
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-23
+                            <i class="far fa-clock fa-fw icon-date"></i>9998-08-16
                         </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/10/22/devops/golang/go-dan-li-mo-shi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Go-单例模式">
+                        
+                        <span class="card-title">Go-单例模式</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            单例模式package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+//单例模式
+
+type WebConfig struct {
+    Port int
+}
+
+var cc *WebConfig
+var
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -884,59 +1023,6 @@
                     
                     <a href="/tags/Go/">
                         <span class="chip bg-color">Go</span>
-                    </a>
-                    
-                    <a href="/tags/Redis/">
-                        <span class="chip bg-color">Redis</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Kubernetes-Pod—生命周期">
-                        
-                        <span class="card-title">Kubernetes-Pod—生命周期</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Pod 的生命周期本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 Pending 阶段，如果至少 其中有一个主要容器正常启动，则进入 Running，之后取决于 Pod 中是否有容器以 失败状态结束而进入 Suc
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>

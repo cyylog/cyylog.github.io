@@ -69,22 +69,45 @@
   </entry>
   
   <entry>
+    <title>Go-Redis</title>
+    <link href="https://cyylog.github.io/2020/10/23/devops/golang/go-redis/"/>
+    <id>https://cyylog.github.io/2020/10/23/devops/golang/go-redis/</id>
+    <published>2020-10-23T11:55:39.000Z</published>
+    <updated>2020-10-23T13:48:30.553Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;Redis-容器&quot;&gt;&lt;a href=&quot;#Redis-容器&quot; class=&quot;headerlink&quot; title=&quot;Redis 容器&quot;&gt;&lt;/a&gt;Redis 容器&lt;/h4&gt;&lt;pre class=&quot; language-shell&quot;&gt;&lt;code</summary>
+        
+      
+    
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/categories/Go/"/>
+    
+    
+    <category term="Go" scheme="https://cyylog.github.io/tags/Go/"/>
+    
+    <category term="Redis" scheme="https://cyylog.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Go-单例模式</title>
     <link href="https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/"/>
     <id>https://cyylog.github.io/2020/10/22/devops/golang/go-dan-li-mo-shi/</id>
     <published>2020-10-22T13:55:39.000Z</published>
-    <updated>2020-10-23T13:30:45.207Z</updated>
+    <updated>2020-10-23T13:33:01.899Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h3 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;package main
-
-import (
-    &amp;quot;fmt&amp;quot;
-   </summary>
+    <summary type="html">&lt;h3 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h3&gt;&lt;pre class=&quot; language-go&quot;&gt;&lt;code class=&quot;language-go&quot;&gt;&lt;span</summary>
         
       
     
@@ -483,31 +506,6 @@ import (
         
         
     <summary type="html">&lt;h4 id=&quot;参数&quot;&gt;&lt;a href=&quot;#参数&quot; class=&quot;headerlink&quot; title=&quot;参数&quot;&gt;&lt;/a&gt;参数&lt;/h4&gt;&lt;p&gt;&lt;code&gt;parameters&lt;/code&gt; 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins_流水线语法_001</title>
-    <link href="https://cyylog.github.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/"/>
-    <id>https://cyylog.github.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/</id>
-    <published>2020-05-28T13:43:32.000Z</published>
-    <updated>2020-05-30T13:54:45.129Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;流水线语法&quot;&gt;&lt;a href=&quot;#流水线语法&quot; class=&quot;headerlink&quot; title=&quot;流水线语法&quot;&gt;&lt;/a&gt;流水线语法&lt;/h4&gt;&lt;p&gt;本节是建立在 &lt;a</summary>
         
       
     
