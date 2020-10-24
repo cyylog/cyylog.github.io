@@ -620,14 +620,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <loc>https://cyylog.github.io/tags/kafka/</loc>
     <lastmod>2020-10-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/kafka/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-10-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
