@@ -419,31 +419,6 @@
   </entry>
   
   <entry>
-    <title>Vue之入门篇_001</title>
-    <link href="https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/"/>
-    <id>https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/</id>
-    <published>2020-05-31T08:20:44.000Z</published>
-    <updated>2020-09-30T20:11:01.238Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;文档&quot;&gt;&lt;a href=&quot;#文档&quot; class=&quot;headerlink&quot; title=&quot;文档&quot;&gt;&lt;/a&gt;文档&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;https://cli.vuejs.org/zh/&quot; target=&quot;_blank&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Vue" scheme="https://cyylog.github.io/tags/Vue/"/>
-    
-  </entry>
-  
-  <entry>
     <title>python-fabric</title>
     <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
     <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
@@ -465,6 +440,31 @@
     
     
     <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vue之入门篇_001</title>
+    <link href="https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/"/>
+    <id>https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-09-30T20:11:01.238Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;文档&quot;&gt;&lt;a href=&quot;#文档&quot; class=&quot;headerlink&quot; title=&quot;文档&quot;&gt;&lt;/a&gt;文档&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;https://cli.vuejs.org/zh/&quot; target=&quot;_blank&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    
+    
+    <category term="Vue" scheme="https://cyylog.github.io/tags/Vue/"/>
     
   </entry>
   
