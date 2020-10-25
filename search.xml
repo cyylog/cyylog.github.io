@@ -70,7 +70,9 @@
       
         <tags>
             
-            <tag> Linux - influxdb - grafana - 监控 </tag>
+            <tag> influxdb </tag>
+            
+            <tag> grafana </tag>
             
         </tags>
       

@@ -73,7 +73,7 @@
     <link href="https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
     <id>https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
     <published>2020-10-25T06:55:39.000Z</published>
-    <updated>2020-10-25T22:54:48.542Z</updated>
+    <updated>2020-10-25T23:09:37.324Z</updated>
     
     
       
@@ -89,7 +89,9 @@
     <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
     
     
-    <category term="Linux - influxdb - grafana - 监控" scheme="https://cyylog.github.io/tags/Linux-influxdb-grafana-%E7%9B%91%E6%8E%A7/"/>
+    <category term="influxdb" scheme="https://cyylog.github.io/tags/influxdb/"/>
+    
+    <category term="grafana" scheme="https://cyylog.github.io/tags/grafana/"/>
     
   </entry>
   
