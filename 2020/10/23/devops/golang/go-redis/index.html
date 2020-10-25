@@ -900,35 +900,32 @@ res<span class="token punctuation">,</span> err <span class="token operator">:=<
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/9998/08/16/interview/xi-tong-diao-you/">
+                <a href="/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="系统调优">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="influxdb+grafana监控网络情况">
                         
-                        <span class="card-title">系统调优</span>
+                        <span class="card-title">influxdb+grafana监控网络情况</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-性能优化优化的目的
-1. 提高资源的利用率
-2. 找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）
-3. 通过性能管理实现合理
+                            influxdb+grafana监控网络情况一、 部署InfluxDBdocker run -d -p 8086:8086 --name=influxdb influxdb
+以上命令dcoker会自动从仓库下载最新版本的influxdb镜像
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>9998-08-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-25
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Interview/" class="post-category">
-                                    Interview
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                    监控
                                 </a>
                             
                             
@@ -938,8 +935,8 @@ res<span class="token punctuation">,</span> err <span class="token operator">:=<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Linux-influxdb-grafana-%E7%9B%91%E6%8E%A7/">
+                        <span class="chip bg-color">Linux - influxdb - grafana - 监控</span>
                     </a>
                     
                 </div>
@@ -1105,7 +1102,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             contentSelector: '#articleContent',
             headingsOffset: -($(window).height() * 0.4 - 45),
             collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4, h5'
+            headingSelector: 'h2, h3, h4, h5, h6'
         });
 
         // modify the toc link href to support Chinese.
@@ -1117,7 +1114,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
 
         // modify the heading title id to support Chinese.
         i = 0;
-        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+        $('#articleContent').children('h2, h3, h4, h5, h6').each(function () {
             $(this).attr('id', tocHeading + (++i));
         });
 

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</loc>
+    <lastmod>2020-10-25</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2018/06/05/jian-kong/jian-kong-ti-xi/</loc>
+    <lastmod>2020-10-25</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/10/23/devops/golang/go-redis/</loc>
     <lastmod>2020-10-23</lastmod>
   </url>
@@ -70,10 +78,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2018/06/05/jian-kong/jian-kong-ti-xi/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>

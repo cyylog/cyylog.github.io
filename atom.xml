@@ -69,6 +69,31 @@
   </entry>
   
   <entry>
+    <title>influxdb+grafana监控网络情况</title>
+    <link href="https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
+    <id>https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
+    <published>2020-10-25T06:55:39.000Z</published>
+    <updated>2020-10-25T22:54:48.542Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;influxdb-grafana监控网络情况&quot;&gt;&lt;a href=&quot;#influxdb-grafana监控网络情况&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="Linux - influxdb - grafana - 监控" scheme="https://cyylog.github.io/tags/Linux-influxdb-grafana-%E7%9B%91%E6%8E%A7/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Go-Redis</title>
     <link href="https://cyylog.github.io/2020/10/23/devops/golang/go-redis/"/>
     <id>https://cyylog.github.io/2020/10/23/devops/golang/go-redis/</id>
@@ -196,18 +221,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构—控制器</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
+    <title>Kubernetes架构—节点</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-03T14:11:13.385Z</updated>
+    <updated>2020-10-03T14:09:56.039Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
+    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
         
       
     
@@ -221,18 +246,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构—节点</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
+    <title>Kubernetes架构—控制器</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-03T14:09:56.039Z</updated>
+    <updated>2020-10-03T14:11:13.385Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
+    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
         
       
     
@@ -419,31 +444,6 @@
   </entry>
   
   <entry>
-    <title>python-fabric</title>
-    <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
-    <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
-    <published>2020-05-31T08:20:44.000Z</published>
-    <updated>2020-09-30T20:04:46.494Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Vue之入门篇_001</title>
     <link href="https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/"/>
     <id>https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/</id>
@@ -469,6 +469,31 @@
   </entry>
   
   <entry>
+    <title>python-fabric</title>
+    <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
+    <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
+    <published>2020-05-31T08:20:44.000Z</published>
+    <updated>2020-09-30T20:04:46.494Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    
+    
+    <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>计划任务及日志管理</title>
     <link href="https://cyylog.github.io/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/"/>
     <id>https://cyylog.github.io/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/</id>
@@ -490,31 +515,6 @@
     
     
     <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins_流水线语法_002</title>
-    <link href="https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/"/>
-    <id>https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</id>
-    <published>2020-05-30T04:43:37.000Z</published>
-    <updated>2020-05-30T13:56:43.585Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;参数&quot;&gt;&lt;a href=&quot;#参数&quot; class=&quot;headerlink&quot; title=&quot;参数&quot;&gt;&lt;/a&gt;参数&lt;/h4&gt;&lt;p&gt;&lt;code&gt;parameters&lt;/code&gt; 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
     
   </entry>
   
