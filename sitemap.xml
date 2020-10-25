@@ -543,13 +543,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Go/</loc>
-    <lastmod>2020-10-25</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/MySQL/</loc>
     <lastmod>2020-10-25</lastmod>
     <changefreq>daily</changefreq>
@@ -557,14 +550,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Network/</loc>
+    <loc>https://cyylog.github.io/tags/Go/</loc>
     <lastmod>2020-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/System/</loc>
+    <loc>https://cyylog.github.io/tags/Network/</loc>
     <lastmod>2020-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -683,7 +676,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Nginx/</loc>
+    <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -691,6 +684,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Tomcat/</loc>
+    <lastmod>2020-10-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Nginx/</loc>
     <lastmod>2020-10-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
