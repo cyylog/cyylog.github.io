@@ -70,10 +70,10 @@
   
   <entry>
     <title>influxdb+grafana监控网络情况</title>
-    <link href="https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
-    <id>https://cyylog.github.io/2020/10/25/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
-    <published>2020-10-25T06:55:39.000Z</published>
-    <updated>2020-10-25T23:09:37.324Z</updated>
+    <link href="https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
+    <id>https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
+    <published>2020-10-26T06:55:39.000Z</published>
+    <updated>2020-10-26T13:06:09.338Z</updated>
     
     
       
@@ -223,18 +223,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构—控制器</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
+    <title>Kubernetes架构—节点</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-03T14:11:13.385Z</updated>
+    <updated>2020-10-03T14:09:56.039Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
+    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
         
       
     
@@ -248,18 +248,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构—节点</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
+    <title>Kubernetes架构—控制器</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-03T14:09:56.039Z</updated>
+    <updated>2020-10-03T14:11:13.385Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
+    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
         
       
     
