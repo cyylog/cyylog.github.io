@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="zabbix微信报警设置, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Zabbix源码安装, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>zabbix微信报警设置 | Cyylog</title>
+    <title>Zabbix源码安装 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">zabbix微信报警设置</h1>
+                    <h1 class="description center-align post-title">Zabbix源码安装</h1>
                 </div>
             </div>
         </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-05
+                    2019-08-05
                 </div>
                 
 
@@ -557,98 +557,195 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="zabbix-微信报警设置"><a href="#zabbix-微信报警设置" class="headerlink" title="zabbix 微信报警设置"></a>zabbix 微信报警设置</h2><h4 id="一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret："><a href="#一、主要获取三个参数-企业ID、用户账号、AgentId-和Secret：" class="headerlink" title="一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret："></a>一、主要获取三个参数:企业ID、用户账号、AgentId,和Secret：</h4><h5 id="1-获取企业ID"><a href="#1-获取企业ID" class="headerlink" title="1.获取企业ID"></a>1.获取企业ID</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0OeUI.png" alt="J0OeUI.png"></p>
-<h5 id="2-获取AgentId-和Secret3"><a href="#2-获取AgentId-和Secret3" class="headerlink" title="2.获取AgentId,和Secret3"></a>2.获取AgentId,和Secret3</h5><p>这里要先点通讯录创建一个部门，然后再点应用小程序创建应用，填写logo、名称、和选择部门就可以了</p>
-<p><a href="https://imgchr.com/i/J0Om5t" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0Om5t.png" alt="J0Om5t.png"></a></p>
-<h5 id="3-获取用户账号"><a href="#3-获取用户账号" class="headerlink" title="3.获取用户账号"></a>3.获取用户账号</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0OYan.png" alt="J0OYan.png"></p>
-<p><img src="https://s1.ax1x.com/2020/04/24/J0OaGV.png" alt="J0OaGV.png"></p>
-<h5 id="4-测试gentId-和Secret"><a href="#4-测试gentId-和Secret" class="headerlink" title="4.测试gentId,和Secret"></a>4.测试gentId,和Secret</h5><p>这个是接口调用测试gentId,和Secret的地址：<a href="https://work.weixin.qq.com/api/devtools/devtool.php" target="_blank" rel="noopener">https://work.weixin.qq.com/api/devtools/devtool.php</a></p>
-<p>这里看到有HTTP/1.1 200 OK 就说明接口有效了，其它的不管。</p>
-<p><img src="https://s1.ax1x.com/2020/04/24/J0OyZ9.png" alt="J0OyZ9.png"></p>
-<p><img src="https://s1.ax1x.com/2020/04/24/J0O2Px.png" alt="J0O2Px.png"></p>
-<h4 id="二、调用的shell脚本方式，脚本如下："><a href="#二、调用的shell脚本方式，脚本如下：" class="headerlink" title="二、调用的shell脚本方式，脚本如下："></a>二、调用的shell脚本方式，脚本如下：</h4><h6 id="这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。"><a href="#这里要注意的是填写正确的通讯录-部门ID，可以点那个下线三个点那里。" class="headerlink" title="这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。"></a>这里要注意的是填写正确的通讯录 部门ID，可以点那个下线三个点那里。</h6><p><img src="https://s1.ax1x.com/2020/04/24/J0O7dA.png" alt="J0O7dA.png"></p>
-<pre class=" language-shell"><code class="language-shell">[root@cyy alertscripts]# vim wechat.sh
+                <a id="more"></a>
+
+<h3 id="Zabbix源码安装"><a href="#Zabbix源码安装" class="headerlink" title="Zabbix源码安装"></a>Zabbix源码安装</h3><h4 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1:前期准备"></a>1:前期准备</h4><p> 注意安装zabbix需要lnmp环境可以使用脚本安装lnmp</p>
+<p>这里我进行源码安装一步步的操作</p>
+<p>建议使用脚本进行 用源码安装比较慢</p>
+<h5 id="1-关闭防火墙和selinux-建议可以实行放行策略"><a href="#1-关闭防火墙和selinux-建议可以实行放行策略" class="headerlink" title="(1) 关闭防火墙和selinux 建议可以实行放行策略"></a>(1) 关闭防火墙和selinux 建议可以实行放行策略</h5><h5 id="2-创建安装目录"><a href="#2-创建安装目录" class="headerlink" title="(2)创建安装目录"></a>(2)创建安装目录</h5><pre class=" language-shell"><code class="language-shell">   mkdir -pv /cyylog/{mysql-5.7,nginx-1.16,php-7.2,zabbix-4.4}
+   mkdir -pv /cyylog/mysql-5.7/data
+   ln -s /cyylog/mysql-5.7 /cyylog/mysql
+   ln -s /cyylog/nginx-1.16 /cyylog/nginx
+   ln -s /cyylog/php-7.2 /cyylog/php
+   ln -s /cyylog/zabbix-4.4 /cyylog/zabbix</code></pre>
+<h5 id="3-创建用户"><a href="#3-创建用户" class="headerlink" title="(3)创建用户"></a>(3)创建用户</h5><pre class=" language-shell"><code class="language-shell">   useradd -s /sbin/nologin mysql
+   useradd -s /sbin/nologin nginx
+   useradd -s /sbin/nologin zabbix</code></pre>
+<p>也可执行脚本</p>
+<h4 id="2-安装mysql"><a href="#2-安装mysql" class="headerlink" title="2:安装mysql"></a>2:安装mysql</h4><h5 id="1-下载mysql源码包"><a href="#1-下载mysql源码包" class="headerlink" title="(1)下载mysql源码包"></a>(1)下载mysql源码包</h5><pre class=" language-shell"><code class="language-shell">wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.29.tar.gz
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.29.tar.gz</code></pre>
+<h5 id="2-使用yum安装依赖包"><a href="#2-使用yum安装依赖包" class="headerlink" title="(2) 使用yum安装依赖包"></a><strong>(2)</strong> 使用yum安装依赖包</h5><pre class=" language-shell"><code class="language-shell">yum install -y cmake gcc gcc-c++ openssl-devel ncurses-devel</code></pre>
+<h5 id="3-解压并进入进行安装"><a href="#3-解压并进入进行安装" class="headerlink" title="(3) 解压并进入进行安装"></a><strong>(3)</strong> 解压并进入进行安装</h5><pre class=" language-shell"><code class="language-shell">tar xvf mysql-5.7.29.tar.gz
+tar xvf mysql-boost-5.7.29.tar.gz -C /cyylog/
+
+配置
+cmake \
+-DCMAKE_INSTALL_PREFIX=/cyylog/mysql-5.7 \
+-DMYSQL_DATADIR=/cyylog/mysql-5.7/data \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_unicode_ci \
+-DWITH_READLINE=1 \
+-DWITH_SSL=system \
+-DWITH_EMBEDDED_SERVER=1 \
+-DENABLED_LOCAL_INFILE=1 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_DEBUG=0 \
+-DWITH_BOOST=/cyylog/mysql-5.7.29/boost/boost_1_59_0
+
+编译且安装 make & make install</code></pre>
+<h5 id="4-创建需要的文件及更改属主和属组"><a href="#4-创建需要的文件及更改属主和属组" class="headerlink" title="(4) 创建需要的文件及更改属主和属组"></a><strong>(4)</strong> 创建需要的文件及更改属主和属组</h5><pre class=" language-shell"><code class="language-shell">mkdir -pv /cyylog/mysql/log
+touch /cyylog/mysql/log/mariadb.log
+touch /cyylog/mysql/log/mariadb.pid
+chown -R /cyylog/{mysql-5.7,mysql-5.7.29,mysql}</code></pre>
+<h5 id="5-初始化数据"><a href="#5-初始化数据" class="headerlink" title="(5) 初始化数据"></a><strong>(5)</strong> 初始化数据</h5><pre class=" language-shell"><code class="language-shell">修改配置文件 vim /etc/my.cnf
+[mysqld]
+datadir=/cyylog/mysql/data #数据存储的地方
+socket=/cyylog/mysql/mysql.sock #sock文件的路径
+skip-grant-tables #跳过登录认证
+user=mysql
+explicit_defaults_for_timestamp=true
+[mysqld_safe]
+log-error=/cyylog/mysql/log/mariadb.log #错误日志存放的地方
+pid-file=/cyylog/mysql/log/mariadb.pid</code></pre>
+<h5 id="6-添加至环境变量"><a href="#6-添加至环境变量" class="headerlink" title="(6) 添加至环境变量"></a><strong>(6)</strong> 添加至环境变量</h5><pre class=" language-shell"><code class="language-shell">vim /etc/profile 修改末尾添加两行
+
+export PATH=$PATH:/cyylog/mysql/support-files
+export PATH=$PATH:/cyylog/mysql/bin
+
+保存退出刷新环境变量 
+source /etc/profile/</code></pre>
+<h5 id="7-初始化启动mysql"><a href="#7-初始化启动mysql" class="headerlink" title="(7) 初始化启动mysql"></a><strong>(7)</strong> 初始化启动mysql</h5><pre class=" language-shell"><code class="language-shell">mysqld --initialize --user=mysql --basedir=/cyylog/mysql --datadir=/cyylog/mysql/data
+mysql.server start
+ln -s /cyylog/mysql/mysql.sock /tmp/</code></pre>
+<h5 id="8-下载zabbix源码包并进行解压"><a href="#8-下载zabbix源码包并进行解压" class="headerlink" title="(8) 下载zabbix源码包并进行解压"></a><strong>(8)</strong> 下载zabbix源码包并进行解压</h5><pre class=" language-shell"><code class="language-shell">wget https://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/4.4.5/zabbix-4.4.5.tar.gz
+tar xvf zabbix-4.4.5.tar.gz
+cd zabbix-4.4.5/database/mysql
+
+登录mysql   命令为 mysql -u root 进入后执行以下命令
+
+use mysql;
+create database zabbix default character set utf8;
+update mysql.user set authentication_string=password('修改的密码') where user='root';use zabbix;
+source schema.sql;
+source images.sql;
+source data.sql;
+quit;
+
+   最后恢复密码登录mysql 修改文件
+
+vim /etc/my.cnf
+
+去掉 skip-grant-tables
+保存退出重启mysql服务 mysql.sercer restart
+添加lib文件
+
+echo “/cyylog/mysql/lib” > /etc/ld.so.conf.d/mysql.conf
+
+ldconfig -v</code></pre>
+<h4 id="3-安装nginx"><a href="#3-安装nginx" class="headerlink" title="3:安装nginx"></a>3:安装nginx</h4><h5 id="1-下载-nginx-并解压"><a href="#1-下载-nginx-并解压" class="headerlink" title="(1) 下载 nginx  并解压"></a>(1) 下载 nginx  并解压</h5><pre class=" language-shell"><code class="language-shell">wget http://nginx.org/download/nginx-1.16.1.tar.gz
+tar xvf nginx-1.16.1.tar.gz</code></pre>
+<h5 id="2-编译安装并添加环境变量"><a href="#2-编译安装并添加环境变量" class="headerlink" title="(2) 编译安装并添加环境变量"></a><strong>(2)</strong> 编译安装并添加环境变量</h5><pre class=" language-shell"><code class="language-shell">cd nginx-1.16.1
+
+./configure --prefix=/cyylog/nginx-1.16 --user=nginx --group=nginx --without-select_module --without-poll_module --with-http_ssl_module --with-pcre --with-debug
+
+make 
+make install 
+
+添加变量
+vim /etc/profile 追加一行
+export PATH=$PATH://cyylog/nginx/sbin
+
+保存退出刷新变量
+source /etc/profile</code></pre>
+<h5 id="3-更改-nginx-的属主和属组以及修改配置文件"><a href="#3-更改-nginx-的属主和属组以及修改配置文件" class="headerlink" title="(3)更改 nginx 的属主和属组以及修改配置文件"></a><strong>(3)</strong>更改 nginx 的属主和属组以及修改配置文件</h5><pre class=" language-shell"><code class="language-shell">chown nginx:nginx -R /cyylog/nginx-1.16
+修改配置文件
+vim /cyylog/nginx/conf/nginx.conf
+修改启动用户 user nginx;
+启动nginx  nginx</code></pre>
+<h4 id="4-安装php"><a href="#4-安装php" class="headerlink" title="4:安装php"></a>4:安装php</h4><h5 id="1-下载php源码并井进行解压"><a href="#1-下载php源码并井进行解压" class="headerlink" title="(1) 下载php源码并井进行解压"></a><strong>(1)</strong> <strong>下载php源码并井进行解压</strong></h5><pre class=" language-shell"><code class="language-shell">wget https://www.php.net/distributions/php-7.2.27.tar.gz
+tar xvf php-7.2.27.tar.gz</code></pre>
+<p><strong>(2)</strong> <strong>安装及解决依赖</strong></p>
+<pre class=" language-shell"><code class="language-shell">yum install -y libxml2-devel openssl-devel net-snmp net-snmp-devel libcurl-devel libjpeg-devel libpng-devel libicu-devel openldap-devel bzip2 bzip2-devel freetype-devel gmp-devel readline-devel libxslt-devel fontconfig
+
+cd php-7.2.27
+
+./configure --prefix=/cyylog/php-7.2 --with-mysqli=/cyylog/mysql/bin/mysql_config --enable-inline-optimization --enable-fpm --enable-soap --enable-pcntl --enable-xml --with-libxml-dir --with-xmlrpc --with-openssl --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir --with-jpeg-dir --with-png-dir --with-freetype-dir --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --disable-mbregex --disable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-pdo-mysql --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --without-pear
 
 
-#!/usr/bin/env bash
-#!/usr/bin/env bash
-#
-# Author: cyylog
-# Email: cyylog@aliyun.com
-# Date: 2019/09/25
-# Github:    https://github.com/cyylog
-# Usage:    Wechat alert script for zabbix
-# 
+ make
+ make install</code></pre>
+<h5 id="3-拷贝服务和配置文件及属主和属组"><a href="#3-拷贝服务和配置文件及属主和属组" class="headerlink" title="(3) 拷贝服务和配置文件及属主和属组"></a><strong>(3)</strong> 拷贝服务和配置文件及属主和属组</h5><pre class=" language-shell"><code class="language-shell">cp /root/php-7.2.27/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
+cp /cyylog/php-7.2/etc/{php-fpm.conf.default,php-fpm.conf}
+cp /cyylog/php-7.2/etc/php-fpm.d/www.conf{.default,}
+cp php.ini-production /cyylog/php-7.2/lib/php.ini
+chown nginx:nginx -R /cyylog/php-7.2</code></pre>
+<p><strong>(4)</strong> <strong>修改配置文件并启动</strong></p>
+<pre class=" language-shell"><code class="language-shell">#### 修改php.ini配置文件
 
-if [ $# -eq 0 ] || [[ "$1" == "-h" || "$1" == "--help" ]];then
-        echo "Usage of $0:"
-        echo -e " --CorpID=string"
-        echo -e " --Secret=string"
-        echo -e " --AgentID=string"
-        echo -e " --UserID=string"
-        echo -e " --Msg=string"
-        exit
-fi
+vim /cyylog/php/lib/php.ini 修改四行
 
-#ops=(-c -s -a -u)
-#args=(CorpID Secret AgentID UserID)
-#while [ $# -gt 0 ];do
-#    [ "$1" == "-m" ] && Msg="$2" && shift 2
-#    for i in {0..3};do
-#        [ "$1" == "${ops[i]}" ] &&  eval ${args[i]}="$2"
-#    done
-#    shift 2
-#done
-for i in "$@";do
-        echo $i|grep Msg &> /dev/null && msg=$(echo $i|sed 's/.*=//') && Msg="$msg" && continue
-        eval "$(echo $i|sed 's/--//')"
-done
-#echo $CorpID
-#echo $Secret
-#echo $UserID
-#echo $AgentID
-#echo $Msg
-#
-GURL="https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$CorpID&corpsecret=$Secret"
-Token=$(/usr/bin/curl -s -G $GURL |awk -F \" '{print $10}')
-PURL="https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$Token"
-Info(){
-        printf '{\n'
-        printf '\t"touser": "'"$UserID"\"",\n"
-        printf '\t"msgtype": "text",\n'
-        printf '\t"agentid": "'"$AgentID"\"",\n"
-        printf '\t"text": {\n'
-        printf '\t\t"content": "'"$Msg"\""\n"
-        printf '\t},\n'
-        printf '\t"safe":"0"\n'
-        printf '}\n'
-}
+post_max_size = 16M
+max_execution_time = 300
+max_input_time = 300
+date.timezone = PRC
 
-/usr/bin/curl --data-ascii "$(Info)" $PURL
-echo
+#### 启动php服务
 
+systemctl start php-fpm.service && systemctl enable php-fpm.service
 
+#### 修改nginx.conf文件是nginx支持php
 
+vim /cyylog/nginx/conf/nginx.conf 修改如下
 
-[root@cyy alertscripts]# chmod +x wechat.sh
+ location ~ \.php$ {
+            root           /cyylog/nginx/html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  /cyylog/nginx/html$fastcgi_script_name;
+            include        fastcgi_params;
+        }
 
-[root@cyy alertscripts]# ./wechat.sh  "这里一个测试"     //可以这样直接调试，然后登陆到企业微信查看该部门的群成员是否收到此信息
+#### 编写测试php文件 
+vim /cyylog/nginx/html/index.php
 
-脚本测试通过后就是在zabbix控制台上设置了</code></pre>
-<h4 id="三、zabbix-控制台添加新媒体"><a href="#三、zabbix-控制台添加新媒体" class="headerlink" title="三、zabbix 控制台添加新媒体"></a>三、zabbix 控制台添加新媒体</h4><h5 id="1-点管理-gt-报警媒介类型-gt-创建媒介类型"><a href="#1-点管理-gt-报警媒介类型-gt-创建媒介类型" class="headerlink" title="1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型"></a>1.点管理 -&gt; 报警媒介类型 -&gt; 创建媒介类型</h5><p><a href="https://imgchr.com/i/J0X1W6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/24/J0X1W6.png" alt="J0X1W6.png"></a></p>
-<pre class=" language-shell"><code class="language-shell">--AgentID=1000002
+          <?php phpinfo(); ?>
 
---CorpID=ww74c********56c    
+#### 重启nginx服务 
+nginx -s reload
 
---Secret=-c-3Xw*****************j-Zj6cw
+    重启nginx服务 nginx -s reload</code></pre>
+<h4 id="5-安装zabbix"><a href="#5-安装zabbix" class="headerlink" title="5:安装zabbix"></a>5:安装zabbix</h4><h5 id="1-安装依赖以及编译安装"><a href="#1-安装依赖以及编译安装" class="headerlink" title="(1) 安装依赖以及编译安装"></a><strong>(1)</strong> 安装依赖以及编译安装</h5><pre class=" language-shell"><code class="language-shell">yum localinstall -y libevent-devel-2.0.21-4.el7.x86_64.rpm
+yum install unixODBC-devel mysql-devel net-snmp-devel libxml2-devel libcurl-devel libevent-devel -y
+配置cd zabbix-4.4.5
+./configure --prefix=/cyylog/zabbix-4.4 --enable-server --enable-agent --with-mysql=/cyylog/mysql/bin/mysql_config --enable-ipv6 --with-netsnmp --with-libcurl --with-libxml2
+make 
+make install</code></pre>
+<p>(2) 配置环境变量</p>
+<pre class=" language-shell"><code class="language-shell">vim /etc/profile 追加一行
 
---Msg={ALERT.MESSAGE}
+export PATH=$PATH://cyylog/zabbix/sbin
 
---UserID={ALERT.SENDTO}</code></pre>
-<h5 id="2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）"><a href="#2-然后再设置上用户：点管理-—-gt-创建用户（微信报警的用户）" class="headerlink" title="2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）"></a>2.然后再设置上用户：点管理 —&gt; 创建用户（微信报警的用户）</h5><p><img src="https://s1.ax1x.com/2020/04/24/J0XYOe.png" alt="J0XYOe.png"></p>
-<h5 id="3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）"><a href="#3-再点用户旁边的-报警媒介-进行设置（收件人要填写用户的账号）" class="headerlink" title="3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）"></a>3.再点用户旁边的 报警媒介 进行设置（收件人要填写用户的账号）</h5><p><strong>第一步的第3点获取的账号</strong></p>
-<p><img src="https://s1.ax1x.com/2020/04/24/J0XaTA.png" alt="J0XaTA.png"></p>
-<h6 id="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"><a href="#到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。" class="headerlink" title="到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。"></a>到这里就基本都设置完成了，可以设置个触发器和动作来测试脚本。</h6>
+#### 保存退出 刷新 
+source /etc/profile</code></pre>
+<p>(3) 修改配置文件</p>
+<pre class=" language-shell"><code class="language-shell">vim /cyylog/zabbix/etc/zabbix_server.conf  ##修改如下
+DBUser=root
+DBPassword=beimi123
+
+拷贝zabbix至nginx的目录下
+cp -R frontends/php/* /cyylog/nginx/html/
+重启nginx服务  nginx -s reload</code></pre>
+<p>访问页面ok就行</p>
+<p>注意连接数据库那个步骤需要将服务器ip改为127.0.0.1 不能使用localhost</p>
+<p>否则会报错</p>
+<p>接下会有个配置文件无法安装需手动下载下来传到ngin目录下</p>
+<p>最后完成</p>
+<p>登录账户为 admin 密码zabbix</p>
+<p>登录后界面为</p>
+<p><img src="C:%5CUsers%5CCyy%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523132054294.png" alt="image-20200523132054294"></p>
+
             </div>
             <hr/>
 
@@ -673,7 +770,7 @@ echo
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/">https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</a>
+                    <a href="https://cyylog.github.io/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/">https://cyylog.github.io/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -887,13 +984,13 @@ echo
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/15/rong-qi/dockerfilee-000/">
+                <a href="/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Docker_000">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Nginx性能优化">
                         
-                        <span class="card-title">Docker_000</span>
+                        <span class="card-title">Nginx性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -901,22 +998,28 @@ echo
                         
                             
 
-Dockerfile构建镜像通过Dockerfile创建镜像
-虽然可以自己制作 rootfs(见&#39;容器文件系统那些事儿&#39;)，但Docker 提供了一种更便捷的方式，叫作 Dockerfile
 
-docker build命
+
+
+当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨
+
+当前系统结构瓶颈
+了解业务模式
+性能与安全
+
+1、当前系统结构瓶颈首先需要了解的是当前系统瓶颈，用的是什么，跑
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-11-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -926,8 +1029,8 @@ docker build命
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Docker/">
-                        <span class="chip bg-color">Docker</span>
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
@@ -941,13 +1044,13 @@ docker build命
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/10/05/devops/da-jian-gitlab/">
+                <a href="/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="搭建Gitlab">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="zabbix邮箱报警设置">
                         
-                        <span class="card-title">搭建Gitlab</span>
+                        <span class="card-title">zabbix邮箱报警设置</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -955,24 +1058,24 @@ docker build命
                         
                             
 
-Gitlab Server 部署
-1、环境准备1.系统版本：CentOS7.4
-2.Gitlab版本：gitlab-ee 11.0.1
-3.初始化系统环境
-4.关闭防火墙
-[root@localhost ~]#  systemctl s
+
+
+Zabbix 邮件报警前期准备工作：电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件
+server端安装配置邮件服务器[root@master ~]# yum -y install mailx
+
+[root@master 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-10-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/DevOps/" class="post-category">
-                                    DevOps
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                    监控
                                 </a>
                             
                             
@@ -982,8 +1085,8 @@ Gitlab Server 部署
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Gitlab/">
-                        <span class="chip bg-color">Gitlab</span>
+                    <a href="/tags/zabbix/">
+                        <span class="chip bg-color">zabbix</span>
                     </a>
                     
                 </div>

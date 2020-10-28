@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-jian-kong-yuan-li/</loc>
+    <lastmod>2020-10-28</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</loc>
     <lastmod>2020-10-26</lastmod>
   </url>
@@ -69,19 +73,19 @@
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2019/08/05/jian-kong/zabbix-yuan-ma-an-zhuang/</loc>
+    <loc>https://cyylog.github.io/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</loc>
+    <loc>https://cyylog.github.io/2020/01/05/jian-kong/zabbix/zabbix-jian-kong-xiang/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2019/07/05/jian-kong/zabbix-you-jian-bao-jing/</loc>
+    <loc>https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
+    <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
