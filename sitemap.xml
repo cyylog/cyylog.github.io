@@ -515,13 +515,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
-    <lastmod>2020-10-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Jenkins/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
@@ -530,6 +523,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Vue/</loc>
+    <lastmod>2020-10-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -599,6 +599,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/Oracle/</loc>
+    <lastmod>2020-10-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Mysql/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
@@ -613,13 +620,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Oracle/</loc>
-    <lastmod>2020-10-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
@@ -627,14 +627,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <loc>https://cyylog.github.io/tags/kafka/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/kafka/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-10-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
