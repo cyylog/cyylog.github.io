@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="zabbix邮箱报警设置, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Zabbix源码安装, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>zabbix邮箱报警设置 | Cyylog</title>
+    <title>Zabbix源码安装 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">zabbix邮箱报警设置</h1>
+                    <h1 class="description center-align post-title">Zabbix源码安装</h1>
                 </div>
             </div>
         </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-05
+                    2019-08-05
                 </div>
                 
 
@@ -559,126 +559,192 @@
             <div id="articleContent">
                 <a id="more"></a>
 
+<h3 id="Zabbix源码安装"><a href="#Zabbix源码安装" class="headerlink" title="Zabbix源码安装"></a>Zabbix源码安装</h3><h4 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1:前期准备"></a>1:前期准备</h4><p> 注意安装zabbix需要lnmp环境可以使用脚本安装lnmp</p>
+<p>这里我进行源码安装一步步的操作</p>
+<p>建议使用脚本进行 用源码安装比较慢</p>
+<h5 id="1-关闭防火墙和selinux-建议可以实行放行策略"><a href="#1-关闭防火墙和selinux-建议可以实行放行策略" class="headerlink" title="(1) 关闭防火墙和selinux 建议可以实行放行策略"></a>(1) 关闭防火墙和selinux 建议可以实行放行策略</h5><h5 id="2-创建安装目录"><a href="#2-创建安装目录" class="headerlink" title="(2)创建安装目录"></a>(2)创建安装目录</h5><pre class=" language-shell"><code class="language-shell">   mkdir -pv /cyylog/{mysql-5.7,nginx-1.16,php-7.2,zabbix-4.4}
+   mkdir -pv /cyylog/mysql-5.7/data
+   ln -s /cyylog/mysql-5.7 /cyylog/mysql
+   ln -s /cyylog/nginx-1.16 /cyylog/nginx
+   ln -s /cyylog/php-7.2 /cyylog/php
+   ln -s /cyylog/zabbix-4.4 /cyylog/zabbix</code></pre>
+<h5 id="3-创建用户"><a href="#3-创建用户" class="headerlink" title="(3)创建用户"></a>(3)创建用户</h5><pre class=" language-shell"><code class="language-shell">   useradd -s /sbin/nologin mysql
+   useradd -s /sbin/nologin nginx
+   useradd -s /sbin/nologin zabbix</code></pre>
+<p>也可执行脚本</p>
+<h4 id="2-安装mysql"><a href="#2-安装mysql" class="headerlink" title="2:安装mysql"></a>2:安装mysql</h4><h5 id="1-下载mysql源码包"><a href="#1-下载mysql源码包" class="headerlink" title="(1)下载mysql源码包"></a>(1)下载mysql源码包</h5><pre class=" language-shell"><code class="language-shell">wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.29.tar.gz
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.29.tar.gz</code></pre>
+<h5 id="2-使用yum安装依赖包"><a href="#2-使用yum安装依赖包" class="headerlink" title="(2) 使用yum安装依赖包"></a><strong>(2)</strong> 使用yum安装依赖包</h5><pre class=" language-shell"><code class="language-shell">yum install -y cmake gcc gcc-c++ openssl-devel ncurses-devel</code></pre>
+<h5 id="3-解压并进入进行安装"><a href="#3-解压并进入进行安装" class="headerlink" title="(3) 解压并进入进行安装"></a><strong>(3)</strong> 解压并进入进行安装</h5><pre class=" language-shell"><code class="language-shell">tar xvf mysql-5.7.29.tar.gz
+tar xvf mysql-boost-5.7.29.tar.gz -C /cyylog/
+
+配置
+cmake \
+-DCMAKE_INSTALL_PREFIX=/cyylog/mysql-5.7 \
+-DMYSQL_DATADIR=/cyylog/mysql-5.7/data \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_unicode_ci \
+-DWITH_READLINE=1 \
+-DWITH_SSL=system \
+-DWITH_EMBEDDED_SERVER=1 \
+-DENABLED_LOCAL_INFILE=1 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_DEBUG=0 \
+-DWITH_BOOST=/cyylog/mysql-5.7.29/boost/boost_1_59_0
+
+编译且安装 make & make install</code></pre>
+<h5 id="4-创建需要的文件及更改属主和属组"><a href="#4-创建需要的文件及更改属主和属组" class="headerlink" title="(4) 创建需要的文件及更改属主和属组"></a><strong>(4)</strong> 创建需要的文件及更改属主和属组</h5><pre class=" language-shell"><code class="language-shell">mkdir -pv /cyylog/mysql/log
+touch /cyylog/mysql/log/mariadb.log
+touch /cyylog/mysql/log/mariadb.pid
+chown -R /cyylog/{mysql-5.7,mysql-5.7.29,mysql}</code></pre>
+<h5 id="5-初始化数据"><a href="#5-初始化数据" class="headerlink" title="(5) 初始化数据"></a><strong>(5)</strong> 初始化数据</h5><pre class=" language-shell"><code class="language-shell">修改配置文件 vim /etc/my.cnf
+[mysqld]
+datadir=/cyylog/mysql/data #数据存储的地方
+socket=/cyylog/mysql/mysql.sock #sock文件的路径
+skip-grant-tables #跳过登录认证
+user=mysql
+explicit_defaults_for_timestamp=true
+[mysqld_safe]
+log-error=/cyylog/mysql/log/mariadb.log #错误日志存放的地方
+pid-file=/cyylog/mysql/log/mariadb.pid</code></pre>
+<h5 id="6-添加至环境变量"><a href="#6-添加至环境变量" class="headerlink" title="(6) 添加至环境变量"></a><strong>(6)</strong> 添加至环境变量</h5><pre class=" language-shell"><code class="language-shell">vim /etc/profile 修改末尾添加两行
+
+export PATH=$PATH:/cyylog/mysql/support-files
+export PATH=$PATH:/cyylog/mysql/bin
+
+保存退出刷新环境变量 
+source /etc/profile/</code></pre>
+<h5 id="7-初始化启动mysql"><a href="#7-初始化启动mysql" class="headerlink" title="(7) 初始化启动mysql"></a><strong>(7)</strong> 初始化启动mysql</h5><pre class=" language-shell"><code class="language-shell">mysqld --initialize --user=mysql --basedir=/cyylog/mysql --datadir=/cyylog/mysql/data
+mysql.server start
+ln -s /cyylog/mysql/mysql.sock /tmp/</code></pre>
+<h5 id="8-下载zabbix源码包并进行解压"><a href="#8-下载zabbix源码包并进行解压" class="headerlink" title="(8) 下载zabbix源码包并进行解压"></a><strong>(8)</strong> 下载zabbix源码包并进行解压</h5><pre class=" language-shell"><code class="language-shell">wget https://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/4.4.5/zabbix-4.4.5.tar.gz
+tar xvf zabbix-4.4.5.tar.gz
+cd zabbix-4.4.5/database/mysql
+
+登录mysql   命令为 mysql -u root 进入后执行以下命令
+
+use mysql;
+create database zabbix default character set utf8;
+update mysql.user set authentication_string=password('修改的密码') where user='root';use zabbix;
+source schema.sql;
+source images.sql;
+source data.sql;
+quit;
+
+   最后恢复密码登录mysql 修改文件
+
+vim /etc/my.cnf
+
+去掉 skip-grant-tables
+保存退出重启mysql服务 mysql.sercer restart
+添加lib文件
+
+echo “/cyylog/mysql/lib” > /etc/ld.so.conf.d/mysql.conf
+
+ldconfig -v</code></pre>
+<h4 id="3-安装nginx"><a href="#3-安装nginx" class="headerlink" title="3:安装nginx"></a>3:安装nginx</h4><h5 id="1-下载-nginx-并解压"><a href="#1-下载-nginx-并解压" class="headerlink" title="(1) 下载 nginx  并解压"></a>(1) 下载 nginx  并解压</h5><pre class=" language-shell"><code class="language-shell">wget http://nginx.org/download/nginx-1.16.1.tar.gz
+tar xvf nginx-1.16.1.tar.gz</code></pre>
+<h5 id="2-编译安装并添加环境变量"><a href="#2-编译安装并添加环境变量" class="headerlink" title="(2) 编译安装并添加环境变量"></a><strong>(2)</strong> 编译安装并添加环境变量</h5><pre class=" language-shell"><code class="language-shell">cd nginx-1.16.1
+
+./configure --prefix=/cyylog/nginx-1.16 --user=nginx --group=nginx --without-select_module --without-poll_module --with-http_ssl_module --with-pcre --with-debug
+
+make 
+make install 
+
+添加变量
+vim /etc/profile 追加一行
+export PATH=$PATH://cyylog/nginx/sbin
+
+保存退出刷新变量
+source /etc/profile</code></pre>
+<h5 id="3-更改-nginx-的属主和属组以及修改配置文件"><a href="#3-更改-nginx-的属主和属组以及修改配置文件" class="headerlink" title="(3)更改 nginx 的属主和属组以及修改配置文件"></a><strong>(3)</strong>更改 nginx 的属主和属组以及修改配置文件</h5><pre class=" language-shell"><code class="language-shell">chown nginx:nginx -R /cyylog/nginx-1.16
+修改配置文件
+vim /cyylog/nginx/conf/nginx.conf
+修改启动用户 user nginx;
+启动nginx  nginx</code></pre>
+<h4 id="4-安装php"><a href="#4-安装php" class="headerlink" title="4:安装php"></a>4:安装php</h4><h5 id="1-下载php源码并井进行解压"><a href="#1-下载php源码并井进行解压" class="headerlink" title="(1) 下载php源码并井进行解压"></a><strong>(1)</strong> <strong>下载php源码并井进行解压</strong></h5><pre class=" language-shell"><code class="language-shell">wget https://www.php.net/distributions/php-7.2.27.tar.gz
+tar xvf php-7.2.27.tar.gz</code></pre>
+<p><strong>(2)</strong> <strong>安装及解决依赖</strong></p>
+<pre class=" language-shell"><code class="language-shell">yum install -y libxml2-devel openssl-devel net-snmp net-snmp-devel libcurl-devel libjpeg-devel libpng-devel libicu-devel openldap-devel bzip2 bzip2-devel freetype-devel gmp-devel readline-devel libxslt-devel fontconfig
+
+cd php-7.2.27
+
+./configure --prefix=/cyylog/php-7.2 --with-mysqli=/cyylog/mysql/bin/mysql_config --enable-inline-optimization --enable-fpm --enable-soap --enable-pcntl --enable-xml --with-libxml-dir --with-xmlrpc --with-openssl --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir --with-jpeg-dir --with-png-dir --with-freetype-dir --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --disable-mbregex --disable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-pdo-mysql --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --without-pear
 
 
-<h3 id="Zabbix-邮件报警"><a href="#Zabbix-邮件报警" class="headerlink" title="Zabbix 邮件报警"></a>Zabbix 邮件报警</h3><h4 id="前期准备工作："><a href="#前期准备工作：" class="headerlink" title="前期准备工作："></a>前期准备工作：</h4><p>电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件</p>
-<h5 id="server端安装配置邮件服务器"><a href="#server端安装配置邮件服务器" class="headerlink" title="server端安装配置邮件服务器"></a><strong>server端安装配置邮件服务器</strong></h5><pre class=" language-shell"><code class="language-shell">[root@master ~]# yum -y install mailx
+ make
+ make install</code></pre>
+<h5 id="3-拷贝服务和配置文件及属主和属组"><a href="#3-拷贝服务和配置文件及属主和属组" class="headerlink" title="(3) 拷贝服务和配置文件及属主和属组"></a><strong>(3)</strong> 拷贝服务和配置文件及属主和属组</h5><pre class=" language-shell"><code class="language-shell">cp /root/php-7.2.27/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
+cp /cyylog/php-7.2/etc/{php-fpm.conf.default,php-fpm.conf}
+cp /cyylog/php-7.2/etc/php-fpm.d/www.conf{.default,}
+cp php.ini-production /cyylog/php-7.2/lib/php.ini
+chown nginx:nginx -R /cyylog/php-7.2</code></pre>
+<p><strong>(4)</strong> <strong>修改配置文件并启动</strong></p>
+<pre class=" language-shell"><code class="language-shell">#### 修改php.ini配置文件
 
-[root@master ~]# mailx -V
-12.5 7/5/10
-</code></pre>
-<h5 id="配置公网邮箱信息：发邮件："><a href="#配置公网邮箱信息：发邮件：" class="headerlink" title="配置公网邮箱信息：发邮件："></a><strong>配置公网邮箱信息</strong>：发邮件：</h5><pre class=" language-shell"><code class="language-shell">[root@master ~]#  vim /etc/mail.rc    #追加以下内容
+vim /cyylog/php/lib/php.ini 修改四行
 
-set from=cyylog@163.com    #（邮箱地址） 
-set smtp=smtp.163.com    #smtp服务器） 发邮件服务器 ---163默认
-set smtp-auth-user=cyylog@163.com    #(用户名) 
-set smtp-auth-password=Password    #（邮箱密码）授权之后的密码
-set smtp-auth=login            #默认
+post_max_size = 16M
+max_execution_time = 300
+max_input_time = 300
+date.timezone = PRC
 
-######    测试
-[root@master ~]# echo "test mail from zabbix.server.com" |mail -s "test mail" cyylog@163.com</code></pre>
-<h6 id="然后163邮箱就会收到信息"><a href="#然后163邮箱就会收到信息" class="headerlink" title="然后163邮箱就会收到信息"></a>然后163邮箱就会收到信息</h6><p><img src="https://s1.ax1x.com/2020/05/23/Yv2C6g.png" alt="Yv2C6g.png"></p>
-<h4 id="报警媒体的配置"><a href="#报警媒体的配置" class="headerlink" title="报警媒体的配置:"></a>报警媒体的配置:</h4><p>首先需要配置 Zabbix 的邮件功能。<br>点击 管理-&gt;报警媒介类型-&gt;创建媒体类型</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvWEWV.png" alt="YvWEWV.png"></p>
-<p><strong>然后在页面中填入你的报警媒介类型信息,例如下图所示:</strong><br><strong>注：脚本名称任意，存放于<code>/usr/lib/zabbix/alertscripts</code> (生产上的测试服放这：<code>s /usr/local/zabbix/share/zabbix/alertscripts）</code></strong> </p>
-<p>名称：sendmail //名称任意<br>类型：脚本<br>脚本名称：sendmail.sh<br>脚本参数： //一定要写，否则可能发送不成功<br>{ALERT.SENDTO} //照填，收件人变量<br>{ALERT.SUBJECT} //照填，邮件主题变量，变量值来源于‘动作’中的‘默认接收人’<br>{ALERT.MESSAGE} //照填，邮件正文变量，变量值来源于‘动作’中的‘默认信息’</p>
-<p><strong>配置完成后,不要忘记点击存档,保存你的配置。</strong></p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvWRmQ.png" alt="YvWRmQ.png"></p>
-<h6 id="修改zabbix服务端配置文件＆编写脚本："><a href="#修改zabbix服务端配置文件＆编写脚本：" class="headerlink" title="修改zabbix服务端配置文件＆编写脚本："></a>修改zabbix服务端配置文件＆编写脚本：</h6><pre class=" language-shell"><code class="language-shell"># 查看指定脚本的存储路径:
+#### 启动php服务
 
-[root@master ~]# vim /etc/zabbix/zabbix_server.conf
+systemctl start php-fpm.service && systemctl enable php-fpm.service
 
-AlertScriptsPath=/usr/lib/zabbix/alertscripts
+#### 修改nginx.conf文件是nginx支持php
 
+vim /cyylog/nginx/conf/nginx.conf 修改如下
 
-编写邮件脚本:
-[root@master alertscripts]# cd /usr/lib/zabbix/alertscripts
-[root@master alertscripts]# vim sendmail.sh 
+ location ~ \.php$ {
+            root           /cyylog/nginx/html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  /cyylog/nginx/html$fastcgi_script_name;
+            include        fastcgi_params;
+        }
 
-#!/bin/sh 
-#export.UTF-8 -----字符集可以删除掉
-#send mail
-messages=echo $3 | tr '\r\n' '\n'
-subject=echo $2 | tr '\r\n' '\n'
-echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
+#### 编写测试php文件 
+vim /cyylog/nginx/html/index.php
 
+          <?php phpinfo(); ?>
 
-修改权限：
-[root@master alertscripts]# chmod u+x sendmail.sh && chown zabbix.zabbix sendmail.sh</code></pre>
-<p>创建的脚本名称要和定义的脚本名称一样</p>
-<p><strong>修改admin用户的报警媒介：</strong><br>用户默认是没有设置报警媒介的，设置后就可以接收报警消息了。</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvIrM6.png" alt="YvIrM6.png"></p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvoeQx.png" alt="YvoeQx.png"></p>
-<h6 id="触发器的配置"><a href="#触发器的配置" class="headerlink" title="触发器的配置:"></a><strong>触发器的配置:</strong></h6><p>接下来,点击配置-&gt;主机</p>
-<p>我们给 agent-19 这台主机增加一个触发器。点击 agent-19 这一行中的“触发器”,然后再点击创建触发器。<br>该页各配置项含义如下:<br>名称:填入触发器的名字<br>表达式:用于配置触发器的触发条件,点击添加按钮有条件选项。 —-键值<br>多重事件产生:如果选中,则问题如果持续多重的发生则每次都触发,否则只触发一次<br>点击表达式右侧的添加按钮:</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvT75Q.png" alt="YvT75Q.png"></p>
-<p>再点击项目右侧的选择,选择我们之前配置过的“web.server.online.monitor”,并设置触发的阀值,如下图所示</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvTL2n.png" alt="YvTL2n.png"></p>
-<p>Zabbix 会自动生成表达式。接下来根据情况选择事件的严重性。配置完毕后,点击存档保存。</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/YvTxbT.png" alt="YvTxbT.png"></p>
-<p><strong>动作的配置</strong>:<br>点击:配置-&gt;动作-&gt;事件源下拉菜单中选择触发器-&gt;创建动作<br>可以在内容中使用 Zabbix 内置宏,邮件发出时会自动将宏替换成对应的值。 </p>
-<p>名称：<br>任意写</p>
-<p>默认接收人：</p>
-<pre><code>故障级别：{TRIGGER.STATUS}。服务器：【{HOSTNAME1} 】 发生：{TRIGGER.NAME} 故障！ 
-注：默认接收人：相当于邮件的主题
+#### 重启nginx服务 
+nginx -s reload
 
-默认信息：邮件的主题
-告警主机：{HOSTNAME1} 
-告警时间：{EVENT.DATE} {EVENT.TIME}
-告警等级：{TRIGGER.SEVERITY} 
-告警信息：{TRIGGER.NAME}
-告警项目：{TRIGGER.KEY1} 
-问题详情：{ITEM.NAME}：{ITEM.VALUE}
-当前状态：{TRIGGER.STATUS}：{ITEM.VALUE1} 
-事件ID：{EVENT.ID}</code></pre><p>恢复邮件：<br>恢复主题：</p>
-<pre><code>服务器：【{HOSTNAME1}】故障已恢复。故障原因：{TRIGGER.NAME} 
-恢复信息：恢复邮件的正文。当故障恢复正常后也发邮件通知一下。 </code></pre><p><img src="https://s1.ax1x.com/2020/05/23/Yv7iG9.png" alt="Yv7iG9.png"></p>
-<p>点击:操作-&gt;编辑：</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/Yv7kx1.png" alt="Yv7kx1.png"></p>
-<p>发送间隔：60秒<br>步骤：发送10次发送到：admin用户<br>仅使用：sendmail方式发送 —-脚本。 方式可以自行设置，根据实际工作要求</p>
-<p><img src="https://s1.ax1x.com/2020/05/23/Yv7QGd.png" alt="Yv7QGd.png"></p>
-<p>需要特别解释一下的是“步骤”部分的配置。所谓步骤是指报警可以有多个步骤,做不同的报警。例如,自从 1 到 3,就是指报警的步骤有三个。步骤持续时间就是一定时间后如果监控人员仍未响应报警就进入下一个报警步骤。<br>例如,发邮件给你报警,如果60 秒后你没响应,那就发 jabber 信息提醒你。如果 60 秒后还没响应,那就发短信给你。要是还没响应,就没有然后了。你可以形象的把它理解为 Zabbix 的一哭二闹三上吊。<br>到此,一个邮件报警功能就配置完毕了。如果你想立即看到结果,可以修改触发器的条件,将条件的阀值设置为 N&gt;0.0003。你马上就会收到 Zabbix 发来的报警邮件了。</p>
-<h4 id="补充：邮件美化"><a href="#补充：邮件美化" class="headerlink" title="补充：邮件美化"></a>补充：邮件美化</h4><p>（修改默认信息）</p>
-<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>  <span class="token attr-name">bordercolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">cellspacing</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0px<span class="token punctuation">"</span></span> <span class="token attr-name">cellpadding</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>4px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
+    重启nginx服务 nginx -s reload</code></pre>
+<h4 id="5-安装zabbix"><a href="#5-安装zabbix" class="headerlink" title="5:安装zabbix"></a>5:安装zabbix</h4><h5 id="1-安装依赖以及编译安装"><a href="#1-安装依赖以及编译安装" class="headerlink" title="(1) 安装依赖以及编译安装"></a><strong>(1)</strong> 安装依赖以及编译安装</h5><pre class=" language-shell"><code class="language-shell">yum localinstall -y libevent-devel-2.0.21-4.el7.x86_64.rpm
+yum install unixODBC-devel mysql-devel net-snmp-devel libxml2-devel libcurl-devel libevent-devel -y
+配置cd zabbix-4.4.5
+./configure --prefix=/cyylog/zabbix-4.4 --enable-server --enable-agent --with-mysql=/cyylog/mysql/bin/mysql_config --enable-ipv6 --with-netsnmp --with-libcurl --with-libxml2
+make 
+make install</code></pre>
+<p>(2) 配置环境变量</p>
+<pre class=" language-shell"><code class="language-shell">vim /etc/profile 追加一行
 
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警主机<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{HOSTNAME1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+export PATH=$PATH://cyylog/zabbix/sbin
 
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警时间<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.DATE} {EVENT.TIME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+#### 保存退出 刷新 
+source /etc/profile</code></pre>
+<p>(3) 修改配置文件</p>
+<pre class=" language-shell"><code class="language-shell">vim /cyylog/zabbix/etc/zabbix_server.conf  ##修改如下
+DBUser=root
+DBPassword=beimi123
 
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警等级<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.SEVERITY}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警信息<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.NAME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.KEY1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>问题详情<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{ITEM.NAME}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>当前状态<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.STATUS}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>事件ID<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.ID}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-
- <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span></code></pre>
+拷贝zabbix至nginx的目录下
+cp -R frontends/php/* /cyylog/nginx/html/
+重启nginx服务  nginx -s reload</code></pre>
+<p>访问页面ok就行</p>
+<p>注意连接数据库那个步骤需要将服务器ip改为127.0.0.1 不能使用localhost</p>
+<p>否则会报错</p>
+<p>接下会有个配置文件无法安装需手动下载下来传到ngin目录下</p>
+<p>最后完成</p>
+<p>登录账户为 admin 密码zabbix</p>
+<p>登录后界面为</p>
+<p><img src="C:%5CUsers%5CCyy%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523132054294.png" alt="image-20200523132054294"></p>
 
             </div>
             <hr/>
@@ -704,7 +770,7 @@ echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/">https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/</a>
+                    <a href="https://cyylog.github.io/2019/08/05/jian-kong/zabbix-yuan-ma-an-zhuang/">https://cyylog.github.io/2019/08/05/jian-kong/zabbix-yuan-ma-an-zhuang/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -918,13 +984,13 @@ echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/">
+                <a href="/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Zabbix源码安装">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="tmux-初探">
                         
-                        <span class="card-title">Zabbix源码安装</span>
+                        <span class="card-title">tmux-初探</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -932,22 +998,19 @@ echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
                         
                             
 
-Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用脚本安装lnmp
-这里我进行源码安装一步步的操作
-建议使用脚本进行 用源码安装比较慢
-(1) 关闭防火墙和selinux 建议可以实行放行策略(2)创建安装目
+Linux终端复用神器-tmux初探Tmux是一个优秀的终端复用软件，类似GNU Screen，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-09-05
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -957,8 +1020,8 @@ Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/zabbix/">
-                        <span class="chip bg-color">zabbix</span>
+                    <a href="/tags/Tools/">
+                        <span class="chip bg-color">Tools</span>
                     </a>
                     
                 </div>
@@ -972,13 +1035,13 @@ Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/05/27/sql/mysql-bu-shu-zhi-yuan-ma-an-zhuang/">
+                <a href="/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="MySQL部署之源码安装">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Nginx性能优化">
                         
-                        <span class="card-title">MySQL部署之源码安装</span>
+                        <span class="card-title">Nginx性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -986,21 +1049,28 @@ Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用�
                         
                             
 
-所需要的依赖及安装MySQL的包# yum -y update
-# yum -y groupinstall "Development Tools"
-# yum -y install gcc gcc-c++ ncurses ncurses
+
+
+
+当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨
+
+当前系统结构瓶颈
+了解业务模式
+性能与安全
+
+1、当前系统结构瓶颈首先需要了解的是当前系统瓶颈，用的是什么，跑
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-05-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -1010,8 +1080,8 @@ Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
