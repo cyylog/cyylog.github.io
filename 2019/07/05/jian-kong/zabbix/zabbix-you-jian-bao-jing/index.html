@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="zabbix 监控项, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="zabbix邮箱报警设置, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>zabbix 监控项 | Cyylog</title>
+    <title>zabbix邮箱报警设置 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">zabbix 监控项</h1>
+                    <h1 class="description center-align post-title">zabbix邮箱报警设置</h1>
                 </div>
             </div>
         </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-01-05
+                    2019-07-05
                 </div>
                 
 
@@ -557,139 +557,129 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="Zabbix监控什么？"><a href="#Zabbix监控什么？" class="headerlink" title="Zabbix监控什么？"></a>Zabbix监控什么？</h4><p><img src="http://p1.pstatp.com/large/pgc-image/1ee9df63b32b4108a8537cc27eb9252b" alt="Zabbix 监控"></p>
-<p>监控项</p>
-<h4 id="Zabbix常用监控项"><a href="#Zabbix常用监控项" class="headerlink" title="Zabbix常用监控项"></a>Zabbix常用监控项</h4><p><strong>zabbix自带的常用监控项</strong></p>
-<pre><code>agent.ping 检测客户端可达性、返回nothing表示不可达。1表示可达
-system.cpu.load --检测cpu负载。返回浮点数
-system.cpu.util -- 检测cpu使用率。返回浮点数
-vfs.dev.read -- 检测硬盘读取数据，返回是sps.ops.bps浮点类型，需要定义1024倍
-vfs.dev.write -- 检测硬盘写入数据。返回是sps.ops.bps浮点类型，需要定义1024倍
-net.if.out[br0] --检测网卡流速、流出方向，时间间隔为60S
-net-if-in[br0] --检测网卡流速，流入方向（单位：字节） 时间间隔60S
-proc.num[]  目前系统中的进程总数，时间间隔60s
-proc.num[,,run] 目前正在运行的进程总数，时间间隔60S</code></pre><h5 id="处理器信息"><a href="#处理器信息" class="headerlink" title="处理器信息"></a>处理器信息</h5><pre><code>通过zabbix_get 获取负载值
-合理的控制用户态、系统态、IO等待时间剋保证进程高效率的运行
-系统态运行时间较高说明进程进行系统调用的次数比较多，一般的程序如果系统态运行时间占用过高就需要优化程序，减少系统调用
-io等待时间过高则表明硬盘的io性能差，如果是读写文件比较频繁、读写效率要求比较高，可以考虑更换硬盘，或者使用多磁盘做raid的方案
-system.cpu.swtiches --cpu的进程上下文切换，单位sps，表示每秒采样次数，api中参数history需指定为3
-system.cpu.intr  --cpu中断数量、api中参数history需指定为3
-system.cpu.load[percpu,avg1]  --cpu每分钟的负载值，按照核数做平均值(Processor load (1 min average per core))，api中参数history需指定为0
-system.cpu.load[percpu,avg5]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (5 min average per core))，api中参数history需指定为0
-system.cpu.load[percpu,avg15]  --cpu每5分钟的负载值，按照核数做平均值(Processor load (15 min average per core))，api中参数history需指定为0</code></pre><h4 id="zabbix的自定义常用项"><a href="#zabbix的自定义常用项" class="headerlink" title="zabbix的自定义常用项"></a>zabbix的自定义常用项</h4><h5 id="内存相关"><a href="#内存相关" class="headerlink" title="内存相关"></a>内存相关</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/catcarm.conf
-UserParameter=ram.info[*],/bin/cat  /proc/meminfo  |awk &#39;/^$1:{print $2}&#39;
-ram.info[Cached] --检测内存的缓存使用量、返回整数，需要定义1024倍
-ram.info[MemFree] --检测内存的空余量，返回整数，需要定义1024倍
-ram.info[Buffers] --检测内存的使用量，返回整数，需要定义1024倍</code></pre><h5 id="TCP相关的自定义项"><a href="#TCP相关的自定义项" class="headerlink" title="TCP相关的自定义项"></a>TCP相关的自定义项</h5><pre><code>vim /usr/local/zabbix/share/zabbix/alertscripts/tcp_connection.sh
-#!/bin/bash
-function ESTAB { 
-/usr/sbin/ss -ant |awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;ESTAB&#39; | awk &#39;{print $2}&#39;
-}
-function TIMEWAIT {
-/usr/sbin/ss -ant | awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;TIME-WAIT&#39; | awk &#39;{print $2}&#39;
-}
-function LISTEN {
-/usr/sbin/ss -ant | awk &#39;{++s[$1]} END {for(k in s) print k,s[k]}&#39; | grep &#39;LISTEN&#39; | awk &#39;{print $2}&#39;
-}
-$1
-
-vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/cattcp.conf
-UserParameter=tcp[*],/usr/local/zabbix/share/zabbix/alertscripts/tcp_connection.sh $1
-
-tcp[TIMEWAIT] --检测TCP的驻留数，返回整数
-tcp[ESTAB]  --检测tcp的连接数、返回整数
-tcp[LISTEN] --检测TCP的监听数，返回整数</code></pre><h5 id="nginx相关的自定义项"><a href="#nginx相关的自定义项" class="headerlink" title="nginx相关的自定义项"></a>nginx相关的自定义项</h5><pre><code>vim /etc/nginx/conf.d/default.conf
-    location /nginx-status
-    {
-        stub_status on;
-        access_log off;
-        allow 127.0.0.1;
-        deny all;
-    }
+                <a id="more"></a>
 
 
-vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/nginx.conf
-UserParameter=Nginx.active,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/Active/ {print $NF}&#39;
-UserParameter=Nginx.read,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Reading&#39; | cut -d&quot; &quot; -f2
-UserParameter=Nginx.wrie,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Writing&#39; | cut -d&quot; &quot; -f4
-UserParameter=Nginx.wait,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | grep &#39;Waiting&#39; | cut -d&quot; &quot; -f6
-UserParameter=Nginx.accepted,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $1}&#39;
-UserParameter=Nginx.handled,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $2}&#39;
-UserParameter=Nginx.requests,/usr/bin/curl -s &quot;http://127.0.0.1:80/nginx-status&quot; | awk &#39;/^[ \t]+[0-9]+[ \t]+[0-9]+[ \t]+[0-9]+/ {print $3}&#39;
 
-PHP.listenqueue --检测PHP队列数，返回整数
-PHP.idle --检测PHP空闲进程数，返回整数
-PHP.active --检测PHP活动进程数，返回整数
-PHP.conn --检测PHP请求数,返回整数
-PHP.reached --检测PHP达到限制次数，返回整数
-PHP.requets --检测PHP慢请求书，返回整数</code></pre><h5 id="redis相关的自定义项"><a href="#redis相关的自定义项" class="headerlink" title="redis相关的自定义项"></a>redis相关的自定义项</h5><pre><code>vim /usr/local/zabbix/etc/zabbix_agentd.conf.d/redis.conf
-UserParameter=Redis.Status,/usr/local/redis/bin/redis-cli -h 127.0.0.1 -p 6379 ping |grep -c PONG
-UserParameter=Redis_conn[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;connected_clients&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_rss_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_rss&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_lua_mem[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_memory_lua&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_cpu_sys[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_cpu_user[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_cpu_sys_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_sys_children&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_cpu_user_cline[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;used_cpu_user_children&quot; | awk -F&#39;:&#39; &#39;{print $2}&#39;
-UserParameter=Redis_keys_num[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep -w &quot;$$1&quot; | grep -w &quot;keys&quot; | grep db$3 | awk -F&#39;=&#39; &#39;{print $2}&#39; | awk -F&#39;,&#39; &#39;{print $1}&#39;
-UserParameter=Redis_loading[*],/usr/local/redis/bin/redis-cli -h $1 -p $2 info | grep loading | awk -F&#39;:&#39; &#39;{print $$2}&#39;
+<h3 id="Zabbix-邮件报警"><a href="#Zabbix-邮件报警" class="headerlink" title="Zabbix 邮件报警"></a>Zabbix 邮件报警</h3><h4 id="前期准备工作："><a href="#前期准备工作：" class="headerlink" title="前期准备工作："></a>前期准备工作：</h4><p>电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件</p>
+<h5 id="server端安装配置邮件服务器"><a href="#server端安装配置邮件服务器" class="headerlink" title="server端安装配置邮件服务器"></a><strong>server端安装配置邮件服务器</strong></h5><pre class=" language-shell"><code class="language-shell">[root@master ~]# yum -y install mailx
 
-Redis.Status --检测Redis运行状态， 返回整数
-Redis_conn  --检测Redis成功连接数，返回整数
-Redis_rss_mem  --检测Redis系统分配内存，返回整数
-Redis_lua_mem  --检测Redis引擎消耗内存，返回整数
-Redis_cpu_sys --检测Redis主程序核心CPU消耗率，返回整数
-Redis_cpu_user --检测Redis主程序用户CPU消耗率，返回整数
-Redis_cpu_sys_cline --检测Redis后台核心CPU消耗率，返回整数
-Redis_cpu_user_cline --检测Redis后台用户CPU消耗率，返回整数
-Redis_keys_num --检测库键值数，返回整数
-Redis_loding --检测Redis持久化文件状态，返回整数</code></pre><h5 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL:"></a>MySQL:</h5><pre><code>version:数据库版本
-key_buffer_size:myisam的索引buffer大小
-sort_buffer_size:会话的排序空间（每个线程会申请一个）
-join_buffer_size:这是为链接操作分配的最小缓存大小，这些连接使用普通索引扫描、范围扫描、或者连接不适用索引
-max_connections:最大允许同时连接的数量
-max_connect_errors：允许一个主机最多的错误链接次数，如果超过了就会拒绝之后链接（默认100）。可以使用flush hosts命令去解除拒绝
-open_files_limits:操作系统允许mysql打开的文件数量，可以通过opened_tables状态确定是否需要增大table_open_cache,如果opened_tables比较大且一直还在增大说明需要增大table_open_cache
-max-heap_tables_size:建立的内存表的最大大小（默认16M）这个参数和tmp_table_size一起限制内部临时表的最大值(取这两个参数的小的一个），如果超过限制，则表会变为innodb或myisam引擎，（5.7.5之前是默认是myisam，5.7.6开始是innodb，可以通过internal_tmp_disk_storage_engine参数调整）。
-max_allowed_packet:一个包的最大大小
-##########GET INNODB INFO
-#INNODB variables
-innodb_version:
-innodb_buffer_pool_instances：将innodb缓冲池分为指定的多个（默认为1）
-innodb_buffer_pool_size:innodb缓冲池大小、5.7.5引入了innodb_buffer_pool_chunk_size,
-innodb_doublewrite：是否开启doublewrite（默认开启）
-innodb_read_io_threads:IO读线程的数量
-innodb_write_io_threads:IO写线程的数量
-########innodb status
-innodb_buffer_pool_pages_total:innodb缓冲池页的数量、大小等于innodb_buffer_pool_size/(16*1024)
-innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
-########## GET MYSQL HITRATE
-1、查询缓存命中率
-如果Qcache_hits+Com_select&lt;&gt;0则为 Qcache_hits/（Qcache_hits+Com_select），否则为0
+[root@master ~]# mailx -V
+12.5 7/5/10
+</code></pre>
+<h5 id="配置公网邮箱信息：发邮件："><a href="#配置公网邮箱信息：发邮件：" class="headerlink" title="配置公网邮箱信息：发邮件："></a><strong>配置公网邮箱信息</strong>：发邮件：</h5><pre class=" language-shell"><code class="language-shell">[root@master ~]#  vim /etc/mail.rc    #追加以下内容
 
-2、线程缓存命中率
-如果Connections&lt;&gt;0,则为1-Threads_created/Connections，否则为0
+set from=cyylog@163.com    #（邮箱地址） 
+set smtp=smtp.163.com    #smtp服务器） 发邮件服务器 ---163默认
+set smtp-auth-user=cyylog@163.com    #(用户名) 
+set smtp-auth-password=Password    #（邮箱密码）授权之后的密码
+set smtp-auth=login            #默认
 
-3、myisam键缓存命中率
-如果Key_read_requests&lt;&gt;0,则为1-Key_reads/Key_read_requests，否则为0
+######    测试
+[root@master ~]# echo "test mail from zabbix.server.com" |mail -s "test mail" cyylog@163.com</code></pre>
+<h6 id="然后163邮箱就会收到信息"><a href="#然后163邮箱就会收到信息" class="headerlink" title="然后163邮箱就会收到信息"></a>然后163邮箱就会收到信息</h6><p><img src="https://s1.ax1x.com/2020/05/23/Yv2C6g.png" alt="Yv2C6g.png"></p>
+<h4 id="报警媒体的配置"><a href="#报警媒体的配置" class="headerlink" title="报警媒体的配置:"></a>报警媒体的配置:</h4><p>首先需要配置 Zabbix 的邮件功能。<br>点击 管理-&gt;报警媒介类型-&gt;创建媒体类型</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvWEWV.png" alt="YvWEWV.png"></p>
+<p><strong>然后在页面中填入你的报警媒介类型信息,例如下图所示:</strong><br><strong>注：脚本名称任意，存放于<code>/usr/lib/zabbix/alertscripts</code> (生产上的测试服放这：<code>s /usr/local/zabbix/share/zabbix/alertscripts）</code></strong> </p>
+<p>名称：sendmail //名称任意<br>类型：脚本<br>脚本名称：sendmail.sh<br>脚本参数： //一定要写，否则可能发送不成功<br>{ALERT.SENDTO} //照填，收件人变量<br>{ALERT.SUBJECT} //照填，邮件主题变量，变量值来源于‘动作’中的‘默认接收人’<br>{ALERT.MESSAGE} //照填，邮件正文变量，变量值来源于‘动作’中的‘默认信息’</p>
+<p><strong>配置完成后,不要忘记点击存档,保存你的配置。</strong></p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvWRmQ.png" alt="YvWRmQ.png"></p>
+<h6 id="修改zabbix服务端配置文件＆编写脚本："><a href="#修改zabbix服务端配置文件＆编写脚本：" class="headerlink" title="修改zabbix服务端配置文件＆编写脚本："></a>修改zabbix服务端配置文件＆编写脚本：</h6><pre class=" language-shell"><code class="language-shell"># 查看指定脚本的存储路径:
 
-4、myisam键缓存写命中率
-如果Key_write_requests&lt;&gt;0,则为1-Key_writes/Key_write_requests，否则为0
+[root@master ~]# vim /etc/zabbix/zabbix_server.conf
 
-5、键块使用率
-如果Key_blocks_used+Key_blocks_unused&lt;&gt;0，则Key_blocks_used/（Key_blocks_used+Key_blocks_unused），否则为0
+AlertScriptsPath=/usr/lib/zabbix/alertscripts
 
-6、创建磁盘存储的临时表比率
-如果Created_tmp_disk_tables+Created_tmp_tables&lt;&gt;0,则Created_tmp_disk_tables/（Created_tmp_disk_tables+Created_tmp_tables），否则为0
 
-7、连接使用率
-如果max_connections&lt;&gt;0，则threads_connected/max_connections，否则为0
+编写邮件脚本:
+[root@master alertscripts]# cd /usr/lib/zabbix/alertscripts
+[root@master alertscripts]# vim sendmail.sh 
 
-8、打开文件比率
-如果open_files_limit&lt;&gt;0，则open_files/open_files_limit，否则为0
+#!/bin/sh 
+#export.UTF-8 -----字符集可以删除掉
+#send mail
+messages=echo $3 | tr '\r\n' '\n'
+subject=echo $2 | tr '\r\n' '\n'
+echo "${messages}" | mail -s "${subject}" $1 >>/tmp/mailx.log 2>&1
 
-9、表缓存使用率
-如果table_open_cache&lt;&gt;0，则open_tables/table_open_cache，否则为0</code></pre>
+
+修改权限：
+[root@master alertscripts]# chmod u+x sendmail.sh && chown zabbix.zabbix sendmail.sh</code></pre>
+<p>创建的脚本名称要和定义的脚本名称一样</p>
+<p><strong>修改admin用户的报警媒介：</strong><br>用户默认是没有设置报警媒介的，设置后就可以接收报警消息了。</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvIrM6.png" alt="YvIrM6.png"></p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvoeQx.png" alt="YvoeQx.png"></p>
+<h6 id="触发器的配置"><a href="#触发器的配置" class="headerlink" title="触发器的配置:"></a><strong>触发器的配置:</strong></h6><p>接下来,点击配置-&gt;主机</p>
+<p>我们给 agent-19 这台主机增加一个触发器。点击 agent-19 这一行中的“触发器”,然后再点击创建触发器。<br>该页各配置项含义如下:<br>名称:填入触发器的名字<br>表达式:用于配置触发器的触发条件,点击添加按钮有条件选项。 —-键值<br>多重事件产生:如果选中,则问题如果持续多重的发生则每次都触发,否则只触发一次<br>点击表达式右侧的添加按钮:</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvT75Q.png" alt="YvT75Q.png"></p>
+<p>再点击项目右侧的选择,选择我们之前配置过的“web.server.online.monitor”,并设置触发的阀值,如下图所示</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvTL2n.png" alt="YvTL2n.png"></p>
+<p>Zabbix 会自动生成表达式。接下来根据情况选择事件的严重性。配置完毕后,点击存档保存。</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/YvTxbT.png" alt="YvTxbT.png"></p>
+<p><strong>动作的配置</strong>:<br>点击:配置-&gt;动作-&gt;事件源下拉菜单中选择触发器-&gt;创建动作<br>可以在内容中使用 Zabbix 内置宏,邮件发出时会自动将宏替换成对应的值。 </p>
+<p>名称：<br>任意写</p>
+<p>默认接收人：</p>
+<pre><code>故障级别：{TRIGGER.STATUS}。服务器：【{HOSTNAME1} 】 发生：{TRIGGER.NAME} 故障！ 
+注：默认接收人：相当于邮件的主题
+
+默认信息：邮件的主题
+告警主机：{HOSTNAME1} 
+告警时间：{EVENT.DATE} {EVENT.TIME}
+告警等级：{TRIGGER.SEVERITY} 
+告警信息：{TRIGGER.NAME}
+告警项目：{TRIGGER.KEY1} 
+问题详情：{ITEM.NAME}：{ITEM.VALUE}
+当前状态：{TRIGGER.STATUS}：{ITEM.VALUE1} 
+事件ID：{EVENT.ID}</code></pre><p>恢复邮件：<br>恢复主题：</p>
+<pre><code>服务器：【{HOSTNAME1}】故障已恢复。故障原因：{TRIGGER.NAME} 
+恢复信息：恢复邮件的正文。当故障恢复正常后也发邮件通知一下。 </code></pre><p><img src="https://s1.ax1x.com/2020/05/23/Yv7iG9.png" alt="Yv7iG9.png"></p>
+<p>点击:操作-&gt;编辑：</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/Yv7kx1.png" alt="Yv7kx1.png"></p>
+<p>发送间隔：60秒<br>步骤：发送10次发送到：admin用户<br>仅使用：sendmail方式发送 —-脚本。 方式可以自行设置，根据实际工作要求</p>
+<p><img src="https://s1.ax1x.com/2020/05/23/Yv7QGd.png" alt="Yv7QGd.png"></p>
+<p>需要特别解释一下的是“步骤”部分的配置。所谓步骤是指报警可以有多个步骤,做不同的报警。例如,自从 1 到 3,就是指报警的步骤有三个。步骤持续时间就是一定时间后如果监控人员仍未响应报警就进入下一个报警步骤。<br>例如,发邮件给你报警,如果60 秒后你没响应,那就发 jabber 信息提醒你。如果 60 秒后还没响应,那就发短信给你。要是还没响应,就没有然后了。你可以形象的把它理解为 Zabbix 的一哭二闹三上吊。<br>到此,一个邮件报警功能就配置完毕了。如果你想立即看到结果,可以修改触发器的条件,将条件的阀值设置为 N&gt;0.0003。你马上就会收到 Zabbix 发来的报警邮件了。</p>
+<h4 id="补充：邮件美化"><a href="#补充：邮件美化" class="headerlink" title="补充：邮件美化"></a>补充：邮件美化</h4><p>（修改默认信息）</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>  <span class="token attr-name">bordercolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span> <span class="token attr-name">cellspacing</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0px<span class="token punctuation">"</span></span> <span class="token attr-name">cellpadding</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>4px<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警主机<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{HOSTNAME1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警时间<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.DATE} {EVENT.TIME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警等级<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.SEVERITY}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警信息<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.NAME}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>告警项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.KEY1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>问题详情<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">bgcolor</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#FF3333<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{ITEM.NAME}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>当前状态<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{TRIGGER.STATUS}:<span class="token entity" title="&nbsp;">&amp;nbsp;</span>{ITEM.VALUE1}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>事件ID<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>{EVENT.ID}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span></code></pre>
+
             </div>
             <hr/>
 
@@ -714,7 +704,7 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/">https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</a>
+                    <a href="https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/">https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -928,37 +918,42 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/01/19/rong-qi/docker-shu-ju-gong-xiang-yu-chi-jiu-hua/">
+                <a href="/2019/08/05/linux/nginx/nginx-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Docker数据共享与持久化">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Nginx性能优化">
                         
-                        <span class="card-title">Docker数据共享与持久化</span>
+                        <span class="card-title">Nginx性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            本文介绍如何在 Docker 内部以及容器之间管理数据，在容器中管理数据主要有两种方式：
+                            
 
 
-数据卷（Data Volumes）
-挂载主机目录 (Bind mounts)
 
-数据卷数据卷是一个可供一个或多个容器使用的特殊目录，它绕过UFS，
+
+当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨
+
+当前系统结构瓶颈
+了解业务模式
+性能与安全
+
+1、当前系统结构瓶颈首先需要了解的是当前系统瓶颈，用的是什么，跑
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-01-19
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -968,8 +963,8 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Docker/">
-                        <span class="chip bg-color">Docker</span>
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
@@ -983,13 +978,13 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/05/devops/golang/go-study/">
+                <a href="/2019/05/27/sql/mysql-bu-shu-zhi-yuan-ma-an-zhuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Go_学习之Docke容器">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="MySQL部署之源码安装">
                         
-                        <span class="card-title">Go_学习之Docke容器</span>
+                        <span class="card-title">MySQL部署之源码安装</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -997,24 +992,21 @@ innodb_buffer_pool_pages_data:innodb缓冲池中包含数据的页的数量
                         
                             
 
-mysql容器[mysqld]
-log-error=/mylog/error.log
-slow_query_log = on
-long_query_time=2
-slow-query-log-file =/mylog/slow.log
-
+所需要的依赖及安装MySQL的包# yum -y update
+# yum -y groupinstall "Development Tools"
+# yum -y install gcc gcc-c++ ncurses ncurses
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-05-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
                                 </a>
                             
                             
@@ -1024,8 +1016,8 @@ slow-query-log-file =/mylog/slow.log
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Docker/">
-                        <span class="chip bg-color">Docker</span>
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
                 </div>

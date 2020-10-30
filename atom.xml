@@ -69,6 +69,34 @@
   </entry>
   
   <entry>
+    <title>Zabbix-原理</title>
+    <link href="https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-yuan-li/"/>
+    <id>https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-yuan-li/</id>
+    <published>2020-10-27T17:55:39.000Z</published>
+    <updated>2020-10-30T00:17:17.035Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;​               &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;想要用好zabbix进行监控，那么我们首要需要了解下zabbix这个软件的实现原理及它的架构。建议多阅读官方文档。&lt;/p&gt;
+&lt;p&gt;官网地址：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="zabbix" scheme="https://cyylog.github.io/tags/zabbix/"/>
+    
+  </entry>
+  
+  <entry>
     <title>influxdb+grafana监控网络情况</title>
     <link href="https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
     <id>https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
@@ -492,31 +520,6 @@
     
     
     <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>计划任务及日志管理</title>
-    <link href="https://cyylog.github.io/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/"/>
-    <id>https://cyylog.github.io/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/</id>
-    <published>2020-05-30T15:33:41.000Z</published>
-    <updated>2020-05-30T15:34:52.084Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;循环调度执行cron&quot;&gt;&lt;a href=&quot;#循环调度执行cron&quot; class=&quot;headerlink&quot; title=&quot;循环调度执行cron&quot;&gt;&lt;/a&gt;循环调度执行cron&lt;/h4&gt;&lt;h5 id=&quot;1-1简介cron&quot;&gt;&lt;a href=&quot;#1-1简介cron&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
     
   </entry>
   
