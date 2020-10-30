@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cyylog.github.io/2020/10/30/jian-kong/prometheus/prometheus-2/</loc>
+    <loc>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</loc>
     <lastmod>2020-10-30</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</loc>
+    <loc>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2018/12/05/sql/redis/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/05/sql/redis-shao-bing/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/03/14/rong-qi/kubernetes-ru-men/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pods/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/01/05/jian-kong/zabbix/zabbix-jian-kong-xiang/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/05/26/jian-kong/prometheus/prometheus-ru-men/</loc>
     <lastmod>2020-10-30</lastmod>
   </url>
   <url>
@@ -41,28 +89,8 @@
     <lastmod>2020-10-20</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/10/05/sql/redis-shao-bing/</loc>
-    <lastmod>2020-10-17</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/9998/08/16/interview/xi-tong-diao-you/</loc>
     <lastmod>2020-10-07</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</loc>
-    <lastmod>2020-10-05</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pods/</loc>
-    <lastmod>2020-10-05</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</loc>
-    <lastmod>2020-10-03</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</loc>
-    <lastmod>2020-10-03</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</loc>
@@ -70,22 +98,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/09/26/devops/gitlab-ci-ru-men/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/01/05/jian-kong/zabbix/zabbix-jian-kong-xiang/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/07/05/jian-kong/zabbix/zabbix-you-jian-bao-jing/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
@@ -98,10 +110,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/05/31/devops/vue-ru-men-zhi-001/</loc>
-    <lastmod>2020-09-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</loc>
     <lastmod>2020-09-30</lastmod>
   </url>
   <url>
@@ -209,10 +217,6 @@
     <lastmod>2020-05-25</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2018/12/05/sql/redis/</loc>
-    <lastmod>2020-05-25</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2019/04/16/sql/rabbitmq-xiao-xi-zhong-jian-jian/</loc>
     <lastmod>2020-05-25</lastmod>
   </url>
@@ -230,10 +234,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/2019/05/27/sql/mysql-bu-shu-zhi-yuan-ma-an-zhuang/</loc>
-    <lastmod>2020-05-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/14/rong-qi/kubernetes-ru-men/</loc>
     <lastmod>2020-05-25</lastmod>
   </url>
   <url>

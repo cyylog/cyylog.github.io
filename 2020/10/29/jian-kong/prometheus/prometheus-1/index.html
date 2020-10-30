@@ -609,20 +609,211 @@
 <h5 id="三大套件"><a href="#三大套件" class="headerlink" title="三大套件"></a><strong>三大套件</strong></h5><p>Server 主要负责数据采集和存储，提供PromQL查询语言的支持。 </p>
 <p>Alertmanager 警告管理器，用来进行报警。 </p>
 <p>Push Gateway 支持临时性Job主动推送指标的中间网关。 </p>
+<h6 id="安装-Server"><a href="#安装-Server" class="headerlink" title="安装**Server**"></a><strong>安装**</strong>Server**</h6><pre class=" language-shell"><code class="language-shell">[root@master ~]# mkdir -p /data/promethues/{client,server}
+[root@master ~]# touch /data/promethues/server/rules.yml
+[root@master ~]# chmod 777 /data/promethues/server/rules.yml
+[root@master ~]# vi /data/promethues/server/promethues.yml
+[root@master ~]# cat  /data/promethues/server/promethues.yml
+global: 
+  scrape_interval: 15s #默认抓取间隔,15秒向目标抓取一次数据 
+  evaluation_interval: 15s 
+  external_labels: 
+    monitor: 'codelab-monitor'     
+# 定义抓取对象 
+scrape_configs: 
+  - job_name: 'prometheus' #重写时间序例，每一条都会自动添加上{job_name:"prometheus"}的标签 - job_name: 'prometheus' 
+    scrape_interval: 5s # 重写全局抓取间隔时间，由15秒重写成5秒 
+    static_configs: 
+      - targets: ['localhost:9090']
+[root@master ~]# 
+[root@master ~]# docker run --name=prometheus -d -p 9090:9090 -v /data/promethues/server/promethues.yml:/etc/prometheus/prometheus.yml -v /data/promethues/server/rules.yml:/etc/prometheus/rules.yml prom/prometheus -- config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle
+667f9b60c7f0eedecd7685e6ae59dd034ac1e66e766f5b552986cd634eadfe32
+</code></pre>
 <blockquote>
-<p>pushgateway是为了允许临时作业和批处理作业向prometheus公开他们的指标。 由于这类作业的存在时间可能不够 </p>
-<p>长, 无法抓取到, 因此它们可以将指标推送到推网关中。 Prometheus采集数据是用的pull也就是拉模型，这从上面设 </p>
-<p>置的5秒参数就能看出来。但是有些数据并不适合采用这样的方式，对这样的数据可以使用Push Gateway服务。 它 </p>
-<p>就相当于一个缓存，当数据采集完成之后，就上传到这里，由Prometheus稍后再pull过来。 首先启动Push </p>
-<p>Gateway </p>
+<p>启动时加上–web.enable-lifecycle启用远程热加载配置文件 </p>
+<p>调用指令是curl -X POST <a href="http://localhost:9090/-/reload" target="_blank" rel="noopener">http://localhost:9090/-/reload</a> </p>
+<p>在浏览器中访问 访问<a href="http://192.168.42.150:9090/" target="_blank" rel="noopener">http://192.168.42.150:9090/</a></p>
+<p><a href="http://192.168.42.150:9090/metrics" target="_blank" rel="noopener">http://192.168.42.150:9090/metrics</a></p>
 </blockquote>
-<h5 id="Grafana-展示"><a href="#Grafana-展示" class="headerlink" title="Grafana**展示**"></a><strong>Grafana**</strong>展示**</h5><p>Grafana是用于可视化大型测量数据的开源程序，它提供了强大和优雅的方式去创建、共享、浏览数据。Dashboard </p>
-<p>中显示了不同metric数据源中的数据。 Grafana最常用于因特网基础设施和应用分析，但在其他领域也有用到，比 </p>
-<p>如：工业传感器、家庭自动化、过程控制等等。Grafana支持热插拔控制面板和可扩展的数据源，目前已经支持 </p>
-<p>Graphite、InflfluxDB、OpenTSDB、Elasticsearch、Prometheus等。 </p>
-<h5 id="PS"><a href="#PS" class="headerlink" title="PS:"></a>PS:</h5><blockquote>
-<p>部署请看 下一个文章</p>
+<p>*<em>通过 <code>node exporter</code> 提供 <code>metrics</code> *</em></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker run -d --name=node-exporter -p 9100:9100 prom/node-exporter</span>
+f18b6aa81b086319808a383c070ac1fc0cf93db0b4818b727afa05371045280d
+<span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># vim /data/promethues/server/promethues.yml</span>
+<span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># tail -5  /data/promethues/server/promethues.yml</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">job_name</span><span class="token punctuation">:</span> <span class="token string">'nodes'</span>
+    <span class="token key atrule">static_configs</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> <span class="token key atrule">targets</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'192.168.42.150:9100'</span><span class="token punctuation">,</span><span class="token string">'192.168.42.151:9100'</span><span class="token punctuation">,</span><span class="token string">'192.168.42.152:9100'</span><span class="token punctuation">]</span>
+        <span class="token key atrule">labels</span><span class="token punctuation">:</span> 
+          <span class="token key atrule">group</span><span class="token punctuation">:</span> <span class="token string">'client-node-exporter'</span>
+<span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># curl -X POST http://localhost:9090/-/reload </span></code></pre>
+<p>在GUI中查看 Targets如下所示：</p>
+<p><a href="https://imgchr.com/i/BNMRcd" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNMRcd.png" alt="BNMRcd.png"></a></p>
+<h6 id="安装-pushgateway"><a href="#安装-pushgateway" class="headerlink" title="安装**pushgateway**"></a><strong>安装**</strong>pushgateway**</h6><blockquote>
+<p>pushgateway是为了允许临时作业和批处理作业向prometheus公开他们的指标。 由于这类作业的存在时间可能不够长, 无法抓取到, 因此它们可以将指标推送到推网关中。 Prometheus采集数据是用的pull也就是拉模型，这从上面设置的5秒参数就能看出来。但是有些数据并不适合采用这样的方式，对这样的数据可以使用Push Gateway服务。 它 就相当于一个缓存，当数据采集完成之后，就上传到这里，由Prometheus稍后再pull过来。</p>
 </blockquote>
+<p>首先启动 <code>Push Gateway</code> </p>
+<pre class=" language-shell"><code class="language-shell">[root@master ~]# docker run -d -p 9091:9091 --name pushgateway prom/pushgateway
+Unable to find image 'prom/pushgateway:latest' locally
+latest: Pulling from prom/pushgateway
+76df9210b28c: Already exists 
+559be8e06c14: Already exists 
+8491d2b1da91: Pull complete 
+67e6436e486c: Pull complete 
+Digest: sha256:c0d39b8d4cfebec5c86ed19e0af68bdfed493d0d8098f99b1e9acf91d10e781e
+Status: Downloaded newer image for prom/pushgateway:latest
+712f422674083dd855c50b3205b8f5d9914daa22ffacae71da3506b4d5604b97</code></pre>
+<p>Pushgateway GUI 如下所示：</p>
+<p><a href="https://imgchr.com/i/BNl8WF" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNl8WF.png" alt="BNl8WF.png"></a></p>
+<blockquote>
+<p>接下来就可以往pushgateway推送数据了，prometheus提供了多种语言的sdk，最简单的方式就是通过shell </p>
+</blockquote>
+<p>推送一个指标如下操作： </p>
+<pre class=" language-shell"><code class="language-shell">[root@node2 ~]# echo "metric01 100" | curl --data-binary @- http://192.168.42.150:9091/metrics/job/cyylog</code></pre>
+<p>效果如下：</p>
+<p><a href="https://imgchr.com/i/BN1U1g" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BN1U1g.png" alt="BN1U1g.png"></a></p>
+<p>推送多个指标如下所示：</p>
+<pre class=" language-shell"><code class="language-shell">[root@node2 ~]# cat << END  | curl --data-binary @- http://192.168.42.150:9091/metrics/job/cyy/instance/test
+> muscle_metric{label="TEST"} 8800
+> bench_press 100
+> dead_lift 160
+> deep_squal 160
+> END
+</code></pre>
+<p>效果如下：</p>
+<p><a href="https://imgchr.com/i/BN8YQg" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BN8YQg.png" alt="BN8YQg.png"></a></p>
+<p>再将 <code>pushgateway</code> 配置到 <code>prometheus.yml</code> 里边,重载配置</p>
+<pre><code>[root@master ~]# tail -5 /data/promethues/server/promethues.yml 
+  - job_name: pushgateway
+    static_configs: 
+      - targets: [&#39;192.168.42.150:9090&#39;]
+        labels: 
+          group: pushgateway</code></pre><h5 id="Grafana-展示"><a href="#Grafana-展示" class="headerlink" title="Grafana**展示"></a>Grafana<strong>**展示</strong></h5><blockquote>
+<p><code>Grafana</code>是用于可视化大型测量数据的开源程序，它提供了强大和优雅的方式去创建、共享、浏览数据。</p>
+<p><code>Dashboard</code>  中显示了不同<code>metric</code>数据源中的数据。 <code>Grafana</code>最常用于因特网基础设施和应用分析，但在其他领域也有用到，比 如：工业传感器、家庭自动化、过程控制等等。Grafana支持热插拔控制面板和可扩展的数据源，目前已经支持 <code>Graphite</code>、<code>InflfluxDB</code>、<code>OpenTSDB</code>、<code>Elasticsearch</code>、<code>Prometheus</code>等。 </p>
+</blockquote>
+<p>以<code>docker</code>形式运行如下所示：</p>
+<pre><code>[root@master ~]# docker run -d -p 3000:3000 --name grafana grafana/grafana
+Unable to find image &#39;grafana/grafana:latest&#39; locally
+latest: Pulling from grafana/grafana
+188c0c94c7c5: Pull complete 
+94db9aec2a58: Pull complete 
+618563756337: Pull complete 
+f413b64712e1: Pull complete 
+18534279664f: Pull complete 
+4f4fb700ef54: Pull complete 
+3abba839cfd4: Pull complete 
+aac362f49dd4: Pull complete 
+Digest: sha256:9f43d0ac1fdecdd08a47bce4038fa5c9c67cc84fc025df78b87ae7b7b076aee9
+Status: Downloaded newer image for grafana/grafana:latest
+08cca0c2c86ce3be9e4006a20b66457464668646f6700fad2e5cbc0791d06999</code></pre><p>登录<code>grafana</code>，默认用户名密码都是为<code>admin</code>，登录后设置新密码，如下所示：</p>
+<p><a href="https://imgchr.com/i/BNt91K" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNt91K.png" alt="BNt91K.png"></a></p>
+<p>为<code>grafana</code>添加数据源：</p>
+<p><a href="https://imgchr.com/i/BNt37j" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNt37j.png" alt="BNt37j.png"></a></p>
+<p>指定数据源为prometheus的地址：</p>
+<p><a href="https://imgchr.com/i/BNtacT" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtacT.png" alt="BNtacT.png"></a></p>
+<p>导入dashboard模板： </p>
+<p><a href="https://imgchr.com/i/BNtq8P" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtq8P.png" alt="BNtq8P.png"></a></p>
+<p>Dashboard显示如下：</p>
+<p><a href="https://imgchr.com/i/BNtTUA" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtTUA.png" alt="BNtTUA.png"></a></p>
+<h5 id="安装-AlterManager"><a href="#安装-AlterManager" class="headerlink" title="安装**AlterManager**"></a><strong>安装**</strong>AlterManager**</h5><blockquote>
+<p><code>Pormetheus</code>的警告由独立的两部分组成。Prometheus服务中的警告规则发送警告到<code>Alertmanager</code>。然后 <code>Alertmanager</code>管理这些警告。包括<code>silencing</code>, <code>inhibition</code>, <code>aggregation</code>，以及通过一些方法发送通知，例如：<code>email</code>， <code>PagerDuty</code>和<code>HipChat</code>。</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/BNNPCq" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNNPCq.png" alt="BNNPCq.png"></a></p>
+<p>建立警告和通知的主要步骤：</p>
+<blockquote>
+<ul>
+<li><p>创建和配置<code>Alertmanager</code> </p>
+</li>
+<li><p>启动<code>Prometheus</code>服务时，通过<code>-alertmanager.url</code>标志配置<code>Alermanager</code>地址，以便<code>Prometheus</code>服务能和<code>Alertmanager</code>建立连接。 </p>
+</li>
+</ul>
+</blockquote>
+<p>创建和配置Alertmanager</p>
+<pre class=" language-shell"><code class="language-shell">[root@master ~]# mkdir /data/promethues/server/alertmanager
+[root@master ~]# cd /data/promethues/server/alertmanager
+[root@master alertmanager]# vim alertmanager.yml
+[root@master alertmanager]# cat alertmanager.yml
+global:
+  resolve_timeout: 5m 
+  smtp_smarthost: 'smtp.qq.com:465' 
+  smtp_from: 'your_qq@qq.com' 
+  smtp_auth_username: 'your_qq@qq.com' 
+  smtp_auth_password: 'psw' 
+  smtp_require_tls: false 
+templates:
+  - '/data/alertmanager/templates/*.tmpl'
+route:
+  receiver: test1
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  group_by: [alertname]
+  routes:
+# ads webhook
+  - receiver: test1
+    group_wait: 10s
+    match:
+      team: ads
+# ops webhook
+  - receiver: test2
+    group_wait: 10s
+    match:
+      team: operations
+receivers:
+- name: test1
+  email_configs:
+  - to: 'your_qq@qq.com'
+    headers: { Subject: "[ads] 报警邮件"} # 接收邮件的标题
+
+- name: test2
+  email_configs:
+  - to: 'your_qq@qq.com,your_163@163.com'
+    send_resolved: true
+    headers: { Subject: "[ops] 报警邮件"} # 接收邮件的标题
+[root@master alertmanager]# </code></pre>
+<p><strong>以<code>Docker</code>形式运行<code>alertmanager</code>如下：</strong></p>
+<pre class=" language-shell"><code class="language-shell">[root@master alertmanager]# docker run -d -p 9093:9093 --name alertmanager -v /data/promethues/server/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml prom/alertmanager
+</code></pre>
+<p><strong>浏览器中访问服务器的<code>9093</code>端口如下所示</strong></p>
+<p><a href="https://imgchr.com/i/BNDPw8" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNDPw8.png" alt="BNDPw8.png"></a></p>
+<p><strong><code>alertmanager status</code>菜单显示默认的邮件模板如下所示：</strong></p>
+<p><a href="https://imgchr.com/i/BNDeln" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNDeln.png" alt="BNDeln.png"></a></p>
+<p><strong>添加报警规则，并在<code>prometheus</code>中指定alertmanager的地址 ，如下所示</strong></p>
+<pre class=" language-shell"><code class="language-shell">[root@master alertmanager]# cd ..
+[root@master server]# ls
+alertmanager  promethues.yml  rules.yml
+[root@master server]# vim rules.yml 
+[root@master server]# vim promethues.yml 
+[root@master server]# tail -6 promethues.yml 
+rule_files:
+  - /etc/prometheus/rules.yml
+alerting:
+  alertmanagers:
+    - static_configs: 
+        - targets: ['192.168.42.150:9093']
+[root@master server]# cat rules.yml 
+groups: 
+  - name: test
+    rules: 
+      - alert: 测试 
+        expr: dead_lift > 150 
+        for: 1m 
+        labels: 
+          status: warning 
+        annotations: 
+          summary: "{{$labels.instance}}:硬拉超标！lightweight baby!!!" 
+          description: "{{$labels.instance}}:硬拉超标！lightweight baby!!!"
+[root@master server]# </code></pre>
+<p><strong><code>Prometheus</code> 显示如下所示：</strong></p>
+<p><a href="https://imgchr.com/i/BNrWvR" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNrWvR.png" alt="BNrWvR.png"></a></p>
+<p><a href="https://imgchr.com/i/BNrvrt" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNrvrt.png" alt="BNrvrt.png"></a></p>
+<p><strong><code>Alertmanager</code>展示如下：</strong></p>
+<p><a href="https://imgchr.com/i/BNsSVf" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNsSVf.png" alt="BNsSVf.png"></a></p>
+<p><strong>邮件收到报警内容如下：</strong></p>
+<p><a href="https://imgchr.com/i/BNsF2j" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNsF2j.png" alt="BNsF2j.png"></a></p>
+<p>PS: </p>
+<p>告警设置请查看DL的公众号文章</p>
+<p><a href="https://mp.weixin.qq.com/s/30hht_j18-LfzPDBxxnLvQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/30hht_j18-LfzPDBxxnLvQ</a></p>
 
             </div>
             <hr/>
@@ -862,37 +1053,35 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/10/30/jian-kong/prometheus/prometheus-2/">
+                <a href="/9998/08/16/interview/xi-tong-diao-you/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Prometheus（2）">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="系统调优">
                         
-                        <span class="card-title">Prometheus（2）</span>
+                        <span class="card-title">系统调优</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Prometheus搭建简单的监控告警系统说明
-使用的操作系统为CentOS 7.6.1810，其他系统请自己根据差异做对应调整
-仅用于记录部署过程
-告警通知对接了邮件和钉钉机器人
-
-安装
-在监控告警系统主机上安装prometheus、al
+                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
+性能优化优化的目的
+1. 提高资源的利用率
+2. 找到性能瓶颈以及缓解这个瓶颈（CPU，内存，IO调度、网络、使用的应用程序）
+3. 通过性能管理实现合理
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-30
+                            <i class="far fa-clock fa-fw icon-date"></i>9998-08-16
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
                                 </a>
                             
                             
@@ -902,8 +1091,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Prometheus/">
-                        <span class="chip bg-color">Prometheus</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
