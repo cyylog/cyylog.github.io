@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-yuan-li/</loc>
+    <loc>https://cyylog.github.io/2020/10/30/jian-kong/prometheus/prometheus-2/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</loc>
+    <lastmod>2020-10-30</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/</loc>
     <lastmod>2020-10-30</lastmod>
   </url>
   <url>
@@ -38,14 +46,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/9998/08/16/interview/xi-tong-diao-you/</loc>
-    <lastmod>2020-10-07</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/</loc>
-    <lastmod>2020-10-07</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/06/18/jian-kong/prometheus-1/</loc>
     <lastmod>2020-10-07</lastmod>
   </url>
   <url>

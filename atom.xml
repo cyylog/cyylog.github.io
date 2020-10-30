@@ -69,21 +69,18 @@
   </entry>
   
   <entry>
-    <title>Zabbix-原理</title>
-    <link href="https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-yuan-li/"/>
-    <id>https://cyylog.github.io/2020/10/28/jian-kong/zabbix/zabbix-yuan-li/</id>
-    <published>2020-10-27T17:55:39.000Z</published>
-    <updated>2020-10-30T00:17:17.035Z</updated>
+    <title>Prometheus（2）</title>
+    <link href="https://cyylog.github.io/2020/10/30/jian-kong/prometheus/prometheus-2/"/>
+    <id>https://cyylog.github.io/2020/10/30/jian-kong/prometheus/prometheus-2/</id>
+    <published>2020-10-29T17:48:56.000Z</published>
+    <updated>2020-10-30T03:14:39.558Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;​               &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;想要用好zabbix进行监控，那么我们首要需要了解下zabbix这个软件的实现原理及它的架构。建议多阅读官方文档。&lt;/p&gt;
-&lt;p&gt;官网地址：&lt;a</summary>
+    <summary type="html">&lt;h1 id=&quot;Prometheus搭建简单的监控告警系统&quot;&gt;&lt;a href=&quot;#Prometheus搭建简单的监控告警系统&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -92,7 +89,32 @@
     <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
     
     
-    <category term="zabbix" scheme="https://cyylog.github.io/tags/zabbix/"/>
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Prometheus（1）</title>
+    <link href="https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/"/>
+    <id>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</id>
+    <published>2020-10-29T05:48:56.000Z</published>
+    <updated>2020-10-30T03:14:12.675Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;什么是-Prometheus&quot;&gt;&lt;a href=&quot;#什么是-Prometheus&quot; class=&quot;headerlink&quot; title=&quot;什么是 Prometheus&quot;&gt;&lt;/a&gt;&lt;strong&gt;什么是&lt;/strong&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
     
   </entry>
   
@@ -120,6 +142,34 @@
     <category term="influxdb" scheme="https://cyylog.github.io/tags/influxdb/"/>
     
     <category term="grafana" scheme="https://cyylog.github.io/tags/grafana/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zabbix-原理</title>
+    <link href="https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/"/>
+    <id>https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/</id>
+    <published>2020-10-23T17:55:39.000Z</published>
+    <updated>2020-10-30T03:13:25.754Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;​               &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;想要用好zabbix进行监控，那么我们首要需要了解下zabbix这个软件的实现原理及它的架构。建议多阅读官方文档。&lt;/p&gt;
+&lt;p&gt;官网地址：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="zabbix" scheme="https://cyylog.github.io/tags/zabbix/"/>
     
   </entry>
   
@@ -428,48 +478,6 @@
     
     
     <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Prometheus（2）</title>
-    <link href="https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/"/>
-    <id>https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/</id>
-    <published>2020-06-18T16:48:56.000Z</published>
-    <updated>2020-10-07T03:16:22.280Z</updated>
-    
-    
-    
-    
-    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
-    
-    
-    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Prometheus（1）</title>
-    <link href="https://cyylog.github.io/2020/06/18/jian-kong/prometheus-1/"/>
-    <id>https://cyylog.github.io/2020/06/18/jian-kong/prometheus-1/</id>
-    <published>2020-06-17T16:48:56.000Z</published>
-    <updated>2020-10-07T01:49:51.105Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Prometheus搭建简单的监控告警系统&quot;&gt;&lt;a href=&quot;#Prometheus搭建简单的监控告警系统&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
-    
-    
-    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
     
   </entry>
   

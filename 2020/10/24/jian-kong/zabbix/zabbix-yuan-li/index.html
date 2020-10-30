@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Prometheus（2）, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Zabbix-原理, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Prometheus（2） | Cyylog</title>
+    <title>Zabbix-原理 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -394,12 +394,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Prometheus（2）</h1>
+                    <h1 class="description center-align post-title">Zabbix-原理</h1>
                 </div>
             </div>
         </div>
@@ -516,8 +516,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Prometheus/">
-                                <span class="chip bg-color">Prometheus</span>
+                            <a href="/tags/zabbix/">
+                                <span class="chip bg-color">zabbix</span>
                             </a>
                         
                     </div>
@@ -541,7 +541,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-19
+                    2020-10-24
                 </div>
                 
 
@@ -557,7 +557,78 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p>​               </p>
+<blockquote>
+<p>想要用好zabbix进行监控，那么我们首要需要了解下zabbix这个软件的实现原理及它的架构。建议多阅读官方文档。</p>
+<p>官网地址：<a href="https://www.zabbix.com/documentation/4.0/zh/manual" target="_blank" rel="noopener">https://www.zabbix.com/documentation/4.0/zh/manual</a></p>
+</blockquote>
+<h4 id="一、zabbix架构图"><a href="#一、zabbix架构图" class="headerlink" title="一、zabbix架构图"></a>一、zabbix架构图</h4><p><a href="https://imgchr.com/i/B8SPUg" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/28/B8SPUg.png" alt="B8SPUg.png"></a></p>
+<h4 id="二、zabbix组件"><a href="#二、zabbix组件" class="headerlink" title="二、zabbix组件"></a>二、zabbix组件</h4><h5 id="组件部分"><a href="#组件部分" class="headerlink" title="组件部分"></a>组件部分</h5><h6 id="1、Zabbix-Server"><a href="#1、Zabbix-Server" class="headerlink" title="1、Zabbix Server"></a>1、Zabbix Server</h6><blockquote>
+<p>负责接收agent发送的报告信息的核心组件，所有配置，统计数据及操作数据均由其组织进行；</p>
+</blockquote>
+<h6 id="2、Database-Storage"><a href="#2、Database-Storage" class="headerlink" title="2、Database Storage"></a>2、Database Storage</h6><blockquote>
+<p>专用于存储所有配置信息，以及由zabbix收集的数据；</p>
+</blockquote>
+<h6 id="3、Web-interface"><a href="#3、Web-interface" class="headerlink" title="3、Web interface"></a>3、Web interface</h6><blockquote>
+<p>zabbix的GUI接口，通常与Server运行在同一台主机上；</p>
+</blockquote>
+<h6 id="4、Proxy"><a href="#4、Proxy" class="headerlink" title="4、Proxy"></a>4、Proxy</h6><blockquote>
+<p>可选组件，常用于监控节点很多的分布式环境中，代理server收集部分数据转发到server，可以减轻server的压力；</p>
+</blockquote>
+<h6 id="5、Agent"><a href="#5、Agent" class="headerlink" title="5、Agent"></a>5、Agent</h6><blockquote>
+<p>部署在被监主机上，负责收集本地数据并发往Server端或Proxy端；</p>
+</blockquote>
+<h4 id="三、相关术语"><a href="#三、相关术语" class="headerlink" title="三、相关术语"></a>三、相关术语</h4><h6 id="1、主机（host）"><a href="#1、主机（host）" class="headerlink" title="1、主机（host）"></a>1、主机（host）</h6><blockquote>
+<p>要监控的网络设备，可由IP或DNS名称指定；</p>
+</blockquote>
+<h6 id="2、主机组（host-group）"><a href="#2、主机组（host-group）" class="headerlink" title="2、主机组（host group）"></a>2、主机组（host group）</h6><blockquote>
+<p>主机的逻辑容器，可以包含主机和模板，但同一个组织内的主机和模板不能互相链接；主机组通常在给用户或用户组指派监控权限时使用；</p>
+</blockquote>
+<h6 id="3、监控项（item）"><a href="#3、监控项（item）" class="headerlink" title="3、监控项（item）"></a>3、监控项（item）</h6><blockquote>
+<p>一个特定监控指标的相关的数据；这些数据来自于被监控对象；item是zabbix进行数据收集的核心，相对某个监控对象，每个item都由”key”标识；</p>
+</blockquote>
+<h6 id="4、触发器（trigger）"><a href="#4、触发器（trigger）" class="headerlink" title="4、触发器（trigger）"></a>4、触发器（trigger）</h6><blockquote>
+<p>一个表达式，用于评估某监控对象的特定item内接收到的数据是否在合理范围内，也就是阈值；接收的数据量大于阈值时，触发器状态将从”OK”转变为”Problem”，当数据再次恢复到合理范围，又转变为”OK”；</p>
+</blockquote>
+<h6 id="5、事件（event）"><a href="#5、事件（event）" class="headerlink" title="5、事件（event）"></a>5、事件（event）</h6><blockquote>
+<p>触发一个值得关注的事情，比如触发器状态转变，新的agent或重新上线的agent的自动注册等；</p>
+</blockquote>
+<h6 id="6、动作（action）"><a href="#6、动作（action）" class="headerlink" title="6、动作（action）"></a>6、动作（action）</h6><blockquote>
+<p>指对于特定事件事先定义的处理方法，如发送通知，何时执行操作；</p>
+</blockquote>
+<h6 id="7、报警媒介类型（media）"><a href="#7、报警媒介类型（media）" class="headerlink" title="7、报警媒介类型（media）"></a>7、报警媒介类型（media）</h6><blockquote>
+<p>发送通知的手段或者通道，如Email、Jabber或者SMS等；</p>
+</blockquote>
+<h6 id="8、模板（template）"><a href="#8、模板（template）" class="headerlink" title="8、模板（template）"></a>8、模板（template）</h6><blockquote>
+<p>用于快速定义被监控主机的预设条目集合，通常包含了item、trigger、graph、screen、application以及low-level discovery rule；模板可以直接链接至某个主机；</p>
+</blockquote>
+<h6 id="9、前端（frontend）"><a href="#9、前端（frontend）" class="headerlink" title="9、前端（frontend）"></a>9、前端（frontend）</h6><blockquote>
+<p>Zabbix的web接口</p>
+</blockquote>
+<h4 id="四、监控流程"><a href="#四、监控流程" class="headerlink" title="四、监控流程"></a>四、监控流程</h4><h5 id="监控系统运行流程"><a href="#监控系统运行流程" class="headerlink" title="监控系统运行流程"></a>监控系统运行流程</h5><blockquote>
+<p>agentd需要安装到被监控的主机上，它负责定期收集各项数据，并发送到zabbix server端，zabbix server将数据存储到数据库中，zabbix web根据数据在前端进行展现和绘图。<br>这里agentd收集数据分为主动和被动两种模式：</p>
+</blockquote>
+<h5 id="主动"><a href="#主动" class="headerlink" title="主动"></a>主动</h5><blockquote>
+<p>agent请求server获取主动的监控项列表，并主动将监控项内需要检测的数据提交给server/proxy</p>
+</blockquote>
+<p>【主动监测】通信过程如下：</p>
+<blockquote>
+<p>zabbix首先向ServerActive配置的IP请求获取active items，获取并提交active items数据值server或者proxy。很多人会提出疑问：zabbix多久获取一次active items？它会根据配置文件中的RefreshActiveChecks的频率进行，如果获取失败，那么将会在60秒之后重试。分两个部分</p>
+</blockquote>
+<h6 id="获取ACTIVE-ITEMS列表"><a href="#获取ACTIVE-ITEMS列表" class="headerlink" title="获取ACTIVE ITEMS列表"></a>获取ACTIVE ITEMS列表</h6><blockquote>
+<p>• Agent打开TCP连接<br>• Agent请求items检测列表<br>• Server返回items列表<br>• Agent 处理响应<br>• 关闭TCP连接<br>• Agent开始收集数据</p>
+</blockquote>
+<h6 id="主动检测提交数据过程如下"><a href="#主动检测提交数据过程如下" class="headerlink" title="主动检测提交数据过程如下"></a>主动检测提交数据过程如下</h6><blockquote>
+<p>• Agent建立TCP连接<br>• Agent提交items列表收集的数据<br>• Server处理数据，并返回响应状态<br>• 关闭TCP连接</p>
+</blockquote>
+<h5 id="被动"><a href="#被动" class="headerlink" title="被动"></a>被动</h5><blockquote>
+<p>server向agent请求获取监控项的数据，agent返回数据。</p>
+</blockquote>
+<h6 id="【被动监测】通信过程如下："><a href="#【被动监测】通信过程如下：" class="headerlink" title="【被动监测】通信过程如下："></a>【被动监测】通信过程如下：</h6><blockquote>
+<p>• Server打开一个TCP连接<br>• Server发送请求agent.ping\n<br>• Agent接收到请求并且响应<br>• Server处理接收到的数据1<br>• 关闭TCP连接</p>
+</blockquote>
+<p><strong>从以上过程我们可以看出来，被动模式每次都需要打开一个tcp连接，这样当监控项越来越多时，就会出现server端性能问题了。</strong><br><strong>还有人会问，那实际监控中是用主动的还是被动的呢？这里主要涉及两个地方：</strong><br>1、新建监控项目时，选择的是zabbix代理还是zabbix端点代理程式（主动式），前者是被动模式，后者是主动模式。<br>2、agentd配置文件中StartAgents参数的设置，如果为0，表示禁止被动模式，否则开启。一般建议不要设置为0，因为监控项目很多时，可以部分使用主动，部分使用被动模式。</p>
+
             </div>
             <hr/>
 
@@ -582,7 +653,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/">https://cyylog.github.io/2020/06/19/jian-kong/prometheus-2/</a>
+                    <a href="https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/">https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -620,8 +691,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Prometheus/">
-                                    <span class="chip bg-color">Prometheus</span>
+                                <a href="/tags/zabbix/">
+                                    <span class="chip bg-color">zabbix</span>
                                 </a>
                             
                         </div>
@@ -796,81 +867,26 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/07/16/sql/mysql-you-biao/">
+                <a href="/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Mysql 游标">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="influxdb+grafana监控网络情况">
                         
-                        <span class="card-title">Mysql 游标</span>
+                        <span class="card-title">influxdb+grafana监控网络情况</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            [mysql游标的用法及作用]例子：
-当前有三张表A、B、C其中A和B是一对多关系，B和C是一对多关系，现在需要将B中A表的主键存到C中；常规思路就是将B中查询出来然后通过一个update语句来更新C表就可以了，但是B表中有2000多条数据
+                            influxdb+grafana监控网络情况一、 部署InfluxDBdocker run -d -p 8086:8086 --name=influxdb influxdb
+以上命令dcoker会自动从仓库下载最新版本的influxdb镜像
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-26
                         </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/06/18/jian-kong/prometheus-1/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Prometheus（1）">
-                        
-                        <span class="card-title">Prometheus（1）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Prometheus搭建简单的监控告警系统说明
-使用的操作系统为CentOS 7.6.1810，其他系统请自己根据差异做对应调整
-仅用于记录部署过程
-告警通知对接了邮件和钉钉机器人
-
-安装
-在监控告警系统主机上安装prometheus、al
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-18
-                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -886,8 +902,65 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Prometheus/">
-                        <span class="chip bg-color">Prometheus</span>
+                    <a href="/tags/influxdb/">
+                        <span class="chip bg-color">influxdb</span>
+                    </a>
+                    
+                    <a href="/tags/grafana/">
+                        <span class="chip bg-color">grafana</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/10/23/devops/golang/go-redis/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Go-Redis">
+                        
+                        <span class="card-title">Go-Redis</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Redis 容器docker run --name redis-d -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime -p 6379:6379 redis:5-alpine redis-
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-23
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Go/" class="post-category">
+                                    Go
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Go/">
+                        <span class="chip bg-color">Go</span>
+                    </a>
+                    
+                    <a href="/tags/Redis/">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>
