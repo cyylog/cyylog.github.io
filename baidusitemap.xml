@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/03/21/xshell-tu-chu-xian-shi-ji/</loc>
+    <lastmod>2020-10-31</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</loc>
     <lastmod>2020-10-30</lastmod>
   </url>
@@ -98,10 +102,6 @@
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/09/26/devops/gitlab-ci-ru-men/</loc>
-    <lastmod>2020-10-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/21/xshell-tu-chu-xian-shi-ji/</loc>
     <lastmod>2020-10-01</lastmod>
   </url>
   <url>
