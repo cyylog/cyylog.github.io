@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-10-20T22:13:46.893Z</updated>
+  <updated>2020-10-31T16:46:25.472Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/"/>
     <id>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</id>
     <published>9999-08-16T01:59:59.000Z</published>
-    <updated>2020-10-20T22:13:46.893Z</updated>
+    <updated>2020-10-31T16:46:25.472Z</updated>
     
     
       
@@ -30,32 +30,6 @@
         
     <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&quot;四剑客&quot;&gt;&lt;a href=&quot;#四剑客&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>系统调优</title>
-    <link href="https://cyylog.github.io/9998/08/16/interview/xi-tong-diao-you/"/>
-    <id>https://cyylog.github.io/9998/08/16/interview/xi-tong-diao-you/</id>
-    <published>9998-08-16T01:59:59.000Z</published>
-    <updated>2020-10-07T08:02:00.673Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;性能优化&quot;&gt;&lt;a href=&quot;#性能优化&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -528,6 +502,31 @@
     
     
     <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins_流水线语法_002</title>
+    <link href="https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/"/>
+    <id>https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</id>
+    <published>2020-05-30T04:43:37.000Z</published>
+    <updated>2020-05-30T13:56:43.585Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;参数&quot;&gt;&lt;a href=&quot;#参数&quot; class=&quot;headerlink&quot; title=&quot;参数&quot;&gt;&lt;/a&gt;参数&lt;/h4&gt;&lt;p&gt;&lt;code&gt;parameters&lt;/code&gt; 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过</summary>
+        
+      
+    
+    
+    
+    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
+    
+    
+    <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
     
   </entry>
   

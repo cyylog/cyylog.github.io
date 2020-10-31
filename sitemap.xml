@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cyylog.github.io/2020/05/26/interview/xi-tong-diao-you/</loc>
+    
+    <lastmod>2020-10-31</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</loc>
+    
+    <lastmod>2020-10-31</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/2020/03/21/xshell-tu-chu-xian-shi-ji/</loc>
     
     <lastmod>2020-10-31</lastmod>
@@ -149,23 +163,9 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</loc>
-    
-    <lastmod>2020-10-20</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/2020/04/22/interview/interview-system-001/</loc>
     
     <lastmod>2020-10-20</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/9998/08/16/interview/xi-tong-diao-you/</loc>
-    
-    <lastmod>2020-10-07</lastmod>
     
   </url>
   
@@ -536,13 +536,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Python/</loc>
-    <lastmod>2020-10-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Gitlab/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
@@ -550,28 +543,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/MySQL/</loc>
-    <lastmod>2020-10-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Go/</loc>
-    <lastmod>2020-10-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Network/</loc>
-    <lastmod>2020-10-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/System/</loc>
+    <loc>https://cyylog.github.io/tags/Python/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -599,7 +571,35 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/Go/</loc>
+    <lastmod>2020-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/NFS/</loc>
+    <lastmod>2020-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/MySQL/</loc>
+    <lastmod>2020-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Network/</loc>
+    <lastmod>2020-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -627,14 +627,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -690,14 +690,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/zabbix/</loc>
+    <loc>https://cyylog.github.io/tags/Prometheus/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Prometheus/</loc>
+    <loc>https://cyylog.github.io/tags/zabbix/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -720,14 +720,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/Interview/</loc>
+    <loc>https://cyylog.github.io/categories/Tools/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/Tools/</loc>
+    <loc>https://cyylog.github.io/categories/Interview/</loc>
     <lastmod>2020-10-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
