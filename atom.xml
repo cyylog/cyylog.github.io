@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Cyylog</title>
+  <title>Cyylog技术</title>
   
   <subtitle>世间百态，三千繁华，怎能独守这掌心地大，怎能错过最美的风景。</subtitle>
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-10-31T16:46:25.472Z</updated>
+  <updated>2020-10-31T16:51:51.309Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/"/>
     <id>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</id>
     <published>9999-08-16T01:59:59.000Z</published>
-    <updated>2020-10-31T16:46:25.472Z</updated>
+    <updated>2020-10-31T16:51:51.309Z</updated>
     
     
       
@@ -325,6 +325,33 @@
   </entry>
   
   <entry>
+    <title>Shell脚本加密经验分享</title>
+    <link href="https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/"/>
+    <id>https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/</id>
+    <published>2020-09-30T18:15:39.000Z</published>
+    <updated>2020-11-01T02:19:38.678Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;为啥要加密shell脚本&quot;&gt;&lt;a href=&quot;#为啥要加密shell脚本&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+    <category term="shell" scheme="https://cyylog.github.io/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Mycat</title>
     <link href="https://cyylog.github.io/2020/09/28/sql/mycat/"/>
     <id>https://cyylog.github.io/2020/09/28/sql/mycat/</id>
@@ -502,31 +529,6 @@
     
     
     <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins_流水线语法_002</title>
-    <link href="https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/"/>
-    <id>https://cyylog.github.io/2020/05/30/devops/jenkins-liu-shui-xian-yu-fa-002/</id>
-    <published>2020-05-30T04:43:37.000Z</published>
-    <updated>2020-05-30T13:56:43.585Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;参数&quot;&gt;&lt;a href=&quot;#参数&quot; class=&quot;headerlink&quot; title=&quot;参数&quot;&gt;&lt;/a&gt;参数&lt;/h4&gt;&lt;p&gt;&lt;code&gt;parameters&lt;/code&gt; 指令提供了一个用户在触发流水线时应该提供的参数列表。这些用户指定参数的值可通过</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Jenkins" scheme="https://cyylog.github.io/tags/Jenkins/"/>
     
   </entry>
   
