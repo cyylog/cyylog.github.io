@@ -529,6 +529,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Vue/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
@@ -543,35 +550,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Python/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/MySQL/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Network/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -585,7 +564,49 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/MySQL/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/System/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Network/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Linux/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Ansible/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/iptables/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/NFS/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -634,21 +655,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Ansible/</loc>
+    <loc>https://cyylog.github.io/tags/Docker/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/iptables/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/NFS/</loc>
+    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,14 +683,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Docker/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
+    <loc>https://cyylog.github.io/tags/Nginx/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -684,13 +691,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Tomcat/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Nginx/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -741,13 +741,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/SQL/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/categories/Tools/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
@@ -755,7 +748,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/</loc>
+    <loc>https://cyylog.github.io/categories/SQL/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -763,6 +756,13 @@
   
   <url>
     <loc>https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
