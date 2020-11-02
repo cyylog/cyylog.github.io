@@ -655,20 +655,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Docker/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
-    <lastmod>2020-11-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/influxdb/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
@@ -683,7 +669,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Nginx/</loc>
+    <loc>https://cyylog.github.io/tags/Docker/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -691,6 +684,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Tomcat/</loc>
+    <lastmod>2020-11-02</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Nginx/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -755,14 +755,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/</loc>
+    <loc>https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/</loc>
+    <loc>https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/</loc>
     <lastmod>2020-11-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
