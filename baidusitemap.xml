@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/</loc>
+    <lastmod>2020-11-04</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/</loc>
     <lastmod>2020-11-01</lastmod>
   </url>
