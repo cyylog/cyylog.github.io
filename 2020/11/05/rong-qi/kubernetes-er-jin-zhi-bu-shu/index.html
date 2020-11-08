@@ -1614,36 +1614,36 @@ journalctl -f -u kube-proxy.service</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/9999/08/16/interview/yun-wei-mian-shi-ti-01/">
+                <a href="/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="运维面试题-01">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes--Controller Manager + Scheduler 异常">
                         
-                        <span class="card-title">运维面试题-01</span>
+                        <span class="card-title">Kubernetes--Controller Manager + Scheduler 异常</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
-四剑客awk
-统计日志中某个时间范围的 IP 访问量，并进行排序
+                            
+在加入集群后，Controller Manager  和   Scheduler  提示异常
 
-$ start_dt='10/May/2018:23:47:43
-$ end_dt='
+检查后发现：
+master初始化完成后，以下两个组件状态显示依然为Unhealthy
+root@master1:~$ sudo kubectl
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>9999-08-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Interview/" class="post-category">
-                                    Interview
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -1653,8 +1653,12 @@ $ end_dt='
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                    <a href="/tags/Kubernetes-err/">
+                        <span class="chip bg-color">Kubernetes-err</span>
                     </a>
                     
                 </div>
