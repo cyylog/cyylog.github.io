@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-10-31T16:51:51.309Z</updated>
+  <updated>2020-11-08T03:41:36.150Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>运维面试题-01</title>
-    <link href="https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/"/>
-    <id>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</id>
-    <published>9999-08-16T01:59:59.000Z</published>
-    <updated>2020-10-31T16:51:51.309Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;四剑客&quot;&gt;&lt;a href=&quot;#四剑客&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-  </entry>
   
   <entry>
     <title>Kubernetes--Controller Manager + Scheduler 异常</title>
@@ -228,6 +202,32 @@
   </entry>
   
   <entry>
+    <title>运维面试题-01</title>
+    <link href="https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/"/>
+    <id>https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/</id>
+    <published>2020-10-15T17:59:59.000Z</published>
+    <updated>2020-11-08T07:29:31.238Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;四剑客&quot;&gt;&lt;a href=&quot;#四剑客&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Kubernetes-Pod-生命周期</title>
     <link href="https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/"/>
     <id>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</id>
@@ -303,18 +303,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构-节点</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
+    <title>Kubernetes架构-控制器</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:44.758Z</updated>
+    <updated>2020-10-30T04:12:55.932Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
+    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
         
       
     
@@ -328,18 +328,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构-控制器</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
+    <title>Kubernetes架构-节点</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:55.932Z</updated>
+    <updated>2020-10-30T04:12:44.758Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
+    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
         
       
     

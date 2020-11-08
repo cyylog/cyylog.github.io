@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/</loc>
+    <lastmod>2020-11-08</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/</loc>
     <lastmod>2020-11-08</lastmod>
   </url>
@@ -11,10 +15,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/</loc>
     <lastmod>2020-11-01</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/9999/08/16/interview/yun-wei-mian-shi-ti-01/</loc>
-    <lastmod>2020-10-31</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/05/26/interview/xi-tong-diao-you/</loc>
