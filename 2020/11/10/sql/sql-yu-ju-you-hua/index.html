@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Kubernetes--Controller Manager + Scheduler 异常, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="SQL语句优化, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Kubernetes--Controller Manager + Scheduler 异常 | 无雨小站</title>
+    <title>SQL语句优化 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Kubernetes--Controller Manager + Scheduler 异常</h1>
+                    <h1 class="description center-align post-title">SQL语句优化</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
+                            <a href="/tags/Mysql/">
+                                <span class="chip bg-color">Mysql</span>
                             </a>
                         
-                            <a href="/tags/Kubernetes-err/">
-                                <span class="chip bg-color">Kubernetes-err</span>
+                            <a href="/tags/Interview/">
+                                <span class="chip bg-color">Interview</span>
                             </a>
                         
                     </div>
@@ -425,8 +425,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                容器
+                            <a href="/categories/SQL/" class="post-category">
+                                SQL
                             </a>
                         
                     </div>
@@ -438,7 +438,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-08
+                    2020-11-10
                 </div>
                 
 
@@ -454,60 +454,48 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-<p>在加入集群后，Controller Manager  和   Scheduler  提示异常</p>
-</blockquote>
-<p>检查后发现：</p>
-<p>master初始化完成后，以下两个组件状态显示依然为Unhealthy</p>
-<pre><code>root@master1:~$ sudo kubectl get cs
-NAME                 STATUS      MESSAGE                                                                                     ERROR
-controller-manager   Unhealthy   Get http://127.0.0.1:10252/healthz: dial tcp 127.0.0.1:10252: connect: connection refused
-scheduler            Unhealthy   Get http://127.0.0.1:10251/healthz: dial tcp 127.0.0.1:10251: connect: connection refused
-etcd-0               Healthy     {&quot;health&quot;:&quot;true&quot;}</code></pre><p>网上说修改</p>
-<p>root@master1:~$ ls /etc/kubernetes/manifests/<br>etcd.yaml kube-apiserver.yaml kube-controller-manager.yaml kube-scheduler.yaml</p>
-<p>修改清单文件，注释掉–port=0这一行，在对清单文件进行修改时先做备份操作</p>
-<p>注意：<br>在对清单文件做备份时，不要直接把清单文件备份在平级目录里，即/etc/kubernetes/manifests目录，需要备份到其他目录中或在平级目录再创建一个类似/etc/kubernetes/manifests/bak的备份目录，否则按照以下操作后master节点上依然无法监听10251和10252两个端口，组件健康状态依然无法恢复为health状态。</p>
-<pre><code>root@master1:~$ sudo vim  /etc/kubernetes/manifests/kube-controller-manager.yaml
-- command:
-    - kube-controller-manager
-    - --allocate-node-cidrs=true
-    - --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf
-    - --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf
-    - --bind-address=127.0.0.1
-    - --client-ca-file=/etc/kubernetes/pki/ca.crt
-    - --cluster-cidr=10.244.0.0/16
-    - --cluster-name=kubernetes
-    - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
-    - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
-    - --controllers=*,bootstrapsigner,tokencleaner
-    - --kubeconfig=/etc/kubernetes/controller-manager.conf
-    - --leader-elect=true
-    - --node-cidr-mask-size=24
-    - --port=0 ########################## 删除这行  #########
-    - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
-    - --root-ca-file=/etc/kubernetes/pki/ca.crt
-    - --service-account-private-key-file=/etc/kubernetes/pki/sa.key
-    - --service-cluster-ip-range=10.96.0.0/12
-    - --use-service-account-credentials=true
+                <h2 id="1、注意通配符中Like的使用"><a href="#1、注意通配符中Like的使用" class="headerlink" title="1、注意通配符中Like的使用"></a>1、注意通配符中Like的使用</h2><p>以下写法会造成全表的扫描，例如：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id<span class="token punctuation">,</span>name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name <span class="token operator">like</span> <span class="token string">'%name%'</span>
 
-root@master1:~$  sudo vim  /etc/kubernetes/manifests/kube-scheduler.yaml
-- command:
-    - kube-scheduler
-    - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
-    - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
-    - --bind-address=127.0.0.1
-    - --kubeconfig=/etc/kubernetes/scheduler.conf
-    - --leader-elect=true
-    - --port=0   ########### 删除这行 #################</code></pre><p>重启kubelet服务</p>
-<pre><code>root@master1:~$ systemctl restart kubelet</code></pre><p>查看监听监听端口以及组件状态</p>
-<pre><code>root@master1:~$ ss -tanlp | grep &#39;10251\|10252&#39;
-LISTEN   0         128                        *:10251                  *:*       users:((&quot;kube-scheduler&quot;,pid=51054,fd=5))
-LISTEN   0         128                        *:10252                  *:*       users:((&quot;kube-controller&quot;,pid=51100,fd=5))
-root@master1:~$ kubectl get cs
-NAME                 STATUS    MESSAGE             ERROR
-scheduler            Healthy   ok
-controller-manager   Healthy   ok
-etcd-0               Healthy   {&quot;health&quot;:&quot;true&quot;}</code></pre>
+<span class="token keyword">select</span> id<span class="token punctuation">,</span>name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name <span class="token operator">like</span> <span class="token string">'%name'</span></code></pre>
+<p>下面的写法执行效率快很多，因为它使用了索引</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id<span class="token punctuation">,</span>name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name <span class="token operator">like</span> <span class="token string">'name%'</span></code></pre>
+<h2 id="2、避免在where子句中对字段进行函数操作"><a href="#2、避免在where子句中对字段进行函数操作" class="headerlink" title="2、避免在where子句中对字段进行函数操作"></a>2、避免在where子句中对字段进行函数操作</h2><pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> substring<span class="token punctuation">(</span>name<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">'xiaomi'</span>
+
+<span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> datediff<span class="token punctuation">(</span>day<span class="token punctuation">,</span>datefield<span class="token punctuation">,</span><span class="token string">'2017-05-17'</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">0</span></code></pre>
+<p>上面两句都对字段进行了函数处理，会导致查询分析器放弃了索引的使用。</p>
+<p>正确的写法：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name <span class="token operator">like</span><span class="token string">'xiaomi%'</span>
+
+<span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> datefield <span class="token operator">&lt;=</span> <span class="token string">'2017-05-17'</span></code></pre>
+<p>通俗理解就是where子句‘=’ 左边不要出现函数、算数运算或者其他表达式运算</p>
+<h2 id="3、在子查询当中，尽量用exists代替in"><a href="#3、在子查询当中，尽量用exists代替in" class="headerlink" title="3、在子查询当中，尽量用exists代替in"></a>3、在子查询当中，尽量用exists代替in</h2><pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token number">a</span> <span class="token keyword">where</span> id <span class="token operator">in</span><span class="token punctuation">(</span><span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token number">b</span><span class="token punctuation">)</span>
+
+可以改为
+
+<span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token number">a</span> <span class="token keyword">where</span> <span class="token keyword">exists</span><span class="token punctuation">(</span><span class="token keyword">select</span> <span class="token number">1</span> <span class="token keyword">from</span> userinfo <span class="token number">b</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">a</span><span class="token punctuation">.</span>id<span class="token punctuation">)</span></code></pre>
+<h2 id="4、where子句中尽量不要使用is-null-或-is-not-null对字段进行判断"><a href="#4、where子句中尽量不要使用is-null-或-is-not-null对字段进行判断" class="headerlink" title="4、where子句中尽量不要使用is null 或 is not null对字段进行判断"></a>4、where子句中尽量不要使用is null 或 is not null对字段进行判断</h2><pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name <span class="token operator">is</span> <span class="token boolean">null</span></code></pre>
+<p>尽量在数据库字段中不出现null，如果查询的时候条件为 is null ，索引将不会被使用，造成查询效率低，</p>
+<p>因此数据库在设计的时候，尽可能将某个字段可能为空的时候设置默认值，那么查询的时候可以</p>
+<p>根据默认值进行查询，比如name字段设置为0，查询语句可以修改为</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> id <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token number">0</span></code></pre>
+<h2 id="5、避免在where子句使用or作为链接条件"><a href="#5、避免在where子句使用or作为链接条件" class="headerlink" title="5、避免在where子句使用or作为链接条件"></a>5、避免在where子句使用or作为链接条件</h2><pre class=" language-java"><code class="language-java">select id from userinfo where name<span class="token operator">=</span><span class="token string">'xiaoming'</span> or name<span class="token operator">=</span><span class="token string">'xiaowang'</span>
+
+可以改写为：
+
+select id from userinfo where name <span class="token operator">=</span> <span class="token string">'xiaoming'</span> union all
+
+select id from userinfo where name <span class="token operator">=</span> <span class="token string">'xiaowang'</span></code></pre>
+<h2 id="6、避免在-where-子句中使用-或-lt-gt-操作符。"><a href="#6、避免在-where-子句中使用-或-lt-gt-操作符。" class="headerlink" title="6、避免在 where 子句中使用 != 或 &lt;&gt; 操作符。"></a>6、避免在 where 子句中使用 != 或 &lt;&gt; 操作符。</h2><pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> id <span class="token operator">&lt;></span> <span class="token number">0</span></code></pre>
+<p>说明：数据库在查询时，对 != 或 &lt;&gt; 操作符不会使用索引，</p>
+<p>而对于 &lt; 、 &lt;= 、 = 、 &gt; 、 &gt;= 、 BETWEEN AND，数据库才会使用索引。</p>
+<p>因此对于上面的查询，正确写法可以改为：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> id <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token keyword">union</span> <span class="token keyword">all</span>
+
+<span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> id <span class="token operator">></span> <span class="token number">0</span></code></pre>
+<h2 id="7、少用in-或-not-in"><a href="#7、少用in-或-not-in" class="headerlink" title="7、少用in 或 not in"></a>7、少用in 或 not in</h2><p>对于连续的数值范围查询尽量使用BETWEEN AND，例如：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> name <span class="token keyword">from</span> userinfo <span class="token keyword">where</span> id <span class="token operator">BETWEEN</span>  <span class="token number">10</span> <span class="token operator">AND</span> <span class="token number">70</span></code></pre>
+
             </div>
             <hr/>
 
@@ -532,7 +520,7 @@ etcd-0               Healthy   {&quot;health&quot;:&quot;true&quot;}</code></pre
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/">https://cyylog.github.io/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/</a>
+                    <a href="https://cyylog.github.io/2020/11/10/sql/sql-yu-ju-you-hua/">https://cyylog.github.io/2020/11/10/sql/sql-yu-ju-you-hua/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -570,12 +558,12 @@ etcd-0               Healthy   {&quot;health&quot;:&quot;true&quot;}</code></pre
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
+                                <a href="/tags/Mysql/">
+                                    <span class="chip bg-color">Mysql</span>
                                 </a>
                             
-                                <a href="/tags/Kubernetes-err/">
-                                    <span class="chip bg-color">Kubernetes-err</span>
+                                <a href="/tags/Interview/">
+                                    <span class="chip bg-color">Interview</span>
                                 </a>
                             
                         </div>
@@ -746,9 +734,10 @@ etcd-0               Healthy   {&quot;health&quot;:&quot;true&quot;}</code></pre
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
                     <div class="card-image">
@@ -769,9 +758,9 @@ select id,name from userinfo wher
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -784,6 +773,7 @@ select id,name from userinfo wher
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -806,36 +796,29 @@ select id,name from userinfo wher
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/">
+                <a href="/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Kubernetes-二进制部署">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes--Controller Manager + Scheduler 异常">
                         
-                        <span class="card-title">Kubernetes-二进制部署</span>
+                        <span class="card-title">Kubernetes--Controller Manager + Scheduler 异常</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ⚙️ Deploy the Kubernetes cluster
-🪂 二进制部署Kubernetes集群1、服务器规划
+                            
+在加入集群后，Controller Manager  和   Scheduler  提示异常
 
-
-角色
-IP
-组件
-
-
-
-k8s-master
-192.168.0.181
-kube-apiserver、kube-
+检查后发现：
+master初始化完成后，以下两个组件状态显示依然为Unhealthy
+root@master1:~$ sudo kubectl
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
                             </span>
                         <span class="publish-author">
                             
@@ -854,6 +837,10 @@ kube-apiserver、kube-
                     
                     <a href="/tags/Kubernetes/">
                         <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                    <a href="/tags/Kubernetes-err/">
+                        <span class="chip bg-color">Kubernetes-err</span>
                     </a>
                     
                 </div>
