@@ -1,0 +1,2028 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="KVM笔记, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="description" content="精通原创，擅长盗版">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>KVM笔记 | 无雨小站</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="无雨小站" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">无雨小站</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle-o" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">无雨小站</div>
+        <div class="logo-desc">
+            
+            精通原创，擅长盗版
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle-o"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/cyylog/Go_status" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/cyylog/Go_status" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">KVM笔记</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/KVM/">
+                                <span class="chip bg-color">KVM</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                容器
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-03-14
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="私有云容器化架构运维"><a href="#私有云容器化架构运维" class="headerlink" title="私有云容器化架构运维"></a>私有云容器化架构运维</h2><h3 id="私有云-虚拟化技术"><a href="#私有云-虚拟化技术" class="headerlink" title="私有云:虚拟化技术"></a>私有云:虚拟化技术</h3><p><img src="http://i.loli.net/2019/06/04/5cf61b854224d74429.png" alt=""></p>
+<h4 id="虚拟化技术概述"><a href="#虚拟化技术概述" class="headerlink" title="虚拟化技术概述"></a>虚拟化技术概述</h4><pre><code>虚拟化（Virtualization）技术最早出现在 20 世纪 60 年代的 IBM 大型机系统，在70年代的 System 370 系列中逐渐流行起来，这些机器通过一种叫虚拟机监控器（Virtual Machine Monitor，VMM）的程序在物理硬件之上生成许多可以运行独立操作系统软件的虚拟机（Virtual Machine）实例。随着近年多核系统、集群、网格甚至云计算的广泛部署，虚拟化技术在商业应用上的优势日益体现，不仅降低了 IT 成本，而且还增强了系统安全性和可靠性，虚拟化的概念也逐渐深入到人们日常的工作与生活中。
+
+虚拟化是一个广义的术语，对于不同的人来说可能意味着不同的东西，这要取决他们所处的环境。在计算机科学领域中，虚拟化代表着对计算资源的抽象，而不仅仅局限于虚拟机的概念。例如对物理内存的抽象，产生了虚拟内存技术，使得应用程序认为其自身拥有连续可用的地址空间（Address Space），而实际上，应用程序的代码和数据可能是被分隔成多个碎片页或段），甚至被交换到磁盘、闪存等外部存储器上，即使物理内存不足，应用程序也能顺利执行。
+</code></pre><h4 id="主流虚拟化方案介绍"><a href="#主流虚拟化方案介绍" class="headerlink" title="主流虚拟化方案介绍"></a>主流虚拟化方案介绍</h4><pre><code>虚拟化技术主要分为以下几个大类：
+
+平台虚拟化（Platform Virtualization），针对计算机和操作系统的虚拟化。
+资源虚拟化（Resource Virtualization），针对特定的系统资源的虚拟化，比如内存、存储、网络资源等。
+应用程序虚拟化（Application Virtualization），包括仿真、模拟、解释技术等。
+
+    我们通常所说的虚拟化主要是指平台虚拟化技术，通过使用控制程序（Control Program，也被称为 Virtual Machine Monitor 或Hypervisor），隐藏特定计算平台的实际物理特性，为用户提供抽象的、统一的、模拟的计算环境（称为虚拟机）。虚拟机中运行的操作系统被称为客户机操作系统（Guest OS），运行虚拟机监控器的操作系统被称为主机操作系统（Host OS），当然某些虚拟机监控器可以脱离操作系统直接运行在硬件之上（如 VMWARE 的 ESX 产品）。运行虚拟机的真实系统我们称之为主机系统。
+
+平台虚拟化技术又可以细分为如下几个子类：
+操作系统级虚拟化（Operating System Level Virtualization） 
+    在传统操作系统中，所有用户的进程本质上是在同一个操作系统的实例中运行，因此内核或应用程序的缺陷可能影响到其它进程。操作系统级虚拟化是一种在服务器操作系统中使用的轻量级的虚拟化技术，内核通过创建多个虚拟的操作系统实例（内核和库）来隔离不同的进程，不同实例中的进程完全不了解对方的存在。比较著名的有 Solaris Container，FreeBSD Jail 和 OpenVZ 等。 
+    比如OPENVZ：这个平台是最便宜的VPS平台，在各个vps商哪里都是价格最低的。OPENVZ本身运行在linux之上，它通过自己的虚拟化技术把一个服务器虚拟化成多个可以分别安装操作系统的实例，这样的每一个实体就是一个VPS，从客户的角度来看这就是一个虚拟的服务器，可以等同看做一台独立的服务器。OPENVZ虚拟化出来的VPS只能安装linux操作系统，不能安装windows系统，比如Centos、Fedora、Gentoo、Debian等。不能安装windows操作系统是openvz的第一个缺点，需要使用windows平台的用户不能使用OPENVZVPS。OPENVZ的第二个缺点是OPENVZ不是完全的虚拟化，每个VPS账户共用母机内核，不能单独修改内核。好在绝大多少用户根本不需要修改内核，所以这个缺点对多数人可以忽略不计。而这一点也正是openvz的优点，这一共用内核特性使得openvz的效率最高，超过KVM、Xen、VMware等平台。在不超售的情况下，openvz是最快速效率最高的VPS平台。
+
+部分虚拟化（Partial Virtualization） 
+    VMM 只模拟部分底层硬件，因此客户机操作系统不做修改是无法在虚拟机中运行的，其它程序可能也需要进行修改。在历史上，部分虚拟化是通往全虚拟化道路上的重要里程碑,最早出现在第一代的分时系统 CTSS 和 IBM M44/44X 实验性的分页系统中。
+
+全虚拟化（Full Virtualization） 
+    全虚拟化是指虚拟机模拟了完整的底层硬件，包括处理器、物理内存、时钟、外设等，使得为原始硬件设计的操作系统或其它系统软件完全不做任何修改就可以在虚拟机中运行。操作系统与真实硬件之间的交互可以看成是通过一个预先规定的硬件接口进行的。全虚拟化 VMM 以完整模拟硬件的方式提供全部接口（同时还必须模拟特权指令的执行过程）。举例而言，x86 体系结构中，对于操作系统切换进程页表的操作，真实硬件通过提供一个特权 CR3 寄存器来实现该接口，操作系统只需执行 &quot;mov pgtable,%%cr3&quot;汇编指令即可。全虚拟化 VMM 必须完整地模拟该接口执行的全过程。如果硬件不提供虚拟化的特殊支持，那么这个模拟过程将会十分复杂：一般而言，VMM 必须运行在最高优先级来完全控制主机系统，而 Guest OS 需要降级运行，从而不能执行特权操作。当 Guest OS 执行前面的特权汇编指令时，主机系统产生异常（General Protection Exception），执行控制权重新从 Guest OS 转到 VMM 手中。VMM 事先分配一个变量作为影子 CR3 寄存器给 Guest OS，将 pgtable 代表的客户机物理地址（Guest Physical Address）填入影子 CR3 寄存器，然后 VMM 还需要 pgtable 翻译成主机物理地址（Host Physical Address）并填入物理 CR3 寄存器，最后返回到 Guest OS中。随后 VMM 还将处理复杂的 Guest OS 缺页异常（Page Fault）。比较著名的全虚拟化 VMM 有 Microsoft Virtual PC、VMware Workstation、Sun Virtual Box、Parallels Desktop for Mac 和 QEMU。
+
+超虚拟化（Paravirtualization） 
+    这是一种修改 Guest OS 部分访问特权状态的代码以便直接与 VMM 交互的技术。在超虚拟化虚拟机中，部分硬件接口以软件的形式提供给客户机操作系统，这可以通过 Hypercall（VMM 提供给 Guest OS 的直接调用，与系统调用类似）的方式来提供。例如，Guest OS 把切换页表的代码修改为调用 Hypercall 来直接完成修改影子 CR3 寄存器和翻译地址的工作。由于不需要产生额外的异常和模拟部分硬件执行流程，超虚拟化可以大幅度提高性能，比较著名的 VMM 有 Denali、Xen。
+
+硬件辅助虚拟化（Hardware-Assisted Virtualization） 
+    硬件辅助虚拟化是指借助硬件（主要是主机处理器）的支持来实现高效的全虚拟化。例如有了 Intel-VT 技术的支持，Guest OS 和 VMM 的执行环境自动地完全隔离开来，Guest OS 有自己的&quot;&quot;套寄存器&quot;，可以直接运行在最高级别。因此在上面的例子中，Guest OS 能够执行修改页表的汇编指令。Intel-VT 和 AMD-V 是目前 x86 体系结构上可用的两种硬件辅助虚拟化技术。
+
+这种分类并不是绝对的，一个优秀的虚拟化软件往往融合了多项技术。例如 VMware Workstation 是一个著名的全虚拟化的 VMM，但是它使用了一种被称为动态二进制翻译的技术把对特权状态的访问转换成对影子状态的操作，从而避免了低效的 Trap-And-Emulate 的处理方式，这与超虚拟化相似，只不过超虚拟化是静态地修改程序代码。对于超虚拟化而言，如果能利用硬件特性，那么虚拟机的管理将会大大简化，同时还能保持较高的性能。</code></pre><h4 id="KVM虚拟化技术简介"><a href="#KVM虚拟化技术简介" class="headerlink" title="KVM虚拟化技术简介"></a>KVM虚拟化技术简介</h4><h5 id="kvm架构图"><a href="#kvm架构图" class="headerlink" title="kvm架构图"></a>kvm架构图</h5><p><img src="http://i.loli.net/2019/06/04/5cf61ba84b46f24553.jpeg" alt=""></p>
+<pre><code>    从rhel6开始使用 直接把kvm的模块做成了内核的一部分
+    xen用在rhel6之前的企业版中 默认内核不支持，需要重新安装带xen功能的内核
+    KVM 针对运行在 x86 硬件上的、驻留在内核中的虚拟化基础结构。KVM 是第一个成为原生 Linux 内核（2.6.20）的一部分的 hypervisor，它是由 Avi Kivity 开发和维护的，现在归 Red Hat 所有。
+    这个 hypervisor 提供 x86 虚拟化，同时拥有到 PowerPC® 和 IA64 的通道。另外，KVM 最近还添加了对对称多处理（SMP）主机（和来宾）的支持，并且支持企业级特性，比如活动迁移（允许来宾操作系统在物理服务器之间迁移）。
+    KVM 是作为内核模块实现的，因此 Linux 只要加载该模块就会成为一个hypervisor。KVM 为支持 hypervisor  指令的硬件平台提供完整的虚拟化（比如 Intel® Virtualization Technology [Intel VT] 或 AMD  Virtualization [AMD-V] 产品）。KVM 还支持准虚拟化来宾操作系统，包括 Linux 和 Windows®。
+    这种技术由两个组件实现。第一个是可加载的 KVM 模块，当在 Linux 内核安装该模块之后，它就可以管理虚拟化硬件，并通过 /proc  文件系统公开其功能。第二个组件用于 PC 平台模拟，它是由修改版 QEMU 提供的。QEMU  作为用户空间进程执行，并且在来宾操作系统请求方面与内核协调。 
+
+    当新的操作系统在 KVM 上启动时（通过一个称为 kvm 的实用程序），它就成为宿主操作系统的一个进程，因此就可以像其他进程一样调度它。但与传统的 Linux 进程不一样，来宾操作系统被 hypervisor 标识为处于 &quot;来宾&quot; 模式（独立于内核和用户模式）。
+    每个来宾操作系统都是通过 /dev/kvm 设备映射的，它们拥有自己的虚拟地址空间，该空间映射到主机内核的物理地址空间。如前所述，KVM 使用底层硬件的虚拟化支持来提供完整的（原生）虚拟化。I/O 请求通过主机内核映射到在主机上（hypervisor）执行的 QEMU 进程。
+    KVM 在 Linux 环境中以主机的方式运行，不过只要底层硬件虚拟化支持，它就能够支持大量的来宾操作系统.</code></pre><h4 id="KVM安装"><a href="#KVM安装" class="headerlink" title="KVM安装"></a>KVM安装</h4><pre><code>查看CPU是否支持VT技术: 
+    #cat /proc/cpuinfo | grep -E &#39;vmx|svm&#39;   
+     flags : fpu vme de pse tsc msr pae mce cx8 apicmtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2
+     ss ht tm pbe syscall nx lm constant_tsc arch_perfmon pebs bts rep_good aperfmperf pni dtes64 monitor ds_cpl vmx tm2 ssse3 cx16
+     xtpr pdcm dca sse4_1 lahf_lm dts tpr_shadow vnmi flexpriority
+
+需求内核(rhel6以上):   
+    # uname  -r
+    2.6.32-358.el6.x86_64 
+
+升级系统：(在安装虚拟机出错的情况下)
+    # yum upgrade
+
+安装软件:
+    # yum install *qemu*  *virt*  librbd1-devel -y
+    qemu-kvm libvirt virt-manager    
+
+启动服务:    
+    centos7:
+    # systemctl start libvirtd
+
+查看kvm模块加载:
+    # lsmod | grep kvm
+        kvm_intel              53484  3 
+        kvm                   316506  1 kvm_intel
+
+</code></pre><h4 id="KVM-gustos部署安装"><a href="#KVM-gustos部署安装" class="headerlink" title="KVM gustos部署安装"></a>KVM gustos部署安装</h4><pre><code>图形模式安装guest os
+    #virt-manager
+====================
+完全文本方式安装:
+#virt-install --connect qemu:///system -n vm9 -r 2050 --disk path=/var/lib/libvirt/images/vm9.img,size=7  --os-type=linux --os-variant=centos7.0 --vcpus=1  --location=ftp://10.3.145.114/centos7u3 -x console=ttyS0 --nographics
+
+
+qemu:///system  If running on a bare metal kernel as root (needed for KVM installs)
+-n name
+-r  以M为单位指定分配给虚拟机的内存大小
+--disk 指定作为客户机存储的媒介 size以G为单位的存储
+--os-type   针对一类操作系统优化虚拟机配置
+--os-variant 针对特定操作系统变体进一步优化虚拟机配置
+--vcpus
+--location  客户虚拟机kernel+initrd 安装源，必须为镜像挂载在ftp目录下
+-x 当执行从”–location”选项指定位置的客户机安装时，附加内核命令行参数到安装程序
+--nographics 指定没有控制台被分配给客户机。
+
+缺点：纯文本安装的输入时大小写莫名的变换，远程ssh没问题
+     内存必须大于2048
+
+排错:
+    安装过程中：
+        手动配置IP地址
+        到url位置找不到路径，要返回去手动选择url，重新配置url为ftp://192.168.100.230/rhel6u4,这里的ip不要写127.0.0.1而是br0的ip
+
+====================
+模板镜像+配置文件 方式创建虚拟机
+# virsh define /etc/libvirt/qemu/vm2.xml
+
+1.拷贝模板镜像和配置文件
+[root@kvm ~]# cp /var/lib/libvirt/images/vm2.img /var/lib/libvirt/images/vm3.img
+[root@kvm ~]# cp /etc/libvirt/qemu/vm2.xml /etc/libvirt/qemu/vm3.xml
+
+2.修改配置文件
+# vim /etc/libvirt/qemu/vm3.xml
+&lt;domain type=&#39;kvm&#39;&gt;
+  &lt;name&gt;vm3&lt;/name&gt;
+  &lt;uuid&gt;a2f62549-c6b7-4b8f-a8e2-c14edda35a78&lt;/uuid&gt;
+  &lt;memory unit=&#39;KiB&#39;&gt;2099200&lt;/memory&gt;
+  &lt;currentMemory unit=&#39;KiB&#39;&gt;2099200&lt;/currentMemory&gt;
+  &lt;vcpu placement=&#39;static&#39;&gt;2&lt;/vcpu&gt;
+  &lt;os&gt;
+    &lt;type arch=&#39;x86_64&#39; machine=&#39;pc-i440fx-rhel7.0.0&#39;&gt;hvm&lt;/type&gt;
+    &lt;boot dev=&#39;hd&#39;/&gt;
+  &lt;/os&gt;
+  &lt;features&gt;
+    &lt;acpi/&gt;
+    &lt;apic/&gt;
+  &lt;/features&gt;
+  &lt;cpu mode=&#39;custom&#39; match=&#39;exact&#39; check=&#39;partial&#39;&gt;
+    &lt;model fallback=&#39;allow&#39;&gt;Haswell-noTSX&lt;/model&gt;
+  &lt;/cpu&gt;
+  &lt;clock offset=&#39;utc&#39;&gt;
+    &lt;timer name=&#39;rtc&#39; tickpolicy=&#39;catchup&#39;/&gt;
+    &lt;timer name=&#39;pit&#39; tickpolicy=&#39;delay&#39;/&gt;
+    &lt;timer name=&#39;hpet&#39; present=&#39;no&#39;/&gt;
+  &lt;/clock&gt;
+  &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;
+  &lt;on_reboot&gt;restart&lt;/on_reboot&gt;
+  &lt;on_crash&gt;destroy&lt;/on_crash&gt;
+  &lt;pm&gt;
+    &lt;suspend-to-mem enabled=&#39;no&#39;/&gt;
+    &lt;suspend-to-disk enabled=&#39;no&#39;/&gt;
+  &lt;/pm&gt;
+  &lt;devices&gt;
+    &lt;emulator&gt;/usr/libexec/qemu-kvm&lt;/emulator&gt;
+    &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39;/&gt;
+      &lt;source file=&#39;/var/lib/libvirt/images/vm3.img&#39;/&gt;
+      &lt;target dev=&#39;vda&#39; bus=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x06&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/disk&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-ehci1&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x7&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci1&#39;&gt;
+      &lt;master startport=&#39;0&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x0&#39; multifunction=&#39;on&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci2&#39;&gt;
+      &lt;master startport=&#39;2&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x1&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci3&#39;&gt;
+      &lt;master startport=&#39;4&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x2&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;pci&#39; index=&#39;0&#39; model=&#39;pci-root&#39;/&gt;
+    &lt;controller type=&#39;virtio-serial&#39; index=&#39;0&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;interface type=&#39;network&#39;&gt;
+      &lt;mac address=&#39;52:54:00:f2:28:6f&#39;/&gt;
+      &lt;source network=&#39;default&#39;/&gt;
+      &lt;model type=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x03&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/interface&gt;
+    &lt;serial type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;isa-serial&#39; port=&#39;0&#39;&gt;
+        &lt;model name=&#39;isa-serial&#39;/&gt;
+      &lt;/target&gt;
+    &lt;/serial&gt;
+    &lt;console type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;serial&#39; port=&#39;0&#39;/&gt;
+    &lt;/console&gt;
+    &lt;channel type=&#39;unix&#39;&gt;
+      &lt;target type=&#39;virtio&#39; name=&#39;org.qemu.guest_agent.0&#39;/&gt;
+      &lt;address type=&#39;virtio-serial&#39; controller=&#39;0&#39; bus=&#39;0&#39; port=&#39;1&#39;/&gt;
+    &lt;/channel&gt;
+    &lt;input type=&#39;mouse&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;input type=&#39;keyboard&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;memballoon model=&#39;virtio&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x07&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/memballoon&gt;
+  &lt;/devices&gt;
+&lt;/domain&gt;</code></pre><h4 id="KVM虚拟机管理"><a href="#KVM虚拟机管理" class="headerlink" title="KVM虚拟机管理"></a>KVM虚拟机管理</h4><pre><code>==================
+虚拟机的组成部分
+1.虚拟机配置文件
+[root@localhost qemu]# ls /etc/libvirt/qemu
+networks  vm1.xml
+2.储存虚拟机的介质
+[root@localhost qemu]# ls /var/lib/libvirt/images/
+vm1.img
+==================
+虚拟机的基本管理命令：
+查看
+启动
+关闭
+重启
+重置 
+
+查看:
+查看虚拟机:
+    # virsh list 
+     Id    Name                           State
+    ----------------------------------------------------
+     2     vm1                            running
+
+    # virsh list --all
+     Id    Name                           State
+    ----------------------------------------------------
+     2     vm1                            running
+
+查看kvm虚拟机配置文件：
+#virsh dumpxml name
+
+将node4虚拟机的配置文件保存至node6.xml
+#virsh dumpxml node4 &gt; /etc/libvirt/qemu/node6.xml
+
+修改node6的配置文件：
+#virsh edit node6      
+如果直接用vim编辑器修改配置文件的话，需要重启libvirtd服务
+
+启动:
+[root@localhost ~]# virsh start vm1
+Domain vm1 started
+
+暂停虚拟机： 
+  #virsh suspend vm_name  
+
+恢复虚拟机：
+  #virsh resume vm_name    
+
+关闭：
+    方法1：
+    # virsh shutdown vm1
+    Domain vm1 is being shutdown
+    方法2：
+    # virsh destroy vm1
+    Domain vm1 destroyed
+
+重启：
+    [root@localhost ~]# virsh reboot vm1
+    Domain vm1 is being reboote
+
+重置:
+    [root@localhost ~]# virsh reset vm1
+    Domain vm1 was reset
+
+删除虚拟机:
+# virsh undefine vm2
+Domain vm2 has been undefined
+
+注意:虚拟机在开启的情况下undefine是无法删除的，但是如果再destroy会直接被删除掉
+======================
+
+虚拟机开机自动启动:
+    # virsh autostart vm1
+        域 vm1标记为自动开始
+    # ls /etc/libvirt/qemu/autostart/     //此目录默认不存在，在有开机启动的虚拟机时自动创建
+        vm1.xml
+
+    # virsh autostart --disable vm1
+        域 vm1取消标记为自动开始
+    # ls /etc/libvirt/qemu/autostart/</code></pre><h4 id="虚拟机添加设备"><a href="#虚拟机添加设备" class="headerlink" title="虚拟机添加设备"></a>虚拟机添加设备</h4><pre><code>给虚拟机添加新硬件：
+图形方式:
+    首先，关闭要添加硬件的虚拟机
+    双击虚拟机，在打开的对话框点击上方的View，点击Details，点击Add Hardware可以选择要添加的虚拟硬件
+
+
+修改配置文件方式:
+&lt;domain type=&#39;kvm&#39;&gt;
+  &lt;name&gt;vm2&lt;/name&gt;
+  &lt;uuid&gt;d0bc50b6-6acc-432b-9953-bc47b2b4aa87&lt;/uuid&gt;
+  &lt;memory unit=&#39;KiB&#39;&gt;1024000&lt;/memory&gt;
+  &lt;currentMemory unit=&#39;KiB&#39;&gt;1024000&lt;/currentMemory&gt;
+  &lt;vcpu placement=&#39;static&#39;&gt;2&lt;/vcpu&gt;
+  &lt;os&gt;
+    &lt;type arch=&#39;x86_64&#39; machine=&#39;pc-i440fx-rhel7.0.0&#39;&gt;hvm&lt;/type&gt;
+    &lt;boot dev=&#39;hd&#39;/&gt;
+  &lt;/os&gt;
+  &lt;features&gt;
+    &lt;acpi/&gt;
+    &lt;apic/&gt;
+  &lt;/features&gt;
+  &lt;cpu mode=&#39;custom&#39; match=&#39;exact&#39; check=&#39;partial&#39;&gt;
+    &lt;model fallback=&#39;allow&#39;&gt;Haswell-noTSX&lt;/model&gt;
+  &lt;/cpu&gt;
+  &lt;clock offset=&#39;utc&#39;&gt;
+    &lt;timer name=&#39;rtc&#39; tickpolicy=&#39;catchup&#39;/&gt;
+    &lt;timer name=&#39;pit&#39; tickpolicy=&#39;delay&#39;/&gt;
+    &lt;timer name=&#39;hpet&#39; present=&#39;no&#39;/&gt;
+  &lt;/clock&gt;
+  &lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;
+  &lt;on_reboot&gt;restart&lt;/on_reboot&gt;
+  &lt;on_crash&gt;destroy&lt;/on_crash&gt;
+  &lt;pm&gt;
+    &lt;suspend-to-mem enabled=&#39;no&#39;/&gt;
+    &lt;suspend-to-disk enabled=&#39;no&#39;/&gt;
+  &lt;/pm&gt;
+  &lt;devices&gt;
+    &lt;emulator&gt;/usr/libexec/qemu-kvm&lt;/emulator&gt;
+
+    &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39;/&gt;
+      &lt;source file=&#39;/var/lib/libvirt/images/vm2.qcow2&#39;/&gt;
+      &lt;target dev=&#39;vda&#39; bus=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x07&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/disk&gt;
+
+
+    &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39;/&gt;
+      &lt;source file=&#39;/var/lib/libvirt/images/vm2-1.qcow2&#39;/&gt;
+      &lt;target dev=&#39;vda&#39; bus=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x17&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/disk&gt;    
+
+
+
+    &lt;disk type=&#39;file&#39; device=&#39;cdrom&#39;&gt;
+      &lt;driver name=&#39;qemu&#39; type=&#39;raw&#39;/&gt;
+      &lt;target dev=&#39;hda&#39; bus=&#39;ide&#39;/&gt;
+      &lt;readonly/&gt;
+      &lt;address type=&#39;drive&#39; controller=&#39;0&#39; bus=&#39;0&#39; target=&#39;0&#39; unit=&#39;0&#39;/&gt;
+    &lt;/disk&gt;
+
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-ehci1&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x7&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci1&#39;&gt;
+      &lt;master startport=&#39;0&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x0&#39; multifunction=&#39;on&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci2&#39;&gt;
+      &lt;master startport=&#39;2&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x1&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;usb&#39; index=&#39;0&#39; model=&#39;ich9-uhci3&#39;&gt;
+      &lt;master startport=&#39;4&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x05&#39; function=&#39;0x2&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;pci&#39; index=&#39;0&#39; model=&#39;pci-root&#39;/&gt;
+    &lt;controller type=&#39;ide&#39; index=&#39;0&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x01&#39; function=&#39;0x1&#39;/&gt;
+    &lt;/controller&gt;
+    &lt;controller type=&#39;virtio-serial&#39; index=&#39;0&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x06&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/controller&gt;
+
+    &lt;interface type=&#39;network&#39;&gt;
+      &lt;mac address=&#39;52:54:00:04:63:6a&#39;/&gt;
+      &lt;source network=&#39;default&#39;/&gt;
+      &lt;model type=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x03&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/interface&gt;
+
+    &lt;interface type=&#39;network&#39;&gt;
+      &lt;mac address=&#39;52:54:00:04:63:6&#39;/&gt;
+      &lt;source network=&#39;default&#39;/&gt;
+      &lt;model type=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x13&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/interface&gt;
+
+    &lt;serial type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;isa-serial&#39; port=&#39;0&#39;&gt;
+        &lt;model name=&#39;isa-serial&#39;/&gt;
+      &lt;/target&gt;
+    &lt;/serial&gt;
+    &lt;console type=&#39;pty&#39;&gt;
+      &lt;target type=&#39;serial&#39; port=&#39;0&#39;/&gt;
+    &lt;/console&gt;
+    &lt;channel type=&#39;unix&#39;&gt;
+      &lt;target type=&#39;virtio&#39; name=&#39;org.qemu.guest_agent.0&#39;/&gt;
+      &lt;address type=&#39;virtio-serial&#39; controller=&#39;0&#39; bus=&#39;0&#39; port=&#39;1&#39;/&gt;
+    &lt;/channel&gt;
+    &lt;channel type=&#39;spicevmc&#39;&gt;
+      &lt;target type=&#39;virtio&#39; name=&#39;com.redhat.spice.0&#39;/&gt;
+      &lt;address type=&#39;virtio-serial&#39; controller=&#39;0&#39; bus=&#39;0&#39; port=&#39;2&#39;/&gt;
+    &lt;/channel&gt;
+    &lt;input type=&#39;tablet&#39; bus=&#39;usb&#39;&gt;
+      &lt;address type=&#39;usb&#39; bus=&#39;0&#39; port=&#39;1&#39;/&gt;
+    &lt;/input&gt;
+    &lt;input type=&#39;mouse&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;input type=&#39;keyboard&#39; bus=&#39;ps2&#39;/&gt;
+    &lt;graphics type=&#39;spice&#39; autoport=&#39;yes&#39;&gt;
+      &lt;listen type=&#39;address&#39;/&gt;
+      &lt;image compression=&#39;off&#39;/&gt;
+    &lt;/graphics&gt;
+    &lt;sound model=&#39;ich6&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x04&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/sound&gt;
+    &lt;video&gt;
+      &lt;model type=&#39;qxl&#39; ram=&#39;65536&#39; vram=&#39;65536&#39; vgamem=&#39;16384&#39; heads=&#39;1&#39; primary=&#39;yes&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x02&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/video&gt;
+    &lt;redirdev bus=&#39;usb&#39; type=&#39;spicevmc&#39;&gt;
+      &lt;address type=&#39;usb&#39; bus=&#39;0&#39; port=&#39;2&#39;/&gt;
+    &lt;/redirdev&gt;
+    &lt;redirdev bus=&#39;usb&#39; type=&#39;spicevmc&#39;&gt;
+      &lt;address type=&#39;usb&#39; bus=&#39;0&#39; port=&#39;3&#39;/&gt;
+    &lt;/redirdev&gt;
+    &lt;memballoon model=&#39;virtio&#39;&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x08&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/memballoon&gt;
+  &lt;/devices&gt;
+&lt;/domain&gt;</code></pre><pre><code>修改配置文件方式:
+[root@kvm images]# cd /etc/libvirt/qemu/
+[root@kvm qemu]# cp vm1.xml vm10.xml
+[root@kvm qemu]# vim vm10.xml
+
+必须要修改的部分：
+guest os的名称：
+  &lt;name&gt;vm1&lt;/name&gt;
+
+uuid:
+  &lt;uuid&gt;78e98d16-a0d0-4002-9dc4-b8ca7d538457&lt;/uuid&gt;
+
+磁盘：
+     &lt;disk type=&#39;file&#39; device=&#39;disk&#39;&gt;
+       &lt;driver name=&#39;qemu&#39; type=&#39;qcow2&#39;/&gt;
+        &lt;source file=&#39;/var/lib/libvirt/images/vm1.qcow2&#39;/&gt;
+        &lt;target dev=&#39;vda&#39; bus=&#39;virtio&#39;/&gt;
+        &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x07&#39; function=&#39;0x0&#39;/&gt;
+     &lt;/disk&gt;
+
+网卡：     
+    &lt;interface type=&#39;network&#39;&gt;
+      &lt;mac address=&#39;52:54:00:fc:c6:0b&#39;/&gt;
+      &lt;source network=&#39;default&#39;/&gt;
+      &lt;model type=&#39;virtio&#39;/&gt;
+      &lt;address type=&#39;pci&#39; domain=&#39;0x0000&#39; bus=&#39;0x00&#39; slot=&#39;0x03&#39; function=&#39;0x0&#39;/&gt;
+    &lt;/interface&gt;
+
+可选部分：
+内存：
+&lt;memory unit=&#39;KiB&#39;&gt;2048000&lt;/memory&gt;
+  &lt;currentMemory unit=&#39;KiB&#39;&gt;2048000&lt;/currentMemory&gt;
+
+cpu个数:
+  &lt;vcpu placement=&#39;static&#39;&gt;2&lt;/vcpu&gt;</code></pre><pre><code>1.使用配置文件方式生成一个新虚机
+2.修改配置文件给新生成的虚机添加一块硬盘，添加一块网卡
+3.使修改的配置文件生效
+    方法1：重启libvirtd
+    方法2：# virsh define 配置文件
+
+
+创建空的磁盘文件：
+#qemu-img create -f qcow2 /var/lib/libvirt/images/vm11.qcow2 5G
+</code></pre><h4 id="虚拟机克隆"><a href="#虚拟机克隆" class="headerlink" title="虚拟机克隆"></a>虚拟机克隆</h4><pre><code>虚拟机克隆
+1.图形界面：Applications （左上角）-----&gt; System Tools ------&gt;Virtual Machine Manager
+   关闭要克隆的虚拟机，右键点击虚拟机选择Clone
+
+2.字符终端，命令克隆
+    # virt-clone -o vm1 --auto-clone
+        WARNING  设置图形设备端口为自动端口，以避免相互冲突。
+        正在分配 &#39;vm1-clone.qcow2&#39;            | 6.0 GB  00:00:05     
+        成功克隆 &#39;vm1-clone&#39;。
+    -o       origin    
+
+    # virt-clone -o vm1 -n vm2 --auto-clone
+        WARNING  设置图形设备端口为自动端口，以避免相互冲突。
+        正在分配 &#39;vm2.qcow2&#39;                                                | 6.0 GB  00:00:06     
+        成功克隆 &#39;vm2&#39;。
+
+    # virt-clone -o vm1 -n vm2 -f /var/lib/libvirt/images/vm2.img
+        正在克隆        
+        vm1.img              | 8.0 GB     01:03     
+        Clone &#39;vm2&#39; created successfully.
+</code></pre><h4 id="高级命令"><a href="#高级命令" class="headerlink" title="高级命令"></a>高级命令</h4><pre><code>建立虚拟机磁盘镜像文件：
+磁盘镜像文件格式:
+    raw     原始格式，性能最好 直接占用你一开始给多少 系统就占多少 不支持快照
+    qcow  先去网上了解一下cow(写时拷贝copy on write) ，性能远不能和raw相比，所以很快夭折了，所以出现了qcow2（性能低下 早就被抛弃）
+    qcow2 性能上还是不如raw，但是raw不支持快照，qcow2支持快照。
+
+现在默认安装好的用的是raw格式，所有做快照要把他转换成qcow2格式
+
+什么叫写时拷贝？
+raw立刻分配空间，不管你有没有用到那么多空间
+qcow2只是承诺给你分配空间，但是只有当你需要用空间的时候，才会给你空间。最多只给你承诺空间的大小，避免空间浪费
+
+工作当中用哪个？看你用不用快照。
+工作当中虚拟机会有多个备份，一个坏了，再起一个就行了，所有没必要用快照。当然也不一定。
+数据绝对不会存储到本地。
+
+qemu-kvm  qemu是早先的一个模拟器，kvm是基于qemu发展出来的。
+
+建立qcow2格式磁盘文件:
+#qemu-img create -f qcow2 test.qcow2 20G 
+
+建立raw格式磁盘文件:
+#qemu-img create -f raw test.raw 20G  
+
+查看已经创建的虚拟磁盘文件:
+#qemu-img info test.qcow2 
+
+
+==============================
+作为虚拟化环境管理员，你肯定遇到过虚拟机无法启动的情况。实施排错时，你需要对虚拟机的内部进行检查。而Libguestfs Linux工具集可以在这种情况下为你提供帮助。
+
+利用Libguestfs找出损坏的虚拟机文件
+Libguestfs允许在虚拟机上挂载任何类型的文件系统，以便修复启动故障。
+使用Libguestfs，首先需要使用Libvirt。Libvirt是一个管理接口，可以和KVM、Xen和其他一些基于Liunx的虚拟机相互连接。Libguestfs的功能更加强大，可以打开Windows虚拟机上的文件。但是首先你需要将虚拟机迁移到libguestfs可用的环境当中，也就是Linux环境。
+假如你是vmware的ESXI虚拟机，为了将虚拟机迁移到Linux当中，你可以使用SSH连接到ESXi主机，这意味着你首先需要启用ESXi主机上的SSH访问方式。完成之后，在
+Linux平台上运行下面的scp命令：
+1. scp –r 192.168.178.30:/vmfs/volumes/datastore1/Windows* 
+
+使用guestfish操作虚拟机磁盘镜像文件：
+完成虚拟机磁盘镜像文件的复制之后，可以在libguestfs中使用guestfish这样的工具将其打开，这样就可以直接在vmdk文件上进行操作了。
+
+
+使用命令来在虚拟机中创建一个连接到文件系统的交互式shell。在新出现的窗口中，你可以使用特定的命令来操作虚拟机文件。
+#guestfish --rw -a  /path/to/windows.vmdk
+
+第一个任务就是找到可用的文件系统：
+1. &gt;&lt;fs&gt; run                   //进入交互式shell之后第一个命令
+2. &gt;&lt;fs&gt; list-filesystems  //列出磁盘镜像文件内的文件系统
+/dev/vda1: ext4
+/dev/vdb1: iso9660
+/dev/VolGroup/lv_root: ext4
+/dev/VolGroup/lv_swap: swap
+3.&gt;&lt;fs&gt;  mount /dev/VolGroup/lv_root    /     //当你使用guestfish shell找到可用文件系统类型之后，就可以进行挂载了。将文件系统到guestfish根目录下
+4.&gt;&lt;fs&gt;  ls /                                               //ls命令查看文件/下内容 ，不能使用cd命令
+bin  boot dev etc home  lib lib64  lost+found
+5.&gt;&lt;fs&gt; cat /etc/passwd      //查看文件，不能像在其他shell环境中一样操作。目录所有路径必须从根开始
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+
+在guestfish  shell当中可以使用像ls、cat、more、download这样的命令，来查看和下载文件以及目录
+
+guestfish  读镜像
+mount  /dev/sda1  /
+cd /
+
+
+
+查看帮助：这两个帮助显示的内容不一样
+# guestfish --help 
+# guestfish -h
+
+Virt-rescue提供直接访问方式：
+这种方式跟linux系统光盘的rescue模式几乎一样，进去之后首先需要查看文件系统，然后手动挂载到/sysroot目录下，进入/sysroot目录就可以随意操作虚拟磁盘镜像内的文件了
+# virt-rescue vm1         //进入修复模式，help查看帮助
+&gt;&lt;rescue&gt;fdisk -l
+&gt;&lt;rescue&gt;mount /dev/mapper/VolGroup-lv_root /sysroot/ 
+&gt;&lt;rescue&gt;cd /sysroot/
+&gt;&lt;rescue&gt;touch aaaaaaaaaaaaa
+
+============================
+查看磁盘镜像分区信息:
+    # virt-df -h -d vm1
+    Filesystem                                Size       Used  Available  Use%
+    vm1:/dev/sda1                             484M        32M       428M    7%
+    vm1:/dev/sdb1                             3.5G       3.5G          0  100%
+    vm1:/dev/VolGroup/lv_root                 6.1G       1.1G       4.7G   18%
+
+    # virt-filesystems -d vm1
+    /dev/sda1
+    /dev/sdb1
+    /dev/VolGroup/lv_root
+
+挂载磁盘镜像分区:
+    # guestmount -d vm1 -m /dev/vda1 --rw /mnt
+
+
+</code></pre><h4 id="虚拟机使用半虚拟化驱动"><a href="#虚拟机使用半虚拟化驱动" class="headerlink" title="虚拟机使用半虚拟化驱动"></a>虚拟机使用半虚拟化驱动</h4><pre><code>KVM是必须使用硬件虚拟化辅助技术（如Intel VT-x、AMD-V）的hypervisor，在CPU运行效率方面有硬件支持，其效率是比较高的；在有Intel EPT特性支持的平台上，内存虚拟化的效率也较高。QEMU/KVM提供了全虚拟化环境，可以让客户机不经过任何修改就能运行在KVM环境中。不过，KVM在I/O虚拟化方面，传统的方式是使用QEMU纯软件的方式来模拟I/O设备（如第4章中提到模拟的网卡、磁盘、显卡等等），其效率并不非常高。在KVM中，可以在客户机中使用半虚拟化驱动（Paravirtualized Drivers，PV Drivers）来提高客户机的性能（特别是I/O性能）。目前，KVM中实现半虚拟化驱动的方式是采用了virtio这个Linux上的设备驱动标准框架。
+</code></pre><h4 id="KVM网络配置"><a href="#KVM网络配置" class="headerlink" title="KVM网络配置"></a>KVM网络配置</h4><p>桥接网络</p>
+<p><img src="http://i.loli.net/2019/06/09/5cfd15ce11ad477500.jpg" alt=""></p>
+<p>nat网络</p>
+<p><img src="http://i.loli.net/2019/06/09/5cfd1582763a891926.jpg" alt=""></p>
+<p>隔离网络</p>
+<pre><code>可以通过查看mac地址是否一致来确定是不是一根线上的两个接口
+# brctl show
+bridge name    bridge id                        STP enabled     interfaces
+virbr0                8000.5254003c2ba7    yes                 virbr0-nic
+                                                                                 vnet2
+                                                                                 vnet3
+从交换机上把vnet网卡删除：
+# brctl delif  virbr0 vnet0
+添加vnet网卡到交换机上：
+# brctl addif  virbr0 vnet0
+
+配置文件方式配置桥接：在宿主机上
+    1.修改配置文件
+    # cat ifcfg-br0 
+    TYPE=Bridge
+    NAME=br0
+    DEVICE=br0
+    ONBOOT=&quot;yes&quot;
+    BOOTPROTO=static
+    IPADDR=10.18.44.251
+    GATEWAY=10.18.44.1
+    NETMASK=255.255.255.0
+    DNS1=10.18.44.100
+    DNS2=8.8.8.8
+
+    # cat ifcfg-enp3s0
+    TYPE=&quot;Ethernet&quot;
+    NAME=&quot;enp3s0&quot;
+    DEVICE=&quot;enp3s0&quot;
+    ONBOOT=&quot;yes&quot;
+    BRIDGE=br0
+
+    2.重启libvirtd服务
+    3.重启network服务 
+
+    删除桥接网卡步骤：
+    1.删除br0的配置文件
+    2.修改正常网卡的配置文件
+    3.重启系统    
+
+配置文件方式创建nat网络：
+# cp /etc/libvirt/qemu/networks/nat2.xml /etc/libvirt/qemu/networks/nat3.xml
+# vim /etc/libvirt/qemu/networks/nat3.xml
+&lt;network&gt;
+  &lt;name&gt;nat3&lt;/name&gt;
+  &lt;uuid&gt;4d8b9b5c-748f-4e16-a509-848202b9c83b&lt;/uuid&gt;
+  &lt;forward mode=&#39;nat&#39;/&gt;             //和隔离模式的区别
+  &lt;bridge name=&#39;virbr4&#39; stp=&#39;on&#39; delay=&#39;0&#39;/&gt;
+  &lt;mac address=&#39;52:57:00:62:0c:d4&#39;/&gt;
+  &lt;domain name=&#39;nat3&#39;/&gt;
+  &lt;ip address=&#39;192.168.104.1&#39; netmask=&#39;255.255.255.0&#39;&gt;
+    &lt;dhcp&gt;
+      &lt;range start=&#39;192.168.104.128&#39; end=&#39;192.168.104.254&#39;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;
+
+重启服务：
+# systemctl  restart libvirtd
+
+配置文件方式创建isolated网络：           
+&lt;network&gt;
+  &lt;name&gt;isolate1&lt;/name&gt;
+  &lt;uuid&gt;6341d3a6-7330-4e45-a8fe-164a6a68929a&lt;/uuid&gt;
+  &lt;bridge name=&#39;virbr2&#39; stp=&#39;on&#39; delay=&#39;0&#39;/&gt;
+  &lt;mac address=&#39;52:54:00:6b:39:0c&#39;/&gt;
+  &lt;domain name=&#39;isolate1&#39;/&gt;
+  &lt;ip address=&#39;192.168.101.1&#39; netmask=&#39;255.255.255.0&#39;&gt;
+    &lt;dhcp&gt;
+      &lt;range start=&#39;192.168.101.128&#39; end=&#39;192.168.101.254&#39;/&gt;
+    &lt;/dhcp&gt;
+  &lt;/ip&gt;
+&lt;/network&gt;            
+
+查看所有的网络：
+# virsh net-list
+
+启动网络：
+# virsh net-start isolated200
+
+开机自启动:
+# virsh net-autostart  isolated200 
+</code></pre><h4 id="KVM存储配置"><a href="#KVM存储配置" class="headerlink" title="KVM存储配置"></a>KVM存储配置</h4><pre><code>存储池
+概念：
+    kvm必须要配置一个目录当作他存储磁盘镜像(存储卷)的目录，我们称这个目录为存储池
+默认存储池：
+    /var/lib/libvirt/images/    
+
+    1.创建基于文件夹的存储池（目录）
+       # mkdir -p /data/vmfs
+    2.定义存储池与其目录
+       # virsh pool-define-as vmdisk --type dir --target /data/vmfs
+    3.创建已定义的存储池
+        (1)创建已定义的存储池
+            # virsh pool-build vmdisk
+        (2)查看已定义的存储池，存储池不激活无法使用。
+            #virsh pool-list --all
+    4.激活并自动启动已定义的存储池
+        # virsh pool-start vmdisk
+        # virsh pool-autostart vmdisk         
+        这里vmdisk存储池就已经创建好了，可以直接在这个存储池中创建虚拟磁盘文件了。
+    5.在存储池中创建虚拟机存储卷
+         # virsh vol-create-as vmdisk oeltest03.qcow2 20G --format qcow2
+
+    注1:KVM存储池主要是体现一种管理方式，可以通过挂载存储目录，lvm逻辑卷的方式创建存储池，虚拟机存储卷创建完成后，剩下的操作与无存储卷的方式无任何区别了。
+    注2:KVM存储池也要用于虚拟机迁移任务。
+
+    6.存储池相关管理命令
+        (1)在存储池中删除虚拟机存储卷
+            # virsh vol-delete --pool vmdisk oeltest03.qcow2
+        (2)取消激活存储池
+            # virsh pool-destroy vmdisk
+        (3)删除存储池定义的目录/data/vmfs
+            # virsh pool-delete vmdisk
+        (4)取消定义存储池
+            # virsh pool-undefine vmdisk
+到此kvm存储池配置与管理操作完毕。   
+</code></pre><h4 id="kvm快照"><a href="#kvm快照" class="headerlink" title="kvm快照"></a>kvm快照</h4><pre><code>为虚拟机rhel5u8-1创建一个快照
+# virsh snapshot-create-as rhel5u8-1 rhel5u8-1.snap
+error: unsupported configuration: internal snapshot for disk vda unsupported for storage type raw
+
+raw
+使用文件来模拟实际的硬盘(当然也可以使用一块真实的硬盘或一个分区)。由于原生的裸格式，不支持snapshot也是很正常的。但如果你使用LVM的裸设备，那就另当别论。说到LVM还是十分的犀利的目前来LVM的snapshot、性能、可扩展性方面都还是有相当的效果的。目前来看的话，备份的话也问题不大。就是在虚拟机迁移方面还是有很大的限制。但目前虚拟化的现状来看，真正需要热迁移的情况目前需求还不是是否的强烈。虽然使用LVM做虚拟机镜像的相关公开资料比较少，但目前来看牺牲一点灵活性，换取性能和便于管理还是不错的选择。
+
+qcow2
+现在比较主流的一种虚拟化镜像格式，经过一代的优化，目前qcow2的性能上接近raw裸格式的性能，这个也算是redhat的官方渠道了
+对于qcow2的格式，几点还是比较突出的，qcow2的snapshot，可以在镜像上做N多个快照：
+    •更小的存储空间
+    •Copy-on-write support
+    •支持多个snapshot，对历史snapshot进行管理
+    •支持zlib的磁盘压缩
+    •支持AES的加密
+
+查看镜像文件格式：
+# qemu-img info /var/lib/libvirt/images/rhel5u8-1.img 
+image: /var/lib/libvirt/images/rhel5u8-1.img
+file format: raw
+virtual size: 10G (10737418240 bytes)
+disk size: 10G
+
+格式转换：
+把raw格式转换成qcow2格式
+# qemu-img convert -f raw -O qcow2 /var/lib/libvirt/images/rhel5u8-1.img /var/lib/libvirt/images/rhel5u8-1_qcow2.img
+
+# ls -l /var/lib/libvirt/images/
+total 28381680
+-rw-------. 1 qemu qemu 10737418240 Aug 16 01:09 rhel5u8-1.img
+-rw-r--r--. 1 root root  3076521984 Aug 16 01:09 rhel5u8-1_qcow2.img
+
+# qemu-img info /var/lib/libvirt/images/rhel5u8-1_qcow2.img 
+image: /var/lib/libvirt/images/rhel5u8-1_qcow2.img
+file format: qcow2
+virtual size: 10G (10737418240 bytes)
+disk size: 2.9G
+cluster_size: 65536
+
+将虚拟机的硬盘指向转换后的qcow2 img
+
+在虚拟机中创建一个目录，但目录中是空的
+# mkdir /test
+# ls /test
+
+给虚拟机rhel5u8-1创建第一个镜像rhel5u8-1.snap1
+# virsh snapshot-create-as rhel5u8-1 rhel5u8-1.snap1
+
+# qemu-img info /var/lib/libvirt/images/rhel5u8-1_qcow2.img 
+image: /var/lib/libvirt/images/rhel5u8-1_qcow2.img
+file format: qcow2
+virtual size: 10G (10737418240 bytes)
+disk size: 3.1G
+cluster_size: 65536
+Snapshot list:
+ID        TAG                 VM SIZE                DATE       VM CLOCK
+1         rhel5u8-1.snap1        229M 2013-08-16 01:25:39   00:03:58.995
+
+在虚拟机中，给 /test 中复制2个文件
+# cp install.log anaconda-ks.cfg  /test
+# ls /test
+anaconda-ks.cfg  install.log
+
+给虚拟机rhel5u8-1创建第二个镜像rhel5u8-1.snap2
+# virsh snapshot-create-as rhel5u8-1 rhel5u8-1.snap2
+Domain snapshot rhel5u8-1.snap2 created
+# virsh snapshot-list rhel5u8-1
+
+关闭虚拟机，恢复到第一个快照
+# virsh shutdown rhel5u8-1
+# virsh snapshot-revert rhel5u8-1 rhel5u8-1.snap1
+
+在虚拟机中，发现 /test 目录为空
+# ls /test
+
+关闭虚拟机，恢复到第二个快照
+# virsh shutdown rhel5u8-1
+# virsh snapshot-revert rhel5u8-1 rhel5u8-1.snap2
+
+在虚拟机中，发现 /test 有拷贝的2个文件
+# ls /test
+anaconda-ks.cfg  install.log
+
+删除虚拟机快照
+# virsh snapshot-list rhel5u8-1
+
+# virsh snapshot-delete --snapshotname rhel5u8-1.snap2 rhel5u8-1
+
+# virsh snapshot-list rhel5u8-1
+
+</code></pre><h4 id="kvm迁移"><a href="#kvm迁移" class="headerlink" title="kvm迁移"></a>kvm迁移</h4><pre><code>10.18.42.202 
+
+
+10.18.42.46
+
+热迁移
+
+                   192.168.1.1/24                                       192.168.1.2/24
+                ++++++++++++                ++++++++++++
+                +            +                +            +        
+                +    KVM-A  +  =======&gt;     +    KVM-B     +
+                +            +                +            +    
+                ++++++++++++                ++++++++++++
+            images                              images
+        /var/lib/libvirt/images              /var/lib/libvirt/images                   
+
+                                                         nfs
+
+系统环境:rhel6.4 x86_64 iptables and selinux off
+
+
+
+注意：
+    1.两台机器要做互相解析    
+    2.同一个大版本的系统，从高版本系统上不可以往低版本系统上迁移，反过来可以比如从6.5不能迁移到6.4，但是从6.4可以迁移到6.5
+    3.两台机器的selinux全部开机关闭
+
+将 KVM-A 上的虚拟机镜像文件所在的目录共享出来
+[root@localhost ~]# getenforce 
+Permissive
+[root@localhost ~]# iptables -F
+[root@localhost ~]# vim /etc/exports 
+/var/lib/libvirt/images 192.168.1.2(rw,sync,no_root_squash)
+[root@localhost ~]# service nfs start
+
+将KVM-A上共享出来的目录挂载在到KVM-B的/var/lib/libvirt/images
+[root@localhost ~]# mount -t nfs 192.168.1.1:/var/lib/libvirt/images  /var/lib/libvirt/images
+
+在KVM-B配置/etc/libvirt/qemu.conf
+[root@localhost ~]# vim /etc/libvirt/qemu.conf          #取消下面选项的注释
+user = &quot;root&quot;        第198行
+group = &quot;root&quot;    第202行
+
+[root@localhost ~]# serivice libvirtd restart
+
+在KVM-A上用虚拟机管理器连接KVM-B
+File---------&gt; Add Connection
+
+右键点击要迁移的虚拟机，选择 Migrate
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3台机器：
+    10.18.41.159   kvmA
+    10.18.41.196   kvmB   csyf521
+    10.18.41.183   nfs
+
+</code></pre><h4 id="自动化脚本管理kvm"><a href="#自动化脚本管理kvm" class="headerlink" title="自动化脚本管理kvm"></a>自动化脚本管理kvm</h4><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+#kvm batch create vm tool
+#version:0.1
+#author: cyylog
+#需要事先准备模板镜像和配置文件模板
+echo "1.创建自定义配置单个虚拟机
+2.批量创建自定义配置虚拟机
+3.批量创建默认配置虚拟机
+4.删除虚拟机"
+
+read -p "选取你的操作(1/2/3):" op
+
+batch_self_define() {
+
+        kvmname=`openssl rand -hex 5`
+
+        sourceimage=/var/lib/libvirt/images/vmmodel.img
+        sourcexml=/etc/libvirt/qemu/vmmodel.xml
+
+        newimg=/var/lib/libvirt/images/${kvmname}.img
+        newxml=/etc/libvirt/qemu/${kvmname}.xml
+
+        cp $sourceimage  $newimg
+        cp $sourcexml $newxml
+
+        kvmuuid=`uuidgen`
+        kvmmem=${1}000000
+        kvmcpu=$2
+        kvmimg=$newimg
+        kvmmac=`openssl rand -hex 3 | sed -r 's/..\B/&:/g'`
+
+        sed -i "s@kvmname@$kvmname@;s@kvmuuid@$kvmuuid@;s@kvmmem@$kvmmem@;s@kvmcpu@$kvmcpu@;s@kvmimg@$kvmimg@;s@kvmmac@$kvmmac@" $newxml
+        virsh define $newxml
+        virsh list --all
+}
+self_define() {
+        read -p "请输入新虚机名称:" newname
+        read -p "请输入新虚机内存大小(G):" newmem
+        read -p "请输入新虚机cpu个数:" newcpu
+
+        sourceimage=/var/lib/libvirt/images/vmmodel.img
+        sourcexml=/etc/libvirt/qemu/vmmodel.xml
+
+        newimg=/var/lib/libvirt/images/${newname}.img
+        newxml=/etc/libvirt/qemu/${newname}.xml
+
+        cp $sourceimage  $newimg
+        cp $sourcexml $newxml
+
+        kvmname=$newname
+        kvmuuid=`uuidgen`
+        kvmmem=${newmem}000000
+        kvmcpu=$newcpu
+        kvmimg=$newimg
+        kvmmac=`openssl rand -hex 3 | sed -r 's/..\B/&:/g'`
+
+        sed -i "s@kvmname@$kvmname@;s@kvmuuid@$kvmuuid@;s@kvmmem@$kvmmem@;s@kvmcpu@$kvmcpu@;s@kvmimg@$kvmimg@;s@kvmmac@$kvmmac@" $newxml
+        virsh define $newxml
+        virsh list --all
+}
+
+case $op in
+1)self_define;;
+2)
+        read -p "请输入要创建的虚拟机的个数:" num
+        read -p "请输入新虚机内存大小(G):" newmem
+        read -p "请输入新虚机cpu个数:" newcpu
+
+        for((i=1;i<=$num;i++))
+        do
+                batch_self_define $newmem $newcpu
+        done;;
+
+3)
+        read -p "请输入要创建的虚拟机的个数:" num
+
+        for((i=1;i<=$num;i++))
+        do
+                batch_self_define 1 1
+        done;;
+
+*)echo "输入错误，请重新执行脚本"
+  exit;;
+esac
+</code></pre>
+<hr>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://cyylog.github.io/2019/03/14/rong-qi/kvm-bi-ji/">https://cyylog.github.io/2019/03/14/rong-qi/kvm-bi-ji/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Cyylog</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/KVM/">
+                                    <span class="chip bg-color">KVM</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/03/27/linux/nginx/nginx-bian-yi-an-zhuang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Nginx编译安装">
+                        
+                        <span class="card-title">Nginx编译安装</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c++
+2、安装pcre软件包（使nginx支持http rewrite模块）yum install -y pcre pcre-devel
+3、
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-03-27
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/02/28/linux/iptables-bi-ji/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="iptables笔记">
+                        
+                        <span class="card-title">iptables笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+
+防火墙之 iptables1.1 安全优化配置原则尽可能不给服务器配置外网ip ,可以通过代理转发或者通过防火墙映射.并发不是特别大情况有外网ip,可以开启防火墙服务.
+大并发的情况，不能开iptables,影响性能，利用硬件防火墙提升
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iptables/">
+                        <span class="chip bg-color">iptables</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 无雨小站<br />'
+            + '文章作者: Cyylog<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4, h5, h6'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5, h6').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2018</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
