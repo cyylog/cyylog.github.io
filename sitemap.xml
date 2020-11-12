@@ -641,14 +641,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Oracle/</loc>
+    <loc>https://cyylog.github.io/tags/NFS/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/NFS/</loc>
+    <loc>https://cyylog.github.io/tags/Oracle/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,14 +669,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
