@@ -571,14 +571,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
+    <loc>https://cyylog.github.io/tags/Vue/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Vue/</loc>
+    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -606,14 +606,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/System/</loc>
+    <loc>https://cyylog.github.io/tags/Network/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Network/</loc>
+    <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -676,13 +676,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
-    <lastmod>2020-11-12</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Interview/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
@@ -697,14 +690,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Docker/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/KVM/</loc>
+    <loc>https://cyylog.github.io/tags/Docker/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -719,6 +712,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Kubernetes-err/</loc>
+    <lastmod>2020-11-12</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/KVM/</loc>
     <lastmod>2020-11-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
