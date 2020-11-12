@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-10T13:48:49.066Z</updated>
+  <updated>2020-11-12T14:31:44.638Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>阿里云FAAS入门</title>
+    <link href="https://cyylog.github.io/2020/11/11/devops/golang/a-li-yun-faas-ru-men/"/>
+    <id>https://cyylog.github.io/2020/11/11/devops/golang/a-li-yun-faas-ru-men/</id>
+    <published>2020-11-10T17:00:39.000Z</published>
+    <updated>2020-11-12T14:31:44.638Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;阿里云FAAS入门&quot;&gt;&lt;a href=&quot;#阿里云FAAS入门&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="微服务" scheme="https://cyylog.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+    <category term="FAAS" scheme="https://cyylog.github.io/tags/FAAS/"/>
+    
+  </entry>
   
   <entry>
     <title>SQL语句优化</title>
@@ -330,18 +355,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构-控制器</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
+    <title>Kubernetes架构-节点</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:55.932Z</updated>
+    <updated>2020-10-30T04:12:44.758Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
+    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
         
       
     
@@ -355,18 +380,18 @@
   </entry>
   
   <entry>
-    <title>Kubernetes架构-节点</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
+    <title>Kubernetes架构-控制器</title>
+    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
+    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
     <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:44.758Z</updated>
+    <updated>2020-10-30T04:12:55.932Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
+    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
         
       
     
@@ -509,31 +534,6 @@
     
     
     <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql-游标</title>
-    <link href="https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/"/>
-    <id>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</id>
-    <published>2020-07-16T03:54:04.000Z</published>
-    <updated>2020-10-30T04:14:09.765Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h5 id=&quot;mysql游标的用法及作用&quot;&gt;&lt;a href=&quot;#mysql游标的用法及作用&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
-    
-    
-    <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
     
   </entry>
   

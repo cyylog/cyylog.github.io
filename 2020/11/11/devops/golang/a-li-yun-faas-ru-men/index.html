@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Kubernetes架构—组件, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="阿里云FAAS入门, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Kubernetes架构—组件 | 无雨小站</title>
+    <title>阿里云FAAS入门 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Kubernetes架构—组件</h1>
+                    <h1 class="description center-align post-title">阿里云FAAS入门</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Kubernetes/">
-                                <span class="chip bg-color">Kubernetes</span>
+                            <a href="/tags/FAAS/">
+                                <span class="chip bg-color">FAAS</span>
                             </a>
                         
                     </div>
@@ -421,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                容器
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                微服务
                             </a>
                         
                     </div>
@@ -434,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-10-03
+                    2020-11-11
                 </div>
                 
 
@@ -450,54 +450,111 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Kubernetes-组件"><a href="#Kubernetes-组件" class="headerlink" title="Kubernetes 组件"></a>Kubernetes 组件</h1><p>当你部署完 Kubernetes, 即拥有了一个完整的集群。</p>
-<p>一个 Kubernetes 集群包含 集群由一组被称作节点的机器组成。这些节点上运行 Kubernetes 所管理的容器化应用。集群具有至少一个工作节点和至少一个主节点。</p>
-<p>工作节点托管作为应用程序组件的 Pod 。主节点管理集群中的工作节点和 Pod 。多个主节点用于为集群提供故障转移和高可用性。</p>
-<p>本文档概述了交付正常运行的 Kubernetes 集群所需的各种组件。</p>
-<p>这张图表展示了包含所有相互关联组件的 Kubernetes 集群。</p>
-<p><img src="https://d33wubrfki0l68.cloudfront.net/7016517375d10c702489167e704dcb99e570df85/7bb53/images/docs/components-of-kubernetes.png" alt="Kubernetes 组件"></p>
-<h2 id="控制平面组件（Control-Plane-Components）"><a href="#控制平面组件（Control-Plane-Components）" class="headerlink" title="控制平面组件（Control Plane Components）"></a>控制平面组件（Control Plane Components）</h2><p>控制平面的组件对集群做出全局决策(比如调度)，以及检测和响应集群事件（例如，当不满足部署的 <code>replicas</code> 字段时，启动新的 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/" target="_blank" rel="noopener">pod</a>）。</p>
-<p>控制平面组件可以在集群中的任何节点上运行。 然而，为了简单起见，设置脚本通常会在同一个计算机上启动所有控制平面组件，并且不会在此计算机上运行用户容器。 请参阅<a href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/high-availability/" target="_blank" rel="noopener">构建高可用性集群</a> 中对于多主机 VM 的设置示例。</p>
-<h3 id="kube-apiserver"><a href="#kube-apiserver" class="headerlink" title="kube-apiserver"></a>kube-apiserver</h3><p>主节点上负责提供 Kubernetes API 服务的组件；它是 Kubernetes 控制面的前端。</p>
-<p>kube-apiserver 在设计上考虑了水平扩缩的需要。 换言之，通过部署多个实例可以实现扩缩。 参见<a href="https://kubernetes.io/docs/admin/high-availability/" target="_blank" rel="noopener">构造高可用集群</a>。</p>
-<h3 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h3><p>etcd 是兼具一致性和高可用性的键值数据库，可以作为保存 Kubernetes 所有集群数据的后台数据库。</p>
-<p>您的 Kubernetes 集群的 etcd 数据库通常需要有个备份计划。要了解 etcd 更深层次的信息，请参考 <a href="https://etcd.io/docs" target="_blank" rel="noopener">etcd 文档</a>。</p>
-<h3 id="kube-scheduler"><a href="#kube-scheduler" class="headerlink" title="kube-scheduler"></a>kube-scheduler</h3><p>主节点上的组件，该组件监视那些新创建的未指定运行节点的 Pod，并选择节点让 Pod 在上面运行。</p>
-<p>调度决策考虑的因素包括单个 Pod 和 Pod 集合的资源需求、硬件/软件/策略约束、亲和性和反亲和性规范、数据位置、工作负载间的干扰和最后时限。</p>
-<h3 id="kube-controller-manager"><a href="#kube-controller-manager" class="headerlink" title="kube-controller-manager"></a>kube-controller-manager</h3><p>在主节点上运行<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>的组件。</p>
-<p>从逻辑上讲，每个<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>都是一个单独的进程，但是为了降低复杂性，它们都被编译到同一个可执行文件，并在一个进程中运行。</p>
-<p>这些控制器包括:</p>
-<ul>
-<li>节点控制器（Node Controller）: 负责在节点出现故障时进行通知和响应。</li>
-<li>副本控制器（Replication Controller）: 负责为系统中的每个副本控制器对象维护正确数量的 Pod。</li>
-<li>端点控制器（Endpoints Controller）: 填充端点(Endpoints)对象(即加入 Service 与 Pod)。</li>
-<li>服务帐户和令牌控制器（Service Account &amp; Token Controllers）: 为新的命名空间创建默认帐户和 API 访问令牌.</li>
-</ul>
-<h3 id="cloud-controller-manager"><a href="#cloud-controller-manager" class="headerlink" title="cloud-controller-manager"></a>cloud-controller-manager</h3><p>云控制器管理器是 1.8 的 alpha 特性。在未来发布的版本中，这是将 Kubernetes 与任何其他云集成的最佳方式。</p>
-<p><code>cloud-controller-manager</code> 进运行特定于云平台的控制回路。 如果你在自己的环境中运行 Kubernetes，或者在本地计算机中运行学习环境， 所部属的环境中不需要云控制器管理器。</p>
-<p>与 <code>kube-controller-manager</code> 类似，<code>cloud-controller-manager</code> 将若干逻辑上独立的 控制回路组合到同一个可执行文件中，供你以同一进程的方式运行。 你可以对其执行水平扩容（运行不止一个副本）以提升性能或者增强容错能力。</p>
-<p>下面的控制器都包含对云平台驱动的依赖：</p>
-<ul>
-<li>节点控制器（Node Controller）: 用于在节点终止响应后检查云提供商以确定节点是否已被删除</li>
-<li>路由控制器（Route Controller）: 用于在底层云基础架构中设置路由</li>
-<li>服务控制器（Service Controller）: 用于创建、更新和删除云提供商负载均衡器</li>
-</ul>
-<h2 id="Node-组件"><a href="#Node-组件" class="headerlink" title="Node 组件"></a>Node 组件</h2><p>节点组件在每个节点上运行，维护运行的 Pod 并提供 Kubernetes 运行环境。</p>
-<h3 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h3><p>一个在集群中每个节点上运行的代理。它保证容器都运行在 Pod 中。</p>
-<p>kubelet 接收一组通过各类机制提供给它的 PodSpecs，确保这些 PodSpecs 中描述的容器处于运行状态且健康。kubelet 不会管理不是由 Kubernetes 创建的容器。</p>
-<h3 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h3><p><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/" target="_blank" rel="noopener">kube-proxy</a> 是集群中每个节点上运行的网络代理,实现 Kubernetes <a href="https://kubernetes.io/zh/docs/concepts/services-networking/service/" target="_blank" rel="noopener">Service</a> 概念的一部分。</p>
-<p>kube-proxy 维护节点上的网络规则。这些网络规则允许从集群内部或外部的网络会话与 Pod 进行网络通信。</p>
-<p>如果操作系统提供了数据包过滤层并可用的话，kube-proxy会通过它来实现网络规则。否则，kube-proxy 仅转发流量本身。</p>
-<h3 id="容器运行时（Container-Runtime）"><a href="#容器运行时（Container-Runtime）" class="headerlink" title="容器运行时（Container Runtime）"></a>容器运行时（Container Runtime）</h3><p>容器运行环境是负责运行容器的软件。</p>
-<p>Kubernetes 支持多个容器运行环境: <a href="http://www.docker.com/" target="_blank" rel="noopener">Docker</a>、 <a href="https://containerd.io/" target="_blank" rel="noopener">containerd</a>、<a href="https://cri-o.io/" target="_blank" rel="noopener">cri-o</a>、 <a href="https://github.com/kubernetes-incubator/rktlet" target="_blank" rel="noopener">rktlet</a> 以及任何实现 <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md" target="_blank" rel="noopener">Kubernetes CRI (容器运行环境接口)</a>。</p>
-<h2 id="插件（Addons）"><a href="#插件（Addons）" class="headerlink" title="插件（Addons）"></a>插件（Addons）</h2><p>插件使用 Kubernetes 资源（<a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/daemonset/" target="_blank" rel="noopener">DaemonSet</a>、 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="noopener">Deployment</a>等）实现集群功能。 因为这些插件提供集群级别的功能，插件中命名空间域的资源属于 <code>kube-system</code> 命名空间。</p>
-<p>下面描述众多插件中的几种。有关可用插件的完整列表，请参见 <a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/addons/" target="_blank" rel="noopener">插件（Addons）</a>。</p>
-<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>尽管其他插件都并非严格意义上的必需组件，但几乎所有 Kubernetes 集群都应该 有<a href="https://kubernetes.io/zh/docs/concepts/services-networking/dns-pod-service/" target="_blank" rel="noopener">集群 DNS</a>， 因为很多示例都需要 DNS 服务。</p>
-<p>集群 DNS 是一个 DNS 服务器，和环境中的其他 DNS 服务器一起工作，它为 Kubernetes 服务提供 DNS 记录。</p>
-<p>Kubernetes 启动的容器自动将此 DNS 服务器包含在其 DNS 搜索列表中。</p>
-<h3 id="Web-界面（仪表盘）"><a href="#Web-界面（仪表盘）" class="headerlink" title="Web 界面（仪表盘）"></a>Web 界面（仪表盘）</h3><p><a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/web-ui-dashboard/" target="_blank" rel="noopener">Dashboard</a> 是K ubernetes 集群的通用的、基于 Web 的用户界面。 它使用户可以管理集群中运行的应用程序以及集群本身并进行故障排除。</p>
-<h3 id="容器资源监控"><a href="#容器资源监控" class="headerlink" title="容器资源监控"></a>容器资源监控</h3><p><a href="https://kubernetes.io/zh/docs/tasks/debug-application-cluster/resource-usage-monitoring/" target="_blank" rel="noopener">容器资源监控</a> 将关于容器的一些常见的时间序列度量值保存到一个集中的数据库中，并提供用于浏览这些数据的界面。</p>
-<h3 id="集群层面日志"><a href="#集群层面日志" class="headerlink" title="集群层面日志"></a>集群层面日志</h3><p><a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/logging/" target="_blank" rel="noopener">集群层面日志</a> 机制负责将容器的日志数据 保存到一个集中的日志存储中，该存储能够提供搜索和浏览接口。</p>
+                <h4 id="阿里云FAAS入门"><a href="#阿里云FAAS入门" class="headerlink" title="阿里云FAAS入门"></a>阿里云<code>FAAS</code>入门</h4><blockquote>
+<blockquote>
+<p>阿里云地址：<a href="https://serverless.aliyun.com/" target="_blank" rel="noopener">https://serverless.aliyun.com/</a></p>
+</blockquote>
+<p>函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数计算会为您准备好计算资源，以弹性、可靠的方式运行您的代码。更棒的是，您只需要为代码实际运行消耗的资源付费 - 代码未运行则不产生费用。</p>
+</blockquote>
+<h5 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h5><p>教程地址：<a href="https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md" target="_blank" rel="noopener">https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md</a></p>
+<p>本文使用 Centos 7 搭建开发环境</p>
+<p><a href="https://imgchr.com/i/BzL49x" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/BzL49x.png" alt="BzL49x.png"></a></p>
+<h6 id="安装-fun"><a href="#安装-fun" class="headerlink" title="安装 fun"></a>安装 fun</h6><p>打开 Terminal ，在 bash/zsh 中依次执行如下命令</p>
+<pre class=" language-shell"><code class="language-shell"># 设置版本，请把下面更新为 https://github.com/aliyun/fun/releases 页面的最新版本
+$ FUN_VERISON="v3.6.18"
+
+# 下载到本地
+$ curl -o fun-linux.zip https://gosspublic.alicdn.com/fun/fun-$FUN_VERSION-linux.zip
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 32.2M  100 32.2M    0     0  2606k      0  0:00:12  0:00:12 --:--:-- 2376k
+
+# 解压 zip 文件
+$ unzip fun-linux.zip
+Archive:  fun-v3.6.18-linux.zip
+  inflating: fun-v3.6.18-linux
+
+# 移到 PATH 目录
+$ mv fun-*-linux /usr/local/bin/fun
+
+# 验证版本
+$ fun --version
+3.6.18</code></pre>
+<h6 id="配置-AccessKey"><a href="#配置-AccessKey" class="headerlink" title="配置 AccessKey"></a>配置 <code>AccessKey</code></h6><p>点击阿里云用户获取    账号ID</p>
+<p>点击阿里云账号用户下面的 <code>AccessKey</code> 管理</p>
+<p>获取 <code>AccessKey</code></p>
+<p>(请自行操作)</p>
+<pre class=" language-shell"><code class="language-shell">$ fun config
+# 填写上面获取的3个信息，然后进行配置</code></pre>
+<p><a href="https://imgchr.com/i/DSSOL6" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DSSOL6.png" alt="DSSOL6.png"></a></p>
+<h5 id="编译代码"><a href="#编译代码" class="headerlink" title="编译代码"></a>编译代码</h5><pre class=" language-shell"><code class="language-shell">编译
+$ GOARCH=amd64 G0os=linux go build -ldflags "-s -w"</code></pre>
+<pre class=" language-shell"><code class="language-shell">$ fun deploy -y
+
+################ 运行结果  ####################
+[cyy@cyy gotest]$ fun deploy -y
+current folder is not a fun project.
+Tips: 
+You must use 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"' to recompile your project every time before using fun deploy.
+? Let Fun exec this command now for you? Yes
+Executing command 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"'...
+
+Generating template.yml...
+Generate Fun project successfully!
+
+
+========= Fun will use 'fun deploy' to deploy your application to Function Compute! =========
+using region: cn-hangzhou
+using accountId: ***********0548
+using accessKeyId: ***********JqCU
+using timeout: 20
+
+Collecting your services information, in order to caculate devlopment changes...
+
+Resources Changes(Beta version! Only FC resources changes will be displayed):
+
+┌─────────────┬──────────────────────────────┬────────┬─────────────────────┐
+│ Resource    │ ResourceType                 │ Action │ Property            │
+├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
+│ gotest      │ Aliyun::Serverless::Service  │ Add    │ Description         │
+├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
+│             │                              │        │ Handler             │
+│             │                              │        ├─────────────────────┤
+│             │                              │        │ Runtime             │
+│             │                              │        ├─────────────────────┤
+│             │                              │        │ CodeUri             │
+│ gotest      │ Aliyun::Serverless::Function │ Add    ├─────────────────────┤
+│             │                              │        │ MemorySize          │
+│             │                              │        ├─────────────────────┤
+│             │                              │        │ InstanceConcurrency │
+│             │                              │        ├─────────────────────┤
+│             │                              │        │ Timeout             │
+├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
+│             │                              │        │ AuthType            │
+│ httpTrigger │ HTTP                         │ Add    ├─────────────────────┤
+│             │                              │        │ Methods             │
+└─────────────┴──────────────────────────────┴────────┴─────────────────────┘
+
+Waiting for service gotest to be deployed...
+    Waiting for function gotest to be deployed...
+        Waiting for packaging function gotest code...
+        The function gotest has been packaged. A total of 11 files were compressed and the final size was 4.37 MB
+        Waiting for HTTP trigger httpTrigger to be deployed...
+        triggerName: httpTrigger
+        methods: [ 'GET', 'POST', 'PUT' ]
+        trigger httpTrigger deploy success
+    function gotest deploy success
+service gotest deploy success
+
+Detect 'DomainName:Auto' of custom domain 'Domain'
+Request a new temporary domain ...
+The assigned temporary domain is http://35190470-1411357135230548.test.functioncompute.com，expired at 2020-11-22 22:14:30, limited by 1000 per day.
+Waiting for custom domain Domain to be deployed...
+custom domain Domain deploy success
+</code></pre>
+<h6 id="查看阿里云控制台"><a href="#查看阿里云控制台" class="headerlink" title="查看阿里云控制台"></a>查看阿里云控制台</h6><p><a href="https://imgchr.com/i/DS9A39" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9A39.png" alt="DS9A39.png"></a></p>
+<h6 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h6><p><a href="http://35190470-1411357135230548.test.functioncompute.com" target="_blank" rel="noopener">http://35190470-1411357135230548.test.functioncompute.com</a></p>
+<p><a href="https://imgchr.com/i/DS9aE8" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9aE8.png" alt="DS9aE8.png"></a></p>
 
             </div>
             <hr/>
@@ -513,7 +570,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
+                    <a href="/about" rel="external nofollow noreferrer">cyylog</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -523,7 +580,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/">https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</a>
+                    <a href="https://cyylog.github.io/2020/11/11/devops/golang/a-li-yun-faas-ru-men/">https://cyylog.github.io/2020/11/11/devops/golang/a-li-yun-faas-ru-men/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -536,7 +593,7 @@
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">Cyylog</a>
+                    <a href="/about" target="_blank">cyylog</a>
                     !
                 </span>
             </div>
@@ -561,8 +618,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Kubernetes/">
-                                    <span class="chip bg-color">Kubernetes</span>
+                                <a href="/tags/FAAS/">
+                                    <span class="chip bg-color">FAAS</span>
                                 </a>
                             
                         </div>
@@ -733,48 +790,52 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/">
+                <a href="/2020/11/11/devops/golang/a-li-yun-faas-ru-men/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Kubernetes架构-控制器">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="阿里云FAAS入门">
                         
-                        <span class="card-title">Kubernetes架构-控制器</span>
+                        <span class="card-title">阿里云FAAS入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            控制器在机器人技术和自动化领域，控制回路（Control Loop）是一个非终止回路，用于调节系统状态。
-这是一个控制环的例子：房间里的温度自动调节器。
-当你设置了温度，告诉了温度自动调节器你的期望状态（Desired State）。 房间
+                            阿里云FAAS入门
+
+阿里云地址：https://serverless.aliyun.com/
+
+函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                    微服务
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/FAAS/">
+                        <span class="chip bg-color">FAAS</span>
                     </a>
                     
                 </div>
@@ -788,32 +849,34 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/">
+                <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Shell脚本加密经验分享">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
                         
-                        <span class="card-title">Shell脚本加密经验分享</span>
+                        <span class="card-title">SQL语句优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为啥要加密shell脚本以我个人的需求为例，我要做一个自动远程登录的脚本，每次手动输密码太慢，而且输的多了密码也容易泄露；直接把密码写在脚本里，快确实是快，但是安全性让人无法忍受，写脚本的时候都有可能被过路的不小心看到密码，这就太蛋疼了。
+                            1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
+select id,name from userinfo where name like '%name%'
 
+select id,name from userinfo wher
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
                                 </a>
                             
                             
@@ -823,12 +886,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/Mysql/">
+                        <span class="chip bg-color">Mysql</span>
                     </a>
                     
-                    <a href="/tags/shell/">
-                        <span class="chip bg-color">shell</span>
+                    <a href="/tags/Interview/">
+                        <span class="chip bg-color">Interview</span>
                     </a>
                     
                 </div>
