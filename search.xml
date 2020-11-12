@@ -543,31 +543,6 @@
     
     
     <entry>
-      <title>python-fabric</title>
-      <link href="2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
-      <url>2020/05/31/devops/python-zhi-fabric-mo-kuai/</url>
-      
-        <content type="html"><![CDATA[<h3 id="python-之-fabric-模块"><a href="#python-之-fabric-模块" class="headerlink" title="python 之 fabric 模块"></a>python 之 fabric 模块</h3><p>Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。</p><pre><code># doc http://docs.fabfile.org/en/2.5/getting-started.html# pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</code></pre><h5 id="G站部署脚本-参考-示范"><a href="#G站部署脚本-参考-示范" class="headerlink" title="G站部署脚本 参考 示范"></a>G站部署脚本 参考 示范</h5><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> fabric <span class="token keyword">import</span> Connection<span class="token punctuation">,</span> task<span class="token keyword">from</span> fabric<span class="token punctuation">.</span>api <span class="token keyword">import</span> env<span class="token punctuation">,</span>hosts<span class="token punctuation">,</span>run<span class="token punctuation">,</span>execute@task<span class="token keyword">def</span> <span class="token function">deploy</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token keyword">with</span> Connection<span class="token punctuation">(</span><span class="token string">'root@x.x.x.x'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> c<span class="token punctuation">:</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"rm -rf giligili"</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"git clone https://github.com/bydmm/giligili.git"</span><span class="token punctuation">,</span> pty<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>put<span class="token punctuation">(</span><span class="token string">"docker-compose.yml"</span><span class="token punctuation">,</span> <span class="token string">"giligili/docker-compose.yml"</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"cd giligili &amp;&amp; docker-compose build &amp;&amp; docker-compose rm -fsv &amp;&amp; docker-compose up --build -d"</span><span class="token punctuation">,</span> pty<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"sleep 15 &amp;&amp; docker logs -f gili-api"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true"># doc http://docs.fabfile.org/en/2.5/getting-started.html</span><span class="token comment" spellcheck="true"># apt install python-pip</span><span class="token comment" spellcheck="true"># pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</span><span class="token comment" spellcheck="true"># fab deploy</span></code></pre><p>以上定义了pack和deploy两个任务，如果我们用Fabric部署，只需简单地输入两条命令：</p><pre><code>$ fab pack$ fab deploy</code></pre><p>Fabric提供几个简单的API来完成所有的部署，最常用的是local()和run()，分别在本地和远程执行命令，put()可以把本地文件上传到远程，当需要在远程指定当前目录时，只需用with cd(‘/path/to/dir/‘):即可。</p><p>默认情况下，当命令执行失败时，Fabric会停止执行后续命令。有时，我们允许忽略失败的命令继续执行，比如run(‘rm /tmp/abc’)在文件不存在的时候有可能失败，这时可以用with settings(warn_only=True):执行命令，这样Fabric只会打出警告信息而不会中断执行。</p><p>Fabric是如何在远程执行命令的呢？其实Fabric所有操作都是基于SSH执行的，必要时它会提示输入口令，所以非常安全。更好的办法是在指定的部署服务器上用证书配置无密码的ssh连接。</p><p>如果是基于团队开发，可以让Fabric利用版本库自动检出代码，自动执行测试、打包、部署的任务。由于Fabric运行的命令都是基本的Linux命令，所以根本不需要用Fabric本身来扩展，会敲Linux命令就能用Fabric部署。</p><p>利用Fabric部署Python、Ruby、PHP这样的非编译型网站应用非常方便，而对于编译型的Java、C#等就麻烦了，编译本身就是一个极其复杂的大工程，需要依赖特定工具或者IDE，很难做到自动化。</p><h4 id="fab命令常用参数"><a href="#fab命令常用参数" class="headerlink" title="fab命令常用参数"></a><strong>fab命令常用参数</strong></h4><pre class=" language-shell"><code class="language-shell"># fab --help   查看帮助## 常用参数-l 显示定义好的任务函数名-f 指定fab入口文件，默认入口文件名为fabfile.py.. 即指定fabfile文件-g 指定网关（中转）设备，即HOST逗号分隔要操作的主机, 比如堡垒机环境，填写堡垒机IP即可.-H 指定目标主机，多台主机用‘,’号分隔-p 远程账号的密码，fab执行时默认使用root账户-P 以异步并行方式运行多主机任务，默认为串行运行-R 指定role（角色），以角色名区分不同业务组设备-t 设置设备连接超时时间（秒）-T 设置远程主机命令执行超时时间（秒）-w 当命令执行失败，发出警告，而非默认中止任务。</code></pre><pre class=" language-shell"><code class="language-shell">其他参数:--set=KEY=VALUE,...   逗号分隔，设置环境变量--shortlist       简短打印可用命令-c PATH         指定本地配置文件-D           不加载用户known_hosts文件-i PATH         指定私钥文件-k           不加载来自~/.``ssh``下的私钥文件--port=PORT       指定SSH连接端口-R ROLES        根据角色操作，逗号分隔-s SHELL        指定新shell，默认是``'/bin/bash -l -c'--show=LEVELS      以逗号分隔的输出--ssh-config-path=PATH SSH配置文件路径-T N          设置远程命令超时时间，单位秒-u USER         连接远程主机用户名-x HOSTS        以逗号分隔排除主机-z INT         并发进程数</code></pre><h4 id="fabfile全局属性-env对象"><a href="#fabfile全局属性-env对象" class="headerlink" title="fabfile全局属性 (env对象)"></a>fabfile全局属性 (env对象)</h4><p><img src="https://s1.ax1x.com/2020/05/31/t1Gv3F.png" alt="t1Gv3F.png"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> DevOps </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Python </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Vue之入门篇_001</title>
       <link href="2020/05/31/devops/vue-ru-men-zhi-001/"/>
       <url>2020/05/31/devops/vue-ru-men-zhi-001/</url>
@@ -585,6 +560,31 @@
         <tags>
             
             <tag> Vue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>python-fabric</title>
+      <link href="2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
+      <url>2020/05/31/devops/python-zhi-fabric-mo-kuai/</url>
+      
+        <content type="html"><![CDATA[<h3 id="python-之-fabric-模块"><a href="#python-之-fabric-模块" class="headerlink" title="python 之 fabric 模块"></a>python 之 fabric 模块</h3><p>Fabric 是一个用 Python 开发的部署工具，最大特点是不用登录远程服务器，在本地运行远程命令，几行 Python 脚本就可以轻松部署。</p><pre><code># doc http://docs.fabfile.org/en/2.5/getting-started.html# pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</code></pre><h5 id="G站部署脚本-参考-示范"><a href="#G站部署脚本-参考-示范" class="headerlink" title="G站部署脚本 参考 示范"></a>G站部署脚本 参考 示范</h5><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> fabric <span class="token keyword">import</span> Connection<span class="token punctuation">,</span> task<span class="token keyword">from</span> fabric<span class="token punctuation">.</span>api <span class="token keyword">import</span> env<span class="token punctuation">,</span>hosts<span class="token punctuation">,</span>run<span class="token punctuation">,</span>execute@task<span class="token keyword">def</span> <span class="token function">deploy</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token keyword">with</span> Connection<span class="token punctuation">(</span><span class="token string">'root@x.x.x.x'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> c<span class="token punctuation">:</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"rm -rf giligili"</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"git clone https://github.com/bydmm/giligili.git"</span><span class="token punctuation">,</span> pty<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>put<span class="token punctuation">(</span><span class="token string">"docker-compose.yml"</span><span class="token punctuation">,</span> <span class="token string">"giligili/docker-compose.yml"</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"cd giligili &amp;&amp; docker-compose build &amp;&amp; docker-compose rm -fsv &amp;&amp; docker-compose up --build -d"</span><span class="token punctuation">,</span> pty<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>        c<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"sleep 15 &amp;&amp; docker logs -f gili-api"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true"># doc http://docs.fabfile.org/en/2.5/getting-started.html</span><span class="token comment" spellcheck="true"># apt install python-pip</span><span class="token comment" spellcheck="true"># pip install fabric -i http://mirrors.aliyun.com/pypi/simple/</span><span class="token comment" spellcheck="true"># fab deploy</span></code></pre><p>以上定义了pack和deploy两个任务，如果我们用Fabric部署，只需简单地输入两条命令：</p><pre><code>$ fab pack$ fab deploy</code></pre><p>Fabric提供几个简单的API来完成所有的部署，最常用的是local()和run()，分别在本地和远程执行命令，put()可以把本地文件上传到远程，当需要在远程指定当前目录时，只需用with cd(‘/path/to/dir/‘):即可。</p><p>默认情况下，当命令执行失败时，Fabric会停止执行后续命令。有时，我们允许忽略失败的命令继续执行，比如run(‘rm /tmp/abc’)在文件不存在的时候有可能失败，这时可以用with settings(warn_only=True):执行命令，这样Fabric只会打出警告信息而不会中断执行。</p><p>Fabric是如何在远程执行命令的呢？其实Fabric所有操作都是基于SSH执行的，必要时它会提示输入口令，所以非常安全。更好的办法是在指定的部署服务器上用证书配置无密码的ssh连接。</p><p>如果是基于团队开发，可以让Fabric利用版本库自动检出代码，自动执行测试、打包、部署的任务。由于Fabric运行的命令都是基本的Linux命令，所以根本不需要用Fabric本身来扩展，会敲Linux命令就能用Fabric部署。</p><p>利用Fabric部署Python、Ruby、PHP这样的非编译型网站应用非常方便，而对于编译型的Java、C#等就麻烦了，编译本身就是一个极其复杂的大工程，需要依赖特定工具或者IDE，很难做到自动化。</p><h4 id="fab命令常用参数"><a href="#fab命令常用参数" class="headerlink" title="fab命令常用参数"></a><strong>fab命令常用参数</strong></h4><pre class=" language-shell"><code class="language-shell"># fab --help   查看帮助## 常用参数-l 显示定义好的任务函数名-f 指定fab入口文件，默认入口文件名为fabfile.py.. 即指定fabfile文件-g 指定网关（中转）设备，即HOST逗号分隔要操作的主机, 比如堡垒机环境，填写堡垒机IP即可.-H 指定目标主机，多台主机用‘,’号分隔-p 远程账号的密码，fab执行时默认使用root账户-P 以异步并行方式运行多主机任务，默认为串行运行-R 指定role（角色），以角色名区分不同业务组设备-t 设置设备连接超时时间（秒）-T 设置远程主机命令执行超时时间（秒）-w 当命令执行失败，发出警告，而非默认中止任务。</code></pre><pre class=" language-shell"><code class="language-shell">其他参数:--set=KEY=VALUE,...   逗号分隔，设置环境变量--shortlist       简短打印可用命令-c PATH         指定本地配置文件-D           不加载用户known_hosts文件-i PATH         指定私钥文件-k           不加载来自~/.``ssh``下的私钥文件--port=PORT       指定SSH连接端口-R ROLES        根据角色操作，逗号分隔-s SHELL        指定新shell，默认是``'/bin/bash -l -c'--show=LEVELS      以逗号分隔的输出--ssh-config-path=PATH SSH配置文件路径-T N          设置远程命令超时时间，单位秒-u USER         连接远程主机用户名-x HOSTS        以逗号分隔排除主机-z INT         并发进程数</code></pre><h4 id="fabfile全局属性-env对象"><a href="#fabfile全局属性-env对象" class="headerlink" title="fabfile全局属性 (env对象)"></a>fabfile全局属性 (env对象)</h4><p><img src="https://s1.ax1x.com/2020/05/31/t1Gv3F.png" alt="t1Gv3F.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> DevOps </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Python </tag>
             
         </tags>
       
