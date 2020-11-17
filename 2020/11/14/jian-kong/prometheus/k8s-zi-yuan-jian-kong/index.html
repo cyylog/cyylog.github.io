@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="docker-网络模式, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="k8s资源监控, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>docker-网络模式 | 无雨小站</title>
+    <title>k8s资源监控 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">docker-网络模式</h1>
+                    <h1 class="description center-align post-title">k8s资源监控</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Linux/">
-                                <span class="chip bg-color">Linux</span>
-                            </a>
-                        
-                            <a href="/tags/Docker/">
-                                <span class="chip bg-color">Docker</span>
+                            <a href="/tags/Prometheus/">
+                                <span class="chip bg-color">Prometheus</span>
                             </a>
                         
                     </div>
@@ -425,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Interview/" class="post-category">
-                                Interview
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                监控
                             </a>
                         
                     </div>
@@ -438,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-16
+                    2020-11-14
                 </div>
                 
 
@@ -454,57 +450,182 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="Docker四种网络模式"><a href="#Docker四种网络模式" class="headerlink" title="Docker四种网络模式"></a>Docker四种网络模式</h3><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Docker使用Linux桥接（参考<a href="https://www.jianshu.com/p/f86d4b88777d" target="_blank" rel="noopener">《Linux虚拟网络技术》</a>），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Container-IP，同时Docker网桥是每个容器的默认网关。因为在同一宿主机内的容器都接入同一个网桥，这样容器之间就能够通过容器的Container-IP直接通信。</p>
-<p>Docker网桥是宿主机虚拟出来的，并不是真实存在的网络设备，外部网络是无法寻址到的，这也意味着外部网络无法通过直接Container-IP访问到容器。如果容器希望外部访问能够访问到，可以通过映射容器端口到宿主主机（端口映射），即docker run创建容器时候通过 -p 或 -P 参数来启用，访问容器的时候就通过[宿主机IP]:[容器端口]访问容器。</p>
-<h4 id="四类网络模式"><a href="#四类网络模式" class="headerlink" title="四类网络模式"></a>四类网络模式</h4><table>
-<thead>
-<tr>
-<th>Docker网络模式</th>
-<th>配置</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>host模式</td>
-<td>–net=host</td>
-<td>容器和宿主机共享Network namespace。</td>
-</tr>
-<tr>
-<td>container模式</td>
-<td>–net=container:NAME_or_ID</td>
-<td>容器和另外一个容器共享Network namespace。 kubernetes中的pod就是多个容器共享一个Network namespace。</td>
-</tr>
-<tr>
-<td>none模式</td>
-<td>–net=none</td>
-<td>容器有独立的Network namespace，但并没有对其进行任何网络设置，如分配veth pair 和网桥连接，配置IP等。</td>
-</tr>
-<tr>
-<td>bridge模式</td>
-<td>–net=bridge</td>
-<td>（默认为该模式）</td>
-</tr>
-</tbody></table>
-<h5 id="host模式"><a href="#host模式" class="headerlink" title="host模式"></a>host模式</h5><p>如果启动容器的时候使用host模式，那么这个容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。</p>
-<p>使用host模式的容器可以直接使用宿主机的IP地址与外界通信，容器内部的服务端口也可以使用宿主机的端口，不需要进行NAT，host最大的优势就是网络性能比较好，但是docker host上已经使用的端口就不能再用了，网络的隔离性不好。</p>
-<p>Host模式如下图所示：</p>
-<p><a href="https://imgchr.com/i/DVgnLF" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgnLF.png" alt="DVgnLF.png"></a></p>
-<p>Host模式</p>
-<h5 id="container模式"><a href="#container模式" class="headerlink" title="container模式"></a>container模式</h5><p>这个模式指定新创建的容器和已经存在的一个容器共享一个 Network Namespace，而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。</p>
-<p>Container模式示意图：</p>
-<p><a href="https://imgchr.com/i/DVgMdJ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgMdJ.png" alt="DVgMdJ.png"></a></p>
-<p>Container网络模式</p>
-<h5 id="none模式"><a href="#none模式" class="headerlink" title="none模式"></a>none模式</h5><p>使用none模式，Docker容器拥有自己的Network Namespace，但是，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。</p>
-<p>这种网络模式下容器只有lo回环网络，没有其他网卡。none模式可以在容器创建时通过–network=none来指定。这种类型的网络没有办法联网，封闭的网络能很好的保证容器的安全性。</p>
-<p>None模式示意图:</p>
-<p><a href="https://imgchr.com/i/DVg3J1" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVg3J1.png" alt="DVg3J1.png"></a></p>
-<p>None网络模式</p>
-<h5 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h5><p>当Docker进程启动时，会在主机上创建一个名为docker0的虚拟网桥，此主机上启动的Docker容器会连接到这个虚拟网桥上。虚拟网桥的工作方式和物理交换机类似，这样主机上的所有容器就通过交换机连在了一个二层网络中。</p>
-<p>从docker0子网中分配一个IP给容器使用，并设置docker0的IP地址为容器的默认网关。在主机上创建一对虚拟网卡veth pair设备，Docker将veth pair设备的一端放在新创建的容器中，并命名为eth0（容器的网卡），另一端放在主机中，以vethxxx这样类似的名字命名，并将这个网络设备加入到docker0网桥中。可以通过brctl show命令查看。</p>
-<p>bridge模式是docker的默认网络模式，不写–net参数，就是bridge模式。使用docker run -p时，docker实际是在iptables做了DNAT规则，实现端口转发功能。可以使用iptables -t nat -vnL查看。</p>
-<p>bridge模式如下图所示：</p>
-<p><a href="https://imgchr.com/i/DVgYQK" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgYQK.png" alt="DVgYQK.png"></a></p>
-<p>Docker的网络实现</p>
+                <h4 id="k8s-资源监控"><a href="#k8s-资源监控" class="headerlink" title="k8s 资源监控"></a>k8s 资源监控</h4><blockquote>
+<p><code>kubernetes</code>新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由<code>kubelet</code>、 <code>metric-server</code> 以及由<code>API-server</code>提供的<code>API</code>组成；负责<code>CPU</code>累积使用率、内存实时使用率、<code>POD</code>资源占用率、 <code>Container</code>磁盘占用率等。而第三方非核心监控流水线 负责从<code>OS</code>收集各种指标数据并提供给终端用户、存储系统、 以及<code>HPA</code>等。 监控系统收集两种指标： 资源指标与自定义指标。 </p>
+</blockquote>
+<blockquote>
+<p><strong><code>Metrics-server</code></strong> 是资源指标<code>API</code> 。它提供核心指标，包括<code>CPU</code>累积使用率、内存实时使用率、<code>Pod</code> 的资源占用率及 容器的磁盘占用率。这些指标由<code>kubelet</code>、<code>metrics-server</code>以及由<code>API server</code>提供的。 </p>
+</blockquote>
+<blockquote>
+<p><strong><code>Prometheus</code></strong>是自定义指标的提供者。它收集的数据还需要经过<code>kube-state-metrics</code>转换处理，再由 <code>k8s-prometheus-adapter</code> 输出为<code>metrics-ap</code>i 才能被 <code>kubernetes cluster</code> 所读取。用于从系统收集各种指标数据，并经过处理提供给 终端用户、存储系统以及 <code>HPA</code>，这些数据包括核心指标和许多非核心指标。</p>
+</blockquote>
+<blockquote>
+<p> <strong>资源指标**</strong><code>API</code>** 负责收集各种资源指标，但它需要扩展<code>APIServer</code> 。 可以利用 <code>aggregator</code> 将 <code>metrics-server</code> 与 <code>APIServer</code>进行聚合，达到扩展功能的效果。这样 就可以利用扩展的 <code>API Server</code> 功能(即资源指标<code>API</code>)进行收集 各种资源指标(1.8+支持)。<code>kubectl top</code> 、<code>HPA</code>等功能组件 必须依赖资源指标 <code>API</code> （早期版本它们依赖<code>heapster</code>）。 </p>
+</blockquote>
+<blockquote>
+<p><strong>``HPA`</strong>根据<code>CPU</code>、<code>Memory</code>、<code>IO</code>、<code>net connections</code>等指标进行扩展或收缩(早期的<code>heapster</code>只能提供<code>CPU</code>、<code>Memory</code>指标) </p>
+</blockquote>
+<h5 id="一、metrics-server"><a href="#一、metrics-server" class="headerlink" title="一、metrics-server"></a><strong>一、</strong>metrics-server</h5><blockquote>
+<p>是托管在kubernetes cluster上的一个Pod ，再由 kube-aggregator 将它和原API Server 进行聚合，达到扩展API 的 效果。它是现在 kubectl top 、HPA的前提依赖。 </p>
+</blockquote>
+<p><strong>部署**</strong><code>metrics-server</code>** 如下： </p>
+<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server</a> </p>
+<p>当metrics-server部署完毕后，如上所示可以查看到 metrics相关的API，并且可以使用kubectl top 命令查看node或 pod的资源占用情况 。 </p>
+<p><strong>如果需要安装最新版本可以</strong> </p>
+<p><code>git clone https://github.com/kubernetes-incubator/metrics-server.git</code> </p>
+<p><code>cd metrics-server/deploy/1.8+/</code>     </p>
+<p><code>kubectl apply -f ./</code> </p>
+<p><strong>如果发现</strong><code>metrics-server</code><strong>的</strong><code>pod</code>可以正常启动，但在执行<strong>kubectl top node</strong>时提示<strong><code>metrics-server</code></strong> <strong>不可用</strong>，在执行 <code>kubectl log metrics-server-* -n kube-system</code> 时有错 误提示，很可能是因为：<code>resource-reader.yaml</code> 文件中 <code>ClusterRole</code> 的<code>rules</code>中缺少 <code>namespaces</code> 权限，以及<code>metrics-server-deployment.yaml</code>文件中<code>container</code>下缺少以下语句，以忽略<code>tls</code>认证。 </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">command</span><span class="token punctuation">:</span>
+   <span class="token punctuation">-</span> /metrics<span class="token punctuation">-</span>server
+   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>insecure<span class="token punctuation">-</span>tls
+   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>preferred<span class="token punctuation">-</span>address<span class="token punctuation">-</span>types=InternalIP</code></pre>
+<h5 id="二、Prometheus"><a href="#二、Prometheus" class="headerlink" title="二、Prometheus"></a>二、Prometheus</h5><p>官网 :   <a href="https://prometheus.io" target="_blank" rel="noopener">https://prometheus.io</a></p>
+<p>Architecture</p>
+<p><a href="https://imgchr.com/i/BNhGyF" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhGyF.png" alt="BNhGyF.png"></a></p>
+<blockquote>
+<p>Prometheus 通过node_exporter获取各<strong>Nodes</strong>的信息。 <strong>node_exporter**</strong>它只负责节点级别的信息汇总，如果需要** </p>
+<p><strong>采集其它指标数据，就需要部署专用的**</strong>exporter** 。 Prometheus 通过 metrics-url 地址到各<strong>Pods</strong>获取数据 。 </p>
+<p>prometheus 提供了一个Restful 风格的<strong>PromQL</strong>接口，可以让用户输入查询表达式。但K8s的 API Server 无法查询 </p>
+<p>其值 ，因为它们默认的数据格式不统一。数据需要<strong>kube-state-metrics</strong>组件将其处理、转换，然后由<strong>k8s</strong></p>
+<p><strong>prometheus-adapter</strong>组件读取并聚合到API上，最后 kubernetes cluster 的API server 才能识别。 所以<strong>各节点需</strong> </p>
+<p><strong>要部署**</strong>node_exporter** <strong>组件，然后**</strong>Prometheus<strong><strong>从各节点的</strong></strong>node_exporter<strong><strong>上获取</strong></strong>infomation<strong>**，然后就可以通过</strong> </p>
+<p><strong>PromQL</strong> <strong>查询各种数据。这些数据的格式再由**</strong>kube-state-metrics<strong><strong>组件进行转换，然后再由</strong></strong>kube-prometheus**</p>
+<p><strong>adapter**</strong>组件将转换后的数据输出为<strong>**Custom metrics API</strong> <strong>，并聚合到**</strong>API<strong>**上，以便用户使用</strong>。 </p>
+</blockquote>
+<p><a href="https://imgchr.com/i/BNhWFI" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhWFI.png" alt="BNhWFI.png"></a></p>
+<p><strong>部署**</strong>kubernetes**, 如下： </p>
+<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus</a> </p>
+<p><strong>1)</strong> <strong>定义名称空间</strong> </p>
+<pre class=" language-shell"><code class="language-shell">kubectl apply -f namespace.yaml</code></pre>
+<p><strong>2)</strong> <strong>部署**</strong>node_exporter**</p>
+<pre class=" language-shell"><code class="language-shell">cd node_exporter/ 
+kubectl apply -f ./</code></pre>
+<p><strong>3)</strong> <strong>部署**</strong>prometheus**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../prometheus/ 
+kubectl apply -f ./</code></pre>
+<p><strong>4)</strong> <strong>部署**</strong>kube-state-metrics**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../kube-state-metrics/ 
+kubectl apply -f ./</code></pre>
+<p><strong>5)</strong> <strong>部署**</strong>prometheus-adapter** </p>
+<p>参考 ：<a href="https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy" target="_blank" rel="noopener">https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy</a></p>
+<pre class=" language-shell"><code class="language-shell">cd ../k8s-prometheus-adapter/ 
+grep secretName custom-metrics-apiserver-deployment.yaml 
+cd /etc/kubernetes/pki/ 
+(umask 077; openssl genrsa -out serving.key 2048)
+openssl req -new -key serving.key -out serving.csr -subj "/CN=serving" 
+openssl x509 -req -in serving.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out serving.crt -days 3650 
+kubectl create secret generic cm-adapter-serving-certs --from-file=serving.crt=./serving.crt --from-file=serving.key=./serving.key -n prom kubectl get secret -n prom 
+cd - 
+kubectl apply -f ./</code></pre>
+<p><strong>6)</strong> <strong>部署**</strong>alertmanager**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../alertmanager/ 
+kubectl create secret generic dingtalk-secret --from- literal=token=fasdfsfsdfgsdfg944dsfgsdfgsadfsdfgsdfgsdfgsdfgsdfgsdfgsdfgfasert -n prom 
+kubectl apply -f ./</code></pre>
+<p>钉钉报警参考：<a href="https://github.com/cnych/alertmanager-dingtalk-hook" target="_blank" rel="noopener">https://github.com/cnych/alertmanager-dingtalk-hook</a></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">route</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">group_by</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'alertname'</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 报警分组依据 </span>
+  <span class="token key atrule">group_wait</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 最初即第一次等待多久时间发送一组警报的通知 </span>
+  <span class="token key atrule">group_interval</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 在发送新警报前的等待时间 </span>
+  <span class="token key atrule">repeat_interval</span><span class="token punctuation">:</span> 5m <span class="token comment" spellcheck="true"># 发送重复警报的周期 对于email配置中，此项不可以设置过低，否则将会由于邮件发送太 多频繁，被smtp服务器拒绝 </span>
+  <span class="token key atrule">receiver</span><span class="token punctuation">:</span> <span class="token string">'email'</span> <span class="token comment" spellcheck="true"># 发送警报的接收者的名称，以下receivers name的名称</span></code></pre>
+<h5 id="三、-Grafana"><a href="#三、-Grafana" class="headerlink" title="三、**Grafana**"></a><strong>三、**</strong>Grafana**</h5><blockquote>
+<p>grafana 是一个可视化面板，有着非常漂亮的图表和布局展示，功能齐全的度量仪表盘和图形编辑器，支持 Graphite、zabbix、InflfluxDB、Prometheus、OpenTSDB、Elasticsearch 等作为数据源，比 Prometheus 自带的 图表展示功能强大太多，更加灵活，有丰富的插件，功能更加强大。(使用promQL语句查询出了一些数据，并且在 Prometheus 的 Dashboard 中进行了展示，但是明显可以感觉到 Prometheus 的图表功能相对较弱，所以一般会使用第三方的工具展示这些数据，例Grafana) </p>
+</blockquote>
+<p><strong>部署**</strong>Grafana** 参考 ：<a href="https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb" target="_blank" rel="noopener">https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb</a></p>
+<pre class=" language-shell"><code class="language-shell">cd grafana/ 
+kubectl apply -f grafana.yaml 
+kubectl get pods -n prom</code></pre>
+<blockquote>
+<p>Grafana的使用，默认用户名密码都是admin，登录后首先添加数据源 (如果登录grafana web 时不用输入用户名、 密码即可操作，说明在grafana.yml 文件中的GF_AUTH_ANONYMOUS_ENABLED 项设置了true，导致匿名用户以 admin的角色登录；将其更改为 false，然后再次kubectl apply -f grafana.yml 即可解决 )</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/BNtacT" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtacT.png" alt="BNtacT.png"></a></p>
+<h5 id="四、-Ingress-nginx"><a href="#四、-Ingress-nginx" class="headerlink" title="四、**Ingress-nginx**"></a><strong>四、**</strong>Ingress-nginx**</h5><pre class=" language-shell"><code class="language-shell"># cat ingress-rule-monitor-svc.yaml
+apiVersion: extensions/v1beta1 
+kind: Ingress 
+metadata: 
+  name: ingress-rule-monitor 
+  namespace: prom 
+  annotations: 
+    kubernetes.io/ingress.class: "nginx" 
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 192.168.0.0/16" 
+spec: 
+  rules: 
+  - host: grafana-devel.domain.cn 
+    http: 
+      paths: 
+      - path: /v1
+        backend: 
+          serviceName: monitoring-grafana 
+          servicePort: 80 
+  - host: prometheus-devel.domain.cn 
+    http: 
+      paths: 
+      - path: /v1
+        backend: 
+          serviceName: prometheus 
+          servicePort: 9090 
+
+# kubectl apply -f ingress-rule-monitor-svc.yaml</code></pre>
+<h5 id="五、-Exporters-and-integrations"><a href="#五、-Exporters-and-integrations" class="headerlink" title="五、**Exporters and integrations**"></a><strong>五、**</strong>Exporters and integrations**</h5><pre class=" language-shell"><code class="language-shell">--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx-svc 
+  labels: 
+    app: nginx 
+  annotations: 
+    prometheus.io/scrape: "true" 
+    prometheus.io/port: "9113" 
+spec: 
+  ports: 
+  - port: 80 
+    name: http 
+  - port: 443 
+    name: https 
+  - port: 9113
+    name: exporter-port
+  selector: 
+    app: nginx 
+    #type: NodePort 
+
+--- 
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: nginx 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: nginx 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx 
+      annotations: 
+        prometheus.io/scrape: "true" 
+        prometheus.io/port: "9113" 
+    spec: 
+      containers: 
+      - name: nginx 
+        image: nginx:latest 
+        imagePullPolicy: IfNotPresent 
+        ports: 
+        - containerPort: 80 
+          name: http 
+        - containerPort: 443 
+          name: https 
+      - name: nginx-exporter 
+        image: nikosch86/nginx_exporter:latest 
+        resources: 
+         requests: 
+           cpu: 100m 
+           memory: 100Mi 
+        ports: 
+        - containerPort: 9113 
+          name: exporter-port
+</code></pre>
 
             </div>
             <hr/>
@@ -530,7 +651,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/">https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/</a>
+                    <a href="https://cyylog.github.io/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">https://cyylog.github.io/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -568,12 +689,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Linux/">
-                                    <span class="chip bg-color">Linux</span>
-                                </a>
-                            
-                                <a href="/tags/Docker/">
-                                    <span class="chip bg-color">Docker</span>
+                                <a href="/tags/Prometheus/">
+                                    <span class="chip bg-color">Prometheus</span>
                                 </a>
                             
                         </div>
@@ -748,32 +865,35 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">
+                <a href="/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="k8s资源监控">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Kubernetes-二进制部署">
                         
-                        <span class="card-title">k8s资源监控</span>
+                        <span class="card-title">Kubernetes-二进制部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            k8s 资源监控
-kubernetes新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由kubelet、 metric-server 以及由API-server提供的API组成；负责CPU累积使用率、内存实时使
+                            安装1.1 生产环境可部署Kubernetes集群的两种方式
+目前生产部署Kubernetes集群主要有两种方式：
+目前生产部署Kubernetes集群主要有两种方式：
+· kubeadm
+Kubeadm是一个K8s部署工具，提供kubea
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-15
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
                                 </a>
                             
                             
@@ -783,8 +903,8 @@ kubernetes新一代的监控模型由：核心指标流水线和第三方非核�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Prometheus/">
-                        <span class="chip bg-color">Prometheus</span>
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
                     </a>
                     
                 </div>
