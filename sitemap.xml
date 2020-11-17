@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</loc>
+    <loc>https://cyylog.github.io/2020/11/17/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-17/</loc>
     
     <lastmod>2020-11-17</lastmod>
     
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/</loc>
+    <loc>https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</loc>
     
-    <lastmod>2020-11-14</lastmod>
+    <lastmod>2020-11-17</lastmod>
     
   </url>
   
@@ -585,7 +585,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Python/</loc>
+    <loc>https://cyylog.github.io/tags/Go/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -593,6 +593,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Gitlab/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Python/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -613,13 +620,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Go/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -628,6 +628,20 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Linux/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Ansible/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/NFS/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -662,6 +676,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/iptables/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -683,20 +704,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Ansible/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/iptables/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Docker/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -704,7 +711,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/NFS/</loc>
+    <loc>https://cyylog.github.io/tags/KVM/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -719,13 +726,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Kubernetes-err/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/KVM/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -818,14 +818,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/SQL/</loc>
+    <loc>https://cyylog.github.io/categories/Tools/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/Tools/</loc>
+    <loc>https://cyylog.github.io/categories/SQL/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

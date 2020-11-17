@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-17T05:39:54.894Z</updated>
+  <updated>2020-11-17T06:20:45.482Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes-二进制部署</title>
+    <link href="https://cyylog.github.io/2020/11/17/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-17/"/>
+    <id>https://cyylog.github.io/2020/11/17/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-17/</id>
+    <published>2020-11-17T04:24:13.000Z</published>
+    <updated>2020-11-17T06:20:45.482Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h4&gt;&lt;h5 id=&quot;1-1-生产环境&quot;&gt;&lt;a href=&quot;#1-1-生产环境&quot; class=&quot;headerlink&quot; title=&quot;1.1</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>k8s资源监控</title>
@@ -120,31 +145,6 @@
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
     <category term="Kubernetes-err" scheme="https://cyylog.github.io/tags/Kubernetes-err/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes-二进制部署</title>
-    <link href="https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/"/>
-    <id>https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/</id>
-    <published>2020-11-04T18:24:13.000Z</published>
-    <updated>2020-11-14T13:10:48.517Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;⚙️-Deploy-the-Kubernetes-cluster&quot;&gt;&lt;a href=&quot;#⚙️-Deploy-the-Kubernetes-cluster&quot; class=&quot;headerlink&quot; title=&quot;⚙️ Deploy the Kubernetes</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
