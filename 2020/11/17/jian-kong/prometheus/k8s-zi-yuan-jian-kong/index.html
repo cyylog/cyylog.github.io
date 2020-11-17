@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="阿里云FAAS入门, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="k8s资源监控, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>阿里云FAAS入门 | 无雨小站</title>
+    <title>k8s资源监控 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">阿里云FAAS入门</h1>
+                    <h1 class="description center-align post-title">k8s资源监控</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/FAAS/">
-                                <span class="chip bg-color">FAAS</span>
-                            </a>
-                        
-                            <a href="/tags/go/">
-                                <span class="chip bg-color">go</span>
+                            <a href="/tags/Prometheus/">
+                                <span class="chip bg-color">Prometheus</span>
                             </a>
                         
                     </div>
@@ -425,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
-                                微服务
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                监控
                             </a>
                         
                     </div>
@@ -438,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-12
+                    2020-11-17
                 </div>
                 
 
@@ -454,111 +450,182 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="阿里云FAAS入门"><a href="#阿里云FAAS入门" class="headerlink" title="阿里云FAAS入门"></a>阿里云<code>FAAS</code>入门</h4><blockquote>
+                <h4 id="k8s-资源监控"><a href="#k8s-资源监控" class="headerlink" title="k8s 资源监控"></a>k8s 资源监控</h4><blockquote>
+<p><code>kubernetes</code>新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由<code>kubelet</code>、 <code>metric-server</code> 以及由<code>API-server</code>提供的<code>API</code>组成；负责<code>CPU</code>累积使用率、内存实时使用率、<code>POD</code>资源占用率、 <code>Container</code>磁盘占用率等。而第三方非核心监控流水线 负责从<code>OS</code>收集各种指标数据并提供给终端用户、存储系统、 以及<code>HPA</code>等。 监控系统收集两种指标： 资源指标与自定义指标。 </p>
+</blockquote>
 <blockquote>
-<p>阿里云地址：<a href="https://serverless.aliyun.com/" target="_blank" rel="noopener">https://serverless.aliyun.com/</a></p>
+<p><strong><code>Metrics-server</code></strong> 是资源指标<code>API</code> 。它提供核心指标，包括<code>CPU</code>累积使用率、内存实时使用率、<code>Pod</code> 的资源占用率及 容器的磁盘占用率。这些指标由<code>kubelet</code>、<code>metrics-server</code>以及由<code>API server</code>提供的。 </p>
 </blockquote>
-<p>函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数计算会为您准备好计算资源，以弹性、可靠的方式运行您的代码。更棒的是，您只需要为代码实际运行消耗的资源付费 - 代码未运行则不产生费用。</p>
+<blockquote>
+<p><strong><code>Prometheus</code></strong>是自定义指标的提供者。它收集的数据还需要经过<code>kube-state-metrics</code>转换处理，再由 <code>k8s-prometheus-adapter</code> 输出为<code>metrics-ap</code>i 才能被 <code>kubernetes cluster</code> 所读取。用于从系统收集各种指标数据，并经过处理提供给 终端用户、存储系统以及 <code>HPA</code>，这些数据包括核心指标和许多非核心指标。</p>
 </blockquote>
-<h5 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h5><p>教程地址：<a href="https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md" target="_blank" rel="noopener">https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md</a></p>
-<p>本文使用 Centos 7 搭建开发环境</p>
-<p><a href="https://imgchr.com/i/BzL49x" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/BzL49x.png" alt="BzL49x.png"></a></p>
-<h6 id="安装-fun"><a href="#安装-fun" class="headerlink" title="安装 fun"></a>安装 fun</h6><p>打开 Terminal ，在 bash/zsh 中依次执行如下命令</p>
-<pre class=" language-shell"><code class="language-shell"># 设置版本，请把下面更新为 https://github.com/aliyun/fun/releases 页面的最新版本
-$ FUN_VERISON="v3.6.18"
+<blockquote>
+<p> <strong>资源指标**</strong><code>API</code>** 负责收集各种资源指标，但它需要扩展<code>APIServer</code> 。 可以利用 <code>aggregator</code> 将 <code>metrics-server</code> 与 <code>APIServer</code>进行聚合，达到扩展功能的效果。这样 就可以利用扩展的 <code>API Server</code> 功能(即资源指标<code>API</code>)进行收集 各种资源指标(1.8+支持)。<code>kubectl top</code> 、<code>HPA</code>等功能组件 必须依赖资源指标 <code>API</code> （早期版本它们依赖<code>heapster</code>）。 </p>
+</blockquote>
+<blockquote>
+<p><strong>``HPA`</strong>根据<code>CPU</code>、<code>Memory</code>、<code>IO</code>、<code>net connections</code>等指标进行扩展或收缩(早期的<code>heapster</code>只能提供<code>CPU</code>、<code>Memory</code>指标) </p>
+</blockquote>
+<h5 id="一、metrics-server"><a href="#一、metrics-server" class="headerlink" title="一、metrics-server"></a><strong>一、</strong>metrics-server</h5><blockquote>
+<p>是托管在kubernetes cluster上的一个Pod ，再由 kube-aggregator 将它和原API Server 进行聚合，达到扩展API 的 效果。它是现在 kubectl top 、HPA的前提依赖。 </p>
+</blockquote>
+<p><strong>部署**</strong><code>metrics-server</code>** 如下： </p>
+<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server</a> </p>
+<p>当metrics-server部署完毕后，如上所示可以查看到 metrics相关的API，并且可以使用kubectl top 命令查看node或 pod的资源占用情况 。 </p>
+<p><strong>如果需要安装最新版本可以</strong> </p>
+<p><code>git clone https://github.com/kubernetes-incubator/metrics-server.git</code> </p>
+<p><code>cd metrics-server/deploy/1.8+/</code>     </p>
+<p><code>kubectl apply -f ./</code> </p>
+<p><strong>如果发现</strong><code>metrics-server</code><strong>的</strong><code>pod</code>可以正常启动，但在执行<strong>kubectl top node</strong>时提示<strong><code>metrics-server</code></strong> <strong>不可用</strong>，在执行 <code>kubectl log metrics-server-* -n kube-system</code> 时有错 误提示，很可能是因为：<code>resource-reader.yaml</code> 文件中 <code>ClusterRole</code> 的<code>rules</code>中缺少 <code>namespaces</code> 权限，以及<code>metrics-server-deployment.yaml</code>文件中<code>container</code>下缺少以下语句，以忽略<code>tls</code>认证。 </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">command</span><span class="token punctuation">:</span>
+   <span class="token punctuation">-</span> /metrics<span class="token punctuation">-</span>server
+   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>insecure<span class="token punctuation">-</span>tls
+   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>preferred<span class="token punctuation">-</span>address<span class="token punctuation">-</span>types=InternalIP</code></pre>
+<h5 id="二、Prometheus"><a href="#二、Prometheus" class="headerlink" title="二、Prometheus"></a>二、Prometheus</h5><p>官网 :   <a href="https://prometheus.io" target="_blank" rel="noopener">https://prometheus.io</a></p>
+<p>Architecture</p>
+<p><a href="https://imgchr.com/i/BNhGyF" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhGyF.png" alt="BNhGyF.png"></a></p>
+<blockquote>
+<p>Prometheus 通过node_exporter获取各<strong>Nodes</strong>的信息。 <strong>node_exporter**</strong>它只负责节点级别的信息汇总，如果需要** </p>
+<p><strong>采集其它指标数据，就需要部署专用的**</strong>exporter** 。 Prometheus 通过 metrics-url 地址到各<strong>Pods</strong>获取数据 。 </p>
+<p>prometheus 提供了一个Restful 风格的<strong>PromQL</strong>接口，可以让用户输入查询表达式。但K8s的 API Server 无法查询 </p>
+<p>其值 ，因为它们默认的数据格式不统一。数据需要<strong>kube-state-metrics</strong>组件将其处理、转换，然后由<strong>k8s</strong></p>
+<p><strong>prometheus-adapter</strong>组件读取并聚合到API上，最后 kubernetes cluster 的API server 才能识别。 所以<strong>各节点需</strong> </p>
+<p><strong>要部署**</strong>node_exporter** <strong>组件，然后**</strong>Prometheus<strong><strong>从各节点的</strong></strong>node_exporter<strong><strong>上获取</strong></strong>infomation<strong>**，然后就可以通过</strong> </p>
+<p><strong>PromQL</strong> <strong>查询各种数据。这些数据的格式再由**</strong>kube-state-metrics<strong><strong>组件进行转换，然后再由</strong></strong>kube-prometheus**</p>
+<p><strong>adapter**</strong>组件将转换后的数据输出为<strong>**Custom metrics API</strong> <strong>，并聚合到**</strong>API<strong>**上，以便用户使用</strong>。 </p>
+</blockquote>
+<p><a href="https://imgchr.com/i/BNhWFI" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhWFI.png" alt="BNhWFI.png"></a></p>
+<p><strong>部署**</strong>kubernetes**, 如下： </p>
+<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus</a> </p>
+<p><strong>1)</strong> <strong>定义名称空间</strong> </p>
+<pre class=" language-shell"><code class="language-shell">kubectl apply -f namespace.yaml</code></pre>
+<p><strong>2)</strong> <strong>部署**</strong>node_exporter**</p>
+<pre class=" language-shell"><code class="language-shell">cd node_exporter/ 
+kubectl apply -f ./</code></pre>
+<p><strong>3)</strong> <strong>部署**</strong>prometheus**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../prometheus/ 
+kubectl apply -f ./</code></pre>
+<p><strong>4)</strong> <strong>部署**</strong>kube-state-metrics**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../kube-state-metrics/ 
+kubectl apply -f ./</code></pre>
+<p><strong>5)</strong> <strong>部署**</strong>prometheus-adapter** </p>
+<p>参考 ：<a href="https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy" target="_blank" rel="noopener">https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy</a></p>
+<pre class=" language-shell"><code class="language-shell">cd ../k8s-prometheus-adapter/ 
+grep secretName custom-metrics-apiserver-deployment.yaml 
+cd /etc/kubernetes/pki/ 
+(umask 077; openssl genrsa -out serving.key 2048)
+openssl req -new -key serving.key -out serving.csr -subj "/CN=serving" 
+openssl x509 -req -in serving.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out serving.crt -days 3650 
+kubectl create secret generic cm-adapter-serving-certs --from-file=serving.crt=./serving.crt --from-file=serving.key=./serving.key -n prom kubectl get secret -n prom 
+cd - 
+kubectl apply -f ./</code></pre>
+<p><strong>6)</strong> <strong>部署**</strong>alertmanager**</p>
+<pre class=" language-shell"><code class="language-shell">cd ../alertmanager/ 
+kubectl create secret generic dingtalk-secret --from- literal=token=fasdfsfsdfgsdfg944dsfgsdfgsadfsdfgsdfgsdfgsdfgsdfgsdfgsdfgfasert -n prom 
+kubectl apply -f ./</code></pre>
+<p>钉钉报警参考：<a href="https://github.com/cnych/alertmanager-dingtalk-hook" target="_blank" rel="noopener">https://github.com/cnych/alertmanager-dingtalk-hook</a></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">route</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">group_by</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'alertname'</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 报警分组依据 </span>
+  <span class="token key atrule">group_wait</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 最初即第一次等待多久时间发送一组警报的通知 </span>
+  <span class="token key atrule">group_interval</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 在发送新警报前的等待时间 </span>
+  <span class="token key atrule">repeat_interval</span><span class="token punctuation">:</span> 5m <span class="token comment" spellcheck="true"># 发送重复警报的周期 对于email配置中，此项不可以设置过低，否则将会由于邮件发送太 多频繁，被smtp服务器拒绝 </span>
+  <span class="token key atrule">receiver</span><span class="token punctuation">:</span> <span class="token string">'email'</span> <span class="token comment" spellcheck="true"># 发送警报的接收者的名称，以下receivers name的名称</span></code></pre>
+<h5 id="三、-Grafana"><a href="#三、-Grafana" class="headerlink" title="三、**Grafana**"></a><strong>三、**</strong>Grafana**</h5><blockquote>
+<p>grafana 是一个可视化面板，有着非常漂亮的图表和布局展示，功能齐全的度量仪表盘和图形编辑器，支持 Graphite、zabbix、InflfluxDB、Prometheus、OpenTSDB、Elasticsearch 等作为数据源，比 Prometheus 自带的 图表展示功能强大太多，更加灵活，有丰富的插件，功能更加强大。(使用promQL语句查询出了一些数据，并且在 Prometheus 的 Dashboard 中进行了展示，但是明显可以感觉到 Prometheus 的图表功能相对较弱，所以一般会使用第三方的工具展示这些数据，例Grafana) </p>
+</blockquote>
+<p><strong>部署**</strong>Grafana** 参考 ：<a href="https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb" target="_blank" rel="noopener">https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb</a></p>
+<pre class=" language-shell"><code class="language-shell">cd grafana/ 
+kubectl apply -f grafana.yaml 
+kubectl get pods -n prom</code></pre>
+<blockquote>
+<p>Grafana的使用，默认用户名密码都是admin，登录后首先添加数据源 (如果登录grafana web 时不用输入用户名、 密码即可操作，说明在grafana.yml 文件中的GF_AUTH_ANONYMOUS_ENABLED 项设置了true，导致匿名用户以 admin的角色登录；将其更改为 false，然后再次kubectl apply -f grafana.yml 即可解决 )</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/BNtacT" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtacT.png" alt="BNtacT.png"></a></p>
+<h5 id="四、-Ingress-nginx"><a href="#四、-Ingress-nginx" class="headerlink" title="四、**Ingress-nginx**"></a><strong>四、**</strong>Ingress-nginx**</h5><pre class=" language-shell"><code class="language-shell"># cat ingress-rule-monitor-svc.yaml
+apiVersion: extensions/v1beta1 
+kind: Ingress 
+metadata: 
+  name: ingress-rule-monitor 
+  namespace: prom 
+  annotations: 
+    kubernetes.io/ingress.class: "nginx" 
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 192.168.0.0/16" 
+spec: 
+  rules: 
+  - host: grafana-devel.domain.cn 
+    http: 
+      paths: 
+      - path: /v1
+        backend: 
+          serviceName: monitoring-grafana 
+          servicePort: 80 
+  - host: prometheus-devel.domain.cn 
+    http: 
+      paths: 
+      - path: /v1
+        backend: 
+          serviceName: prometheus 
+          servicePort: 9090 
 
-# 下载到本地
-$ curl -o fun-linux.zip https://gosspublic.alicdn.com/fun/fun-$FUN_VERSION-linux.zip
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 32.2M  100 32.2M    0     0  2606k      0  0:00:12  0:00:12 --:--:-- 2376k
+# kubectl apply -f ingress-rule-monitor-svc.yaml</code></pre>
+<h5 id="五、-Exporters-and-integrations"><a href="#五、-Exporters-and-integrations" class="headerlink" title="五、**Exporters and integrations**"></a><strong>五、**</strong>Exporters and integrations**</h5><pre class=" language-shell"><code class="language-shell">--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx-svc 
+  labels: 
+    app: nginx 
+  annotations: 
+    prometheus.io/scrape: "true" 
+    prometheus.io/port: "9113" 
+spec: 
+  ports: 
+  - port: 80 
+    name: http 
+  - port: 443 
+    name: https 
+  - port: 9113
+    name: exporter-port
+  selector: 
+    app: nginx 
+    #type: NodePort 
 
-# 解压 zip 文件
-$ unzip fun-linux.zip
-Archive:  fun-v3.6.18-linux.zip
-  inflating: fun-v3.6.18-linux
-
-# 移到 PATH 目录
-$ mv fun-*-linux /usr/local/bin/fun
-
-# 验证版本
-$ fun --version
-3.6.18</code></pre>
-<h6 id="配置-AccessKey"><a href="#配置-AccessKey" class="headerlink" title="配置 AccessKey"></a>配置 <code>AccessKey</code></h6><p>点击阿里云用户获取    账号ID</p>
-<p>点击阿里云账号用户下面的 <code>AccessKey</code> 管理</p>
-<p>获取 <code>AccessKey</code></p>
-<p>(请自行操作)</p>
-<pre class=" language-shell"><code class="language-shell">$ fun config
-# 填写上面获取的3个信息，然后进行配置</code></pre>
-<p><a href="https://imgchr.com/i/DSSOL6" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DSSOL6.png" alt="DSSOL6.png"></a></p>
-<h5 id="编译代码"><a href="#编译代码" class="headerlink" title="编译代码"></a>编译代码</h5><pre class=" language-shell"><code class="language-shell">编译
-$ GOARCH=amd64 G0os=linux go build -ldflags "-s -w"</code></pre>
-<pre class=" language-shell"><code class="language-shell">$ fun deploy -y
-
-################ 运行结果  ####################
-[cyy@cyy gotest]$ fun deploy -y
-current folder is not a fun project.
-Tips: 
-You must use 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"' to recompile your project every time before using fun deploy.
-? Let Fun exec this command now for you? Yes
-Executing command 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"'...
-
-Generating template.yml...
-Generate Fun project successfully!
-
-
-========= Fun will use 'fun deploy' to deploy your application to Function Compute! =========
-using region: cn-hangzhou
-using accountId: ***********0548
-using accessKeyId: ***********JqCU
-using timeout: 20
-
-Collecting your services information, in order to caculate devlopment changes...
-
-Resources Changes(Beta version! Only FC resources changes will be displayed):
-
-┌─────────────┬──────────────────────────────┬────────┬─────────────────────┐
-│ Resource    │ ResourceType                 │ Action │ Property            │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│ gotest      │ Aliyun::Serverless::Service  │ Add    │ Description         │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│             │                              │        │ Handler             │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ Runtime             │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ CodeUri             │
-│ gotest      │ Aliyun::Serverless::Function │ Add    ├─────────────────────┤
-│             │                              │        │ MemorySize          │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ InstanceConcurrency │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ Timeout             │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│             │                              │        │ AuthType            │
-│ httpTrigger │ HTTP                         │ Add    ├─────────────────────┤
-│             │                              │        │ Methods             │
-└─────────────┴──────────────────────────────┴────────┴─────────────────────┘
-
-Waiting for service gotest to be deployed...
-    Waiting for function gotest to be deployed...
-        Waiting for packaging function gotest code...
-        The function gotest has been packaged. A total of 11 files were compressed and the final size was 4.37 MB
-        Waiting for HTTP trigger httpTrigger to be deployed...
-        triggerName: httpTrigger
-        methods: [ 'GET', 'POST', 'PUT' ]
-        trigger httpTrigger deploy success
-    function gotest deploy success
-service gotest deploy success
-
-Detect 'DomainName:Auto' of custom domain 'Domain'
-Request a new temporary domain ...
-The assigned temporary domain is http://35190470-1411357135230548.test.functioncompute.com，expired at 2020-11-22 22:14:30, limited by 1000 per day.
-Waiting for custom domain Domain to be deployed...
-custom domain Domain deploy success
+--- 
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: nginx 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: nginx 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx 
+      annotations: 
+        prometheus.io/scrape: "true" 
+        prometheus.io/port: "9113" 
+    spec: 
+      containers: 
+      - name: nginx 
+        image: nginx:latest 
+        imagePullPolicy: IfNotPresent 
+        ports: 
+        - containerPort: 80 
+          name: http 
+        - containerPort: 443 
+          name: https 
+      - name: nginx-exporter 
+        image: nikosch86/nginx_exporter:latest 
+        resources: 
+         requests: 
+           cpu: 100m 
+           memory: 100Mi 
+        ports: 
+        - containerPort: 9113 
+          name: exporter-port
 </code></pre>
-<h6 id="查看阿里云控制台"><a href="#查看阿里云控制台" class="headerlink" title="查看阿里云控制台"></a>查看阿里云控制台</h6><p><a href="https://imgchr.com/i/DS9A39" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9A39.png" alt="DS9A39.png"></a></p>
-<h6 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h6><p><a href="http://35190470-1411357135230548.test.functioncompute.com" target="_blank" rel="noopener">http://35190470-1411357135230548.test.functioncompute.com</a></p>
-<p><a href="https://imgchr.com/i/DS9aE8" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9aE8.png" alt="DS9aE8.png"></a></p>
 
             </div>
             <hr/>
@@ -574,7 +641,7 @@ custom domain Domain deploy success
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">cyylog</a>
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -584,7 +651,7 @@ custom domain Domain deploy success
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/11/12/devops/golang/a-li-yun-faas-ru-men/">https://cyylog.github.io/2020/11/12/devops/golang/a-li-yun-faas-ru-men/</a>
+                    <a href="https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -597,7 +664,7 @@ custom domain Domain deploy success
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">cyylog</a>
+                    <a href="/about" target="_blank">Cyylog</a>
                     !
                 </span>
             </div>
@@ -622,12 +689,8 @@ custom domain Domain deploy success
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/FAAS/">
-                                    <span class="chip bg-color">FAAS</span>
-                                </a>
-                            
-                                <a href="/tags/go/">
-                                    <span class="chip bg-color">go</span>
+                                <a href="/tags/Prometheus/">
+                                    <span class="chip bg-color">Prometheus</span>
                                 </a>
                             
                         </div>
@@ -798,9 +861,10 @@ custom domain Domain deploy success
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">
                     <div class="card-image">
@@ -819,9 +883,9 @@ kubernetes新一代的监控模型由：核心指标流水线和第三方非核�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -834,6 +898,7 @@ kubernetes新一代的监控模型由：核心指标流水线和第三方非核�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -852,34 +917,35 @@ kubernetes新一代的监控模型由：核心指标流水线和第三方非核�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
+                <a href="/2020/11/12/devops/golang/a-li-yun-faas-ru-men/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="阿里云FAAS入门">
                         
-                        <span class="card-title">SQL语句优化</span>
+                        <span class="card-title">阿里云FAAS入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
-select id,name from userinfo where name like '%name%'
+                            阿里云FAAS入门
 
-select id,name from userinfo wher
+阿里云地址：https://serverless.aliyun.com/
+
+函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                    微服务
                                 </a>
                             
                             
@@ -889,12 +955,12 @@ select id,name from userinfo wher
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Mysql/">
-                        <span class="chip bg-color">Mysql</span>
+                    <a href="/tags/FAAS/">
+                        <span class="chip bg-color">FAAS</span>
                     </a>
                     
-                    <a href="/tags/Interview/">
-                        <span class="chip bg-color">Interview</span>
+                    <a href="/tags/go/">
+                        <span class="chip bg-color">go</span>
                     </a>
                     
                 </div>

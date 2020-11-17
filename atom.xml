@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-12T15:12:11.484Z</updated>
+  <updated>2020-11-17T05:39:54.894Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>k8s资源监控</title>
+    <link href="https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/"/>
+    <id>https://cyylog.github.io/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</id>
+    <published>2020-11-16T16:48:56.000Z</published>
+    <updated>2020-11-17T05:39:54.894Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;k8s-资源监控&quot;&gt;&lt;a href=&quot;#k8s-资源监控&quot; class=&quot;headerlink&quot; title=&quot;k8s 资源监控&quot;&gt;&lt;/a&gt;k8s</summary>
+        
+      
+    
+    
+    
+    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    
+    
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
+    
+  </entry>
   
   <entry>
     <title>阿里云FAAS入门</title>
@@ -103,7 +128,7 @@
     <link href="https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/"/>
     <id>https://cyylog.github.io/2020/11/05/rong-qi/kubernetes-er-jin-zhi-bu-shu/</id>
     <published>2020-11-04T18:24:13.000Z</published>
-    <updated>2020-11-04T18:32:44.993Z</updated>
+    <updated>2020-11-14T13:10:48.517Z</updated>
     
     
       
@@ -507,35 +532,6 @@
     
     
     <category term="Gitlab" scheme="https://cyylog.github.io/tags/Gitlab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搭建 NFS 服务</title>
-    <link href="https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/"/>
-    <id>https://cyylog.github.io/2020/09/24/linux/bu-shu-nfs-fu-wu/</id>
-    <published>2020-09-23T16:55:39.000Z</published>
-    <updated>2020-09-24T12:57:54.644Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;p&gt;目的：部署 NFS 服务进行跨主机文件共享&lt;/p&gt;
-&lt;p&gt;Network File System&lt;br&gt;      通过网络，让不同的机器、不同的操作系统可以共享彼此的文件。&lt;/p&gt;
-&lt;h3 id=&quot;1、环境准备&quot;&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
     
   </entry>
   

@@ -649,8 +649,7 @@ mv /opt/src/etcd-v3.3.25-linux-amd64 /opt/src/etcd-v3.3.25
 # 为etcd做软链接,方便更新升级
 ln -s /opt/src/etcd-v3.3.25 /opt/src/etcd
 # 创建存放etcd证书目录
-mkdir -pv /etc/kubernetes/pki
-</code></pre><pre><code># 华为源etcd
+mkdir -p /opt/src/etcd/{pki,logs}</code></pre><pre><code># 华为源etcd
 
 curl -L https://mirrors.huaweicloud.com/etcd/v3.3.25/etcd-v3.3.25-linux-amd64.tar.gz -o /opt/src/etcd-v3.3.25-linux-amd64.tar.gz
 
