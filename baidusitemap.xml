@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/</loc>
+    <lastmod>2020-11-17</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/11/17/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-17/</loc>
     <lastmod>2020-11-17</lastmod>
   </url>

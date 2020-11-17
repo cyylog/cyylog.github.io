@@ -54,6 +54,33 @@
     
     
     <entry>
+      <title>docker-网络模式</title>
+      <link href="2020/11/16/docker-wang-luo-mo-shi/"/>
+      <url>2020/11/16/docker-wang-luo-mo-shi/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Docker四种网络模式"><a href="#Docker四种网络模式" class="headerlink" title="Docker四种网络模式"></a>Docker四种网络模式</h3><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Docker使用Linux桥接（参考<a href="https://www.jianshu.com/p/f86d4b88777d" target="_blank" rel="noopener">《Linux虚拟网络技术》</a>），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Container-IP，同时Docker网桥是每个容器的默认网关。因为在同一宿主机内的容器都接入同一个网桥，这样容器之间就能够通过容器的Container-IP直接通信。</p><p>Docker网桥是宿主机虚拟出来的，并不是真实存在的网络设备，外部网络是无法寻址到的，这也意味着外部网络无法通过直接Container-IP访问到容器。如果容器希望外部访问能够访问到，可以通过映射容器端口到宿主主机（端口映射），即docker run创建容器时候通过 -p 或 -P 参数来启用，访问容器的时候就通过[宿主机IP]:[容器端口]访问容器。</p><h4 id="四类网络模式"><a href="#四类网络模式" class="headerlink" title="四类网络模式"></a>四类网络模式</h4><table><thead><tr><th>Docker网络模式</th><th>配置</th><th>说明</th></tr></thead><tbody><tr><td>host模式</td><td>–net=host</td><td>容器和宿主机共享Network namespace。</td></tr><tr><td>container模式</td><td>–net=container:NAME_or_ID</td><td>容器和另外一个容器共享Network namespace。 kubernetes中的pod就是多个容器共享一个Network namespace。</td></tr><tr><td>none模式</td><td>–net=none</td><td>容器有独立的Network namespace，但并没有对其进行任何网络设置，如分配veth pair 和网桥连接，配置IP等。</td></tr><tr><td>bridge模式</td><td>–net=bridge</td><td>（默认为该模式）</td></tr></tbody></table><h5 id="host模式"><a href="#host模式" class="headerlink" title="host模式"></a>host模式</h5><p>如果启动容器的时候使用host模式，那么这个容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。</p><p>使用host模式的容器可以直接使用宿主机的IP地址与外界通信，容器内部的服务端口也可以使用宿主机的端口，不需要进行NAT，host最大的优势就是网络性能比较好，但是docker host上已经使用的端口就不能再用了，网络的隔离性不好。</p><p>Host模式如下图所示：</p><p><a href="https://imgchr.com/i/DVgnLF" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgnLF.png" alt="DVgnLF.png"></a></p><p>Host模式</p><h5 id="container模式"><a href="#container模式" class="headerlink" title="container模式"></a>container模式</h5><p>这个模式指定新创建的容器和已经存在的一个容器共享一个 Network Namespace，而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。</p><p>Container模式示意图：</p><p><a href="https://imgchr.com/i/DVgMdJ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgMdJ.png" alt="DVgMdJ.png"></a></p><p>Container网络模式</p><h5 id="none模式"><a href="#none模式" class="headerlink" title="none模式"></a>none模式</h5><p>使用none模式，Docker容器拥有自己的Network Namespace，但是，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。</p><p>这种网络模式下容器只有lo回环网络，没有其他网卡。none模式可以在容器创建时通过–network=none来指定。这种类型的网络没有办法联网，封闭的网络能很好的保证容器的安全性。</p><p>None模式示意图:</p><p><a href="https://imgchr.com/i/DVg3J1" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVg3J1.png" alt="DVg3J1.png"></a></p><p>None网络模式</p><h5 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h5><p>当Docker进程启动时，会在主机上创建一个名为docker0的虚拟网桥，此主机上启动的Docker容器会连接到这个虚拟网桥上。虚拟网桥的工作方式和物理交换机类似，这样主机上的所有容器就通过交换机连在了一个二层网络中。</p><p>从docker0子网中分配一个IP给容器使用，并设置docker0的IP地址为容器的默认网关。在主机上创建一对虚拟网卡veth pair设备，Docker将veth pair设备的一端放在新创建的容器中，并命名为eth0（容器的网卡），另一端放在主机中，以vethxxx这样类似的名字命名，并将这个网络设备加入到docker0网桥中。可以通过brctl show命令查看。</p><p>bridge模式是docker的默认网络模式，不写–net参数，就是bridge模式。使用docker run -p时，docker实际是在iptables做了DNAT规则，实现端口转发功能。可以使用iptables -t nat -vnL查看。</p><p>bridge模式如下图所示：</p><p><a href="https://imgchr.com/i/DVgYQK" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgYQK.png" alt="DVgYQK.png"></a></p><p>Docker的网络实现</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Interview </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>阿里云FAAS入门</title>
       <link href="2020/11/12/devops/golang/a-li-yun-faas-ru-men/"/>
       <url>2020/11/12/devops/golang/a-li-yun-faas-ru-men/</url>

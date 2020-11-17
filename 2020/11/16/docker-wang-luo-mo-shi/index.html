@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="阿里云FAAS入门, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="docker-网络模式, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>阿里云FAAS入门 | 无雨小站</title>
+    <title>docker-网络模式 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">阿里云FAAS入门</h1>
+                    <h1 class="description center-align post-title">docker-网络模式</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/FAAS/">
-                                <span class="chip bg-color">FAAS</span>
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
-                            <a href="/tags/go/">
-                                <span class="chip bg-color">go</span>
+                            <a href="/tags/Docker/">
+                                <span class="chip bg-color">Docker</span>
                             </a>
                         
                     </div>
@@ -425,8 +425,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
-                                微服务
+                            <a href="/categories/Interview/" class="post-category">
+                                Interview
                             </a>
                         
                     </div>
@@ -438,7 +438,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-12
+                    2020-11-16
                 </div>
                 
 
@@ -454,111 +454,57 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="阿里云FAAS入门"><a href="#阿里云FAAS入门" class="headerlink" title="阿里云FAAS入门"></a>阿里云<code>FAAS</code>入门</h4><blockquote>
-<blockquote>
-<p>阿里云地址：<a href="https://serverless.aliyun.com/" target="_blank" rel="noopener">https://serverless.aliyun.com/</a></p>
-</blockquote>
-<p>函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数计算会为您准备好计算资源，以弹性、可靠的方式运行您的代码。更棒的是，您只需要为代码实际运行消耗的资源付费 - 代码未运行则不产生费用。</p>
-</blockquote>
-<h5 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h5><p>教程地址：<a href="https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md" target="_blank" rel="noopener">https://github.com/alibaba/funcraft/blob/master/docs/usage/installation-zh.md</a></p>
-<p>本文使用 Centos 7 搭建开发环境</p>
-<p><a href="https://imgchr.com/i/BzL49x" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/BzL49x.png" alt="BzL49x.png"></a></p>
-<h6 id="安装-fun"><a href="#安装-fun" class="headerlink" title="安装 fun"></a>安装 fun</h6><p>打开 Terminal ，在 bash/zsh 中依次执行如下命令</p>
-<pre class=" language-shell"><code class="language-shell"># 设置版本，请把下面更新为 https://github.com/aliyun/fun/releases 页面的最新版本
-$ FUN_VERISON="v3.6.18"
-
-# 下载到本地
-$ curl -o fun-linux.zip https://gosspublic.alicdn.com/fun/fun-$FUN_VERSION-linux.zip
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 32.2M  100 32.2M    0     0  2606k      0  0:00:12  0:00:12 --:--:-- 2376k
-
-# 解压 zip 文件
-$ unzip fun-linux.zip
-Archive:  fun-v3.6.18-linux.zip
-  inflating: fun-v3.6.18-linux
-
-# 移到 PATH 目录
-$ mv fun-*-linux /usr/local/bin/fun
-
-# 验证版本
-$ fun --version
-3.6.18</code></pre>
-<h6 id="配置-AccessKey"><a href="#配置-AccessKey" class="headerlink" title="配置 AccessKey"></a>配置 <code>AccessKey</code></h6><p>点击阿里云用户获取    账号ID</p>
-<p>点击阿里云账号用户下面的 <code>AccessKey</code> 管理</p>
-<p>获取 <code>AccessKey</code></p>
-<p>(请自行操作)</p>
-<pre class=" language-shell"><code class="language-shell">$ fun config
-# 填写上面获取的3个信息，然后进行配置</code></pre>
-<p><a href="https://imgchr.com/i/DSSOL6" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DSSOL6.png" alt="DSSOL6.png"></a></p>
-<h5 id="编译代码"><a href="#编译代码" class="headerlink" title="编译代码"></a>编译代码</h5><pre class=" language-shell"><code class="language-shell">编译
-$ GOARCH=amd64 G0os=linux go build -ldflags "-s -w"</code></pre>
-<pre class=" language-shell"><code class="language-shell">$ fun deploy -y
-
-################ 运行结果  ####################
-[cyy@cyy gotest]$ fun deploy -y
-current folder is not a fun project.
-Tips: 
-You must use 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"' to recompile your project every time before using fun deploy.
-? Let Fun exec this command now for you? Yes
-Executing command 'GOARCH=amd64 GOOS=linux go build -ldflags "-s -w"'...
-
-Generating template.yml...
-Generate Fun project successfully!
-
-
-========= Fun will use 'fun deploy' to deploy your application to Function Compute! =========
-using region: cn-hangzhou
-using accountId: ***********0548
-using accessKeyId: ***********JqCU
-using timeout: 20
-
-Collecting your services information, in order to caculate devlopment changes...
-
-Resources Changes(Beta version! Only FC resources changes will be displayed):
-
-┌─────────────┬──────────────────────────────┬────────┬─────────────────────┐
-│ Resource    │ ResourceType                 │ Action │ Property            │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│ gotest      │ Aliyun::Serverless::Service  │ Add    │ Description         │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│             │                              │        │ Handler             │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ Runtime             │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ CodeUri             │
-│ gotest      │ Aliyun::Serverless::Function │ Add    ├─────────────────────┤
-│             │                              │        │ MemorySize          │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ InstanceConcurrency │
-│             │                              │        ├─────────────────────┤
-│             │                              │        │ Timeout             │
-├─────────────┼──────────────────────────────┼────────┼─────────────────────┤
-│             │                              │        │ AuthType            │
-│ httpTrigger │ HTTP                         │ Add    ├─────────────────────┤
-│             │                              │        │ Methods             │
-└─────────────┴──────────────────────────────┴────────┴─────────────────────┘
-
-Waiting for service gotest to be deployed...
-    Waiting for function gotest to be deployed...
-        Waiting for packaging function gotest code...
-        The function gotest has been packaged. A total of 11 files were compressed and the final size was 4.37 MB
-        Waiting for HTTP trigger httpTrigger to be deployed...
-        triggerName: httpTrigger
-        methods: [ 'GET', 'POST', 'PUT' ]
-        trigger httpTrigger deploy success
-    function gotest deploy success
-service gotest deploy success
-
-Detect 'DomainName:Auto' of custom domain 'Domain'
-Request a new temporary domain ...
-The assigned temporary domain is http://35190470-1411357135230548.test.functioncompute.com，expired at 2020-11-22 22:14:30, limited by 1000 per day.
-Waiting for custom domain Domain to be deployed...
-custom domain Domain deploy success
-</code></pre>
-<h6 id="查看阿里云控制台"><a href="#查看阿里云控制台" class="headerlink" title="查看阿里云控制台"></a>查看阿里云控制台</h6><p><a href="https://imgchr.com/i/DS9A39" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9A39.png" alt="DS9A39.png"></a></p>
-<h6 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h6><p><a href="http://35190470-1411357135230548.test.functioncompute.com" target="_blank" rel="noopener">http://35190470-1411357135230548.test.functioncompute.com</a></p>
-<p><a href="https://imgchr.com/i/DS9aE8" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/12/DS9aE8.png" alt="DS9aE8.png"></a></p>
+                <h3 id="Docker四种网络模式"><a href="#Docker四种网络模式" class="headerlink" title="Docker四种网络模式"></a>Docker四种网络模式</h3><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Docker使用Linux桥接（参考<a href="https://www.jianshu.com/p/f86d4b88777d" target="_blank" rel="noopener">《Linux虚拟网络技术》</a>），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Container-IP，同时Docker网桥是每个容器的默认网关。因为在同一宿主机内的容器都接入同一个网桥，这样容器之间就能够通过容器的Container-IP直接通信。</p>
+<p>Docker网桥是宿主机虚拟出来的，并不是真实存在的网络设备，外部网络是无法寻址到的，这也意味着外部网络无法通过直接Container-IP访问到容器。如果容器希望外部访问能够访问到，可以通过映射容器端口到宿主主机（端口映射），即docker run创建容器时候通过 -p 或 -P 参数来启用，访问容器的时候就通过[宿主机IP]:[容器端口]访问容器。</p>
+<h4 id="四类网络模式"><a href="#四类网络模式" class="headerlink" title="四类网络模式"></a>四类网络模式</h4><table>
+<thead>
+<tr>
+<th>Docker网络模式</th>
+<th>配置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>host模式</td>
+<td>–net=host</td>
+<td>容器和宿主机共享Network namespace。</td>
+</tr>
+<tr>
+<td>container模式</td>
+<td>–net=container:NAME_or_ID</td>
+<td>容器和另外一个容器共享Network namespace。 kubernetes中的pod就是多个容器共享一个Network namespace。</td>
+</tr>
+<tr>
+<td>none模式</td>
+<td>–net=none</td>
+<td>容器有独立的Network namespace，但并没有对其进行任何网络设置，如分配veth pair 和网桥连接，配置IP等。</td>
+</tr>
+<tr>
+<td>bridge模式</td>
+<td>–net=bridge</td>
+<td>（默认为该模式）</td>
+</tr>
+</tbody></table>
+<h5 id="host模式"><a href="#host模式" class="headerlink" title="host模式"></a>host模式</h5><p>如果启动容器的时候使用host模式，那么这个容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。</p>
+<p>使用host模式的容器可以直接使用宿主机的IP地址与外界通信，容器内部的服务端口也可以使用宿主机的端口，不需要进行NAT，host最大的优势就是网络性能比较好，但是docker host上已经使用的端口就不能再用了，网络的隔离性不好。</p>
+<p>Host模式如下图所示：</p>
+<p><a href="https://imgchr.com/i/DVgnLF" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgnLF.png" alt="DVgnLF.png"></a></p>
+<p>Host模式</p>
+<h5 id="container模式"><a href="#container模式" class="headerlink" title="container模式"></a>container模式</h5><p>这个模式指定新创建的容器和已经存在的一个容器共享一个 Network Namespace，而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。</p>
+<p>Container模式示意图：</p>
+<p><a href="https://imgchr.com/i/DVgMdJ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgMdJ.png" alt="DVgMdJ.png"></a></p>
+<p>Container网络模式</p>
+<h5 id="none模式"><a href="#none模式" class="headerlink" title="none模式"></a>none模式</h5><p>使用none模式，Docker容器拥有自己的Network Namespace，但是，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。</p>
+<p>这种网络模式下容器只有lo回环网络，没有其他网卡。none模式可以在容器创建时通过–network=none来指定。这种类型的网络没有办法联网，封闭的网络能很好的保证容器的安全性。</p>
+<p>None模式示意图:</p>
+<p><a href="https://imgchr.com/i/DVg3J1" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVg3J1.png" alt="DVg3J1.png"></a></p>
+<p>None网络模式</p>
+<h5 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h5><p>当Docker进程启动时，会在主机上创建一个名为docker0的虚拟网桥，此主机上启动的Docker容器会连接到这个虚拟网桥上。虚拟网桥的工作方式和物理交换机类似，这样主机上的所有容器就通过交换机连在了一个二层网络中。</p>
+<p>从docker0子网中分配一个IP给容器使用，并设置docker0的IP地址为容器的默认网关。在主机上创建一对虚拟网卡veth pair设备，Docker将veth pair设备的一端放在新创建的容器中，并命名为eth0（容器的网卡），另一端放在主机中，以vethxxx这样类似的名字命名，并将这个网络设备加入到docker0网桥中。可以通过brctl show命令查看。</p>
+<p>bridge模式是docker的默认网络模式，不写–net参数，就是bridge模式。使用docker run -p时，docker实际是在iptables做了DNAT规则，实现端口转发功能。可以使用iptables -t nat -vnL查看。</p>
+<p>bridge模式如下图所示：</p>
+<p><a href="https://imgchr.com/i/DVgYQK" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgYQK.png" alt="DVgYQK.png"></a></p>
+<p>Docker的网络实现</p>
 
             </div>
             <hr/>
@@ -574,7 +520,7 @@ custom domain Domain deploy success
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">cyylog</a>
+                    <a href="/about" rel="external nofollow noreferrer">Cyylog</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -584,7 +530,7 @@ custom domain Domain deploy success
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://cyylog.github.io/2020/11/12/devops/golang/a-li-yun-faas-ru-men/">https://cyylog.github.io/2020/11/12/devops/golang/a-li-yun-faas-ru-men/</a>
+                    <a href="https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/">https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -597,7 +543,7 @@ custom domain Domain deploy success
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/about" target="_blank">cyylog</a>
+                    <a href="/about" target="_blank">Cyylog</a>
                     !
                 </span>
             </div>
@@ -622,12 +568,12 @@ custom domain Domain deploy success
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/FAAS/">
-                                    <span class="chip bg-color">FAAS</span>
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
                                 </a>
                             
-                                <a href="/tags/go/">
-                                    <span class="chip bg-color">go</span>
+                                <a href="/tags/Docker/">
+                                    <span class="chip bg-color">Docker</span>
                                 </a>
                             
                         </div>
@@ -802,31 +748,32 @@ custom domain Domain deploy success
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/16/docker-wang-luo-mo-shi/">
+                <a href="/2020/11/17/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="docker-网络模式">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="k8s资源监控">
                         
-                        <span class="card-title">docker-网络模式</span>
+                        <span class="card-title">k8s资源监控</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Docker四种网络模式实现原理Docker使用Linux桥接（参考《Linux虚拟网络技术》），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Co
+                            k8s 资源监控
+kubernetes新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由kubelet、 metric-server 以及由API-server提供的API组成；负责CPU累积使用率、内存实时使
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-16
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Interview/" class="post-category">
-                                    Interview
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                    监控
                                 </a>
                             
                             
@@ -836,12 +783,8 @@ custom domain Domain deploy success
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/">
-                        <span class="chip bg-color">Linux</span>
-                    </a>
-                    
-                    <a href="/tags/Docker/">
-                        <span class="chip bg-color">Docker</span>
+                    <a href="/tags/Prometheus/">
+                        <span class="chip bg-color">Prometheus</span>
                     </a>
                     
                 </div>
@@ -855,34 +798,35 @@ custom domain Domain deploy success
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
+                <a href="/2020/11/12/devops/golang/a-li-yun-faas-ru-men/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="阿里云FAAS入门">
                         
-                        <span class="card-title">SQL语句优化</span>
+                        <span class="card-title">阿里云FAAS入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
-select id,name from userinfo where name like '%name%'
+                            阿里云FAAS入门
 
-select id,name from userinfo wher
+阿里云地址：https://serverless.aliyun.com/
+
+函数计算（Function Compute）是一个事件驱动的全托管计算服务。通过函数计算，您无需管理服务器等基础设施，只需编写代码并上传。函数
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-category">
+                                    微服务
                                 </a>
                             
                             
@@ -892,12 +836,12 @@ select id,name from userinfo wher
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Mysql/">
-                        <span class="chip bg-color">Mysql</span>
+                    <a href="/tags/FAAS/">
+                        <span class="chip bg-color">FAAS</span>
                     </a>
                     
-                    <a href="/tags/Interview/">
-                        <span class="chip bg-color">Interview</span>
+                    <a href="/tags/go/">
+                        <span class="chip bg-color">go</span>
                     </a>
                     
                 </div>

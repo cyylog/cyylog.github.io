@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cyylog.github.io/2020/11/16/docker-wang-luo-mo-shi/</loc>
+    
+    <lastmod>2020-11-17</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/2020/11/17/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-17/</loc>
     
     <lastmod>2020-11-17</lastmod>
@@ -571,6 +578,20 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/Linux/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Docker/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Jenkins/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -579,13 +600,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Vue/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Go/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -606,7 +620,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/MySQL/</loc>
+    <loc>https://cyylog.github.io/tags/Go/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -620,6 +634,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/MySQL/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/System/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
@@ -627,14 +648,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Linux/</loc>
+    <loc>https://cyylog.github.io/tags/Ansible/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Ansible/</loc>
+    <loc>https://cyylog.github.io/tags/iptables/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,21 +690,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/iptables/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <lastmod>2020-11-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -698,13 +712,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/kafka/</loc>
-    <lastmod>2020-11-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Docker/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -804,14 +811,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/DevOps/</loc>
+    <loc>https://cyylog.github.io/categories/Interview/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/Interview/</loc>
+    <loc>https://cyylog.github.io/categories/DevOps/</loc>
     <lastmod>2020-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
