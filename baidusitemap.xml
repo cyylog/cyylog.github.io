@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/11/19/linux/zookeeper-ji-qun-bu-shu/</loc>
+    <lastmod>2020-11-19</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</loc>
     <lastmod>2020-11-17</lastmod>
   </url>

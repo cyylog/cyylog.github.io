@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Docker-网络模式, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="zookeeper集群部署, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Docker-网络模式 | 无雨小站</title>
+    <title>zookeeper集群部署 | 无雨小站</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Docker-网络模式</h1>
+                    <h1 class="description center-align post-title">zookeeper集群部署</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Linux/">
-                                <span class="chip bg-color">Linux</span>
-                            </a>
-                        
-                            <a href="/tags/Docker/">
-                                <span class="chip bg-color">Docker</span>
+                            <a href="/tags/zookeeper/">
+                                <span class="chip bg-color">zookeeper</span>
                             </a>
                         
                     </div>
@@ -425,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Interview/" class="post-category">
-                                Interview
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -438,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-16
+                    2020-11-19
                 </div>
                 
 
@@ -454,57 +450,301 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="Docker四种网络模式"><a href="#Docker四种网络模式" class="headerlink" title="Docker四种网络模式"></a>Docker四种网络模式</h3><h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Docker使用Linux桥接（参考<a href="https://www.jianshu.com/p/f86d4b88777d" target="_blank" rel="noopener">《Linux虚拟网络技术》</a>），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Container-IP，同时Docker网桥是每个容器的默认网关。因为在同一宿主机内的容器都接入同一个网桥，这样容器之间就能够通过容器的Container-IP直接通信。</p>
-<p>Docker网桥是宿主机虚拟出来的，并不是真实存在的网络设备，外部网络是无法寻址到的，这也意味着外部网络无法通过直接Container-IP访问到容器。如果容器希望外部访问能够访问到，可以通过映射容器端口到宿主主机（端口映射），即docker run创建容器时候通过 -p 或 -P 参数来启用，访问容器的时候就通过[宿主机IP]:[容器端口]访问容器。</p>
-<h4 id="四类网络模式"><a href="#四类网络模式" class="headerlink" title="四类网络模式"></a>四类网络模式</h4><table>
+                <a id="more"></a>
+
+<h4 id="nginx-编译安装与配置使用"><a href="#nginx-编译安装与配置使用" class="headerlink" title="nginx 编译安装与配置使用"></a>nginx 编译安装与配置使用</h4><h5 id="1、安装编译环境"><a href="#1、安装编译环境" class="headerlink" title="1、安装编译环境"></a>1、安装编译环境</h5><p>yum -y install gcc gcc-c++</p>
+<h5 id="2、安装pcre软件包（使nginx支持http-rewrite模块）"><a href="#2、安装pcre软件包（使nginx支持http-rewrite模块）" class="headerlink" title="2、安装pcre软件包（使nginx支持http rewrite模块）"></a>2、安装pcre软件包（使nginx支持http rewrite模块）</h5><p>yum install -y pcre pcre-devel</p>
+<h5 id="3、安装openssl-devel（使nginx支持ssl）"><a href="#3、安装openssl-devel（使nginx支持ssl）" class="headerlink" title="3、安装openssl-devel（使nginx支持ssl）"></a>3、安装openssl-devel（使nginx支持ssl）</h5><p>yum install -y openssl openssl-devel </p>
+<h5 id="4、安装zlib"><a href="#4、安装zlib" class="headerlink" title="4、安装zlib"></a>4、安装zlib</h5><p>yum install -y zlib zlib-devel</p>
+<h5 id="5、创建用户nginx"><a href="#5、创建用户nginx" class="headerlink" title="5、创建用户nginx"></a>5、创建用户nginx</h5><p>useradd nginx </p>
+<p>passwd nginx</p>
+<h5 id="6、安装nginx"><a href="#6、安装nginx" class="headerlink" title="6、安装nginx"></a>6、安装nginx</h5><pre class=" language-shell"><code class="language-shell">[root@localhost ～]#wget http://192.168.233.100/nginx.org/download/nginx-1.14.2.tar.gz</code></pre>
+<pre class=" language-shell"><code class="language-shell">[root@localhost ～]#tar -vzxf nginx-1.14.2.tar.gz -C /usr/local
+[root@localhost ～]#cd nginx-1.14.2/ 
+[root@localhost nginx-1.14.2]# ./configure \ 
+--group=nginx \ 
+--user=nginx \ 
+--prefix=/usr/local/nginx \ 
+--sbin-path=/usr/sbin/nginx \ 
+--conf-path=/etc/nginx/nginx.conf \ 
+--error-log-path=/var/log/nginx/error.log \ 
+--http-log-path=/var/log/nginx/access.log \ 
+--http-client-body-temp-path=/tmp/nginx/client_body \ 
+--http-proxy-temp-path=/tmp/nginx/proxy \ 
+--http-fastcgi-temp-path=/tmp/nginx/fastcgi \ 
+--pid-path=/var/run/nginx.pid \ 
+--lock-path=/var/lock/nginx \ 
+--with-http_stub_status_module \ 
+--with-http_ssl_module \ 
+--with-http_gzip_static_module \ 
+--with-pcre 
+[root@localhost nginx-1.11.3]# make &&make install</code></pre>
+<h5 id="7、Nginx-编译参数"><a href="#7、Nginx-编译参数" class="headerlink" title="7、Nginx 编译参数"></a>7、Nginx 编译参数</h5><pre class=" language-shell"><code class="language-shell"># 查看 nginx 安装的模块
+[root@tianyun ~]# nginx -V
+
+# 模块参数具体功能 
+--with-cc-opt='-g -O2 -fPIE -fstack-protector    //设置额外的参数将被添加到CFLAGS变量。（FreeBSD或者ubuntu使用）
+--param=ssp-buffer-size=4 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2' 
+--with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' 
+
+--prefix=/usr/share/nginx                        //指向安装目录
+--conf-path=/etc/nginx/nginx.conf                //指定配置文件
+--http-log-path=/var/log/nginx/access.log        //指定访问日志
+--error-log-path=/var/log/nginx/error.log        //指定错误日志
+--lock-path=/var/lock/nginx.lock                 //指定lock文件
+--pid-path=/run/nginx.pid                        //指定pid文件
+
+--http-client-body-temp-path=/var/lib/nginx/body    //设定http客户端请求临时文件路径
+--http-fastcgi-temp-path=/var/lib/nginx/fastcgi     //设定http fastcgi临时文件路径
+--http-proxy-temp-path=/var/lib/nginx/proxy         //设定http代理临时文件路径
+--http-scgi-temp-path=/var/lib/nginx/scgi           //设定http scgi临时文件路径
+--http-uwsgi-temp-path=/var/lib/nginx/uwsgi         //设定http uwsgi临时文件路径
+
+--with-debug                                        //启用debug日志
+--with-pcre-jit                                     //编译PCRE包含“just-in-time compilation”
+--with-ipv6                                         //启用ipv6支持
+--with-http_ssl_module                              //启用ssl支持
+--with-http_stub_status_module                      //获取nginx自上次启动以来的状态
+--with-http_realip_module                 //允许从请求标头更改客户端的IP地址值，默认为关
+--with-http_auth_request_module           //实现基于一个子请求的结果的客户端授权。如果该子请求返回的2xx响应代码，所述接入是允许的。如果它返回401或403中，访问被拒绝与相应的错误代码。由子请求返回的任何其他响应代码被认为是一个错误。
+--with-http_addition_module               //作为一个输出过滤器，支持不完全缓冲，分部分响应请求
+--with-http_dav_module                    //增加PUT,DELETE,MKCOL：创建集合,COPY和MOVE方法 默认关闭，需编译开启
+--with-http_geoip_module                  //使用预编译的MaxMind数据库解析客户端IP地址，得到变量值
+--with-http_gunzip_module                 //它为不支持“gzip”编码方法的客户端解压具有“Content-Encoding: gzip”头的响应。
+--with-http_gzip_static_module            //在线实时压缩输出数据流
+--with-http_image_filter_module           //传输JPEG/GIF/PNG 图片的一个过滤器）（默认为不启用。gd库要用到）
+--with-http_spdy_module                   //SPDY可以缩短网页的加载时间
+--with-http_sub_module                    //允许用一些其他文本替换nginx响应中的一些文本
+--with-http_xslt_module                   //过滤转换XML请求
+--with-mail                               //启用POP3/IMAP4/SMTP代理模块支持
+--with-mail_ssl_module                    //启用ngx_mail_ssl_module支持启用外部模块支持</code></pre>
+<h5 id="8、修改配置文件-etc-nginx-nginx-conf"><a href="#8、修改配置文件-etc-nginx-nginx-conf" class="headerlink" title="8、修改配置文件/etc/nginx/nginx.conf"></a>8、修改配置文件/etc/nginx/nginx.conf</h5><pre class=" language-shell"><code class="language-shell"># 全局参数设置 
+worker_processes  1;          #设置nginx启动进程的数量，一般设置成与逻辑cpu数量相同 
+error_log  logs/error.log;    #指定错误日志 
+worker_rlimit_nofile 102400;  #设置一个nginx进程能打开的最大文件数 
+pid        /var/run/nginx.pid; 
+events { 
+    worker_connections  1024; #设置一个进程的最大并发连接数 
+} 
+# http 服务相关设置 
+http { 
+    include      mime.types; 
+    default_type  application/octet-stream; 
+    log_format  main  'remote_addr - remote_user [time_local] "request" '
+                      'status body_bytes_sent "$http_referer" '
+                      '"http_user_agent" "http_x_forwarded_for"'; 
+    access_log  /var/log/nginx/access.log  main;    #设置访问日志的位置和格式 
+    sendfile          on; #是否调用sendfile函数输出文件，一般设置为on，若nginx是用来进行磁盘IO负载应用时，可以设置为off，降低系统负载 
+    gzip              on;      #是否开启gzip压缩 
+    keepalive_timeout  65;     #设置长连接的超时时间 
+# 虚拟服务器的相关设置 
+    server { 
+        listen      80;        #设置监听的端口 
+        server_name  localhost;        #设置绑定的主机名、域名或ip地址 
+        charset koi8-r;        # 设置编码字符 
+        location / { 
+            root  /var/www/nginx;           #设置服务器默认网站的根目录位置 
+            index  index.html index.htm;    #设置默认打开的文档 
+            } 
+        error_page  500 502 503 504  /50x.html; #设置错误信息返回页面 
+        location = /50x.html { 
+            root  html;        #这里的绝对位置是/var/www/nginx/html 
+        } 
+    } 
+ }</code></pre>
+<h5 id="9、检测-nginx-配置文件是否正确"><a href="#9、检测-nginx-配置文件是否正确" class="headerlink" title="9、检测 nginx 配置文件是否正确"></a>9、检测 nginx 配置文件是否正确</h5><pre class=" language-shell"><code class="language-shell">[root@localhost ~]#/usr/local/nginx/sbin/nginx -t</code></pre>
+<h5 id="10、启动nginx服务"><a href="#10、启动nginx服务" class="headerlink" title="10、启动nginx服务"></a>10、启动nginx服务</h5><pre class=" language-shell"><code class="language-shell">/usr/local/nginx/sbin/nginx</code></pre>
+<h5 id="11、通过-nginx-命令控制-nginx-服务"><a href="#11、通过-nginx-命令控制-nginx-服务" class="headerlink" title="11、通过 nginx 命令控制 nginx 服务"></a>11、通过 nginx 命令控制 nginx 服务</h5><pre class=" language-shell"><code class="language-shell">nginx -c /path/to/nginx.conf       # 以特定目录下的配置文件启动nginx:
+nginx -s reload                      # 修改配置后重新加载生效
+nginx -s reopen                     # 重新打开日志文件
+nginx -s stop                        # 快速停止nginx
+nginx -s quit                         # 完整有序的停止nginx
+nginx -t                         # 测试当前配置文件是否正确
+nginx -t -c /path/to/nginx.conf  # 测试特定的nginx配置文件是否正确</code></pre>
+<h5 id="12、实现nginx开机自启"><a href="#12、实现nginx开机自启" class="headerlink" title="12、实现nginx开机自启"></a>12、实现nginx开机自启</h5><p> a、添加启动脚本  vim /etc/init.d/nginx</p>
+<pre class=" language-shell"><code class="language-shell">#!/bin/sh 
+# 
+# nginx - this script starts and stops the nginx daemon 
+# 
+# chkconfig:  - 85 15  
+# description:  Nginx is an HTTP(S) server, HTTP(S) reverse \ 
+#              proxy and IMAP/POP3 proxy server 
+# processname: nginx 
+# config:      /etc/nginx/nginx.conf 
+# config:      /etc/sysconfig/nginx 
+# pidfile:    /var/run/nginx.pid 
+
+# Source function library. 
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration. 
+. /etc/sysconfig/network
+
+# Check that networking is up. 
+[ "$NETWORKING" = "no" ] && exit 0 
+
+nginx="/usr/sbin/nginx"
+prog=$(basename $nginx) 
+
+NGINX_CONF_FILE="/etc/nginx/nginx.conf"
+
+[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
+
+lockfile=/var/lock/subsys/nginx
+
+make_dirs() { 
+  # make required directories 
+  user=`nginx -V 2>&1 | grep "configure arguments:" | sed 's/[^*]*--user=\([^ ]*\).*/\1/g' -` 
+  options=`$nginx -V 2>&1 | grep 'configure arguments:'` 
+  for opt in $options; do
+      if [ `echo $opt | grep '.*-temp-path'` ]; then
+          value=`echo $opt | cut -d "=" -f 2` 
+          if [ ! -d "$value" ]; then
+              # echo "creating" $value 
+              mkdir -p $value && chown -R $user $value 
+          fi
+      fi
+  done
+} 
+
+start() { 
+    [ -x $nginx ] || exit 5 
+    [ -f $NGINX_CONF_FILE ] || exit 6 
+    make_dirs 
+    echo -n $"Starting $prog: "
+    daemon $nginx -c $NGINX_CONF_FILE 
+    retval=$? 
+    echo
+    [ $retval -eq 0 ] && touch $lockfile 
+    return $retval 
+} 
+
+stop() { 
+    echo -n $"Stopping $prog: "
+    killproc $prog -QUIT 
+    retval=$? 
+    echo
+    [ $retval -eq 0 ] && rm -f $lockfile 
+    return $retval 
+} 
+
+restart() { 
+    configtest || return $? 
+    stop 
+    sleep 1 
+    start 
+} 
+
+reload() { 
+    configtest || return $? 
+    echo -n $"Reloading $prog: "
+    killproc $nginx -HUP 
+    RETVAL=$? 
+    echo
+} 
+
+force_reload() { 
+    restart 
+} 
+
+configtest() { 
+  $nginx -t -c $NGINX_CONF_FILE 
+} 
+
+rh_status() { 
+    status $prog 
+} 
+
+rh_status_q() { 
+    rh_status >/dev/null 2>&1 
+} 
+
+case "$1" in
+    start) 
+        rh_status_q && exit 0 
+        $1 
+        ;; 
+    stop) 
+        rh_status_q || exit 0 
+        $1 
+        ;; 
+    restart|configtest) 
+        $1 
+        ;; 
+    reload) 
+        rh_status_q || exit 7 
+        $1 
+        ;; 
+    force-reload) 
+        force_reload 
+        ;; 
+    status) 
+        rh_status 
+        ;; 
+    condrestart|try-restart) 
+        rh_status_q || exit 0 
+            ;; 
+    *) 
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}"
+        exit 2 
+esac</code></pre>
+<p>b、添加权限</p>
+<pre class=" language-shell"><code class="language-shell">chmod +x /etc/init.d/nginx</code></pre>
+<p>c、重载系统启动文件</p>
+<pre class=" language-shell"><code class="language-shell">systemctl daemon-reload</code></pre>
+<p>d、设置开机自启</p>
+<pre class=" language-shell"><code class="language-shell">systemctl start nginx</code></pre>
+<p>10、nginx 日志文件详解</p>
+<p>​    nginx 日志文件分为 <strong>log_format</strong> 和 <strong>access_log</strong> 两部分</p>
+<p>​    log_format 定义记录的格式，其语法格式为</p>
+<p>​    log_format        样式名称        样式详情</p>
+<p>​    配置文件中默认有</p>
+<pre><code>log_format  main  &#39;remote_addr - remote_user [time_local] &quot;request&quot; &#39;
+                  &#39;status body_bytes_sent &quot;$http_referer&quot; &#39;
+                  &#39;&quot;http_user_agent&quot; &quot;http_x_forwarded_for&quot;&#39;;</code></pre><table>
 <thead>
 <tr>
-<th>Docker网络模式</th>
-<th>配置</th>
-<th>说明</th>
+<th>点击这里</th>
+<th>点击这里</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>host模式</td>
-<td>–net=host</td>
-<td>容器和宿主机共享Network namespace。</td>
+<td>变量</td>
+<td>说明</td>
 </tr>
 <tr>
-<td>container模式</td>
-<td>–net=container:NAME_or_ID</td>
-<td>容器和另外一个容器共享Network namespace。 kubernetes中的pod就是多个容器共享一个Network namespace。</td>
+<td>$remote_addr和$http_x_forwarded_for</td>
+<td>客户端的ip</td>
 </tr>
 <tr>
-<td>none模式</td>
-<td>–net=none</td>
-<td>容器有独立的Network namespace，但并没有对其进行任何网络设置，如分配veth pair 和网桥连接，配置IP等。</td>
+<td>$remote_user</td>
+<td>客户端的名称</td>
 </tr>
 <tr>
-<td>bridge模式</td>
-<td>–net=bridge</td>
-<td>（默认为该模式）</td>
+<td>$time_local</td>
+<td>访问时的本地时间</td>
+</tr>
+<tr>
+<td>$request</td>
+<td>请求的URL和http协议</td>
+</tr>
+<tr>
+<td>$status</td>
+<td>访问的状态码</td>
+</tr>
+<tr>
+<td>$body_bytes_sent</td>
+<td>发送给客户端的主体内容大小</td>
+</tr>
+<tr>
+<td>$http_referer</td>
+<td>记录客户端是从哪个页面链接访问过来的，若没有链接，则访问‘-’</td>
+</tr>
+<tr>
+<td>$http_user_agent</td>
+<td>记录客户端使用的浏览器的相关信息</td>
 </tr>
 </tbody></table>
-<h5 id="host模式"><a href="#host模式" class="headerlink" title="host模式"></a>host模式</h5><p>如果启动容器的时候使用host模式，那么这个容器将不会获得一个独立的Network Namespace，而是和宿主机共用一个Network Namespace。容器将不会虚拟出自己的网卡，配置自己的IP等，而是使用宿主机的IP和端口。但是，容器的其他方面，如文件系统、进程列表等还是和宿主机隔离的。</p>
-<p>使用host模式的容器可以直接使用宿主机的IP地址与外界通信，容器内部的服务端口也可以使用宿主机的端口，不需要进行NAT，host最大的优势就是网络性能比较好，但是docker host上已经使用的端口就不能再用了，网络的隔离性不好。</p>
-<p>Host模式如下图所示：</p>
-<p><a href="https://imgchr.com/i/DVgnLF" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgnLF.png" alt="DVgnLF.png"></a></p>
-<p>Host模式</p>
-<h5 id="container模式"><a href="#container模式" class="headerlink" title="container模式"></a>container模式</h5><p>这个模式指定新创建的容器和已经存在的一个容器共享一个 Network Namespace，而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的 IP，而是和一个指定的容器共享 IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过 lo 网卡设备通信。</p>
-<p>Container模式示意图：</p>
-<p><a href="https://imgchr.com/i/DVgMdJ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgMdJ.png" alt="DVgMdJ.png"></a></p>
-<p>Container网络模式</p>
-<h5 id="none模式"><a href="#none模式" class="headerlink" title="none模式"></a>none模式</h5><p>使用none模式，Docker容器拥有自己的Network Namespace，但是，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息。需要我们自己为Docker容器添加网卡、配置IP等。</p>
-<p>这种网络模式下容器只有lo回环网络，没有其他网卡。none模式可以在容器创建时通过–network=none来指定。这种类型的网络没有办法联网，封闭的网络能很好的保证容器的安全性。</p>
-<p>None模式示意图:</p>
-<p><a href="https://imgchr.com/i/DVg3J1" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVg3J1.png" alt="DVg3J1.png"></a></p>
-<p>None网络模式</p>
-<h5 id="bridge模式"><a href="#bridge模式" class="headerlink" title="bridge模式"></a>bridge模式</h5><p>当Docker进程启动时，会在主机上创建一个名为docker0的虚拟网桥，此主机上启动的Docker容器会连接到这个虚拟网桥上。虚拟网桥的工作方式和物理交换机类似，这样主机上的所有容器就通过交换机连在了一个二层网络中。</p>
-<p>从docker0子网中分配一个IP给容器使用，并设置docker0的IP地址为容器的默认网关。在主机上创建一对虚拟网卡veth pair设备，Docker将veth pair设备的一端放在新创建的容器中，并命名为eth0（容器的网卡），另一端放在主机中，以vethxxx这样类似的名字命名，并将这个网络设备加入到docker0网桥中。可以通过brctl show命令查看。</p>
-<p>bridge模式是docker的默认网络模式，不写–net参数，就是bridge模式。使用docker run -p时，docker实际是在iptables做了DNAT规则，实现端口转发功能。可以使用iptables -t nat -vnL查看。</p>
-<p>bridge模式如下图所示：</p>
-<p><a href="https://imgchr.com/i/DVgYQK" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/17/DVgYQK.png" alt="DVgYQK.png"></a></p>
-<p>Docker的网络实现</p>
 
             </div>
             <hr/>
@@ -518,12 +758,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Linux/">
-                                    <span class="chip bg-color">Linux</span>
-                                </a>
-                            
-                                <a href="/tags/Docker/">
-                                    <span class="chip bg-color">Docker</span>
+                                <a href="/tags/zookeeper/">
+                                    <span class="chip bg-color">zookeeper</span>
                                 </a>
                             
                         </div>
@@ -694,9 +930,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/11/19/linux/zookeeper-ji-qun-bu-shu/">
                     <div class="card-image">
@@ -718,9 +955,9 @@ nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c+
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -733,6 +970,7 @@ nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c+
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -751,35 +989,31 @@ nginx 编译安装与配置使用1、安装编译环境yum -y install gcc gcc-c+
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/">
+                <a href="/2020/11/16/rong-qi/docker-wang-luo-mo-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Kubernetes-二进制部署">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Docker-网络模式">
                         
-                        <span class="card-title">Kubernetes-二进制部署</span>
+                        <span class="card-title">Docker-网络模式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            安装1.1 生产环境可部署Kubernetes集群的两种方式
-目前生产部署Kubernetes集群主要有两种方式：
-目前生产部署Kubernetes集群主要有两种方式：
-· kubeadm
-Kubeadm是一个K8s部署工具，提供kubea
+                            Docker四种网络模式实现原理Docker使用Linux桥接（参考《Linux虚拟网络技术》），在宿主机虚拟一个Docker容器网桥(docker0)，Docker启动一个容器时会根据Docker网桥的网段分配给容器一个IP地址，称为Co
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-16
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
                                 </a>
                             
                             
@@ -789,8 +1023,12 @@ Kubeadm是一个K8s部署工具，提供kubea
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
                     </a>
                     
                 </div>
