@@ -501,13 +501,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Python/</loc>
-    <lastmod>2020-11-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Jenkins/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
@@ -515,7 +508,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
+    <loc>https://cyylog.github.io/tags/Python/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -536,7 +529,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/zookeeper/</loc>
+    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -550,14 +543,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Mysql/</loc>
-    <lastmod>2020-11-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Mycat/</loc>
+    <loc>https://cyylog.github.io/tags/zookeeper/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -578,7 +564,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
+    <loc>https://cyylog.github.io/tags/Mysql/</loc>
+    <lastmod>2020-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Mycat/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -586,6 +579,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
+    <lastmod>2020-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
