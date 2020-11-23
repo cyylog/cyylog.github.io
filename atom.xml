@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-19T16:31:14.215Z</updated>
+  <updated>2020-11-23T12:41:40.968Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -17,27 +17,27 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>zookeeper集群部署</title>
-    <link href="https://cyylog.github.io/2020/11/19/linux/zookeeper-ji-qun-bu-shu/"/>
-    <id>https://cyylog.github.io/2020/11/19/linux/zookeeper-ji-qun-bu-shu/</id>
-    <published>2020-11-19T15:14:08.000Z</published>
-    <updated>2020-11-19T16:31:14.215Z</updated>
+    <title>Kubernetes-network</title>
+    <link href="https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/"/>
+    <id>https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/</id>
+    <published>2020-11-20T17:21:16.000Z</published>
+    <updated>2020-11-23T12:41:40.968Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;一-环境准备&quot;&gt;&lt;a href=&quot;#一-环境准备&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h4 id=&quot;Kubernetes-network&quot;&gt;&lt;a href=&quot;#Kubernetes-network&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes-network&quot;&gt;&lt;/a&gt;Kubernetes-network&lt;/h4&gt;&lt;p&gt;&lt;a</summary>
         
       
     
     
     
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    <category term="Kubernetes" scheme="https://cyylog.github.io/categories/Kubernetes/"/>
     
     
-    <category term="zookeeper" scheme="https://cyylog.github.io/tags/zookeeper/"/>
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
