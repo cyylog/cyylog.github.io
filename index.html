@@ -658,6 +658,157 @@ $ start_</p>
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Mysql解决主从慢同步问题">
+                            
+                            <span class="card-title">Mysql解决主从慢同步问题</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                一.简介一般主从复制，有三个线程参与，都是单线程：Binlog Dump（主） —–&gt;IO Thread （从） —–&gt; SQL Thread（从）。复制出现延迟一般出在两个地方
+1）SQL线程忙不过来（可能需要应用数据量较大，
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-27
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/SQL/" class="post-category">
+                                    SQL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Mysql/">
+                            <span class="chip bg-color">Mysql</span>
+                        </a>
+                        
+                        <a href="/tags/Interview/">
+                            <span class="chip bg-color">Interview</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/11/24/linux/keepalived-pei-zhi-nfs-gao-ke-yong/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="keepalived配置nfs高可用">
+                            
+                            <span class="card-title">keepalived配置nfs高可用</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                一.简介NFS是单点的，如果一个节点出现问题，那使用它挂载服务的都将出现问题。所以需要高可用，挂掉一台不影响。采用keepalived+rsync+inotify-tools
+环境：ubuntu16.4nfs1 192.168.1.1 /m
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-24
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/keepalived/">
+                            <span class="chip bg-color">keepalived</span>
+                        </a>
+                        
+                        <a href="/tags/NFS/">
+                            <span class="chip bg-color">NFS</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/11/22/sql/mongodb-dan-dian-bu-shu/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Mongodb单点部署">
+                            
+                            <span class="card-title">Mongodb单点部署</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                一.依赖和环境centos7.2，4核cpu, 8G内存 100G硬盘版本：3.4.7社区版本端口：27017数据目录：/usr/local/mongodb/data/mongodb配置文件：/usr/local/mongodb/data/
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-22
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/SQL/" class="post-category">
+                                    SQL
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Mongodb/">
+                            <span class="chip bg-color">Mongodb</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2020/11/21/rong-qi/kubernetes-network/">
                         <div class="card-image">
                             
@@ -800,164 +951,6 @@ Kubeadm是一个K8s部署工具，提供kubea
                         
                         <a href="/tags/Kubernetes/">
                             <span class="chip bg-color">Kubernetes</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="k8s资源监控">
-                            
-                            <span class="card-title">k8s资源监控</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                k8s 资源监控
-kubernetes新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由kubelet、 metric-server 以及由API-server提供的API组成；负责CPU累积使用率、内存实时使
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-14
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Prometheus/">
-                            <span class="chip bg-color">Prometheus</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
-                            
-                            <span class="card-title">SQL语句优化</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
-select id,name from userinfo where name like '%name%'
-
-select id,name from userinfo wher
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/SQL/" class="post-category">
-                                    SQL
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Mysql/">
-                            <span class="chip bg-color">Mysql</span>
-                        </a>
-                        
-                        <a href="/tags/Interview/">
-                            <span class="chip bg-color">Interview</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes--Controller Manager + Scheduler 异常">
-                            
-                            <span class="card-title">Kubernetes--Controller Manager + Scheduler 异常</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                
-在加入集群后，Controller Manager  和   Scheduler  提示异常
-
-检查后发现：
-master初始化完成后，以下两个组件状态显示依然为Unhealthy
-root@master1:~$ sudo kubectl
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Kubernetes/">
-                            <span class="chip bg-color">Kubernetes</span>
-                        </a>
-                        
-                        <a href="/tags/Kubernetes-err/">
-                            <span class="chip bg-color">Kubernetes-err</span>
                         </a>
                         
                     </div>

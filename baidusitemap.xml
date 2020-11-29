@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/</loc>
+    <lastmod>2020-11-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/11/24/linux/keepalived-pei-zhi-nfs-gao-ke-yong/</loc>
+    <lastmod>2020-11-29</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/11/22/sql/mongodb-dan-dian-bu-shu/</loc>
+    <lastmod>2020-11-29</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/</loc>
     <lastmod>2020-11-23</lastmod>
   </url>

@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-23T12:41:40.968Z</updated>
+  <updated>2020-11-29T13:12:46.943Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,85 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql解决主从慢同步问题</title>
+    <link href="https://cyylog.github.io/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/"/>
+    <id>https://cyylog.github.io/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/</id>
+    <published>2020-11-27T15:46:46.000Z</published>
+    <updated>2020-11-29T13:12:46.943Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一-简介&quot;&gt;&lt;a href=&quot;#一-简介&quot; class=&quot;headerlink&quot; title=&quot;一.简介&quot;&gt;&lt;/a&gt;一.简介&lt;/h2&gt;&lt;p&gt;一般主从复制，有三个线程参与，都是单线程：Binlog Dump（主） —–&amp;gt;IO Thread （从）</summary>
+        
+      
+    
+    
+    
+    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
+    
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
+    
+    <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>keepalived配置nfs高可用</title>
+    <link href="https://cyylog.github.io/2020/11/24/linux/keepalived-pei-zhi-nfs-gao-ke-yong/"/>
+    <id>https://cyylog.github.io/2020/11/24/linux/keepalived-pei-zhi-nfs-gao-ke-yong/</id>
+    <published>2020-11-24T15:50:14.000Z</published>
+    <updated>2020-11-29T13:11:14.750Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;一-简介&quot;&gt;&lt;a href=&quot;#一-简介&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="keepalived" scheme="https://cyylog.github.io/tags/keepalived/"/>
+    
+    <category term="NFS" scheme="https://cyylog.github.io/tags/NFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mongodb单点部署</title>
+    <link href="https://cyylog.github.io/2020/11/22/sql/mongodb-dan-dian-bu-shu/"/>
+    <id>https://cyylog.github.io/2020/11/22/sql/mongodb-dan-dian-bu-shu/</id>
+    <published>2020-11-21T17:25:39.000Z</published>
+    <updated>2020-11-29T13:07:41.488Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h5 id=&quot;一-依赖和环境&quot;&gt;&lt;a href=&quot;#一-依赖和环境&quot; class=&quot;headerlink&quot; title=&quot;一.依赖和环境&quot;&gt;&lt;/a&gt;一.依赖和环境&lt;/h5&gt;&lt;p&gt;centos7.2，4核cpu, 8G内存</summary>
+        
+      
+    
+    
+    
+    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
+    
+    
+    <category term="Mongodb" scheme="https://cyylog.github.io/tags/Mongodb/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubernetes-network</title>
@@ -453,83 +532,6 @@
     <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
     
     <category term="shell" scheme="https://cyylog.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mycat</title>
-    <link href="https://cyylog.github.io/2020/09/28/sql/mycat/"/>
-    <id>https://cyylog.github.io/2020/09/28/sql/mycat/</id>
-    <published>2020-09-28T15:06:46.000Z</published>
-    <updated>2020-09-28T15:17:13.849Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;MySQL-Replication&quot;&gt;&lt;a href=&quot;#MySQL-Replication&quot; class=&quot;headerlink&quot; title=&quot;MySQL-Replication&quot;&gt;&lt;/a&gt;MySQL-Replication&lt;/h2&gt;&lt;h3</summary>
-        
-      
-    
-    
-    
-    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
-    
-    
-    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
-    
-    <category term="Mycat" scheme="https://cyylog.github.io/tags/Mycat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mysql-游标</title>
-    <link href="https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/"/>
-    <id>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</id>
-    <published>2020-07-16T03:54:04.000Z</published>
-    <updated>2020-10-30T04:14:09.765Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h5 id=&quot;mysql游标的用法及作用&quot;&gt;&lt;a href=&quot;#mysql游标的用法及作用&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
-    
-    
-    <category term="MySQL" scheme="https://cyylog.github.io/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python-fabric</title>
-    <link href="https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/"/>
-    <id>https://cyylog.github.io/2020/05/31/devops/python-zhi-fabric-mo-kuai/</id>
-    <published>2020-05-31T08:20:44.000Z</published>
-    <updated>2020-09-30T20:04:46.494Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;python-之-fabric-模块&quot;&gt;&lt;a href=&quot;#python-之-fabric-模块&quot; class=&quot;headerlink&quot; title=&quot;python 之 fabric 模块&quot;&gt;&lt;/a&gt;python 之 fabric</summary>
-        
-      
-    
-    
-    
-    <category term="DevOps" scheme="https://cyylog.github.io/categories/DevOps/"/>
-    
-    
-    <category term="Python" scheme="https://cyylog.github.io/tags/Python/"/>
     
   </entry>
   
