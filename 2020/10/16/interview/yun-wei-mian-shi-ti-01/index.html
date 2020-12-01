@@ -475,6 +475,10 @@ awk -F\" '{print $2}' access.log | awk '{print $2}' | sort | uniq -c | sort -r
 
 找出访问这些url的ｉｐ
 awk -F\" '($2 ~ "/phpmyadmin/index.php"){print $1}' access.log | awk '{print $1}' | sort | uniq -c | sort -r</code></pre>
+<ol start="3">
+<li>查看http的并发请求数与其TCP连接状态**</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">netstat -n |awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</code></pre>
 <h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><ol>
 <li><p>关闭selinux</p>
 <pre class=" language-shell"><code class="language-shell">sed -ri s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
@@ -563,29 +567,87 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 </ol>
 <pre class=" language-MYSQL"><code class="language-MYSQL">select aname,bname,pub from anthor a join book b on (a.ano = b.ano) where age < (select avg(age) from author)</code></pre>
 <ol start="5">
-<li><pre><code></code></pre></li>
+<li><strong>mysql的innodb如何定位锁问题，mysql如何减少主从复制延迟？</strong></li>
 </ol>
-<pre><code>
+<pre class=" language-shell"><code class="language-shell">mysql的innodb如何定位锁问题:
+
+在使用 show engine innodb status检查引擎状态时，发现了死锁问题
+
+在5.5中，information_schema 库中增加了三个关于锁的表（MEMORY引擎）
+
+innodb_trx ## 当前运行的所有事务
+innodb_locks ## 当前出现的锁
+innodb_lock_waits ## 锁等待的对应关系
 
 
-### 网络基础
+mysql如何减少主从复制延迟:
 
-1. 从技术角度描述一下用户打开https://cyylog.netlify.app所经过的所有过程，越详细越好。   （DNS+HTTP协议）
+如果延迟比较大，就先确认以下几个因素：
 
-~~~txt
-1. 域名解析
+1. 从库硬件比主库差，导致复制延迟
+
+2. 主从复制单线程，如果主库写并发太大，来不及传送到从库
+
+就会导致延迟。更高版本的mysql可以支持多线程复制
+
+3. 慢SQL语句过多
+
+4. 网络延迟
+
+5. master负载
+
+主库读写压力大，导致复制延迟，架构的前端要加buffer及缓存层
+
+6. slave负载
+
+一般的做法是，使用多台slave来分摊读请求，再从这些slave中取一台专用的服务器
+
+
+只作为备份用，不进行其他任何操作.另外， 2个可以减少延迟的参数:
+
+–slave-net-timeout=seconds 单位为秒 默认设置为 3600秒
+
+#参数含义：当slave从主数据库读取log数据失败后，等待多久重新建立连接并获取数据
+
+–master-connect-retry=seconds 单位为秒 默认设置为 60秒
+
+#参数含义：当重新建立主从连接时，如果连接建立失败，间隔多久后重试
+
+通常配置以上2个参数可以减少网络问题导致的主从数据同步延迟
+
+
+MySQL数据库主从同步延迟解决方案
+
+最简单的减少slave同步延时的方案就是在架构上做优化，尽量让主库的DDL快速执行
+
+还有就是主库是写，对数据安全性较高，比如sync_binlog=1，innodb_flush_log_at_trx_commit
+
+= 1 之类的设置，而slave则不需要这么高的数据安全，完全可以讲sync_binlog设置为0或者关闭binlog
+
+innodb_flushlog也可以设置为0来提高sql的执行效率。另外就是使用比主库更好的硬件设备作为slave</code></pre>
+<h3 id="网络基础"><a href="#网络基础" class="headerlink" title="网络基础"></a>网络基础</h3><ol>
+<li>从技术角度描述一下用户打开<a href="https://cyylog.netlify.app所经过的所有过程，越详细越好。" target="_blank" rel="noopener">https://cyylog.netlify.app所经过的所有过程，越详细越好。</a>   （DNS+HTTP协议）</li>
+</ol>
+<pre class=" language-txt"><code class="language-txt">1. 域名解析
 2. 发起TCP的3次握手
 3. 建立TCP连接后发起HTTP请求
 4. 服务器端响应http请求，浏览器得到html代码
 5. 浏览器解析html代码，并请求html代码中的资源
-6. 浏览器对页面进行渲染呈现给用户</code></pre><ol start="2">
+6. 浏览器对页面进行渲染呈现给用户</code></pre>
+<ol start="2">
 <li>tcpdump 抓本机 192.168.23.1 的80端口</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">tcpdump -i ens33 host 192.168.23.1 port 80</code></pre>
 <h3 id="CICD"><a href="#CICD" class="headerlink" title="CICD"></a>CICD</h3><h3 id="Zabbix"><a href="#Zabbix" class="headerlink" title="Zabbix"></a>Zabbix</h3><h3 id="ELK"><a href="#ELK" class="headerlink" title="ELK"></a>ELK</h3><h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><h3 id="常用web服务器"><a href="#常用web服务器" class="headerlink" title="常用web服务器"></a>常用web服务器</h3><blockquote>
 <p>Apache、Nginx、Tomcat</p>
 </blockquote>
-<h3 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h3><h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><h3 id="K8S"><a href="#K8S" class="headerlink" title="K8S"></a>K8S</h3>
+<h3 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h3><h3 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h3><h3 id="K8S"><a href="#K8S" class="headerlink" title="K8S"></a>K8S</h3><h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><h6 id="Keepalived的工作原理"><a href="#Keepalived的工作原理" class="headerlink" title="Keepalived的工作原理"></a><strong>Keepalived的工作原理</strong></h6><blockquote>
+<p>在一个虚拟路由器中，只有作为MASTER的VRRP路由器会一直发送VRRP通告信息,</p>
+<p>BACKUP不会抢占MASTER，除非它的优先级更高。当MASTER不可用时(BACKUP收不到通告信息)</p>
+<p>多台BACKUP中优先级最高的这台会被抢占为MASTER。这种抢占是非常快速的(&lt;1s)，以保证服务的连续性</p>
+<p>由于安全性考虑，VRRP包使用了加密协议进行加密。BACKUP不会发送通告信息，只会接收通告信息</p>
+</blockquote>
+
             </div>
             <hr/>
 
