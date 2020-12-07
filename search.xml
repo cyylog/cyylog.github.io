@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>CPU占用过高排查</title>
+      <link href="2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/"/>
+      <url>2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/</url>
+      
+        <content type="html"><![CDATA[<h1 id="CPU占用过高排查"><a href="#CPU占用过高排查" class="headerlink" title="CPU占用过高排查"></a>CPU占用过高排查</h1><h2 id="一-简介"><a href="#一-简介" class="headerlink" title="一.简介"></a>一.简介</h2><p>最近一段时间 某台服务器上的一个应用总是隔一段时间就自己挂掉 用top看了看 从重新部署应用开始没有多长时间CPU占用上升得很快</p><p>排查步骤</p><p>1.使用top 定位到占用CPU高的进程PID<br><code>top</code></p><p>2.通过ps aux | grep PID命令<br>获取线程信息，并找到占用CPU高的线程<br><code>ps -mp pid -o THREAD,tid,time | sort -rn</code></p><p>3.将需要的线程ID转换为16进制格式<br><code>printf &quot;%x\n&quot; tid</code></p><p>4.打印线程的堆栈信息 到了这一步具体看堆栈的日志来定位问题了<br><code>jstack pid |grep tid -A 30</code></p><h2 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h2><p>1.<code>top</code> 可以看出PID 733进程 的占用CPU 172%<br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/fb92bdc5bdb24e8bf80970c0df7f6ac426af6da6.png" alt="null"></p><p>2.查找进程733下的线程 可以看到TID 线程775占用了96%且持有了很长时间 其实到这一步基本上能猜测到应该是 肯定是那段代码发生了死循环<br><code>ps -mp 733 -o THREAD,tid,time | sort -rn</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/439824ac6acd7ff070d40c6ec493d4a46dd3df7b.png" alt="null"></p><p>3.线程ID转换为16进制格式<br><code>printf &quot;%x\n&quot; 775</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/216d653218dd336e2ec0e087c5bdb456c6a1c687.png" alt="null"></p><p>4.查看java 的堆栈信息<br><code>jstack 733 |grep 307 -A 30</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/052b92c367c00603377f840323e1c4034ba48cfc.png" alt="null"></p><p><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/3a40734e205741f6cf12628fef50a8921d8f23d5.png" alt="null"></p><p>显然是 SmsQueueServiceImpl 中的produceMissSms 和 consumeMissSms 方法有问题<br>一下为精简的部分代码</p><pre><code>/** * Created by dongxc on 2015/7/7. 通知消息队列 */@Service(&quot;smsQueueService&quot;)public class SmsQueueServiceImpl {    // 生产异常队列方法    public void produceMissSms(SmsLogDo smsLogDo) {        /*         * try{ String key = EnumRedisPrefix.SMS_QUEUE_MISS_DEAL.getValue(); boolean result = redisService.lpush(key,         * smsLogDo, 0); if(result==false){ logger.error(&quot;通知消息异常队列生产消息返回失败！&quot;+smsLogDo.getId()); } }catch(Exception e){         * logger.error(&quot;通知消息异常队列生产消息失败！&quot;, e); }         */    }    // 消费异常队列方法    public SmsLogDo consumeMissSms() {        try {            String destKey = EnumRedisPrefix.SMS_QUEUE_MISS_DEAL.getValue();            SmsLogDo smsLogDo = new SmsLogDo();            Object obj = null;            if (obj == null) {                return null;            } else {                smsLogDo = (SmsLogDo) obj;            }            return smsLogDo;        } catch (Exception e) {            logger.error(&quot;通知消息队列消费方法失败！&quot;, e);            return null;        }    }}</code></pre><p>在应用一启动的时候 spring初始化的就会执行这一段处理丢失消息的代码 然后这段死循环代码 没有任何作用</p><p>解决方法 即 注释掉whlie(true)这一段代码</p><p>重新部署后 cpu占用就很正常了<br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/f11fcd96a69755f4f94f901114488b546515dab6.png" alt="null"></p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Mysql解决主从慢同步问题</title>
       <link href="2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/"/>
       <url>2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/</url>

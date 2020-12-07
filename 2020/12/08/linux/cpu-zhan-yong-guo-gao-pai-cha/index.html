@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Mysql解决主从慢同步问题, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="CPU占用过高排查, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Mysql解决主从慢同步问题 | Cyylog</title>
+    <title>CPU占用过高排查 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Mysql解决主从慢同步问题</h1>
+                    <h1 class="description center-align post-title">CPU占用过高排查</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Mysql/">
-                                <span class="chip bg-color">Mysql</span>
-                            </a>
-                        
-                            <a href="/tags/Interview/">
-                                <span class="chip bg-color">Interview</span>
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
                             </a>
                         
                     </div>
@@ -425,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/SQL/" class="post-category">
-                                SQL
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -438,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-27
+                    2020-12-08
                 </div>
                 
 
@@ -454,39 +450,22 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一-简介"><a href="#一-简介" class="headerlink" title="一.简介"></a>一.简介</h2><p>一般主从复制，有三个线程参与，都是单线程：Binlog Dump（主） —–&gt;IO Thread （从） —–&gt; SQL Thread（从）。复制出现延迟一般出在两个地方</p>
-<p>1）SQL线程忙不过来（可能需要应用数据量较大，可能和从库本身的一些操作有锁和资源的冲突；主库可以并发写，SQL线程不可以；一个大的sql语句导致执行很慢；）</p>
-<p>2）网络抖动导致IO线程复制延迟（次要原因）。</p>
-<p>SQL thread在执行IO thread dump下来的relay log的时间差。大家都知道relay log中event记录的时间戳是主库上的时间戳，而SQL thread的时间戳是从库上的，也就是说，如果主库和从库的时间是一致的，那么这个SBM代表的确实是从库延后主库的一个时间差。但是如果主库和从库的时间不是一致的，那么这个SBM的意义就基本不存在了。将主库时间调快1小时，那从库默认慢一小时。</p>
-<h3 id="为何有延迟"><a href="#为何有延迟" class="headerlink" title="为何有延迟"></a>为何有延迟</h3><p>1.网络延迟<br>若主从之间网络延迟到，会造成sql线程无法实时将主的binlog日志复制过来。</p>
-<p>2.机器性能差<br>若主用的固态硬盘，从用的机械硬盘，那读取速度自然不一样，会造成主写入很快，从在慢慢读取，这样就不适合读写分离了。</p>
-<p>3.高负载<br>若从机器还安装了别的服务，用<code>top</code>可以看出是否有其它进程在占用资源，导致从性能下降。</p>
-<p>4.磁盘负载<br>用<code>iotop</code>可以看到当前磁盘的负载，若正在复制某些东西，会导致将主的binlog复制过来了，但写入到从mysql中会很慢，数据不一致。</p>
-<p>5.是否经常会有大事务？<br>这个可能DBA们会遇到比较多，比如在RBR模式下，执行带有大量的Delete操作，或者在MBR模式下删除时添加了不确定语句（类似limit）或一个表的Alter操作等，都会导致延迟情况的发生。</p>
-<p>这种可通过查看Processlist相关信息，以及使用mysqlbinlog查看binlog中的SQL就能快速进行确认。这个设想也被排除。</p>
-<p>6.死锁<br>锁冲突问题也可能导致从机的SQL线程执行慢，比如从机上有一些select …. for update的SQL，或者使用了MyISAM引擎等。此类问题，可以通过抓去Processlist以及查看information_schema下面和锁以及事务相关的表来查看。</p>
-<h2 id="二-观察"><a href="#二-观察" class="headerlink" title="二.观察"></a>二.观察</h2><p>在主上用<code>SHOW MASTER STATUS;</code>查看最新的binlog日志，在从上用<code>show slave status\G;</code>查看<strong>Master_Log_File</strong>，如果是一样的，说明sql线程将主的binlog日志都复制过来了，这是没延迟的。如果<strong>Seconds_Behind_Master</strong>是0则IO线程将同步过来的binlog日志都加载了，那延迟为0。</p>
-<p><strong>seconds_behind_master</strong>如果一直为0，突然就很高，那是因为主库在执行一个大的事件，当事件执行完成后从才开始复制，sbm会突然很高。</p>
-<h2 id="三-解决办法"><a href="#三-解决办法" class="headerlink" title="三.解决办法"></a>三.解决办法</h2><h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p>关闭binlog日志可以减轻从库的负载</p>
-<p>配置文件添加如下，将不缓冲直接写入，从而加速性能</p>
-<pre class=" language-shell"><code class="language-shell">sync_binlog=0
-innodb_flushlog
-innodb_flush_log_at_trx_commi=0</code></pre>
-<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><p>5.6开始MySQL正式支持多线程复制，如下命令查看有多少个线程在同步。<br><code>show variables like &#39;%slave_parallel%&#39;</code><br><img src="http://linkdevops.oss-cn-beijing.aliyuncs.com/wp-content/uploads/2020/04/image-1588056883161.png" alt="file"></p>
-<p>slave_parallel_type<br>为DATABASE时，基于数据库的并发，也就是每一个数据库都有一个线程去同步，如果只有一个数据库，那其它线程不工作。不同库下的表并发提交时的数据不会相互影响，即slave节点可以用对relay log中不同的库各分配一个类似SQL功能的线程，来重放relay log中主库已经提交的事务，保持数据与主库一致。</p>
-<p>为LOGICAL_CLOCK时，则可以一个数据库一个多线程同步。一个组提交的事务都是可以并行回放（配合binary log group commit）。</p>
-<p>slave_parallel_workers<br>代表启动多少个线程用于同步，0就是默认1个。</p>
-<p>静态设置：</p>
-<pre class=" language-shell"><code class="language-shell">slave_parallel_type='LOGICAL_CLOCK'
-slave_parallel_workers=8</code></pre>
-<p>动态设置：<br><code>SET GLOBAL slave_parallel_type=&#39;LOGICAL_CLOCK&#39;;</code><br><code>SET GLOBAL slave_parallel_workers=8;</code></p>
-<h3 id="组提交"><a href="#组提交" class="headerlink" title="组提交"></a>组提交</h3><p>在5.7中，多线程复制的功能有很很大的改善，支持LOGICAL_CLOCK的方式，在这种方式下，并发执行的多个事务只要能在同一时刻commit，就说明线程之间没有锁冲突，那么Master就可以将这一组的事务标记并在slave机器上安全的进行并发执行。</p>
-<p>因此，可以尽可能地使所有线程能在同一时刻提交，这样就能很大程度上提升从机的执行的并行度，从而减少从机的延迟。</p>
-<p>有了这个猜想后，很自然想到了人为控制尽可能多地使所有线程在同一时刻提交，其实官方已经给我们提供了类似的参数，参数如下：<br>binlog_group_commit_sync_delay</p>
-<p>备注：这个参数会对延迟SQL的响应，对延迟非常敏感的环境需要特别注意，单位是微秒。</p>
-<p>由于是监控的DB，主要是load数据，然后进行展示，1秒左右的导入延迟对业务没什么影响，因此将两个参数调整为：<br><code>SET GLOBAL binlog_group_commit_sync_delay = 1000000;</code><br><code>SET GLOBAL binlog_group_commit_sync_no_delay_count = 20;</code></p>
-<p>备注：这两个参数请根据业务特性进行调整，以免造成线上故障。</p>
-<p>为了防止导入SQL堆积，设置SET GLOBAL binlog_group_commit_sync_no_delay_count为20，在达到20个事务时不管是否达到了1秒都进行提交，来减少对业务的影响。</p>
+                <h1 id="CPU占用过高排查"><a href="#CPU占用过高排查" class="headerlink" title="CPU占用过高排查"></a>CPU占用过高排查</h1><h2 id="一-简介"><a href="#一-简介" class="headerlink" title="一.简介"></a>一.简介</h2><p>最近一段时间 某台服务器上的一个应用总是隔一段时间就自己挂掉 用top看了看 从重新部署应用开始没有多长时间CPU占用上升得很快</p>
+<p>排查步骤</p>
+<p>1.使用top 定位到占用CPU高的进程PID<br><code>top</code></p>
+<p>2.通过ps aux | grep PID命令<br>获取线程信息，并找到占用CPU高的线程<br><code>ps -mp pid -o THREAD,tid,time | sort -rn</code></p>
+<p>3.将需要的线程ID转换为16进制格式<br><code>printf &quot;%x\n&quot; tid</code></p>
+<p>4.打印线程的堆栈信息 到了这一步具体看堆栈的日志来定位问题了<br><code>jstack pid |grep tid -A 30</code></p>
+<h2 id="二-例子"><a href="#二-例子" class="headerlink" title="二.例子"></a>二.例子</h2><p>1.<code>top</code> 可以看出PID 733进程 的占用CPU 172%<br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/fb92bdc5bdb24e8bf80970c0df7f6ac426af6da6.png" alt="null"></p>
+<p>2.查找进程733下的线程 可以看到TID 线程775占用了96%且持有了很长时间 其实到这一步基本上能猜测到应该是 肯定是那段代码发生了死循环<br><code>ps -mp 733 -o THREAD,tid,time | sort -rn</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/439824ac6acd7ff070d40c6ec493d4a46dd3df7b.png" alt="null"></p>
+<p>3.线程ID转换为16进制格式<br><code>printf &quot;%x\n&quot; 775</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/216d653218dd336e2ec0e087c5bdb456c6a1c687.png" alt="null"></p>
+<p>4.查看java 的堆栈信息<br><code>jstack 733 |grep 307 -A 30</code><br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/052b92c367c00603377f840323e1c4034ba48cfc.png" alt="null"></p>
+<p><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/3a40734e205741f6cf12628fef50a8921d8f23d5.png" alt="null"></p>
+<p>显然是 SmsQueueServiceImpl 中的produceMissSms 和 consumeMissSms 方法有问题<br>一下为精简的部分代码</p>
+<pre><code>/** * Created by dongxc on 2015/7/7. 通知消息队列 */@Service(&quot;smsQueueService&quot;)public class SmsQueueServiceImpl {    // 生产异常队列方法    public void produceMissSms(SmsLogDo smsLogDo) {        /*         * try{ String key = EnumRedisPrefix.SMS_QUEUE_MISS_DEAL.getValue(); boolean result = redisService.lpush(key,         * smsLogDo, 0); if(result==false){ logger.error(&quot;通知消息异常队列生产消息返回失败！&quot;+smsLogDo.getId()); } }catch(Exception e){         * logger.error(&quot;通知消息异常队列生产消息失败！&quot;, e); }         */    }    // 消费异常队列方法    public SmsLogDo consumeMissSms() {        try {            String destKey = EnumRedisPrefix.SMS_QUEUE_MISS_DEAL.getValue();            SmsLogDo smsLogDo = new SmsLogDo();            Object obj = null;            if (obj == null) {                return null;            } else {                smsLogDo = (SmsLogDo) obj;            }            return smsLogDo;        } catch (Exception e) {            logger.error(&quot;通知消息队列消费方法失败！&quot;, e);            return null;        }    }}</code></pre><p>在应用一启动的时候 spring初始化的就会执行这一段处理丢失消息的代码 然后这段死循环代码 没有任何作用</p>
+<p>解决方法 即 注释掉whlie(true)这一段代码</p>
+<p>重新部署后 cpu占用就很正常了<br><img src="http://52wiki.oss-cn-beijing.aliyuncs.com/doc/f11fcd96a69755f4f94f901114488b546515dab6.png" alt="null"></p>
+<hr>
 
             </div>
             <hr/>
@@ -500,12 +479,8 @@ slave_parallel_workers=8</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Mysql/">
-                                    <span class="chip bg-color">Mysql</span>
-                                </a>
-                            
-                                <a href="/tags/Interview/">
-                                    <span class="chip bg-color">Interview</span>
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
                                 </a>
                             
                         </div>
@@ -676,9 +651,10 @@ slave_parallel_workers=8</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/">
                     <div class="card-image">
@@ -699,9 +675,9 @@ slave_parallel_workers=8</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -714,6 +690,7 @@ slave_parallel_workers=8</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -732,32 +709,32 @@ slave_parallel_workers=8</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/24/linux/keepalived-pei-zhi-nfs-gao-ke-yong/">
+                <a href="/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="keepalived配置nfs高可用">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Mysql解决主从慢同步问题">
                         
-                        <span class="card-title">keepalived配置nfs高可用</span>
+                        <span class="card-title">Mysql解决主从慢同步问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            一.简介NFS是单点的，如果一个节点出现问题，那使用它挂载服务的都将出现问题。所以需要高可用，挂掉一台不影响。采用keepalived+rsync+inotify-tools
-环境：ubuntu16.4nfs1 192.168.1.1 /m
+                            一.简介一般主从复制，有三个线程参与，都是单线程：Binlog Dump（主） —–&gt;IO Thread （从） —–&gt; SQL Thread（从）。复制出现延迟一般出在两个地方
+1）SQL线程忙不过来（可能需要应用数据量较大，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-24
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
                                 </a>
                             
                             
@@ -767,12 +744,12 @@ slave_parallel_workers=8</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/keepalived/">
-                        <span class="chip bg-color">keepalived</span>
+                    <a href="/tags/Mysql/">
+                        <span class="chip bg-color">Mysql</span>
                     </a>
                     
-                    <a href="/tags/NFS/">
-                        <span class="chip bg-color">NFS</span>
+                    <a href="/tags/Interview/">
+                        <span class="chip bg-color">Interview</span>
                     </a>
                     
                 </div>

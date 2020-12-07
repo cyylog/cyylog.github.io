@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-11-29T13:12:46.943Z</updated>
+  <updated>2020-12-07T22:20:18.562Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CPU占用过高排查</title>
+    <link href="https://cyylog.github.io/2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/"/>
+    <id>https://cyylog.github.io/2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/</id>
+    <published>2020-12-08T03:54:25.000Z</published>
+    <updated>2020-12-07T22:20:18.562Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;CPU占用过高排查&quot;&gt;&lt;a href=&quot;#CPU占用过高排查&quot; class=&quot;headerlink&quot; title=&quot;CPU占用过高排查&quot;&gt;&lt;/a&gt;CPU占用过高排查&lt;/h1&gt;&lt;h2 id=&quot;一-简介&quot;&gt;&lt;a href=&quot;#一-简介&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql解决主从慢同步问题</title>
@@ -505,33 +530,6 @@
     
     
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell脚本加密经验分享</title>
-    <link href="https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/"/>
-    <id>https://cyylog.github.io/2020/10/01/linux/shell/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/</id>
-    <published>2020-09-30T18:15:39.000Z</published>
-    <updated>2020-11-01T02:19:38.678Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h5 id=&quot;为啥要加密shell脚本&quot;&gt;&lt;a href=&quot;#为啥要加密shell脚本&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-    <category term="shell" scheme="https://cyylog.github.io/tags/shell/"/>
     
   </entry>
   
