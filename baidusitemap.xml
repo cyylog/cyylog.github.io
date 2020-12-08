@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/12/09/devops/golang/liao-jie-sync.pool/</loc>
+    <lastmod>2020-12-08</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/</loc>
     <lastmod>2020-12-07</lastmod>
   </url>

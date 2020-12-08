@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-12-07T22:20:18.562Z</updated>
+  <updated>2020-12-08T17:04:31.209Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>了解 Sync.Pool</title>
+    <link href="https://cyylog.github.io/2020/12/09/devops/golang/liao-jie-sync.pool/"/>
+    <id>https://cyylog.github.io/2020/12/09/devops/golang/liao-jie-sync.pool/</id>
+    <published>2020-12-08T17:03:39.000Z</published>
+    <updated>2020-12-08T17:04:31.209Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;Go-了解-Sync-Pool&quot;&gt;&lt;a href=&quot;#Go-了解-Sync-Pool&quot; class=&quot;headerlink&quot; title=&quot;Go: 了解 Sync.Pool&quot;&gt;&lt;/a&gt;Go: 了解</summary>
+        
+      
+    
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/categories/Golang/"/>
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/tags/Golang/"/>
+    
+  </entry>
   
   <entry>
     <title>CPU占用过高排查</title>
@@ -496,31 +521,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes架构—组件</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</id>
-    <published>2020-10-03T11:57:00.000Z</published>
-    <updated>2020-10-03T14:07:22.651Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Kubernetes-组件&quot;&gt;&lt;a href=&quot;#Kubernetes-组件&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes 组件&quot;&gt;&lt;/a&gt;Kubernetes 组件&lt;/h1&gt;&lt;p&gt;当你部署完 Kubernetes,</summary>
         
       
     
