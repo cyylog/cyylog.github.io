@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-12-08T17:04:31.209Z</updated>
+  <updated>2020-12-15T20:00:48.372Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes on CRI-O (CentOS)</title>
+    <link href="https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/"/>
+    <id>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</id>
+    <published>2020-12-14T18:14:19.000Z</published>
+    <updated>2020-12-15T20:00:48.372Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;Kubernetes-on-CRI-O-CentOS&quot;&gt;&lt;a href=&quot;#Kubernetes-on-CRI-O-CentOS&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes on CRI-O</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>了解 Sync.Pool</title>
@@ -202,7 +227,7 @@
     <link href="https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/"/>
     <id>https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/</id>
     <published>2020-11-15T04:24:13.000Z</published>
-    <updated>2020-11-17T06:37:25.884Z</updated>
+    <updated>2020-12-15T20:01:51.844Z</updated>
     
     
       
@@ -496,31 +521,6 @@
         
         
     <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes架构-节点</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</id>
-    <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:44.758Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;节点&quot;&gt;&lt;a href=&quot;#节点&quot; class=&quot;headerlink&quot; title=&quot;节点&quot;&gt;&lt;/a&gt;节点&lt;/h1&gt;&lt;p&gt;Kubernetes 通过将容器放入在节点（Node）上运行的 Pod 中来执行你的工作负载。</summary>
         
       
     

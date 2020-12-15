@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="k8s资源监控, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Kubernetes on CRI-O (CentOS), 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>k8s资源监控 | Cyylog</title>
+    <title>Kubernetes on CRI-O (CentOS) | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">k8s资源监控</h1>
+                    <h1 class="description center-align post-title">Kubernetes on CRI-O (CentOS)</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Prometheus/">
-                                <span class="chip bg-color">Prometheus</span>
+                            <a href="/tags/Kubernetes/">
+                                <span class="chip bg-color">Kubernetes</span>
                             </a>
                         
                     </div>
@@ -421,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                监控
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                容器
                             </a>
                         
                     </div>
@@ -434,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-14
+                    2020-12-15
                 </div>
                 
 
@@ -450,183 +450,230 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="k8s-资源监控"><a href="#k8s-资源监控" class="headerlink" title="k8s 资源监控"></a>k8s 资源监控</h4><blockquote>
-<p><code>kubernetes</code>新一代的监控模型由：核心指标流水线和第三方非核心监控流水线组成。核心指标流水线由<code>kubelet</code>、 <code>metric-server</code> 以及由<code>API-server</code>提供的<code>API</code>组成；负责<code>CPU</code>累积使用率、内存实时使用率、<code>POD</code>资源占用率、 <code>Container</code>磁盘占用率等。而第三方非核心监控流水线 负责从<code>OS</code>收集各种指标数据并提供给终端用户、存储系统、 以及<code>HPA</code>等。 监控系统收集两种指标： 资源指标与自定义指标。 </p>
+                <h3 id="Kubernetes-on-CRI-O-CentOS"><a href="#Kubernetes-on-CRI-O-CentOS" class="headerlink" title="Kubernetes on CRI-O (CentOS)"></a>Kubernetes on CRI-O (CentOS)</h3><h4 id="Docker-现在在-Kubernetes-中已弃用-。"><a href="#Docker-现在在-Kubernetes-中已弃用-。" class="headerlink" title="Docker 现在在 Kubernetes 中已弃用 。"></a>Docker 现在在 Kubernetes 中已弃用 。</h4><p>kubelet 中的 Docker 支持现已弃用，并将在以后的版本中删除。Kubelet 使用一个名为 <code>dockershim</code>的模块，该模块实现了对 Docker 的 CRI 支持，并且在 Kubernetes 社区中看到了维护问题。</p>
+<p>So，现在 Kubernetes 推荐使用不同的 Container Runtime Interface 而不是 docker。</p>
+<h4 id="为什么选择-CRI-O"><a href="#为什么选择-CRI-O" class="headerlink" title="为什么选择 CRI-O ?"></a>为什么选择 CRI-O ?</h4><p>CRI-O是 Kubernetes CRI（ Container Runtime Interface ）的实现，以启用使用OCI（ Open Container Initiative ）兼容的运行时。</p>
+<p>它是将Docker，Moby 或 rkt 用作 Kubernetes 的运行时的轻量级替代方案。</p>
+<p>CRI-O是主要由Red Hat员工开发的CRI运行时。实际上，该运行时现在已在 Red Hat OpenShift 中使用。并且，他们不再依赖 Docker。</p>
+<p>有趣的是，RHEL 7 也不正式支持 Docker。相反，它们为容器环境提供 Podman，Buildah 和 CRI-O。</p>
+<h4 id="Let’s-get-started"><a href="#Let’s-get-started" class="headerlink" title="Let’s get started"></a>Let’s get started</h4><ul>
+<li>one master node</li>
+<li>two worker nodes</li>
+</ul>
+<h5 id="Installing-CRI-O"><a href="#Installing-CRI-O" class="headerlink" title="Installing CRI-O"></a>Installing CRI-O</h5><blockquote>
+<p> (在所有节点上完成)</p>
 </blockquote>
-<blockquote>
-<p><strong><code>Metrics-server</code></strong> 是资源指标<code>API</code> 。它提供核心指标，包括<code>CPU</code>累积使用率、内存实时使用率、<code>Pod</code> 的资源占用率及 容器的磁盘占用率。这些指标由<code>kubelet</code>、<code>metrics-server</code>以及由<code>API server</code>提供的。 </p>
+<ul>
+<li>为OS创建一个环境变量。</li>
+</ul>
+<pre><code>$ export OS=CentOS_7</code></pre><blockquote>
+<p>注意：如果您使用的是CentOS 8，则将变量名称命名为CentOS_8</p>
 </blockquote>
-<blockquote>
-<p><strong><code>Prometheus</code></strong>是自定义指标的提供者。它收集的数据还需要经过<code>kube-state-metrics</code>转换处理，再由 <code>k8s-prometheus-adapter</code> 输出为<code>metrics-ap</code>i 才能被 <code>kubernetes cluster</code> 所读取。用于从系统收集各种指标数据，并经过处理提供给 终端用户、存储系统以及 <code>HPA</code>，这些数据包括核心指标和许多非核心指标。</p>
+<ul>
+<li>为crio的VERSION创建另一个环境变量。</li>
+</ul>
+<pre><code>$ export VERSION=1.17</code></pre><blockquote>
+<p>注意：如果您使用的是CentOS 8，则还可以安装crio版本1.18</p>
 </blockquote>
-<blockquote>
-<p> <strong>资源指标**</strong><code>API</code>** 负责收集各种资源指标，但它需要扩展<code>APIServer</code> 。 可以利用 <code>aggregator</code> 将 <code>metrics-server</code> 与 <code>APIServer</code>进行聚合，达到扩展功能的效果。这样 就可以利用扩展的 <code>API Server</code> 功能(即资源指标<code>API</code>)进行收集 各种资源指标(1.8+支持)。<code>kubectl top</code> 、<code>HPA</code>等功能组件 必须依赖资源指标 <code>API</code> （早期版本它们依赖<code>heapster</code>）。 </p>
-</blockquote>
-<blockquote>
-<p><strong>``HPA`</strong>根据<code>CPU</code>、<code>Memory</code>、<code>IO</code>、<code>net connections</code>等指标进行扩展或收缩(早期的<code>heapster</code>只能提供<code>CPU</code>、<code>Memory</code>指标) </p>
-</blockquote>
-<h5 id="一、metrics-server"><a href="#一、metrics-server" class="headerlink" title="一、metrics-server"></a><strong>一、</strong>metrics-server</h5><blockquote>
-<p>是托管在kubernetes cluster上的一个Pod ，再由 kube-aggregator 将它和原API Server 进行聚合，达到扩展API 的 效果。它是现在 kubectl top 、HPA的前提依赖。 </p>
-</blockquote>
-<p><strong>部署**</strong><code>metrics-server</code>** 如下： </p>
-<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/metrics-server</a> </p>
-<p>当metrics-server部署完毕后，如上所示可以查看到 metrics相关的API，并且可以使用kubectl top 命令查看node或 pod的资源占用情况 。 </p>
-<p><strong>如果需要安装最新版本可以</strong> </p>
-<p><code>git clone https://github.com/kubernetes-incubator/metrics-server.git</code> </p>
-<p><code>cd metrics-server/deploy/1.8+/</code>     </p>
-<p><code>kubectl apply -f ./</code> </p>
-<p><strong>如果发现</strong><code>metrics-server</code><strong>的</strong><code>pod</code>可以正常启动，但在执行<strong>kubectl top node</strong>时提示<strong><code>metrics-server</code></strong> <strong>不可用</strong>，在执行 <code>kubectl log metrics-server-* -n kube-system</code> 时有错 误提示，很可能是因为：<code>resource-reader.yaml</code> 文件中 <code>ClusterRole</code> 的<code>rules</code>中缺少 <code>namespaces</code> 权限，以及<code>metrics-server-deployment.yaml</code>文件中<code>container</code>下缺少以下语句，以忽略<code>tls</code>认证。 </p>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">command</span><span class="token punctuation">:</span>
-   <span class="token punctuation">-</span> /metrics<span class="token punctuation">-</span>server
-   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>insecure<span class="token punctuation">-</span>tls
-   <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>kubelet<span class="token punctuation">-</span>preferred<span class="token punctuation">-</span>address<span class="token punctuation">-</span>types=InternalIP</code></pre>
-<h5 id="二、Prometheus"><a href="#二、Prometheus" class="headerlink" title="二、Prometheus"></a>二、Prometheus</h5><p>官网 :   <a href="https://prometheus.io" target="_blank" rel="noopener">https://prometheus.io</a></p>
-<p>Architecture</p>
-<p><a href="https://imgchr.com/i/BNhGyF" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhGyF.png" alt="BNhGyF.png"></a></p>
-<blockquote>
-<p>Prometheus 通过node_exporter获取各<strong>Nodes</strong>的信息。 <strong>node_exporter**</strong>它只负责节点级别的信息汇总，如果需要** </p>
-<p><strong>采集其它指标数据，就需要部署专用的**</strong>exporter** 。 Prometheus 通过 metrics-url 地址到各<strong>Pods</strong>获取数据 。 </p>
-<p>prometheus 提供了一个Restful 风格的<strong>PromQL</strong>接口，可以让用户输入查询表达式。但K8s的 API Server 无法查询 </p>
-<p>其值 ，因为它们默认的数据格式不统一。数据需要<strong>kube-state-metrics</strong>组件将其处理、转换，然后由<strong>k8s</strong></p>
-<p><strong>prometheus-adapter</strong>组件读取并聚合到API上，最后 kubernetes cluster 的API server 才能识别。 所以<strong>各节点需</strong> </p>
-<p><strong>要部署**</strong>node_exporter** <strong>组件，然后**</strong>Prometheus<strong><strong>从各节点的</strong></strong>node_exporter<strong><strong>上获取</strong></strong>infomation<strong>**，然后就可以通过</strong> </p>
-<p><strong>PromQL</strong> <strong>查询各种数据。这些数据的格式再由**</strong>kube-state-metrics<strong><strong>组件进行转换，然后再由</strong></strong>kube-prometheus**</p>
-<p><strong>adapter**</strong>组件将转换后的数据输出为<strong>**Custom metrics API</strong> <strong>，并聚合到**</strong>API<strong>**上，以便用户使用</strong>。 </p>
-</blockquote>
-<p><a href="https://imgchr.com/i/BNhWFI" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/31/BNhWFI.png" alt="BNhWFI.png"></a></p>
-<p><strong>部署**</strong>kubernetes**, 如下： </p>
-<p>参考 ：<a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus</a> </p>
-<p><strong>1)</strong> <strong>定义名称空间</strong> </p>
-<pre class=" language-shell"><code class="language-shell">kubectl apply -f namespace.yaml</code></pre>
-<p><strong>2)</strong> <strong>部署**</strong>node_exporter**</p>
-<pre class=" language-shell"><code class="language-shell">cd node_exporter/ 
-kubectl apply -f ./</code></pre>
-<p><strong>3)</strong> <strong>部署**</strong>prometheus**</p>
-<pre class=" language-shell"><code class="language-shell">cd ../prometheus/ 
-kubectl apply -f ./</code></pre>
-<p><strong>4)</strong> <strong>部署**</strong>kube-state-metrics**</p>
-<pre class=" language-shell"><code class="language-shell">cd ../kube-state-metrics/ 
-kubectl apply -f ./</code></pre>
-<p><strong>5)</strong> <strong>部署**</strong>prometheus-adapter** </p>
-<p>参考 ：<a href="https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy" target="_blank" rel="noopener">https://github.com/DirectXMan12/k8s-prometheus-adapter/tree/master/deploy</a></p>
-<pre class=" language-shell"><code class="language-shell">cd ../k8s-prometheus-adapter/ 
-grep secretName custom-metrics-apiserver-deployment.yaml 
-cd /etc/kubernetes/pki/ 
-(umask 077; openssl genrsa -out serving.key 2048)
-openssl req -new -key serving.key -out serving.csr -subj "/CN=serving" 
-openssl x509 -req -in serving.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out serving.crt -days 3650 
-kubectl create secret generic cm-adapter-serving-certs --from-file=serving.crt=./serving.crt --from-file=serving.key=./serving.key -n prom kubectl get secret -n prom 
-cd - 
-kubectl apply -f ./</code></pre>
-<p><strong>6)</strong> <strong>部署**</strong>alertmanager**</p>
-<pre class=" language-shell"><code class="language-shell">cd ../alertmanager/ 
-kubectl create secret generic dingtalk-secret --from- literal=token=fasdfsfsdfgsdfg944dsfgsdfgsadfsdfgsdfgsdfgsdfgsdfgsdfgsdfgfasert -n prom 
-kubectl apply -f ./</code></pre>
-<p>钉钉报警参考：<a href="https://github.com/cnych/alertmanager-dingtalk-hook" target="_blank" rel="noopener">https://github.com/cnych/alertmanager-dingtalk-hook</a></p>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">route</span><span class="token punctuation">:</span> 
-  <span class="token key atrule">group_by</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'alertname'</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 报警分组依据 </span>
-  <span class="token key atrule">group_wait</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 最初即第一次等待多久时间发送一组警报的通知 </span>
-  <span class="token key atrule">group_interval</span><span class="token punctuation">:</span> 10s <span class="token comment" spellcheck="true"># 在发送新警报前的等待时间 </span>
-  <span class="token key atrule">repeat_interval</span><span class="token punctuation">:</span> 5m <span class="token comment" spellcheck="true"># 发送重复警报的周期 对于email配置中，此项不可以设置过低，否则将会由于邮件发送太 多频繁，被smtp服务器拒绝 </span>
-  <span class="token key atrule">receiver</span><span class="token punctuation">:</span> <span class="token string">'email'</span> <span class="token comment" spellcheck="true"># 发送警报的接收者的名称，以下receivers name的名称</span></code></pre>
-<h5 id="三、-Grafana"><a href="#三、-Grafana" class="headerlink" title="三、**Grafana**"></a><strong>三、**</strong>Grafana**</h5><blockquote>
-<p>grafana 是一个可视化面板，有着非常漂亮的图表和布局展示，功能齐全的度量仪表盘和图形编辑器，支持 Graphite、zabbix、InflfluxDB、Prometheus、OpenTSDB、Elasticsearch 等作为数据源，比 Prometheus 自带的 图表展示功能强大太多，更加灵活，有丰富的插件，功能更加强大。(使用promQL语句查询出了一些数据，并且在 Prometheus 的 Dashboard 中进行了展示，但是明显可以感觉到 Prometheus 的图表功能相对较弱，所以一般会使用第三方的工具展示这些数据，例Grafana) </p>
-</blockquote>
-<p><strong>部署**</strong>Grafana** 参考 ：<a href="https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb" target="_blank" rel="noopener">https://github.com/kubernetes/heapster/tree/master/deploy/kube-confifig/inflfluxdb</a></p>
-<pre class=" language-shell"><code class="language-shell">cd grafana/ 
-kubectl apply -f grafana.yaml 
-kubectl get pods -n prom</code></pre>
-<blockquote>
-<p>Grafana的使用，默认用户名密码都是admin，登录后首先添加数据源 (如果登录grafana web 时不用输入用户名、 密码即可操作，说明在grafana.yml 文件中的GF_AUTH_ANONYMOUS_ENABLED 项设置了true，导致匿名用户以 admin的角色登录；将其更改为 false，然后再次kubectl apply -f grafana.yml 即可解决 )</p>
-</blockquote>
-<p><a href="https://imgchr.com/i/BNtacT" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/30/BNtacT.png" alt="BNtacT.png"></a></p>
-<h5 id="四、-Ingress-nginx"><a href="#四、-Ingress-nginx" class="headerlink" title="四、**Ingress-nginx**"></a><strong>四、**</strong>Ingress-nginx**</h5><pre class=" language-shell"><code class="language-shell"># cat ingress-rule-monitor-svc.yaml
-apiVersion: extensions/v1beta1 
-kind: Ingress 
-metadata: 
-  name: ingress-rule-monitor 
-  namespace: prom 
-  annotations: 
-    kubernetes.io/ingress.class: "nginx" 
-    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 192.168.0.0/16" 
-spec: 
-  rules: 
-  - host: grafana-devel.domain.cn 
-    http: 
-      paths: 
-      - path: /v1
-        backend: 
-          serviceName: monitoring-grafana 
-          servicePort: 80 
-  - host: prometheus-devel.domain.cn 
-    http: 
-      paths: 
-      - path: /v1
-        backend: 
-          serviceName: prometheus 
-          servicePort: 9090 
+<ul>
+<li>为cri-o配置REPO。</li>
+</ul>
+<pre><code>$ sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/devel:kubic:libcontainers:stable.repo</code></pre><pre><code>$ sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/devel:kubic:libcontainers:stable:cri-o:$VERSION.repo</code></pre><ul>
+<li>Install cri-o.</li>
+</ul>
+<pre><code>$ sudo yum install cri-o -y</code></pre><ul>
+<li>启动并启用cri-o服务。</li>
+</ul>
+<pre><code>$ sudo systemctl start cri-o </code></pre><ul>
+<li>如果启动cri-o有任何问题，请参阅故障排除部分！</li>
+</ul>
+<pre><code>$ sudo systemctl enable cri-o</code></pre><h5 id="故障排除"><a href="#故障排除" class="headerlink" title="故障排除"></a>故障排除</h5><h6 id="无法启动cri-o服务："><a href="#无法启动cri-o服务：" class="headerlink" title="无法启动cri-o服务："></a>无法启动cri-o服务：</h6><pre><code>$ sudo systemctl status cri-o
 
-# kubectl apply -f ingress-rule-monitor-svc.yaml</code></pre>
-<h5 id="五、-Exporters-and-integrations"><a href="#五、-Exporters-and-integrations" class="headerlink" title="五、**Exporters and integrations**"></a><strong>五、**</strong>Exporters and integrations**</h5><pre class=" language-shell"><code class="language-shell">--- 
-apiVersion: v1 
-kind: Service 
-metadata: 
-  name: nginx-svc 
-  labels: 
-    app: nginx 
-  annotations: 
-    prometheus.io/scrape: "true" 
-    prometheus.io/port: "9113" 
-spec: 
-  ports: 
-  - port: 80 
-    name: http 
-  - port: 443 
-    name: https 
-  - port: 9113
-    name: exporter-port
-  selector: 
-    app: nginx 
-    #type: NodePort 
+crio.service - Container Runtime Interface for OCI (CRI-O)
+   Loaded: loaded (/usr/lib/systemd/system/crio.service; disabled; vendor preset: disabled)
+   Active: failed (Result: exit-code) since Fri 2020-12-11 01:42:49 EST; 29s ago
+     Docs: https://github.com/cri-o/cri-o
+  Process: 1259 ExecStart=/usr/bin/crio $CRIO_CONFIG_OPTIONS $CRIO_RUNTIME_OPTIONS $CRIO_STORAGE_OPTIONS $CRIO_NETWORK_OPTIONS $CRIO_METRICS_OPTIONS (code=exited, status=1/FAILURE)
+ Main PID: 1259 (code=exited, status=1/FAILURE)
 
---- 
-apiVersion: apps/v1 
-kind: Deployment 
-metadata: 
-  name: nginx 
-spec: 
-  replicas: 1 
-  selector: 
-    matchLabels: 
-      app: nginx 
-  template: 
-    metadata: 
-      labels: 
-        app: nginx 
-      annotations: 
-        prometheus.io/scrape: "true" 
-        prometheus.io/port: "9113" 
-    spec: 
-      containers: 
-      - name: nginx 
-        image: nginx:latest 
-        imagePullPolicy: IfNotPresent 
-        ports: 
-        - containerPort: 80 
-          name: http 
-        - containerPort: 443 
-          name: https 
-      - name: nginx-exporter 
-        image: nikosch86/nginx_exporter:latest 
-        resources: 
-         requests: 
-           cpu: 100m 
-           memory: 100Mi 
-        ports: 
-        - containerPort: 9113 
-          name: exporter-port
-</code></pre>
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal systemd[1]: Starting Container Runtime Interface for OCI (CRI-O)...
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal crio[1259]: time=&quot;2020-12-11 01:42:49.409813214-01:00&quot; level=fatal msg=&quot;Validating root config: failed to get store to set defaults: kernel does not support overlay fs: overlay: the backing xfs filesystem is formatted without d_type support, which leads to incorrect behavior. Reformat the filesystem with ftype=1 to enable d_type support. Running without d_type is not supported.: driver not supported&quot;
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal systemd[1]: crio.service: main process exited, code=exited, status=1/FAILURE
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal systemd[1]: Failed to start Container Runtime Interface for OCI (CRI-O).
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal systemd[1]: Unit crio.service entered failed state.
+Dec 11 01:42:49 ip-172-31-89-94.ec2.internal systemd[1]: crio.service failed.</code></pre><h6 id="根本原因："><a href="#根本原因：" class="headerlink" title="根本原因："></a>根本原因：</h6><p>默认容器存储即  <code>/var/lib/containers/storage</code> 是以 <code>ftype=0</code>, 挂载的，因此<code>d_type</code>被禁用（<code>d_type</code>启用文件名到其<code>inode</code>的映射）。修改后，<code>ftype=1</code>！</p>
+<pre><code>$ sudo xfs_info /var/lib/containers/storage | grep ftype
 
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=0</code></pre><h6 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法:"></a>解决方法:</h6><ul>
+<li>创建一个逻辑卷（LV）。</li>
+</ul>
+<pre><code>$ sudo fdisk &lt;disk_name&gt;</code></pre><pre><code>$ sudo partprobe &lt;disk_name&gt;</code></pre><pre><code>$ sudo vgcreate vgname &lt;partition&gt;</code></pre><pre><code>$ sudo lvcreate -l 100%FREE -n lvname vgname</code></pre><pre><code>$ sudo lvs
+
+LV     VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+root   centos -wi-ao----  &lt;6.67g
+swap   centos -wi-ao---- 820.00m
+lvname vgname -wi-a-----  &lt;5.00g</code></pre><ul>
+<li>使用XFS文件系统格式化LV</li>
+</ul>
+<pre><code>$ sudo mkfs.xfs /dev/mapper/vgname-lvname
+
+meta-data=/dev/mapper/vgname-lvname isize=512    agcount=4, agsize=327424 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=1309696, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0</code></pre><ul>
+<li>现在ftype设置为1。</li>
+<li>Mount LV on /var/lib/containers/storage permanently.</li>
+<li>将 LV 永久挂载在/var/lib/containers/storage上。</li>
+</ul>
+<pre><code>$ sudo cat /etc/fstab | grep /var/lib/containers/storage
+
+/dev/mapper/vgname-lvname /var/lib/containers/storage xfs defaults 0 0</code></pre><pre><code>$ sudo mount -a</code></pre><pre><code>$ sudo df -hT | grep /var/lib/containers/storage
+
+/dev/mapper/vgname-lvname xfs       5.0G   33M  5.0G   1% /var/lib/containers/storage</code></pre><ul>
+<li>更改runroot路径，并取消哈希 runroot 和 root 在 /etc/crio/crio.conf 中。</li>
+</ul>
+<pre><code>$ sudo cat /etc/crio/crio.conf | grep /var/lib/containers/storage
+
+root = &quot;/var/lib/containers/storage&quot;
+runroot = &quot;/var/lib/containers/storage&quot;</code></pre><ul>
+<li>然后启动并启用cri-o服务。</li>
+</ul>
+<pre><code>$ sudo systemctl start cri-o</code></pre><pre><code>$ sudo systemctl enable cri-o</code></pre><h5 id="前期准备："><a href="#前期准备：" class="headerlink" title="前期准备："></a>前期准备：</h5><blockquote>
+<p>（应该在所有节点上完成）</p>
+</blockquote>
+<ul>
+<li>加载 overlay 模块</li>
+</ul>
+<pre><code>$ sudo modprobe overlay</code></pre><ul>
+<li>加载 br_netfilter 模块.</li>
+</ul>
+<pre><code>$ sudo modprobe br_netfilter</code></pre><p>启用此模块，以便 iptables，ip6tables 和 arptables 可以过滤桥接的 IPv4/IPv6/ARP 数据包并使防火墙 transparent 。</p>
+<ul>
+<li>Set up required sysctl params, these persist across reboots.</li>
+<li>设置所需的 sysctl 参数，这些参数将在重新启动后还生效。</li>
+</ul>
+<pre><code>$ cat &lt;&lt;EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF</code></pre><ul>
+<li>重新加载 sysctl 。</li>
+</ul>
+<pre><code>$ sudo sysctl --system</code></pre><ul>
+<li>禁用防火墙。</li>
+</ul>
+<pre><code>$ sudo systemctl stop firewalld &amp;&amp; sudo systemctl disable firewalld</code></pre><ul>
+<li>禁用 SELinux </li>
+</ul>
+<pre><code>$ sudo setenforce 0</code></pre><pre><code>$ sudo sed -i -e s/SELINUX=enforcing/SELINUX=permissive/g /etc/sysconfig/selinux</code></pre><ul>
+<li>关闭 swap .</li>
+</ul>
+<pre><code>$ sudo swapoff -a</code></pre><ul>
+<li>禁用 swap 在 /etc/fstab 处修改</li>
+</ul>
+<pre><code>$ sudo cat /etc/fstab | grep swap
+
+#/dev/mapper/centos-swap                                swap                    swap    defaults        0 0</code></pre><ul>
+<li>在  /etc/crio/crio.conf  更改 crio 的 cgroup_manager .</li>
+</ul>
+<pre><code>$ sudo cat /etc/crio/crio.conf | grep cgroup_manager
+
+cgroup_manager = &quot;cgroupfs&quot;</code></pre><ul>
+<li>配置 Kubernetes repo.</li>
+</ul>
+<pre><code>$ sudo cat /etc/yum.repos.d/kube.repo
+
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg</code></pre><h5 id="部署-Kubernetes-集群"><a href="#部署-Kubernetes-集群" class="headerlink" title="部署 Kubernetes 集群"></a>部署 Kubernetes 集群</h5><h6 id="COMMANDS-ON-MASTER"><a href="#COMMANDS-ON-MASTER" class="headerlink" title="COMMANDS ON MASTER"></a>COMMANDS ON MASTER</h6><ul>
+<li>Install kubeadm package.</li>
+</ul>
+<pre><code>$ sudo yum install kubeadm -y</code></pre><ul>
+<li>Start and enable kubelet.</li>
+</ul>
+<pre><code>$ sudo systemctl start kubelet &amp;&amp; sudo systemctl enable kubelet</code></pre><ul>
+<li>初始化 Kubernetes </li>
+</ul>
+<pre><code>$ sudo kubeadm init</code></pre><blockquote>
+<p>Note: If giving error of iptables does not exist, just load br_netfilter module again and run the command.</p>
+<p>注意：如果有<code>iptables does not exist</code> 错误信息，只需再次加载 br_netfilter 模块并运行命令。</p>
+</blockquote>
+<ul>
+<li>Output</li>
+</ul>
+<pre><code>Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.46.157:6443 --token 7xlnp0.9uv4z0qr4wvzhtqn \
+    --discovery-token-ca-cert-hash sha256:4a1a412d2e682556df0bf10dc380c744a98eb99e8c927fa58eb025d5ff7dc694</code></pre><ul>
+<li>使用普通用户运行 kunectl ,请运行以下命令</li>
+</ul>
+<pre><code>$ mkdir -p $HOME/.kube</code></pre><pre><code>$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</code></pre><pre><code>$ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre><ul>
+<li>这些命令将您的 Kubernetes 配置文件存储在主目录中。</li>
+<li>记录 kubeadm init 输出的kubeadm join命令。需要使用此命令将节点加入集群。</li>
+<li>安装CNI插件使 CoreDNS Pod 正常运行。</li>
+</ul>
+<pre><code>$ kubectl apply -f &quot;https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d &#39;\n&#39;)&quot;</code></pre><ul>
+<li>Weave Net creates a virtual network that connects Docker containers across multiple hosts and enables their automatic discovery.</li>
+<li>Weave Net创建了一个虚拟网络，该网络可以使 Docker 容器跨主机通信。</li>
+</ul>
+<pre><code>$ kubectl get nodes
+
+NAME     STATUS   ROLES                  AGE   VERSION
+master   Ready    control-plane,master   14m   v1.20.0</code></pre><ul>
+<li>Now we need to add worker nodes to the cluster.</li>
+<li>现在我们需要将nodes 添加到集群中。</li>
+</ul>
+<h6 id="Worker-nodes-命令："><a href="#Worker-nodes-命令：" class="headerlink" title="Worker nodes 命令："></a>Worker nodes 命令：</h6><ul>
+<li>Install kubeadm package.</li>
+</ul>
+<pre><code>$ sudo yum install kubeadm -y</code></pre><ul>
+<li>运行 kubeadm join命令。 （在 kubeadm init 输出中的命令）</li>
+</ul>
+<pre><code>$ sudo kubeadm join 192.168.46.157:6443 --token 7xlnp0.9uv4z0qr4wvzhtqn \
+    --discovery-token-ca-cert-hash sha256:4a1a412d2e682556df0bf10dc380c744a98eb99e8c927fa58eb025d5ff7dc694</code></pre><ul>
+<li>Output</li>
+</ul>
+<pre><code>This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run &#39;kubectl get nodes&#39; on the control-plane to see this node join the cluster.</code></pre><ul>
+<li>现在我们的工作节点已加入集群！</li>
+</ul>
+<h6 id="Master-命令"><a href="#Master-命令" class="headerlink" title="Master 命令"></a>Master 命令</h6><ul>
+<li>检查节点是否准备就绪。</li>
+</ul>
+<pre><code>$ kubectl get nodes
+
+NAME      STATUS   ROLES                  AGE     VERSION
+master    Ready    control-plane,master   15m     v1.20.0
+worker1   Ready    &lt;none&gt;                 4m44s   v1.20.0
+worker2   Ready    &lt;none&gt;                 4m18s   v1.20.0</code></pre>
             </div>
             <hr/>
 
@@ -639,8 +686,8 @@ spec:
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Prometheus/">
-                                    <span class="chip bg-color">Prometheus</span>
+                                <a href="/tags/Kubernetes/">
+                                    <span class="chip bg-color">Kubernetes</span>
                                 </a>
                             
                         </div>
@@ -811,32 +858,30 @@ spec:
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/">
+                <a href="/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Kubernetes-二进制部署">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Kubernetes on CRI-O (CentOS)">
                         
-                        <span class="card-title">Kubernetes-二进制部署</span>
+                        <span class="card-title">Kubernetes on CRI-O (CentOS)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            安装1.1 生产环境可部署Kubernetes集群的两种方式
-目前生产部署Kubernetes集群主要有两种方式：
-· kubeadm
-Kubeadm是一个K8s部署工具，提供kubeadm init和kubeadm join，用于快速部署
+                            Kubernetes on CRI-O (CentOS)Docker 现在在 Kubernetes 中已弃用 。kubelet 中的 Docker 支持现已弃用，并将在以后的版本中删除。Kubelet 使用一个名为 dockershim的模
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -849,6 +894,7 @@ Kubeadm是一个K8s部署工具，提供kubeadm init和kubeadm join，用于快�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -867,34 +913,35 @@ Kubeadm是一个K8s部署工具，提供kubeadm init和kubeadm join，用于快�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
+                <a href="/2020/12/09/devops/golang/liao-jie-sync.pool/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="了解 Sync.Pool">
                         
-                        <span class="card-title">SQL语句优化</span>
+                        <span class="card-title">了解 Sync.Pool</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
-select id,name from userinfo where name like '%name%'
+                            Go: 了解 Sync.Pool
+在项目中的“垃圾回收”中经常会遇到这么一个问题。大量对象被重复分配，导致GC的工作量很大。使用sync.Pool，可以减少分配和GC工作量。
 
-select id,name from userinfo wher
+什么是 sync.Pool?
+Go 1.3 版本的亮点之一是 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-09
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/SQL/" class="post-category">
-                                    SQL
+                            <a href="/categories/Golang/" class="post-category">
+                                    Golang
                                 </a>
                             
                             
@@ -904,12 +951,8 @@ select id,name from userinfo wher
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Mysql/">
-                        <span class="chip bg-color">Mysql</span>
-                    </a>
-                    
-                    <a href="/tags/Interview/">
-                        <span class="chip bg-color">Interview</span>
+                    <a href="/tags/Golang/">
+                        <span class="chip bg-color">Golang</span>
                     </a>
                     
                 </div>
