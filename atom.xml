@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-12-15T20:00:48.372Z</updated>
+  <updated>2020-12-16T14:36:09.694Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Nil in Go</title>
+    <link href="https://cyylog.github.io/2020/12/16/devops/golang/nil-in-go/"/>
+    <id>https://cyylog.github.io/2020/12/16/devops/golang/nil-in-go/</id>
+    <published>2020-12-16T14:23:39.000Z</published>
+    <updated>2020-12-16T14:36:09.694Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;Nil-in-Go&quot;&gt;&lt;a href=&quot;#Nil-in-Go&quot; class=&quot;headerlink&quot; title=&quot;Nil in Go&quot;&gt;&lt;/a&gt;Nil in Go&lt;/h4&gt;&lt;h4 id=&quot;Go中-的-nil-是什么&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/categories/Golang/"/>
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/tags/Golang/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubernetes on CRI-O (CentOS)</title>
@@ -505,31 +530,6 @@
     
     
     <category term="Redis" scheme="https://cyylog.github.io/tags/Redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes架构-控制器</title>
-    <link href="https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/"/>
-    <id>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</id>
-    <published>2020-10-03T12:57:00.000Z</published>
-    <updated>2020-10-30T04:12:55.932Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;控制器&quot;&gt;&lt;a href=&quot;#控制器&quot; class=&quot;headerlink&quot; title=&quot;控制器&quot;&gt;&lt;/a&gt;控制器&lt;/h1&gt;&lt;p&gt;在机器人技术和自动化领域，控制回路（Control</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
