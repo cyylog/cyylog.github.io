@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2020-12-16T14:36:09.694Z</updated>
+  <updated>2020-12-26T19:34:13.705Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>解决keepalived脑裂问题</title>
+    <link href="https://cyylog.github.io/2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/"/>
+    <id>https://cyylog.github.io/2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/</id>
+    <published>2020-12-26T19:31:58.000Z</published>
+    <updated>2020-12-26T19:34:13.705Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;一-介绍&quot;&gt;&lt;a href=&quot;#一-介绍&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/categories/Linux/"/>
+    
+    
+    <category term="keepalived" scheme="https://cyylog.github.io/tags/keepalived/"/>
+    
+  </entry>
   
   <entry>
     <title>Nil in Go</title>
@@ -505,31 +530,6 @@
     
     
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis-哨兵</title>
-    <link href="https://cyylog.github.io/2020/10/05/sql/redis-shao-bing/"/>
-    <id>https://cyylog.github.io/2020/10/05/sql/redis-shao-bing/</id>
-    <published>2020-10-05T02:55:39.000Z</published>
-    <updated>2020-10-30T04:13:37.549Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;Redis宕机后如何实现快速恢复&quot;&gt;&lt;a href=&quot;#Redis宕机后如何实现快速恢复&quot; class=&quot;headerlink&quot; title=&quot;Redis宕机后如何实现快速恢复&quot;&gt;&lt;/a&gt;Redis宕机后如何实现快速恢复&lt;/h2&gt;&lt;h3</summary>
-        
-      
-    
-    
-    
-    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
-    
-    
-    <category term="Redis" scheme="https://cyylog.github.io/tags/Redis/"/>
     
   </entry>
   
