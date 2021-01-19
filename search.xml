@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>kubectl 命令自动补全</title>
+      <link href="2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/"/>
+      <url>2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/</url>
+      
+        <content type="html"><![CDATA[<p><strong>kubectl 命令自动补全</strong></p><h5 id="一-简介"><a href="#一-简介" class="headerlink" title="一.简介"></a>一.简介</h5><p>在k8s 1.3版本之前，设置kubectl命令自动补全是通过以下的方式：<br><code>source ./contrib/completions/bash/kubectl</code></p><p>但是在k8s 1.3版本，源码contrib目录中已经没有了completions目录，无法再使用以上方式添加自动补全功能。</p><p>查看 linux架构图 的作用</p><p>1.3版本中，kubectl添加了一个completions的命令， 该命令可用于自动补全<br><code>source &lt;(kubectl completion bash)</code></p><h5 id="二-设置补全"><a href="#二-设置补全" class="headerlink" title="二.设置补全"></a>二.设置补全</h5><h6 id="linux上"><a href="#linux上" class="headerlink" title="linux上"></a>linux上</h6><pre class=" language-shell"><code class="language-shell">k8s 命令自动补全yum install -y bash-completionsource /usr/share/bash-completion/bash_completionsource <(kubectl completion bash)echo "source <(kubectl completion bash)" >> ~/.bashrc</code></pre><h6 id="在mac上"><a href="#在mac上" class="headerlink" title="在mac上"></a>在mac上</h6><pre class=" language-shell"><code class="language-shell">brew install bash-completionsource $(brew --prefix)/etc/bash_completionsource <(kubectl completion bash)</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 容器 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>解决keepalived脑裂问题</title>
       <link href="2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/"/>
       <url>2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/</url>
