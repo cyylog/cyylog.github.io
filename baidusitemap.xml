@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2019/08/09/linux/nginx/nginx-ya-ce-he-bing-fa-yu-gu/</loc>
+    <lastmod>2021-03-02</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/</loc>
     <lastmod>2021-01-19</lastmod>
   </url>

@@ -1395,6 +1395,31 @@
     
     
     <entry>
+      <title>Nginx压测和并发预估</title>
+      <link href="2019/08/09/linux/nginx/nginx-ya-ce-he-bing-fa-yu-gu/"/>
+      <url>2019/08/09/linux/nginx/nginx-ya-ce-he-bing-fa-yu-gu/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Nginx压测和并发预估"><a href="#Nginx压测和并发预估" class="headerlink" title="Nginx压测和并发预估"></a>Nginx压测和并发预估</h1><h2 id="一-Nginx并发预估"><a href="#一-Nginx并发预估" class="headerlink" title="一.Nginx并发预估"></a>一.Nginx并发预估</h2><p>预估算法：<code>{（?G）*1024-system}/请求大小</code></p><blockquote><p>（?G）：表示内存大小<br>1024：表示内存容量标准进制<br>system：表示系统和服务占用的额外内存和需要预留的内存<br>请求大小：表示静态（一般为KB）或动态（一般为MB）的请求大小</p></blockquote><p>16核32G服务器，可以抗住4万多用于负载均衡的并发，最多可以抗住5-6万，跑满文件描述符。</p><h2 id="二-压测工具AB"><a href="#二-压测工具AB" class="headerlink" title="二.压测工具AB"></a>二.压测工具AB</h2><p>1.安装压力测试工具ab<br><code>yum install httpd-tools -y</code></p><p>2.了解压测工具使用方式<br><code>ab -n 200 -c 2 http://127.0.0.1/</code></p><p>//-n总的请求次数<br>//-c并发请求数<br>//-k是否开启长连接</p><p>3.参数详解<br><code>ab -n2000 -c2 http://127.0.0.1/index.html</code></p><pre><code>...Server Software:        nginx/1.12.2Server Hostname:        127.0.0.1Server Port:            80Document Path:          /index.htmlDocument Length:        19 bytesConcurrency Level:      200# 总花费总时长Time taken for tests:   1.013 seconds# 总请求数Complete requests:      2000# 请求失败数Failed requests:        0Write errors:           0Total transferred:      510000 bytesHTML transferred:       38000 bytes# 每秒多少请求/s(总请求出/总共完成的时间)Requests per second:    9333.23 [#/sec] (mean)# 客户端访问服务端, 单个请求所需花费的时间Time per request:       101.315 [ms] (mean)# 服务端处理请求的时间Time per request:       0.507 [ms] (mean, across all concurrent requests)# 判断网络传输速率, 观察网络是否存在瓶颈Transfer rate:          491.58 [Kbytes/sec] received</code></pre><h2 id="三-查看并发连接数和连接状态"><a href="#三-查看并发连接数和连接状态" class="headerlink" title="三.查看并发连接数和连接状态"></a>三.查看并发连接数和连接状态</h2><p>1.查看Web服务器（Nginx Apache）的并发请求数及其TCP连接状态</p><pre><code>netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;netstat -n | awk &#39;/^tcp/ {++state[$NF]} END {for(key in state) print key,&quot;t&quot;,state[key]}&#39;</code></pre><p>返回结果一般如下</p><pre><code>LAST_ACK 5 （正在等待处理的请求数）SYN_RECV 30ESTABLISHED 1597 （正常数据传输状态）FIN_WAIT1 51FIN_WAIT2 504TIME_WAIT 1057 （处理完毕，等待超时结束的请求数）</code></pre><p>其他参数说明</p><pre><code>CLOSED：无连接是活动的或正在进行LISTEN：服务器在等待进入呼叫SYN_RECV：一个连接请求已经到达，等待确认SYN_SENT：应用已经开始，打开一个连接ESTABLISHED：正常数据传输状态FIN_WAIT1：应用说它已经完成FIN_WAIT2：另一边已同意释放ITMED_WAIT：等待所有分组死掉CLOSING：两边同时尝试关闭TIME_WAIT：另一边已初始化一个释放LAST_ACK：等待所有分组死掉</code></pre><p>2.查看Nginx或apache的运行进程数</p><pre><code>ps -ef | grep nginx | wc -lps -ef | grep httpd | wc -l</code></pre><p>3.查看Web服务器进程连接数</p><pre><code>netstat -antp | grep 80 | grep ESTABLISHED -c</code></pre><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Nginx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Nginx性能优化</title>
       <link href="2019/08/05/linux/nginx/nginx-xing-neng-you-hua/"/>
       <url>2019/08/05/linux/nginx/nginx-xing-neng-you-hua/</url>
