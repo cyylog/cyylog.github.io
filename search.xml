@@ -22,6 +22,8 @@
             
             <tag> Kubernetes </tag>
             
+            <tag> containerd </tag>
+            
         </tags>
       
     </entry>
@@ -146,6 +148,8 @@
         <tags>
             
             <tag> Kubernetes </tag>
+            
+            <tag> CRI-O </tag>
             
         </tags>
       
@@ -1162,6 +1166,8 @@
         <tags>
             
             <tag> Kubernetes </tag>
+            
+            <tag> docker </tag>
             
         </tags>
       

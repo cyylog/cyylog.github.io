@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</loc>
+    
+    <lastmod>2021-03-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
+    
+    <lastmod>2021-03-22</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
     
     <lastmod>2021-03-22</lastmod>
@@ -52,13 +66,6 @@
   
   <url>
     <loc>https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/</loc>
-    
-    <lastmod>2020-12-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</loc>
     
     <lastmod>2020-12-15</lastmod>
     
@@ -534,13 +541,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
-    
-    <lastmod>2020-05-25</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/2019/04/26/sql/kafka-ru-men/</loc>
     
     <lastmod>2020-05-25</lastmod>
@@ -592,14 +592,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Python/</loc>
+    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
+    <loc>https://cyylog.github.io/tags/Python/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -627,6 +627,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/iptables/</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/keepalived/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
@@ -641,21 +648,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/iptables/</loc>
-    <lastmod>2021-03-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Oracle/</loc>
-    <lastmod>2021-03-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/MySQL/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,7 +662,21 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/MySQL/</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Mysql/</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Mycat/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -683,7 +690,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Mycat/</loc>
+    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -711,7 +718,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
+    <loc>https://cyylog.github.io/tags/KVM/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -725,6 +732,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/CRI-O/</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Kubernetes-err/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
@@ -732,7 +746,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/KVM/</loc>
+    <loc>https://cyylog.github.io/tags/docker/</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/containerd/</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
