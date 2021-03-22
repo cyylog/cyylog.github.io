@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
+    
+    <lastmod>2021-03-22</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</loc>
     
     <lastmod>2021-03-22</lastmod>
@@ -10,13 +17,6 @@
   
   <url>
     <loc>https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
-    
-    <lastmod>2021-03-22</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
     
     <lastmod>2021-03-22</lastmod>
     

@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-03-22T06:04:12.668Z</updated>
+  <updated>2021-03-22T06:23:28.924Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>kubectl 命令自动补全</title>
+    <title>kubeadm部署K8S集群并使用containerd做容器运行时</title>
     <link href="https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/"/>
     <id>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</id>
     <published>2021-03-22T13:21:16.000Z</published>
-    <updated>2021-03-22T06:04:12.668Z</updated>
+    <updated>2021-03-22T06:23:28.924Z</updated>
     
     
       
