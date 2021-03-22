@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-01-19T16:28:00.138Z</updated>
+  <updated>2021-03-22T06:00:49.746Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>kubectl 命令自动补全</title>
+    <link href="https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/"/>
+    <id>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</id>
+    <published>2021-03-22T13:21:16.000Z</published>
+    <updated>2021-03-22T06:00:49.746Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;kubeadm部署K8S集群并使用containerd做容器运行时&quot;&gt;&lt;a href=&quot;#kubeadm部署K8S集群并使用containerd做容器运行时&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>运维面试题-02</title>
+    <link href="https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/"/>
+    <id>https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/</id>
+    <published>2021-02-25T16:59:59.000Z</published>
+    <updated>2021-03-02T08:23:43.040Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>kubectl 命令自动补全</title>
@@ -480,57 +530,6 @@
     
     
     <category term="zabbix" scheme="https://cyylog.github.io/tags/zabbix/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>运维面试题-01</title>
-    <link href="https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/"/>
-    <id>https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/</id>
-    <published>2020-10-15T17:59:59.000Z</published>
-    <updated>2020-12-01T15:28:13.283Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;四剑客&quot;&gt;&lt;a href=&quot;#四剑客&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes-Pod-生命周期</title>
-    <link href="https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/"/>
-    <id>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</id>
-    <published>2020-10-05T16:50:00.000Z</published>
-    <updated>2020-10-30T04:13:07.156Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Pod-的生命周期&quot;&gt;&lt;a href=&quot;#Pod-的生命周期&quot; class=&quot;headerlink&quot; title=&quot;Pod 的生命周期&quot;&gt;&lt;/a&gt;Pod 的生命周期&lt;/h1&gt;&lt;p&gt;本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
