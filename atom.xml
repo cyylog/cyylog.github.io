@@ -121,8 +121,8 @@
   
   <entry>
     <title>Nil in Go</title>
-    <link href="https://cyylog.github.io/2020/12/16/devops/golang/nil-in-go/"/>
-    <id>https://cyylog.github.io/2020/12/16/devops/golang/nil-in-go/</id>
+    <link href="https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/"/>
+    <id>https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/</id>
     <published>2020-12-16T14:23:39.000Z</published>
     <updated>2020-12-16T14:36:09.694Z</updated>
     
@@ -173,8 +173,8 @@
   
   <entry>
     <title>了解 Sync.Pool</title>
-    <link href="https://cyylog.github.io/2020/12/09/devops/golang/liao-jie-sync.pool/"/>
-    <id>https://cyylog.github.io/2020/12/09/devops/golang/liao-jie-sync.pool/</id>
+    <link href="https://cyylog.github.io/2020/12/09/devops/go-liao-jie-sync.pool/"/>
+    <id>https://cyylog.github.io/2020/12/09/devops/go-liao-jie-sync.pool/</id>
     <published>2020-12-08T17:03:39.000Z</published>
     <updated>2020-12-08T17:04:31.209Z</updated>
     
@@ -379,8 +379,8 @@
   
   <entry>
     <title>k8s资源监控</title>
-    <link href="https://cyylog.github.io/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/"/>
-    <id>https://cyylog.github.io/2020/11/14/jian-kong/prometheus/k8s-zi-yuan-jian-kong/</id>
+    <link href="https://cyylog.github.io/2020/11/14/jian-kong/prometheus-k8s-zi-yuan-jian-kong/"/>
+    <id>https://cyylog.github.io/2020/11/14/jian-kong/prometheus-k8s-zi-yuan-jian-kong/</id>
     <published>2020-11-14T08:48:56.000Z</published>
     <updated>2020-11-17T06:39:38.354Z</updated>
     
@@ -459,8 +459,8 @@
   
   <entry>
     <title>Prometheus（1）</title>
-    <link href="https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/"/>
-    <id>https://cyylog.github.io/2020/10/29/jian-kong/prometheus/prometheus-1/</id>
+    <link href="https://cyylog.github.io/2020/10/29/jian-kong/prometheus-1/"/>
+    <id>https://cyylog.github.io/2020/10/29/jian-kong/prometheus-1/</id>
     <published>2020-10-29T05:48:56.000Z</published>
     <updated>2020-10-30T15:05:39.548Z</updated>
     
@@ -511,8 +511,8 @@
   
   <entry>
     <title>Zabbix-原理</title>
-    <link href="https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/"/>
-    <id>https://cyylog.github.io/2020/10/24/jian-kong/zabbix/zabbix-yuan-li/</id>
+    <link href="https://cyylog.github.io/2020/10/24/jian-kong/zabbix-yuan-li/"/>
+    <id>https://cyylog.github.io/2020/10/24/jian-kong/zabbix-yuan-li/</id>
     <published>2020-10-23T17:55:39.000Z</published>
     <updated>2020-10-30T03:13:25.754Z</updated>
     

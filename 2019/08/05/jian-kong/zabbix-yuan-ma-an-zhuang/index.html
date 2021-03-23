@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Nginx性能优化, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Zabbix-源码安装, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Nginx性能优化 | Cyylog</title>
+    <title>Zabbix-源码安装 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Nginx性能优化</h1>
+                    <h1 class="description center-align post-title">Zabbix-源码安装</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Nginx/">
-                                <span class="chip bg-color">Nginx</span>
+                            <a href="/tags/zabbix/">
+                                <span class="chip bg-color">zabbix</span>
                             </a>
                         
                     </div>
@@ -421,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
+                                监控
                             </a>
                         
                     </div>
@@ -452,260 +452,193 @@
             <div id="articleContent">
                 <a id="more"></a>
 
+<h3 id="Zabbix源码安装"><a href="#Zabbix源码安装" class="headerlink" title="Zabbix源码安装"></a>Zabbix源码安装</h3><h4 id="1-前期准备"><a href="#1-前期准备" class="headerlink" title="1:前期准备"></a>1:前期准备</h4><p> 注意安装zabbix需要lnmp环境可以使用脚本安装lnmp</p>
+<p>这里我进行源码安装一步步的操作</p>
+<p>建议使用脚本进行 用源码安装比较慢</p>
+<h5 id="1-关闭防火墙和selinux-建议可以实行放行策略"><a href="#1-关闭防火墙和selinux-建议可以实行放行策略" class="headerlink" title="(1) 关闭防火墙和selinux 建议可以实行放行策略"></a>(1) 关闭防火墙和selinux 建议可以实行放行策略</h5><h5 id="2-创建安装目录"><a href="#2-创建安装目录" class="headerlink" title="(2)创建安装目录"></a>(2)创建安装目录</h5><pre class=" language-shell"><code class="language-shell">   mkdir -pv /cyylog/{mysql-5.7,nginx-1.16,php-7.2,zabbix-4.4}
+   mkdir -pv /cyylog/mysql-5.7/data
+   ln -s /cyylog/mysql-5.7 /cyylog/mysql
+   ln -s /cyylog/nginx-1.16 /cyylog/nginx
+   ln -s /cyylog/php-7.2 /cyylog/php
+   ln -s /cyylog/zabbix-4.4 /cyylog/zabbix</code></pre>
+<h5 id="3-创建用户"><a href="#3-创建用户" class="headerlink" title="(3)创建用户"></a>(3)创建用户</h5><pre class=" language-shell"><code class="language-shell">   useradd -s /sbin/nologin mysql
+   useradd -s /sbin/nologin nginx
+   useradd -s /sbin/nologin zabbix</code></pre>
+<p>也可执行脚本</p>
+<h4 id="2-安装mysql"><a href="#2-安装mysql" class="headerlink" title="2:安装mysql"></a>2:安装mysql</h4><h5 id="1-下载mysql源码包"><a href="#1-下载mysql源码包" class="headerlink" title="(1)下载mysql源码包"></a>(1)下载mysql源码包</h5><pre class=" language-shell"><code class="language-shell">wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.29.tar.gz
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.29.tar.gz</code></pre>
+<h5 id="2-使用yum安装依赖包"><a href="#2-使用yum安装依赖包" class="headerlink" title="(2) 使用yum安装依赖包"></a><strong>(2)</strong> 使用yum安装依赖包</h5><pre class=" language-shell"><code class="language-shell">yum install -y cmake gcc gcc-c++ openssl-devel ncurses-devel</code></pre>
+<h5 id="3-解压并进入进行安装"><a href="#3-解压并进入进行安装" class="headerlink" title="(3) 解压并进入进行安装"></a><strong>(3)</strong> 解压并进入进行安装</h5><pre class=" language-shell"><code class="language-shell">tar xvf mysql-5.7.29.tar.gz
+tar xvf mysql-boost-5.7.29.tar.gz -C /cyylog/
+
+配置
+cmake \
+-DCMAKE_INSTALL_PREFIX=/cyylog/mysql-5.7 \
+-DMYSQL_DATADIR=/cyylog/mysql-5.7/data \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_unicode_ci \
+-DWITH_READLINE=1 \
+-DWITH_SSL=system \
+-DWITH_EMBEDDED_SERVER=1 \
+-DENABLED_LOCAL_INFILE=1 \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_DEBUG=0 \
+-DWITH_BOOST=/cyylog/mysql-5.7.29/boost/boost_1_59_0
+
+编译且安装 make & make install</code></pre>
+<h5 id="4-创建需要的文件及更改属主和属组"><a href="#4-创建需要的文件及更改属主和属组" class="headerlink" title="(4) 创建需要的文件及更改属主和属组"></a><strong>(4)</strong> 创建需要的文件及更改属主和属组</h5><pre class=" language-shell"><code class="language-shell">mkdir -pv /cyylog/mysql/log
+touch /cyylog/mysql/log/mariadb.log
+touch /cyylog/mysql/log/mariadb.pid
+chown -R /cyylog/{mysql-5.7,mysql-5.7.29,mysql}</code></pre>
+<h5 id="5-初始化数据"><a href="#5-初始化数据" class="headerlink" title="(5) 初始化数据"></a><strong>(5)</strong> 初始化数据</h5><pre class=" language-shell"><code class="language-shell">修改配置文件 vim /etc/my.cnf
+[mysqld]
+datadir=/cyylog/mysql/data #数据存储的地方
+socket=/cyylog/mysql/mysql.sock #sock文件的路径
+skip-grant-tables #跳过登录认证
+user=mysql
+explicit_defaults_for_timestamp=true
+[mysqld_safe]
+log-error=/cyylog/mysql/log/mariadb.log #错误日志存放的地方
+pid-file=/cyylog/mysql/log/mariadb.pid</code></pre>
+<h5 id="6-添加至环境变量"><a href="#6-添加至环境变量" class="headerlink" title="(6) 添加至环境变量"></a><strong>(6)</strong> 添加至环境变量</h5><pre class=" language-shell"><code class="language-shell">vim /etc/profile 修改末尾添加两行
+
+export PATH=$PATH:/cyylog/mysql/support-files
+export PATH=$PATH:/cyylog/mysql/bin
+
+保存退出刷新环境变量 
+source /etc/profile/</code></pre>
+<h5 id="7-初始化启动mysql"><a href="#7-初始化启动mysql" class="headerlink" title="(7) 初始化启动mysql"></a><strong>(7)</strong> 初始化启动mysql</h5><pre class=" language-shell"><code class="language-shell">mysqld --initialize --user=mysql --basedir=/cyylog/mysql --datadir=/cyylog/mysql/data
+mysql.server start
+ln -s /cyylog/mysql/mysql.sock /tmp/</code></pre>
+<h5 id="8-下载zabbix源码包并进行解压"><a href="#8-下载zabbix源码包并进行解压" class="headerlink" title="(8) 下载zabbix源码包并进行解压"></a><strong>(8)</strong> 下载zabbix源码包并进行解压</h5><pre class=" language-shell"><code class="language-shell">wget https://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/4.4.5/zabbix-4.4.5.tar.gz
+tar xvf zabbix-4.4.5.tar.gz
+cd zabbix-4.4.5/database/mysql
+
+登录mysql   命令为 mysql -u root 进入后执行以下命令
+
+use mysql;
+create database zabbix default character set utf8;
+update mysql.user set authentication_string=password('修改的密码') where user='root';use zabbix;
+source schema.sql;
+source images.sql;
+source data.sql;
+quit;
+
+   最后恢复密码登录mysql 修改文件
+
+vim /etc/my.cnf
+
+去掉 skip-grant-tables
+保存退出重启mysql服务 mysql.sercer restart
+添加lib文件
+
+echo “/cyylog/mysql/lib” > /etc/ld.so.conf.d/mysql.conf
+
+ldconfig -v</code></pre>
+<h4 id="3-安装nginx"><a href="#3-安装nginx" class="headerlink" title="3:安装nginx"></a>3:安装nginx</h4><h5 id="1-下载-nginx-并解压"><a href="#1-下载-nginx-并解压" class="headerlink" title="(1) 下载 nginx  并解压"></a>(1) 下载 nginx  并解压</h5><pre class=" language-shell"><code class="language-shell">wget http://nginx.org/download/nginx-1.16.1.tar.gz
+tar xvf nginx-1.16.1.tar.gz</code></pre>
+<h5 id="2-编译安装并添加环境变量"><a href="#2-编译安装并添加环境变量" class="headerlink" title="(2) 编译安装并添加环境变量"></a><strong>(2)</strong> 编译安装并添加环境变量</h5><pre class=" language-shell"><code class="language-shell">cd nginx-1.16.1
+
+./configure --prefix=/cyylog/nginx-1.16 --user=nginx --group=nginx --without-select_module --without-poll_module --with-http_ssl_module --with-pcre --with-debug
+
+make 
+make install 
+
+添加变量
+vim /etc/profile 追加一行
+export PATH=$PATH://cyylog/nginx/sbin
+
+保存退出刷新变量
+source /etc/profile</code></pre>
+<h5 id="3-更改-nginx-的属主和属组以及修改配置文件"><a href="#3-更改-nginx-的属主和属组以及修改配置文件" class="headerlink" title="(3)更改 nginx 的属主和属组以及修改配置文件"></a><strong>(3)</strong>更改 nginx 的属主和属组以及修改配置文件</h5><pre class=" language-shell"><code class="language-shell">chown nginx:nginx -R /cyylog/nginx-1.16
+修改配置文件
+vim /cyylog/nginx/conf/nginx.conf
+修改启动用户 user nginx;
+启动nginx  nginx</code></pre>
+<h4 id="4-安装php"><a href="#4-安装php" class="headerlink" title="4:安装php"></a>4:安装php</h4><h5 id="1-下载php源码并井进行解压"><a href="#1-下载php源码并井进行解压" class="headerlink" title="(1) 下载php源码并井进行解压"></a><strong>(1)</strong> <strong>下载php源码并井进行解压</strong></h5><pre class=" language-shell"><code class="language-shell">wget https://www.php.net/distributions/php-7.2.27.tar.gz
+tar xvf php-7.2.27.tar.gz</code></pre>
+<p><strong>(2)</strong> <strong>安装及解决依赖</strong></p>
+<pre class=" language-shell"><code class="language-shell">yum install -y libxml2-devel openssl-devel net-snmp net-snmp-devel libcurl-devel libjpeg-devel libpng-devel libicu-devel openldap-devel bzip2 bzip2-devel freetype-devel gmp-devel readline-devel libxslt-devel fontconfig
+
+cd php-7.2.27
+
+./configure --prefix=/cyylog/php-7.2 --with-mysqli=/cyylog/mysql/bin/mysql_config --enable-inline-optimization --enable-fpm --enable-soap --enable-pcntl --enable-xml --with-libxml-dir --with-xmlrpc --with-openssl --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir --with-jpeg-dir --with-png-dir --with-freetype-dir --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --disable-mbregex --disable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-pdo-mysql --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --without-pear
 
 
-<p><img src="https://p6-tt.byteimg.com/large/pgc-image/95d788eda3ed45b58b6e982192a7a650" alt="img"></p>
-<p>当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨</p>
-<ul>
-<li>当前系统结构瓶颈</li>
-<li>了解业务模式</li>
-<li>性能与安全</li>
-</ul>
-<h4 id="1、当前系统结构瓶颈"><a href="#1、当前系统结构瓶颈" class="headerlink" title="1、当前系统结构瓶颈"></a>1、当前系统结构瓶颈</h4><p>首先需要了解的是当前系统瓶颈，用的是什么，跑的是什么业务。里面的服务是什么样子，每个服务最大支持多少并发。比如针对nginx而言，我们处理静态资源效率最高的瓶颈是多大？能支持多少qps访问请求？怎么得出系统当前的结构瓶颈？</p>
-<p>可以通过查看当前cpu负荷，内存使用率，进程使用率来做简单判断。还可以通过操作系统的一些工具来判断当前系统性能瓶颈，如分析对应的日志，查看请求数量。也可以通过nginx http_stub_status_module模块来查看对应的连接数，总握手次数，总请求数。也可以对线上进行压力测试，来了解当前的系统能性能，并发数，做好性能评估。</p>
-<h4 id="2、了解业务模式"><a href="#2、了解业务模式" class="headerlink" title="2、了解业务模式"></a>2、了解业务模式</h4><p>虽然我们是在做性能优化，但还是要熟悉业务，最终目的都是为业务服务的。我们要了解每一个接口业务类型是什么样的业务，比如电子商务抢购模式，这种情况平时流量会很小，但是到了抢购时间，流量一下子就会猛涨。也要了解系统层级结构，每一层在中间层做的是代理还是动静分离，还是后台进行直接服务。需要我们对业务接入层和系统层次要有一个梳理</p>
-<h4 id="3、性能与安全"><a href="#3、性能与安全" class="headerlink" title="3、性能与安全"></a>3、性能与安全</h4><p>性能与安全也是一个需要考虑的因素，往往大家注重性能忽略安全或注重安全又忽略性能。比如说我们在设计防火墙时，如果规则过于全面肯定会对性能方面有影响。如果对性能过于注重在安全方面肯定会留下很大隐患。所以大家要评估好两者的关系，把握好两者的孰重孰轻，以及整体的相关性。权衡好对应的点。</p>
-<h4 id="4、系统与nginx性能优化"><a href="#4、系统与nginx性能优化" class="headerlink" title="4、系统与nginx性能优化"></a>4、系统与nginx性能优化</h4><p>大家对相关的系统瓶颈及现状有了一定的了解之后，就可以根据影响性能方面做一个全体的评估和优化。</p>
-<ul>
-<li>网络（网络流量、是否有丢包，网络的稳定性都会影响用户请求）</li>
-<li>系统（系统负载、饱和、内存使用率、系统的稳定性、硬件磁盘是否有损坏）</li>
-<li>服务（连接优化、内核性能优化、http服务请求优化都可以在nginx中根据业务来进行设置）</li>
-<li>程序（接口性能、处理请求速度、每个程序的执行效率）</li>
-<li>数据库、底层服务</li>
-</ul>
-<p>上面列举出来每一级都会有关联，也会影响整体性能，这里主要关注的是nginx服务这一层。</p>
-<h5 id="1、文件句柄"><a href="#1、文件句柄" class="headerlink" title="1、文件句柄"></a>1、文件句柄</h5><p>在linux/unix操作系统中一切皆文件，我们的设备是文件，文件是文件，文件夹也是文件。当我们用户每发起一次请求，就会产生一个文件句柄。文件句柄可以简单的理解为文件句柄就是一个索引。文件句柄就会随着请求量的增多,进程调用频繁增加，那么产生的文件句柄也就会越多。</p>
-<p>系统默认对文件句柄是有限制的，不可能会让一个进程无限制的调用句柄。因为系统资源是有限的，所以我们需要限制每一个服务能够使用多大的文件句柄。操作系统默认使用的文件句柄是1024个句柄。</p>
-<h5 id="2、设置方式"><a href="#2、设置方式" class="headerlink" title="2、设置方式"></a>2、设置方式</h5><ul>
-<li>系统全局性修改</li>
-<li>用户局部性修改</li>
-<li>进程局部性修改</li>
-</ul>
-<h5 id="3、系统全局性修该和用户局部性修改"><a href="#3、系统全局性修该和用户局部性修改" class="headerlink" title="3、系统全局性修该和用户局部性修改"></a>3、系统全局性修该和用户局部性修改</h5><pre><code>[root@server ~]#vim /etc/security/limits.conf</code></pre><p>在文件最下面找到</p>
-<pre><code>#*               soft    core            0
-#*               hard    rss             10000
-#@student        hard    nproc           20
-#@faculty        soft    nproc           20
-#@faculty        hard    nproc           50
-#ftp             hard    nproc           0
-#@student        -       maxlogins       4
+ make
+ make install</code></pre>
+<h5 id="3-拷贝服务和配置文件及属主和属组"><a href="#3-拷贝服务和配置文件及属主和属组" class="headerlink" title="(3) 拷贝服务和配置文件及属主和属组"></a><strong>(3)</strong> 拷贝服务和配置文件及属主和属组</h5><pre class=" language-shell"><code class="language-shell">cp /root/php-7.2.27/sapi/fpm/php-fpm.service /usr/lib/systemd/system/php-fpm.service
+cp /cyylog/php-7.2/etc/{php-fpm.conf.default,php-fpm.conf}
+cp /cyylog/php-7.2/etc/php-fpm.d/www.conf{.default,}
+cp php.ini-production /cyylog/php-7.2/lib/php.ini
+chown nginx:nginx -R /cyylog/php-7.2</code></pre>
+<p><strong>(4)</strong> <strong>修改配置文件并启动</strong></p>
+<pre class=" language-shell"><code class="language-shell">#### 修改php.ini配置文件
 
-#root只是针对root这个用户来限制，soft只是发提醒，操作系统不会强制限制,一般的站点设置为一万左右就ok了
-root soft nofile 65535
-root hard nofile 65535
-# *代表通配符 所有的用户
-*    soft nofile 25535
-*    hard nofile 25535</code></pre><p>可以看到root和<em>，root代表是root用户，</em>代表的是所有用户，后面的数字就是文件句柄大小。大家可以根据个人业务来进行设置。</p>
-<h5 id="4、进程局部性修改"><a href="#4、进程局部性修改" class="headerlink" title="4、进程局部性修改"></a>4、进程局部性修改</h5><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf
-user  nginx;
-worker_processes  1;  
+vim /cyylog/php/lib/php.ini 修改四行
 
-error_log  /var/log/nginx/error.log warn;
-pid        /var/run/nginx.pid;
+post_max_size = 16M
+max_execution_time = 300
+max_input_time = 300
+date.timezone = PRC
 
-worker_rlimit_nofile 65535; #进程限制
+#### 启动php服务
 
-events {
-    worker_connections  1024;
-}
+systemctl start php-fpm.service && systemctl enable php-fpm.service
 
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+#### 修改nginx.conf文件是nginx支持php
 
-    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;
-                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;
+vim /cyylog/nginx/conf/nginx.conf 修改如下
 
-    access_log  /var/log/nginx/access.log  main;
+ location ~ \.php$ {
+            root           /cyylog/nginx/html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  /cyylog/nginx/html$fastcgi_script_name;
+            include        fastcgi_params;
+        }
 
-    sendfile        on; 
-    #tcp_nopush     on; 
+#### 编写测试php文件 
+vim /cyylog/nginx/html/index.php
 
-    keepalive_timeout  65; 
+          <?php phpinfo(); ?>
 
-    #gzip  on; 
+#### 重启nginx服务 
+nginx -s reload
 
-    include /etc/nginx/conf.d/*.conf;
-}</code></pre><p>worker_rlimit_nofile 是在进程上面进行限制。</p>
-<h5 id="5、cpu的亲和配置"><a href="#5、cpu的亲和配置" class="headerlink" title="5、cpu的亲和配置"></a>5、cpu的亲和配置</h5><p>cpu的亲和能够使nginx对于不同的work工作进程绑定到不同的cpu上面去。就能够减少在work间不断切换cpu，把进程通常不会在处理器之间频繁迁移，进程迁移的频率小，来减少性能损耗。nginx 亲和配置</p>
-<p>查看物理cpu</p>
-<pre><code>[root@server ~]#cat /proc/cpuinfo|grep &quot;physical id&quot;|sort |uniq|wc -l</code></pre><p>查看cpu核心数</p>
-<pre><code>[root@server ~]#cat /proc/cpuinfo|grep &quot;cpu cores&quot;|uniq</code></pre><p>查看cpu使用率</p>
-<pre><code>[root@server ~]#top  回车后按 1</code></pre><h5 id="6、配置worker-processes"><a href="#6、配置worker-processes" class="headerlink" title="6、配置worker_processes"></a>6、配置worker_processes</h5><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf</code></pre><p>将刚才查看到自己cpu * cpu核心就是worker_processes</p>
-<pre><code>worker_processes 2; #根据自己cpu核心数配置</code></pre><h5 id="7、cpu亲和配置"><a href="#7、cpu亲和配置" class="headerlink" title="7、cpu亲和配置"></a>7、cpu亲和配置</h5><p>假如小菜的配置是2cpu，每个cpu是8核。配置如下</p>
-<pre><code>worker_processes 16;
-worker_cpu_affinity 1010101010101010 0101010101010101;</code></pre><p>配置完成后可以通过下面命令查看nginx进程配置在哪个核上</p>
-<pre><code>[root@server ~]#ps -eo pid,args,psr |grep [n]ginx</code></pre><p>在nginx 1.9版本之后，就帮我们自动绑定了cpu;</p>
-<pre><code>worker_cpu_affinity auto;</code></pre><h4 id="5、nginx通用配置优化"><a href="#5、nginx通用配置优化" class="headerlink" title="5、nginx通用配置优化"></a>5、nginx通用配置优化</h4><pre><code>[root@server ~]#vim /etc/nginx/nginx.conf
-#将nginx进程设置为普通用户，为了安全考虑
-user nginx; 
+    重启nginx服务 nginx -s reload</code></pre>
+<h4 id="5-安装zabbix"><a href="#5-安装zabbix" class="headerlink" title="5:安装zabbix"></a>5:安装zabbix</h4><h5 id="1-安装依赖以及编译安装"><a href="#1-安装依赖以及编译安装" class="headerlink" title="(1) 安装依赖以及编译安装"></a><strong>(1)</strong> 安装依赖以及编译安装</h5><pre class=" language-shell"><code class="language-shell">yum localinstall -y libevent-devel-2.0.21-4.el7.x86_64.rpm
+yum install unixODBC-devel mysql-devel net-snmp-devel libxml2-devel libcurl-devel libevent-devel -y
+配置cd zabbix-4.4.5
+./configure --prefix=/cyylog/zabbix-4.4 --enable-server --enable-agent --with-mysql=/cyylog/mysql/bin/mysql_config --enable-ipv6 --with-netsnmp --with-libcurl --with-libxml2
+make 
+make install</code></pre>
+<p>(2) 配置环境变量</p>
+<pre class=" language-shell"><code class="language-shell">vim /etc/profile 追加一行
 
-#当前启动的worker进程，官方建议是与系统核心数一直
-worker_processes 2;
-#方式一， 第一个work进程绑定第一个cpu核心，第二个work进程绑定到第二个cpu核心，依次内推 直到弟16个
-#wokrer_cpu_affinity 0000000000000000 0000000000000001 0000000000000010 0000000000000100 ... 1000000000000000
+export PATH=$PATH://cyylog/zabbix/sbin
 
-#方式二，当 worker_processes 2 时，表明 第一work进程可以绑定第 2 4 6 8 10 12 14 16 核心，那么第二work进程就绑定 奇数核心
-#worker_cpu_affinity 1010101010101010 0101010101010101;
+#### 保存退出 刷新 
+source /etc/profile</code></pre>
+<p>(3) 修改配置文件</p>
+<pre class=" language-shell"><code class="language-shell">vim /cyylog/zabbix/etc/zabbix_server.conf  ##修改如下
+DBUser=root
+DBPassword=beimi123
 
-#方式三，就是自动分配绑定
-worker_cpu_affinity auto;
+拷贝zabbix至nginx的目录下
+cp -R frontends/php/* /cyylog/nginx/html/
+重启nginx服务  nginx -s reload</code></pre>
+<p>访问页面ok就行</p>
+<p>注意连接数据库那个步骤需要将服务器ip改为127.0.0.1 不能使用localhost</p>
+<p>否则会报错</p>
+<p>接下会有个配置文件无法安装需手动下载下来传到ngin目录下</p>
+<p>最后完成</p>
+<p>登录账户为 admin 密码zabbix</p>
+<p>登录后界面为</p>
+<p><img src="C:%5CUsers%5CCyy%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200523132054294.png" alt="image-20200523132054294"></p>
 
-#日志配置成warn
-error_log /var/log/nginx/error.log warn; 
-pid /var/run/nginx.pid;
-
-#针对 nginx 句柄的文件限制
-worker_rlimit_nofile 35535;
-#事件模型
-events {
-    #使用epoll内核模型
-    user epoll;
-    #每一个进程可以处理多少个连接，如果是多核可以将连接数调高 worker_processes * 1024
-    worker_connections 10240;
-}
-
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
-
-    charset utf-8;  #设置字符集
-
-    #设置日志输出格式，根据自己的情况设置
-    log_format  main  &#39;$http_user_agent&#39; &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &#39;
-                      &#39;&quot;$args&quot; &quot;$request_uri&quot;&#39;;
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile        on;   #对静态资源的处理比较有效
-    #tcp_nopush     on;   #如果做静态资源服务器可以打开
-    #tcp_nodeny     on;   #当nginx做动态的服务时可以选择打开
-
-    keepalive_timeout  65; 
-
-    ########
-    #Gzip module
-    gzip  on;    #文件压缩默认可以打开
-    gzip_disable &quot;MSIE [1-6]\.&quot;; #对于有些浏览器不能识别压缩，需要过滤如ie6
-    gzip_http_version 1.1;
-
-    include /etc/nginx/conf.d/*.conf;
-}
-#查看 核心绑定的nginx work进程
-[root@server ~]#ps -eo pid,args,psr | grep [n]ginx</code></pre><h4 id="6、ab接口压力测试工具"><a href="#6、ab接口压力测试工具" class="headerlink" title="6、ab接口压力测试工具"></a>6、ab接口压力测试工具</h4><p>ab是Apache超文本传输协议(HTTP)的性能测试工具。其设计意图是描绘当前所安装的Apache的执行性能，主要是显示你安装的Apache每秒可以处理多少个请求。</p>
-<pre><code># 安装工具
-[root@server ~]#yum install httpd-tools
-
-# 使用
-[root@server ~]#ab -n 2000 -c 2 http://127.0.0.1/index.html
--n 总的请求数
--c 并发数
--k 是否开启长连接</code></pre><h5 id="1、参数选项"><a href="#1、参数选项" class="headerlink" title="1、参数选项"></a>1、参数选项</h5><pre><code>-n：即requests，用于指定压力测试总共的执行次数
--c：即concurrency，用于指定的并发数
--t：即timelimit，等待响应的最大时间(单位：秒)
--b：即windowsize，TCP发送/接收的缓冲大小(单位：字节)
--p：即postfile，发送POST请求时需要上传的文件，此外还必须设置-T参数
--u：即putfile，发送PUT请求时需要上传的文件，此外还必须设置-T参数
--T：即content-type，用于设置Content-Type请求头信息，例如：application/x-www-form-urlencoded，默认值为text/plain
--v：即verbosity，指定打印帮助信息的冗余级别
--w：以HTML表格形式打印结果
--i：使用HEAD请求代替GET请求
--x：插入字符串作为table标签的属性
--y：插入字符串作为tr标签的属性
--z：插入字符串作为td标签的属性
--C：添加cookie信息，例如：&quot;Apache=1234&quot;(可以重复该参数选项以添加多个)
--H：添加任意的请求头，例如：&quot;Accept-Encoding: gzip&quot;，请求头将会添加在现有的多个请求头之后(可以重复该参数选项以添加多个)
--A：添加一个基本的网络认证信息，用户名和密码之间用英文冒号隔开
--P：添加一个基本的代理认证信息，用户名和密码之间用英文冒号隔开
--X：指定使用的和端口号，例如:&quot;126.10.10.3:88&quot;
--V：打印版本号并退出
--k：使用HTTP的KeepAlive特性
--d：不显示百分比
--S：不显示预估和警告信息
--g：输出结果信息到gnuplot格式的文件中
--e：输出结果信息到CSV格式的文件中
--r：指定接收到错误信息时不退出程序
--H：显示用法信息，其实就是ab -help</code></pre><h5 id="2、内容解释"><a href="#2、内容解释" class="headerlink" title="2、内容解释"></a>2、内容解释</h5><pre><code>Server Software:        nginx/1.10.2 (服务器软件名称及版本信息)
-Server Hostname:        192.168.1.106(服务器主机名)
-Server Port:            80 (服务器端口)
-Document Path:          /index1.html. (供测试的URL路径)
-Document Length:        3721 bytes (供测试的URL返回的文档大小)
-Concurrency Level:      1000 (并发数)
-Time taken for tests:   2.327 seconds (压力测试消耗的总时间)
-Complete requests:      5000 (的总次数)
-Failed requests:        688 (失败的请求数)
-Write errors:           0 (网络连接写入错误数)
-Total transferred:      17402975 bytes (传输的总数据量)
-HTML transferred:       16275725 bytes (HTML文档的总数据量)
-Requests per second:    2148.98 [#/sec] (mean) (平均每秒的请求数) 这个是非常重要的参数数值，服务器的吞吐量 
-Time per request:       465.338 [ms] (mean) (所有并发用户(这里是1000)都请求一次的平均时间)
-Time  request:          0.247 [ms] (mean, across all concurrent requests) (单个用户请求一次的平均时间)
-Transfer rate:          7304.41 [Kbytes/sec] received 每秒获取的数据长度 (传输速率，单位：KB/s)
-...
-Percentage of the requests served within a certain time (ms)
-  50%    347  ## 50%的请求在347ms内返回 
-  66%    401  ## 60%的请求在401ms内返回 
-  75%    431
-  80%    516
-  90%    600
-  95%    846
-  98%   1571
-  99%   1593
- 100%   1619 (longest request)</code></pre><h5 id="3、示例演示"><a href="#3、示例演示" class="headerlink" title="3、示例演示"></a>3、示例演示</h5><pre><code>[root@server ~]#ab -n 50 -c 20 http://walidream.com/sub_module</code></pre><p>输出内容</p>
-<pre><code>Server Software:        nginx/1.14.1
-Server Hostname:        walidream.com
-Server Port:            80
-
-Document Path:          /sub_module
-Document Length:        169 bytes
-
-Concurrency Level:      20
-Time taken for tests:   0.005 seconds
-Complete requests:      50
-Failed requests:        0
-Write errors:           0
-Non-2xx responses:      50
-Total transferred:      14900 bytes
-HTML transferred:       8450 bytes
-Requests per second:    9746.59 [#/sec] (mean)
-Time per request:       2.052 [ms] (mean)
-Time per request:       0.103 [ms] (mean, across all concurrent requests)
-Transfer rate:          2836.41 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    0   0.1      0       1
-Processing:     1    1   0.3      1       2
-Waiting:        0    1   0.2      1       1
-Total:          1    2   0.3      2       2
-
-Percentage of the requests served within a certain time (ms)
-  50%      2
-  66%      2
-  75%      2
-  80%      2
-  90%      2
-  95%      2
-  98%      2
-  99%      2
- 100%      2 (longest request)</code></pre><h5 id="5、注意事项"><a href="#5、注意事项" class="headerlink" title="5、注意事项"></a>5、注意事项</h5><p>● 测试机与被测试机要分开</p>
-<p>● 不要对线上的服务器做压力测试</p>
-<p>● 观察测试工具ab所在机器，以及被测试的前端机的CPU、内存、网络等都不超过最高限度的75%</p>
-<h5 id="6、ab性能指标"><a href="#6、ab性能指标" class="headerlink" title="6、ab性能指标"></a>6、ab性能指标</h5><h6 id="1、吞吐率（Requests-per-second）"><a href="#1、吞吐率（Requests-per-second）" class="headerlink" title="1、吞吐率（Requests per second）"></a>1、吞吐率（Requests per second）</h6><p>服务器并发处理能力的量化描述，单位是reqs/s，指的是在某个并发用户数下单位时间内处理的请求数。某个并发用户数下单位时间内能处理的最大请求数，称之为最大吞吐率。记住：吞吐率是基于并发用户数的。这句话代表了两个含义：</p>
-<pre><code>● 吞吐率和并发用户数相关
-
-● 不同的并发用户数下，吞吐率一般是不同的</code></pre><p>计算公式：总请求数/处理完成这些请求数所花费的时间，即</p>
-<pre><code>Request per second=Complete requests/Time taken for tests</code></pre><p>必须要说明的是，这个数值表示当前机器的整体性能，值越大越好</p>
-<h6 id="2、并发连接数（The-number-of-concurrent-connections）"><a href="#2、并发连接数（The-number-of-concurrent-connections）" class="headerlink" title="2、并发连接数（The number of concurrent connections）"></a>2、并发连接数（The number of concurrent connections）</h6><p>并发连接数指的是某个时刻服务器所接受的请求数目，简单的讲，就是一个会话。</p>
-<h6 id="3、并发用户数（Concurrency-Level）"><a href="#3、并发用户数（Concurrency-Level）" class="headerlink" title="3、并发用户数（Concurrency Level）"></a>3、并发用户数（Concurrency Level）</h6><p>要注意区分这个概念和并发连接数之间的区别，一个用户可能同时会产生多个会话，也即连接数。在HTTP/1.1下，IE7支持两个并发连接，IE8支持6个并发连接，FireFox3支持4个并发连接，所以相应的，我们的并发用户数就得除以这个基数。</p>
-<h6 id="4-用户平均请求等待时间（Time-per-request）"><a href="#4-用户平均请求等待时间（Time-per-request）" class="headerlink" title="4.用户平均请求等待时间（Time per request）"></a>4.用户平均请求等待时间（Time per request）</h6><p>计算公式：处理完成所有请求数所花费的时间/（总请求数/并发用户数），即：</p>
-<pre><code>Time per request=Time taken for tests/（Complete requests/Concurrency Level）</code></pre><h6 id="5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）"><a href="#5-服务器平均请求等待时间（Time-per-request-across-all-concurrent-requests）" class="headerlink" title="5.服务器平均请求等待时间（Time per request:across all concurrent requests）"></a>5.服务器平均请求等待时间（Time per request:across all concurrent requests）</h6><p>计算公式：处理完成所有请求数所花费的时间/总请求数，即：</p>
-<pre><code>Time taken for/testsComplete requests</code></pre><p>可以看到，它是吞吐率的倒数。同时，它也等于用户平均请求等待时间/并发用户数，即</p>
-<pre><code>Time per request/Concurrency Level</code></pre>
             </div>
             <hr/>
 
@@ -718,8 +651,8 @@ Percentage of the requests served within a certain time (ms)
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Nginx/">
-                                    <span class="chip bg-color">Nginx</span>
+                                <a href="/tags/zabbix/">
+                                    <span class="chip bg-color">zabbix</span>
                                 </a>
                             
                         </div>
@@ -894,26 +827,35 @@ Percentage of the requests served within a certain time (ms)
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/09/linux/nginx/nginx-ya-ce-he-bing-fa-yu-gu/">
+                <a href="/2019/08/05/linux/nginx-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Nginx压测和并发预估">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Nginx性能优化">
                         
-                        <span class="card-title">Nginx压测和并发预估</span>
+                        <span class="card-title">Nginx性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Nginx压测和并发预估一.Nginx并发预估预估算法：{（?G）*1024-system}/请求大小
+                            
 
-（?G）：表示内存大小1024：表示内存容量标准进制system：表示系统和服务占用的额外内存和需要预留的内存请求大小：表示静态（一般
+
+
+
+当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨
+
+当前系统结构瓶颈
+了解业务模式
+性能与安全
+
+1、当前系统结构瓶颈首先需要了解的是当前系统瓶颈，用的是什么，跑
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-09
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
                         </span>
                         <span class="publish-author">
                             
@@ -945,13 +887,13 @@ Percentage of the requests served within a certain time (ms)
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/05/jian-kong/zabbix/zabbix-yuan-ma-an-zhuang/">
+                <a href="/2019/07/05/jian-kong/zabbix-you-jian-bao-jing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Zabbix-源码安装">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="zabbix-邮箱报警设置">
                         
-                        <span class="card-title">Zabbix-源码安装</span>
+                        <span class="card-title">zabbix-邮箱报警设置</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -959,15 +901,17 @@ Percentage of the requests served within a certain time (ms)
                         
                             
 
-Zabbix源码安装1:前期准备 注意安装zabbix需要lnmp环境可以使用脚本安装lnmp
-这里我进行源码安装一步步的操作
-建议使用脚本进行 用源码安装比较慢
-(1) 关闭防火墙和selinux 建议可以实行放行策略(2)创建安装目
+
+
+Zabbix 邮件报警前期准备工作：电脑登录网易邮箱配置，把自己的授权码看一下，并写入配置文件
+server端安装配置邮件服务器[root@master ~]# yum -y install mailx
+
+[root@master 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-07-05
                             </span>
                         <span class="publish-author">
                             

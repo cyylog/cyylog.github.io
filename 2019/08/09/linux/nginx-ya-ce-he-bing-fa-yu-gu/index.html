@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Tomcat_02_应用部署, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="keywords" content="Nginx压测和并发预估, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
     <meta name="description" content="精通原创，擅长盗版">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Tomcat_02_应用部署 | Cyylog</title>
+    <title>Nginx压测和并发预估 | Cyylog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -287,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Tomcat_02_应用部署</h1>
+                    <h1 class="description center-align post-title">Nginx压测和并发预估</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Tomcat/">
-                                <span class="chip bg-color">Tomcat</span>
+                            <a href="/tags/Nginx/">
+                                <span class="chip bg-color">Nginx</span>
                             </a>
                         
                     </div>
@@ -434,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2019-08-09
                 </div>
                 
 
@@ -450,153 +450,22 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <a id="more"></a>
+                <h1 id="Nginx压测和并发预估"><a href="#Nginx压测和并发预估" class="headerlink" title="Nginx压测和并发预估"></a>Nginx压测和并发预估</h1><h2 id="一-Nginx并发预估"><a href="#一-Nginx并发预估" class="headerlink" title="一.Nginx并发预估"></a>一.Nginx并发预估</h2><p>预估算法：<code>{（?G）*1024-system}/请求大小</code></p>
+<blockquote>
+<p>（?G）：表示内存大小<br>1024：表示内存容量标准进制<br>system：表示系统和服务占用的额外内存和需要预留的内存<br>请求大小：表示静态（一般为KB）或动态（一般为MB）的请求大小</p>
+</blockquote>
+<p>16核32G服务器，可以抗住4万多用于负载均衡的并发，最多可以抗住5-6万，跑满文件描述符。</p>
+<h2 id="二-压测工具AB"><a href="#二-压测工具AB" class="headerlink" title="二.压测工具AB"></a>二.压测工具AB</h2><p>1.安装压力测试工具ab<br><code>yum install httpd-tools -y</code></p>
+<p>2.了解压测工具使用方式<br><code>ab -n 200 -c 2 http://127.0.0.1/</code></p>
+<p>//-n总的请求次数<br>//-c并发请求数<br>//-k是否开启长连接</p>
+<p>3.参数详解<br><code>ab -n2000 -c2 http://127.0.0.1/index.html</code></p>
+<pre><code>...Server Software:        nginx/1.12.2Server Hostname:        127.0.0.1Server Port:            80Document Path:          /index.htmlDocument Length:        19 bytesConcurrency Level:      200# 总花费总时长Time taken for tests:   1.013 seconds# 总请求数Complete requests:      2000# 请求失败数Failed requests:        0Write errors:           0Total transferred:      510000 bytesHTML transferred:       38000 bytes# 每秒多少请求/s(总请求出/总共完成的时间)Requests per second:    9333.23 [#/sec] (mean)# 客户端访问服务端, 单个请求所需花费的时间Time per request:       101.315 [ms] (mean)# 服务端处理请求的时间Time per request:       0.507 [ms] (mean, across all concurrent requests)# 判断网络传输速率, 观察网络是否存在瓶颈Transfer rate:          491.58 [Kbytes/sec] received</code></pre><h2 id="三-查看并发连接数和连接状态"><a href="#三-查看并发连接数和连接状态" class="headerlink" title="三.查看并发连接数和连接状态"></a>三.查看并发连接数和连接状态</h2><p>1.查看Web服务器（Nginx Apache）的并发请求数及其TCP连接状态</p>
+<pre><code>netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;netstat -n | awk &#39;/^tcp/ {++state[$NF]} END {for(key in state) print key,&quot;t&quot;,state[key]}&#39;</code></pre><p>返回结果一般如下</p>
+<pre><code>LAST_ACK 5 （正在等待处理的请求数）SYN_RECV 30ESTABLISHED 1597 （正常数据传输状态）FIN_WAIT1 51FIN_WAIT2 504TIME_WAIT 1057 （处理完毕，等待超时结束的请求数）</code></pre><p>其他参数说明</p>
+<pre><code>CLOSED：无连接是活动的或正在进行LISTEN：服务器在等待进入呼叫SYN_RECV：一个连接请求已经到达，等待确认SYN_SENT：应用已经开始，打开一个连接ESTABLISHED：正常数据传输状态FIN_WAIT1：应用说它已经完成FIN_WAIT2：另一边已同意释放ITMED_WAIT：等待所有分组死掉CLOSING：两边同时尝试关闭TIME_WAIT：另一边已初始化一个释放LAST_ACK：等待所有分组死掉</code></pre><p>2.查看Nginx或apache的运行进程数</p>
+<pre><code>ps -ef | grep nginx | wc -lps -ef | grep httpd | wc -l</code></pre><p>3.查看Web服务器进程连接数</p>
+<pre><code>netstat -antp | grep 80 | grep ESTABLISHED -c</code></pre><hr>
 
-<h4 id="6、WEB站点部署"><a href="#6、WEB站点部署" class="headerlink" title="6、WEB站点部署"></a>6、WEB站点部署</h4><p>上线的代码有两种方式：</p>
-<p>第一种方式是直接将程序目录放在webapps目录下面，这种方式大家已经明白了，就不多说了。</p>
-<p>第二种方式是使用开发工具将程序打包成war包，然后上传到webapps目录下面。</p>
-<h5 id="1、使用war包部署web站点"><a href="#1、使用war包部署web站点" class="headerlink" title="1、使用war包部署web站点"></a>1、使用war包部署web站点</h5><pre><code>[root@web03 webapps]# pwd
-/application/tomcat/webapps
-[root@web03 webapps]# wget http://10.0.0.1/apache/tomcat/memtest.war</code></pre><p>站点主动解压部署</p>
-<pre><code>[root@web03 webapps]# ls
-docs  examples  host-manager  logs  manager  memtest  memtest.war  ROOT</code></pre><p>浏览器访问：</p>
-<p><em><a href="http://10.0.0.17:8080//memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.17:8080//memtest/meminfo.jsp</a></em></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPrdK.png" alt="YHPrdK.png"></p>
-<h5 id="2、自定义默认网站目录"><a href="#2、自定义默认网站目录" class="headerlink" title="2、自定义默认网站目录"></a>2、自定义默认网站目录</h5><p>上面访问的网址为 <em><a href="http://10.0.0.3:8080/memtest/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/memtest/meminfo.jsp</a></em></p>
-<p>现在想访问格式为<em><a href="http://10.0.0.3:8080/meminfo.jsp" target="_blank" rel="noopener">http://10.0.0.3:8080/meminfo.jsp</a></em></p>
-<p><strong>方法一</strong></p>
-<p>将meminfo.jsp或其他程序放在tomcat/webapps/ROOT目录下即可。因为默认网站根目录为tomcat/webapps/ROOT</p>
-<p><strong>方法二</strong></p>
-<pre><code>[root@web03 ~]# vim /application/tomcat/conf/server.xml +125
-…… #添加上这两行
-        &lt;Context path=&quot;&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
-        &lt;Context path=&quot;/40team&quot; docBase=&quot;/application/tomcat/webapps/memtest&quot; debug=&quot;0&quot; reloadable=&quot;false&quot; crossContext=&quot;true&quot;/&gt;
-……</code></pre><p>修改配置文件后，要重启服务</p>
-<pre><code>[root@web03 ~]# /application/tomcat/bin/shutdown.sh 
-[root@web03 ~]# /application/tomcat/bin/startup.sh  </code></pre><h5 id="3、部署开源站点（jpress）"><a href="#3、部署开源站点（jpress）" class="headerlink" title="3、部署开源站点（jpress）"></a>3、部署开源站点（jpress）</h5><p>jpress官网：<a href="http://jpress.io" target="_blank" rel="noopener">http://jpress.io</a></p>
-<p>下载地址：<a href="https://github.com/JpressProjects/jpress" target="_blank" rel="noopener">https://github.com/JpressProjects/jpress</a></p>
-<p>​         第一个里程碑：安装配置数据库</p>
-<pre><code>yum -y install mariadb-server
-systemctl start mariadb.service</code></pre><p>​         #配置数据库</p>
-<pre><code>mysql
-create database jpress DEFAULT CHARACTER SET utf8;
-grant all on jpress.* to jpress@&#39;localhost&#39; identified by &#39;123456&#39;;
-exit</code></pre><p>​         第二个里程碑：jpress站点上线</p>
-<pre><code>[root@web03 webapps]# pwd
-/application/tomcat/webapps
-[root@web03 webapps]# wget http://10.0.0.1/apache/tomcat/jpress-web-newest.war</code></pre><p>​         第三个里程碑：浏览器访问</p>
-<p>浏览器访问： <a href="http://10.0.0.17:8080/jpress-web-newest/install" target="_blank" rel="noopener">http://10.0.0.17:8080/jpress-web-newest/install</a></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPsIO.png" alt="YHPsIO.png"></p>
-<p>填写数据库信息</p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPWQA.png" alt="YHPWQA.png"></p>
-<p>设置站点名称等</p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPIdf.png" alt="YHPIdf.png"></p>
-<p>安装完成</p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHP7FS.png" alt="YHP7FS.png"></p>
-<p>重启tomcat服务</p>
-<pre><code>[root@web03 ~]# /application/tomcat/bin/shutdown.sh 
-[root@web03 ~]# /application/tomcat/bin/startup.sh  </code></pre><h4 id="7、Tomcat多实例配置"><a href="#7、Tomcat多实例配置" class="headerlink" title="7、Tomcat多实例配置"></a>7、Tomcat多实例配置</h4><p><strong>多虚拟主机</strong>：nginx 多个Server标签（域名，ip，端口） 进程数量固定 master+worker</p>
-<p><strong>多实例（多进程）</strong>：同一个程序启动多次，分为两种情况:</p>
-<p>第一种：一台机器跑多个站点； </p>
-<p>第二种：一个机器跑一个站点多个实例，配合负载均衡</p>
-<h5 id="1、复制程序文件"><a href="#1、复制程序文件" class="headerlink" title="1、复制程序文件"></a>1、复制程序文件</h5><pre><code>    cd /application/tools/
-    tar xf apache-tomcat-8.0.27.tar.gz
-    cp -a apache-tomqcat-8.0.27 tomcat8_1
-    cp -a apache-tomcat-8.0.27 tomcat8_2</code></pre><p>修改端口，以启动多实例。多实例之间端口不能一致</p>
-<pre><code>sed -i &#39;s#8005#8011#;s#8080#8081#&#39; tomcat8_1/conf/server.xml
-sed -i &#39;s#8005#8012#;s#8080#8082#&#39; tomcat8_2/conf/server.xml
-[root@web03 application]# diff tomcat8_1/conf/server.xml tomcat8_2/conf/server.xml
-22c22
-&lt; &lt;Server port=&quot;8011&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
----
-&gt; &lt;Server port=&quot;8012&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
-67c67
-&lt;          Define a non-SSL/TLS HTTP/1.1 Connector on port 8081
----
-&gt;          Define a non-SSL/TLS HTTP/1.1 Connector on port 8082
-69c69
-&lt;     &lt;Connector port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;
----
-&gt;     &lt;Connector port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;
-75c75
-&lt;                port=&quot;8081&quot; protocol=&quot;HTTP/1.1&quot;
----
-&gt;                port=&quot;8082&quot; protocol=&quot;HTTP/1.1&quot;</code></pre><p>　　 将配置好的tomcat程序打包，以备之后使用</p>
-<pre><code>tar zcf muti_tomcat8.tar.gz ./tomcat8_1 ./tomcat8_2</code></pre><p>启动tomcat多实例</p>
-<pre><code> /application/tomcat8_1/bin/startup.sh 
- /application/tomcat8_2/bin/startup.sh</code></pre><p>检查端口是否启动</p>
-<pre><code>[root@web03 tomcat8_1]# netstat -lntup |grep java
-tcp6   0   0 127.0.0.1:8011    :::*    LISTEN   31906/java
-tcp6   0   0 127.0.0.1:8012    :::*    LISTEN   31932/java
-tcp6   0   0 :::8080           :::*    LISTEN   31812/java
-tcp6   0   0 :::8081           :::*    LISTEN   31906/java
-tcp6   0   0 :::8082           :::*    LISTEN   31932/java
-tcp6   0   0 127.0.0.1:8005    :::*    LISTEN   31812/java
-tcp6   0   0 :::8009           :::*    LISTEN   31812/java</code></pre><p>将每个实例的网页进行区分</p>
-<pre><code>echo 8081 &gt;&gt;/application/tomcat8_1/webapps/ROOT/index.jsp 
-echo 8082 &gt;&gt;/application/tomcat8_2/webapps/ROOT/index.jsp</code></pre><h5 id="2、在浏览器访问，进行测试"><a href="#2、在浏览器访问，进行测试" class="headerlink" title="2、在浏览器访问，进行测试"></a>2、在浏览器访问，进行测试</h5><p>检查多实例的启动</p>
-<p>​                  <a href="http://10.0.0.17:8082" target="_blank" rel="noopener">http://10.0.0.17:8082</a></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPbWQ.png" alt="YHPbWQ.png"></p>
-<p><a href="http://10.0.0.17:8081" target="_blank" rel="noopener">http://10.0.0.17:8081</a></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPXyn.png" alt="YHPXyn.png"></p>
-<h4 id="8、tomcat反向代理集群"><a href="#8、tomcat反向代理集群" class="headerlink" title="8、tomcat反向代理集群"></a>8、tomcat反向代理集群</h4><h5 id="1、负载均衡器说明"><a href="#1、负载均衡器说明" class="headerlink" title="1、负载均衡器说明"></a>1、负载均衡器说明</h5><pre><code>[root@lb01 ~]# cat /etc/redhat-release 
-CentOS release 6.9 (Final)
-[root@lb01 ~]# uname -a
-Linux lb01 2.6.32-696.el6.x86_64 #1 SMP Tue Mar 21 19:29:05 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
-[root@lb01 ~]# getenforce 
-Disabled
-[root@lb01 ~]# /etc/init.d/iptables status
-iptables: Firewall is not running.</code></pre><p>负载均衡软件使用nginx，详情参照</p>
-<p><a href="http://www.cnblogs.com/clsn/p/7750615.html" target="_blank" rel="noopener">http://www.cnblogs.com/clsn/p/7750615.html</a></p>
-<h5 id="2、配置负载均衡器"><a href="#2、配置负载均衡器" class="headerlink" title="2、配置负载均衡器"></a>2、配置负载均衡器</h5><p>备份原配置文件</p>
-<pre><code>mv  /application/nginx/conf/nginx.conf{,.20171127}
-    egrep -v &#39;#|^$&#39; /application/nginx/conf/nginx.conf.default  &gt; /application/nginx/conf/nginx.conf</code></pre><p>​         配置文件内容</p>
-<pre><code>[root@lb01 ~]# cat /application/nginx/conf/nginx.conf
-worker_processes  1;
-events {
-    worker_connections  1024;
-}
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    sendfile        on;
-    keepalive_timeout  65;
-    upstream web_pools {
-        server 10.0.0.17:8081;
-        server 10.0.0.17:8082;
-    }
-
-    server {
-        listen       80;
-        server_name  localhost;
-        location / {
-            root   html;
-            index  index.jsp index.htm;
-        proxy_pass http://web_pools;
-        }
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   html;
-        }
-    }
-}</code></pre><p>​         配置完成后重启nginx服务</p>
-<pre><code>/application/nginx/sbin/nginx  -s stop 
-/application/nginx/sbin/nginx</code></pre><h5 id="3、使用命令进行访问测试"><a href="#3、使用命令进行访问测试" class="headerlink" title="3、使用命令进行访问测试"></a>3、使用命令进行访问测试</h5><p>使用curl 命令进行测试，tail进行关键字提取</p>
-<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|tail -1
-8081
-[root@lb01 ~]# curl -s 10.0.0.5|tail -1
-8082</code></pre><p>使用curl 命令进行测试，awk进行关键字提取</p>
-<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END{print}&#39;
-8082
-[root@lb01 ~]# curl -s 10.0.0.5|awk &#39;END{print}&#39;
-8081</code></pre><p> 使用curl 命令进行测试，sed进行关键字提取</p>
-<pre><code>[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;
-8082
-[root@lb01 ~]# curl -s 10.0.0.5|sed -n &#39;$p&#39;
-8081</code></pre><h5 id="4、在浏览器上进行访问测试"><a href="#4、在浏览器上进行访问测试" class="headerlink" title="4、在浏览器上进行访问测试"></a>4、在浏览器上进行访问测试</h5><p><img src="https://s1.ax1x.com/2020/05/21/YHPjLq.png" alt="YHPjLq.png"></p>
-<p><img src="https://s1.ax1x.com/2020/05/21/YHPxe0.png" alt="YHPxe0.png"></p>
-<p>​         建议使用google浏览器chrome 的隐身模式进行访问，使用ctrl+f5 进行强制刷新</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
             </div>
             <hr/>
 
@@ -609,8 +478,8 @@ http {
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Tomcat/">
-                                    <span class="chip bg-color">Tomcat</span>
+                                <a href="/tags/Nginx/">
+                                    <span class="chip bg-color">Nginx</span>
                                 </a>
                             
                         </div>
@@ -785,13 +654,13 @@ http {
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/27/linux/tomcat/tomcat-03/">
+                <a href="/2019/09/05/linux/rang-ni-de-linux-ku-qi-lai-xiao-bai-ye-neng-wan-zhuan-tmux/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Tomcat_03_监控">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="tmux-初探">
                         
-                        <span class="card-title">Tomcat_03_监控</span>
+                        <span class="card-title">tmux-初探</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -799,14 +668,12 @@ http {
                         
                             
 
-9、监控tomcat集群状态1、方法一：开发java监控页面[root@web03 tomcat8_1]# cat /application/tomcat/webapps/memtest/meminfo.jsp 
-&lt;%
-Runti
+Linux终端复用神器-tmux初探Tmux是一个优秀的终端复用软件，类似GNU Screen，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-09-05
                         </span>
                         <span class="publish-author">
                             
@@ -823,8 +690,8 @@ Runti
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Tomcat/">
-                        <span class="chip bg-color">Tomcat</span>
+                    <a href="/tags/Tools/">
+                        <span class="chip bg-color">Tools</span>
                     </a>
                     
                 </div>
@@ -838,13 +705,13 @@ Runti
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/21/linux/tomcat/tomcat-01/">
+                <a href="/2019/08/05/linux/nginx-xing-neng-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Tomcat_01_简介">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Nginx性能优化">
                         
-                        <span class="card-title">Tomcat_01_简介</span>
+                        <span class="card-title">Nginx性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -852,13 +719,21 @@ Runti
                         
                             
 
-1、Tomcat 简介Tomcat是Apache软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun和其他一些公司及个人共同开发而成。
-Tomcat服务器是一个
+
+
+
+当我需要进行性能优化时，说明我们服务器无法满足日益增长的业务。性能优化是一个比较大的课题，需要从以下几个方面进行探讨
+
+当前系统结构瓶颈
+了解业务模式
+性能与安全
+
+1、当前系统结构瓶颈首先需要了解的是当前系统瓶颈，用的是什么，跑
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-05
                             </span>
                         <span class="publish-author">
                             
@@ -875,8 +750,8 @@ Tomcat服务器是一个
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Tomcat/">
-                        <span class="chip bg-color">Tomcat</span>
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
                     </a>
                     
                 </div>
