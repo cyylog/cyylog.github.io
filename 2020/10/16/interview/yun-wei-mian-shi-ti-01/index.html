@@ -451,7 +451,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
-<h3 id="四剑客"><a href="#四剑客" class="headerlink" title="四剑客"></a>四剑客</h3><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
+<h3 id="三剑客"><a href="#三剑客" class="headerlink" title="三剑客"></a>三剑客</h3><h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><ol>
 <li>统计日志中某个时间范围的 IP 访问量，并进行排序</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">$ start_dt='10/May/2018:23:47:43
@@ -517,6 +517,36 @@ ip addr | awk &#39;/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, &q
 <li>如何查看系统每个ip的连接数</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">netstat -tan| awk '/tcp & gt; /{ split ($5,ip,":"); count[ip[1]]++} END {for(i in count) { print i, count[i]} }'</code></pre>
+<ol start="3">
+<li><p>统计80端口所有连接状态</p>
+<pre class=" language-shell"><code class="language-shell">netstat -tn|grep ":80" |awk '{print $6}'|sort|uniq -c</code></pre>
+</li>
+<li><p>编写脚本，快速找出192.168.1.0/24网段中已经使用的IP地址</p>
+</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">#!/bin/bash/env bash
+echo "-----------------------------------------"
+echo "可以 ping 通的 ip 在当前目录的111.txt文件"
+echo "不可以 ping 通的 ip 在当前目录的222.txt文件"
+echo "-----------------------------------------"
+echo > ./111.txt
+echo > ./222.txt
+read -p "请输入IP的第三位数字即可：" num3
+i=1
+IP3="192.168.$num3"
+for i in {1..254}
+do
+        {
+        ping -c1 $IP3.$i >>/dev/null
+        if [ $? -eq 0 ];then
+        echo "$IP3.$i" >>./111.txt
+        else
+        echo "$IP3.$i" >>./222.txt
+        fi
+        }  &
+done
+wait
+echo "finish...ok"</code></pre>
 <h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><ol>
 <li>HAproxy，  LVS， Nginx   有何区别，工作中会怎么选择</li>
 </ol>

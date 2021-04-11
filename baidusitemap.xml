@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/</loc>
+    <lastmod>2021-04-11</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
     <lastmod>2021-03-22</lastmod>
   </url>
@@ -15,10 +23,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/04/01/rong-qi/kubernetes-ru-men-wei-ming-ming-kong-jian-pei-zhi-mo-ren-de-nei-cun-qing-qiu-he-xian-zhi/</loc>
     <lastmod>2021-03-14</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/</loc>
-    <lastmod>2021-03-02</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2019/08/09/linux/nginx-ya-ce-he-bing-fa-yu-gu/</loc>
@@ -47,10 +51,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/12/08/linux/cpu-zhan-yong-guo-gao-pai-cha/</loc>
     <lastmod>2020-12-07</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/16/interview/yun-wei-mian-shi-ti-01/</loc>
-    <lastmod>2020-12-01</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/11/27/sql/mysql-jie-jue-zhu-cong-man-tong-bu-wen-ti/</loc>

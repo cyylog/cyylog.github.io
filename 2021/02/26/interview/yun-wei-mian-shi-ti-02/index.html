@@ -451,6 +451,41 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>PS：以下内容，网友提供    欢迎投稿     <a href="mailto:cyylog@aliyun.com">cyylog@aliyun.com</a></p>
+<h4 id="未分类："><a href="#未分类：" class="headerlink" title="未分类："></a>未分类：</h4><ol>
+<li>描述Linux下软链接和硬链接的区别</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">硬链接源文件可以删除，软连接源文件不可删除
+快照就是使用硬链接的原理
+硬链接文件与源文件的inode节点号相同，而软链接文件的inode节点号，与源文件不同，
+ln命令不能对目录创建硬链接，但可以创建软链接。对目录的软链接会经常使用到。</code></pre>
+<ol start="2">
+<li>请描述Linux系统优化的步骤</li>
+</ol>
+<pre class=" language-shell"><code class="language-shell">   1、日常工作中以普通用户环境代替Root超级管理员，使用sudo执行管理命令
+
+　　2、更改SSH服务的默认端口，禁止Root用户远程连接服务器
+
+　　3、定时自动更新服务器时间
+
+　　4、将yum源修改为国内源，优化安装包下载速度
+
+　　5、关闭selinux服务
+
+　　6、调整文件描述符数量
+
+　　7、定时自动清理/var/spool/clientmquene/目录下的垃圾文件
+
+　　8、精简开机自启动服务
+
+　　9、Linux内核参数优化(/etc/sysctl.conf文件即内核文件)
+
+　　10、更改系统字符集，支持中文避免乱码问题
+
+　　11、锁定系统关键文件
+
+　　12、清空/etc/issue文件
+
+　　13、清除无用的系统默认账户和组</code></pre>
 
             </div>
             <hr/>
