@@ -243,9 +243,9 @@
     <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
     
     
-    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
-    
     <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
     
   </entry>
   
@@ -424,9 +424,9 @@
     <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
     
     
-    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
-    
     <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
     
   </entry>
   
@@ -511,30 +511,29 @@
   </entry>
   
   <entry>
-    <title>Zabbix-原理</title>
-    <link href="https://cyylog.github.io/2020/10/24/jian-kong/zabbix-yuan-li/"/>
-    <id>https://cyylog.github.io/2020/10/24/jian-kong/zabbix-yuan-li/</id>
-    <published>2020-10-23T17:55:39.000Z</published>
-    <updated>2020-10-30T03:13:25.754Z</updated>
+    <title>K8S 原理</title>
+    <link href="https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/"/>
+    <id>https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/</id>
+    <published>2020-10-24T16:24:11.000Z</published>
+    <updated>2021-04-15T08:15:53.826Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;p&gt;​               &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;想要用好zabbix进行监控，那么我们首要需要了解下zabbix这个软件的实现原理及它的架构。建议多阅读官方文档。&lt;/p&gt;
-&lt;p&gt;官网地址：&lt;a</summary>
+    <summary type="html">&lt;h4 id=&quot;面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot;&gt;&lt;a href=&quot;#面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot; class=&quot;headerlink&quot;</summary>
         
       
     
     
     
-    <category term="监控" scheme="https://cyylog.github.io/categories/%E7%9B%91%E6%8E%A7/"/>
+    <category term="Kubernetes" scheme="https://cyylog.github.io/categories/Kubernetes/"/>
     
     
-    <category term="zabbix" scheme="https://cyylog.github.io/tags/zabbix/"/>
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+    <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
     
   </entry>
   

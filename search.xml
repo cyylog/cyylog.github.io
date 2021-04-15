@@ -224,9 +224,9 @@
       
         <tags>
             
-            <tag> Mysql </tag>
-            
             <tag> Interview </tag>
+            
+            <tag> Mysql </tag>
             
         </tags>
       
@@ -405,9 +405,9 @@
       
         <tags>
             
-            <tag> Mysql </tag>
-            
             <tag> Interview </tag>
+            
+            <tag> Mysql </tag>
             
         </tags>
       
@@ -487,6 +487,33 @@
             <tag> influxdb </tag>
             
             <tag> grafana </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>K8S 原理</title>
+      <link href="2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/"/>
+      <url>2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/</url>
+      
+        <content type="html"><![CDATA[<h4 id="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"><a href="#面试问到了K8S原理，花5分钟来总结下，以后再也不怕了" class="headerlink" title="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"></a>面试问到了K8S原理，花5分钟来总结下，以后再也不怕了</h4><p>原创DevOps笔记2020-10-25 22:32:59</p><h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p><img src="https://p1-tt.byteimg.com/origin/pgc-image/dd588922f3fe45c19362df0825722254?from=pc" alt="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"></p><p>K8S</p><p>K8S现在是一项必会的技能，它为软件工程师提供了强大的容器编排能力，模糊了开发和运维之间的边界，让我们开发、管理和维护一个大型的分布式系统和项目变得更加容易，并且每次面试多多少少都会问到，笔者也是被问到了很多次。本文就准备用最短的篇幅来介绍下K8S的工作过程。</p><h5 id="K8S架构组成"><a href="#K8S架构组成" class="headerlink" title="K8S架构组成"></a>K8S架构组成</h5><p>Kubernetes最初源于谷歌内部的Borg，提供了面向应用的容器集群部署和管理系统。Kubernetes借鉴了Borg的设计理念，比如Pod、Service、Labels和单Pod单IP等。</p><p><img src="https://p6-tt.byteimg.com/origin/pgc-image/6682804788b04ad7babe00c81a399a9b?from=pc" alt="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"></p><p>K8S架构图</p><p><strong>Kubernetes主要由以下几个核心组件组成：</strong></p><ul><li>etcd保存了整个集群的状态；</li><li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li><li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li><li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li><li>kubelet负责维护容器的生命周期，同时也负责Volume（CVI）和网络（CNI）的管理；</li><li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li><li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li></ul><p><strong>除了核心组件，还有一些推荐的Add-ons：</strong></p><ul><li>kube-dns负责为整个集群提供DNS服务</li><li>Ingress Controller为服务提供外网入口</li><li>Heapster提供资源监控</li><li>Dashboard提供GUI</li><li>Federation提供跨可用区的集群</li><li>Fluentd-elasticsearch提供集群日志采集、存储与查询</li></ul><h5 id="k8s各组件间工作流程"><a href="#k8s各组件间工作流程" class="headerlink" title="k8s各组件间工作流程"></a>k8s各组件间工作流程</h5><p><img src="https://p6-tt.byteimg.com/origin/pgc-image/d89315f973f445a297cc5266814e60de?from=pc" alt="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"></p><p>K8S工作过程</p><p>①运维人员向kube-apiserver发出指令（我想干什么，我期望事情是什么状态）</p><p>（以下kube-apiserver简称apiserver、kube-controller-manager简称controller、kube-scheduler简称scheduler）</p><p>②api响应命令,通过一系列认证授权,把pod数据存储到etcd,创建deployment资源并初始化。(期望状态）</p><p>③controller通过list-watch机制,监测发现新的deployment,将该资源加入到内部工作队列,发现该资源没有关联的pod和replicaset,启用deployment controller创建replicaset资源,再启用replicaset controller创建pod。</p><p>④所有controller被创建完成后.将deployment,replicaset,pod资源更新存储到etcd。</p><p>⑤scheduler通过list-watch机制,监测发现新的pod,经过主机过滤、主机打分规则,将pod绑定(binding)到合适的主机。</p><p>⑥将绑定结果存储到etcd。</p><p>⑦kubelet每隔 20s(可以自定义)向apiserver通过NodeName 获取自身Node上所要运行的pod清单.通过与自己的内部缓存进行比较,新增加pod。</p><p>⑧kubelet创建pod。</p><p>⑨kube-proxy为新创建的pod注册动态DNS到CoreOS。给pod的service添加iptables/ipvs规则，用于服务发现和负载均衡。</p><p>⑩controller通过control loop（控制循环）将当前pod状态与用户所期望的状态做对比，如果当前状态与用户期望状态不同，则controller会将pod修改为用户期望状态，实在不行会将此pod删掉，然后重新创建pod。</p><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p><img src="https://p6-tt.byteimg.com/origin/pgc-image/ec520fbb771643eaa85e245d77f26bb5?from=pc" alt="面试问到了K8S原理，花5分钟来总结下，以后再也不怕了"></p><p>K8S</p><p>Kubernetes的架构设计，理清楚之后，其实还是很简单的。面试的时候问到K8S原理，对于大部分人来说能答出这些，基本上就差不多了。Kubernetes深入的实现原理，还需要单独分析，本文只是一个抛砖引玉，如果有错误，欢迎大家批评指正。大家一起努力进步！</p><blockquote><p>原文地址：<a href="https://www.toutiao.com/i6887565254440518147/?tt_from=weixin&amp;utm_campaign=client_share&amp;wxshare_count=1&amp;timestamp=1618473782&amp;app=news_article&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;use_new_style=1&amp;req_id=202104151603020101511991050002EFEE&amp;share_token=9d1e8f78-e9ae-4838-beed-445bb79b726f&amp;group_id=6887565254440518147&amp;wid=1618474130537" target="_blank" rel="noopener">https://www.toutiao.com/i6887565254440518147/?tt_from=weixin&amp;utm_campaign=client_share&amp;wxshare_count=1&amp;timestamp=1618473782&amp;app=news_article&amp;utm_source=weixin&amp;utm_medium=toutiao_android&amp;use_new_style=1&amp;req_id=202104151603020101511991050002EFEE&amp;share_token=9d1e8f78-e9ae-4838-beed-445bb79b726f&amp;group_id=6887565254440518147&amp;wid=1618474130537</a></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> Kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Kubernetes </tag>
+            
+            <tag> Interview </tag>
             
         </tags>
       
