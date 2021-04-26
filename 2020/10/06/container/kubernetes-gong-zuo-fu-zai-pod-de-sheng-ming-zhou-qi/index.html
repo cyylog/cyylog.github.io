@@ -1,0 +1,1216 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Kubernetes-Pod-生命周期, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="description" content="精通原创，擅长盗版">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Kubernetes-Pod-生命周期 | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            精通原创，擅长盗版
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/cyylog/Go_status" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/cyylog/Go_status" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Kubernetes-Pod-生命周期</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Kubernetes/">
+                                <span class="chip bg-color">Kubernetes</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                容器
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-10-06
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Pod-的生命周期"><a href="#Pod-的生命周期" class="headerlink" title="Pod 的生命周期"></a>Pod 的生命周期</h1><p>本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 <code>Pending</code> <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase" target="_blank" rel="noopener">阶段</a>，如果至少 其中有一个主要容器正常启动，则进入 <code>Running</code>，之后取决于 Pod 中是否有容器以 失败状态结束而进入 <code>Succeeded</code> 或者 <code>Failed</code> 阶段。</p>
+<p>在 Pod 运行期间，<code>kubelet</code> 能够重启容器以处理一些失效场景。 在 Pod 内部，Kubernetes 跟踪不同容器的<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#container-states" target="_blank" rel="noopener">状态</a> 并处理可能出现的状况。</p>
+<p>在 Kubernetes API 中，Pod 包含规约部分和实际状态部分。 Pod 对象的状态包含了一组 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-conditions" target="_blank" rel="noopener">Pod 状况（Conditions）</a>。 如果应用需要的话，你也可以向其中注入<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-readiness-gate" target="_blank" rel="noopener">自定义的就绪性信息</a>。</p>
+<p>Pod 在其生命周期中只会被<a href="https://kubernetes.io/zh/docs/concepts/scheduling-eviction/" target="_blank" rel="noopener">调度</a>一次。 一旦 Pod 被调度（分派）到某个节点，Pod 会一直在该节点运行，直到 Pod 停止或者 被<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination" target="_blank" rel="noopener">终止</a>。</p>
+<h2 id="Pod-生命期"><a href="#Pod-生命期" class="headerlink" title="Pod 生命期"></a>Pod 生命期</h2><p>和一个个独立的应用容器一样，Pod 也被认为是相对临时性（而不是长期存在）的实体。 Pod 会被创建、赋予一个唯一的 ID（<a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/names/#uids" target="_blank" rel="noopener">UID</a>）， 并被调度到节点，并在终止（根据重启策略）或删除之前一直运行在该节点。</p>
+<p>如果一个<a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/" target="_blank" rel="noopener">节点</a>死掉了，调度到该节点 的 Pod 也被计划在给定超时期限结束后<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-garbage-collection" target="_blank" rel="noopener">删除</a>。</p>
+<p>Pod 自身不具有自愈能力。如果 Pod 被调度到某<a href="https://kubernetes.io/zh/docs/concepts/architecture/nodes/" target="_blank" rel="noopener">节点</a> 而该节点之后失效，或者调度操作本身失效，Pod 会被删除；与此类似，Pod 无法在节点资源 耗尽或者节点维护期间继续存活。Kubernetes 使用一种高级抽象，称作 <a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>，来管理这些相对而言 可随时丢弃的 Pod 实例。</p>
+<p>任何给定的 Pod （由 UID 定义）从不会被“重新调度（rescheduled）”到不同的节点； 相反，这一 Pod 可以被一个新的、几乎完全相同的 Pod 替换掉。 如果需要，新 Pod 的名字可以不变，但是其 UID 会不同。</p>
+<p>如果某物声称其生命期与某 Pod 相同，例如存储<a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/" target="_blank" rel="noopener">卷</a>， 这就意味着该对象在此 Pod （UID 亦相同）存在期间也一直存在。 如果 Pod 因为任何原因被删除，甚至某完全相同的替代 Pod 被创建时， 这个相关的对象（例如这里的卷）也会被删除并重建。</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/aecab1f649bc640ebef1f05581bfcc91a48038c4/728d6/images/docs/pod.svg" alt="img">Pod 结构图例</p>
+<p><em>一个包含多个容器的 Pod 中包含一个用来拉取文件的程序和一个 Web 服务器， 均使用持久卷作为容器间共享的存储。</em></p>
+<h2 id="Pod-阶段"><a href="#Pod-阶段" class="headerlink" title="Pod 阶段"></a>Pod 阶段</h2><p>Pod 的 <code>status</code> 字段是一个 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podstatus-v1-core" target="_blank" rel="noopener">PodStatus</a> 对象，其中包含一个 <code>phase</code> 字段。</p>
+<p>Pod 的阶段（Phase）是 Pod 在其生命周期中所处位置的简单宏观概述。 该阶段并不是对容器或 Pod 状态的综合汇总，也不是为了成为完整的状态机。</p>
+<p>Pod 阶段的数量和含义是严格定义的。 除了本文档中列举的内容外，不应该再假定 Pod 有其他的 <code>phase</code> 值。</p>
+<p>下面是 <code>phase</code> 可能的值：</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Pending</code>（悬决）</td>
+<td>Pod 已被 Kubernetes 系统接受，但有一个或者多个容器尚未创建亦未运行。此阶段包括等待 Pod 被调度的时间和通过网络下载镜像的时间，</td>
+</tr>
+<tr>
+<td><code>Running</code>（运行中）</td>
+<td>Pod 已经绑定到了某个节点，Pod 中所有的容器都已被创建。至少有一个容器仍在运行，或者正处于启动或重启状态。</td>
+</tr>
+<tr>
+<td><code>Succeeded</code>（成功）</td>
+<td>Pod 中的所有容器都已成功终止，并且不会再重启。</td>
+</tr>
+<tr>
+<td><code>Failed</code>（失败）</td>
+<td>Pod 中的所有容器都已终止，并且至少有一个容器是因为失败终止。也就是说，容器以非 0 状态退出或者被系统终止。</td>
+</tr>
+<tr>
+<td><code>Unknown</code>（未知）</td>
+<td>因为某些原因无法取得 Pod 的状态。这种情况通常是因为与 Pod 所在主机通信失败。</td>
+</tr>
+</tbody></table>
+<p>如果某节点死掉或者与集群中其他节点失联，Kubernetes 会实施一种策略，将失去的节点上运行的所有 Pod 的 <code>phase</code> 设置为 <code>Failed</code>。</p>
+<h2 id="容器状态"><a href="#容器状态" class="headerlink" title="容器状态"></a>容器状态</h2><p>Kubernetes 会跟踪 Pod 中每个容器的状态，就像它跟踪 Pod 总体上的<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase" target="_blank" rel="noopener">阶段</a>一样。 你可以使用<a href="https://kubernetes.io/zh/docs/concepts/containers/container-lifecycle-hooks/" target="_blank" rel="noopener">容器生命周期回调</a> 来在容器生命周期中的特定时间点触发事件。</p>
+<p>一旦<a href="https://kubernetes.io/docs/reference/generated/kube-scheduler/" target="_blank" rel="noopener">调度器</a>将 Pod 分派给某个节点，<code>kubelet</code> 就通过 <a href="https://kubernetes.io/docs/reference/generated/container-runtime" target="_blank" rel="noopener">容器运行时</a> 开始为 Pod 创建容器。 容器的状态有三种：<code>Waiting</code>（等待）、<code>Running</code>（运行中）和 <code>Terminated</code>（已终止）。</p>
+<p>要检查 Pod 中容器的状态，你可以使用 <code>kubectl describe pod &lt;pod 名称&gt;</code>。 其输出中包含 Pod 中每个容器的状态。</p>
+<p>每种状态都有特定的含义：</p>
+<h3 id="Waiting-（等待）"><a href="#Waiting-（等待）" class="headerlink" title="Waiting （等待）"></a><code>Waiting</code> （等待）</h3><p>如果容器并不处在 <code>Running</code> 或 <code>Terminated</code> 状态之一，它就处在 <code>Waiting</code> 状态。 处于 <code>Waiting</code> 状态的容器仍在运行它完成启动所需要的操作：例如，从某个容器镜像 仓库拉取容器镜像，或者向容器应用 <a href="https://kubernetes.io/zh/docs/concepts/configuration/secret/" target="_blank" rel="noopener">Secret</a> 数据等等。 当你使用 <code>kubectl</code> 来查询包含 <code>Waiting</code> 状态的容器的 Pod 时，你也会看到一个 Reason 字段，其中给出了容器处于等待状态的原因。</p>
+<h3 id="Running（运行中）"><a href="#Running（运行中）" class="headerlink" title="Running（运行中）"></a><code>Running</code>（运行中）</h3><p><code>Running</code> 状态表明容器正在执行状态并且没有问题发生。 如果配置了 <code>postStart</code> 回调，那么该回调已经执行完成。 如果你使用 <code>kubectl</code> 来查询包含 <code>Running</code> 状态的容器的 Pod 时，你也会看到 关于容器进入 <code>Running</code> 状态的信息。</p>
+<h3 id="Terminated（已终止）"><a href="#Terminated（已终止）" class="headerlink" title="Terminated（已终止）"></a><code>Terminated</code>（已终止）</h3><p>处于 <code>Terminated</code> 状态的容器已经开始执行并且或者正常结束或者因为某些原因失败。 如果你使用 <code>kubectl</code> 来查询包含 <code>Terminated</code> 状态的容器的 Pod 时，你会看到 容器进入此状态的原因、退出代码以及容器执行期间的起止时间。</p>
+<p>如果容器配置了 <code>preStop</code> 回调，则该回调会在容器进入 <code>Terminated</code> 状态之前执行。</p>
+<h2 id="容器重启策略"><a href="#容器重启策略" class="headerlink" title="容器重启策略"></a>容器重启策略</h2><p>Pod 的 <code>spec</code> 中包含一个 <code>restartPolicy</code> 字段，其可能取值包括 Always、OnFailure 和 Never。默认值是 Always。</p>
+<p><code>restartPolicy</code> 适用于 Pod 中的所有容器。<code>restartPolicy</code> 仅针对同一节点上 <code>kubelet</code> 的容器重启动作。当 Pod 中的容器退出时，<code>kubelet</code> 会按指数回退 方式计算重启的延迟（10s、20s、40s、…），其最长延迟为 5 分钟。 一旦某容器执行了 10 分钟并且没有出现问题，<code>kubelet</code> 对该容器的重启回退计时器执行 重置操作。</p>
+<h2 id="Pod-状况"><a href="#Pod-状况" class="headerlink" title="Pod 状况"></a>Pod 状况</h2><p>Pod 有一个 PodStatus 对象，其中包含一个 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podcondition-v1-core" target="_blank" rel="noopener">PodConditions</a> 数组。Pod 可能通过也可能未通过其中的一些状况测试。</p>
+<ul>
+<li><code>PodScheduled</code>：Pod 已经被调度到某节点；</li>
+<li><code>ContainersReady</code>：Pod 中所有容器都已就绪；</li>
+<li><code>Initialized</code>：所有的 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/" target="_blank" rel="noopener">Init 容器</a> 都已成功启动；</li>
+<li><code>Ready</code>：Pod 可以为请求提供服务，并且应该被添加到对应服务的负载均衡池中。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>type</code></td>
+<td>Pod 状况的名称</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>表明该状况是否适用，可能的取值有 “<code>True</code>“, “<code>False</code>“ 或 “<code>Unknown</code>“</td>
+</tr>
+<tr>
+<td><code>lastProbeTime</code></td>
+<td>上次探测 Pod 状况时的时间戳</td>
+</tr>
+<tr>
+<td><code>lastTransitionTime</code></td>
+<td>Pod 上次从一种状态转换到另一种状态时的时间戳</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>机器可读的、驼峰编码（UpperCamelCase）的文字，表述上次状况变化的原因</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>人类可读的消息，给出上次状态转换的详细信息</td>
+</tr>
+</tbody></table>
+<h3 id="Pod-就绪态"><a href="#Pod-就绪态" class="headerlink" title="Pod 就绪态"></a>Pod 就绪态</h3><p><strong>FEATURE STATE:</strong> <code>Kubernetes v1.14 [stable]</code></p>
+<p>你的应用可以向 PodStatus 中注入额外的反馈或者信号：<em>Pod Readiness（Pod 就绪态）</em>。 要使用这一特性，可以设置 Pod 规约中的 <code>readinessGates</code> 列表，为 kubelet 提供一组额外的状况供其评估 Pod 就绪态时使用。</p>
+<p>就绪态门控基于 Pod 的 <code>status.conditions</code> 字段的当前值来做决定。 如果 Kubernetes 无法在 <code>status.conditions</code> 字段中找到某状况，则该状况的 状态值默认为 “<code>False</code>“。</p>
+<p>这里是一个例子：</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token punctuation">...</span>
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">readinessGates</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">conditionType</span><span class="token punctuation">:</span> <span class="token string">"www.example.com/feature-1"</span>
+<span class="token key atrule">status</span><span class="token punctuation">:</span>
+  <span class="token key atrule">conditions</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Ready                              <span class="token comment" spellcheck="true"># 内置的 Pod 状况</span>
+      <span class="token key atrule">status</span><span class="token punctuation">:</span> <span class="token string">"False"</span>
+      <span class="token key atrule">lastProbeTime</span><span class="token punctuation">:</span> <span class="token null important">null</span>
+      <span class="token key atrule">lastTransitionTime</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-01T00:00:00Z</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"www.example.com/feature-1"</span>        <span class="token comment" spellcheck="true"># 额外的 Pod 状况</span>
+      <span class="token key atrule">status</span><span class="token punctuation">:</span> <span class="token string">"False"</span>
+      <span class="token key atrule">lastProbeTime</span><span class="token punctuation">:</span> <span class="token null important">null</span>
+      <span class="token key atrule">lastTransitionTime</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-01T00:00:00Z</span>
+  <span class="token key atrule">containerStatuses</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">containerID</span><span class="token punctuation">:</span> docker<span class="token punctuation">:</span>//abcd<span class="token punctuation">...</span>
+      <span class="token key atrule">ready</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+<span class="token punctuation">...</span></code></pre>
+<p>你所添加的 Pod 状况名称必须满足 Kubernetes <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set" target="_blank" rel="noopener">标签键名格式</a>。</p>
+<h3 id="Pod-就绪态的状态"><a href="#Pod-就绪态的状态" class="headerlink" title="Pod 就绪态的状态"></a>Pod 就绪态的状态</h3><p>命令 <code>kubectl patch</code> 不支持修改对象的状态。 如果需要设置 Pod 的 <code>status.conditions</code>，应用或者 <a href="https://kubernetes.io/zh/docs/concepts/extend-kubernetes/operator/" target="_blank" rel="noopener">Operators</a> 需要使用 <code>PATCH</code> 操作。 你可以使用 <a href="https://kubernetes.io/zh/docs/reference/using-api/client-libraries/" target="_blank" rel="noopener">Kubernetes 客户端库</a> 之一来编写代码，针对 Pod 就绪态设置定制的 Pod 状况。</p>
+<p>对于使用定制状况的 Pod 而言，只有当下面的陈述都适用时，该 Pod 才会被评估为就绪：</p>
+<ul>
+<li>Pod 中所有容器都已就绪；</li>
+<li><code>readinessGates</code> 中的所有状况都为 <code>True</code> 值。</li>
+</ul>
+<p>当 Pod 的容器都已就绪，但至少一个定制状况没有取值或者取值为 <code>False</code>， <code>kubelet</code> 将 Pod 的<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#pod-conditions" target="_blank" rel="noopener">状况</a>设置为 <code>ContainersReady</code>。</p>
+<h2 id="容器探针"><a href="#容器探针" class="headerlink" title="容器探针"></a>容器探针</h2><p><a href="https://kubernetes.io/zh/docs/reference/generated/kubernetes-api/v1.19/#probe-v1-core" target="_blank" rel="noopener">探针</a> 是由 <a href="https://kubernetes.io/zh/docs/reference/command-line-tools-reference/kubelet/" target="_blank" rel="noopener">kubelet</a> 对容器执行的定期诊断。 要执行诊断，kubelet 调用由容器实现的 <a href="https://kubernetes.io/zh/docs/reference/generated/kubernetes-api/v1.19/#handler-v1-core" target="_blank" rel="noopener">Handler</a> （处理程序）。有三种类型的处理程序：</p>
+<ul>
+<li><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#execaction-v1-core" target="_blank" rel="noopener">ExecAction</a>： 在容器内执行指定命令。如果命令退出时返回码为 0 则认为诊断成功。</li>
+<li><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#tcpsocketaction-v1-core" target="_blank" rel="noopener">TCPSocketAction</a>： 对容器的 IP 地址上的指定端口执行 TCP 检查。如果端口打开，则诊断被认为是成功的。</li>
+<li><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#httpgetaction-v1-core" target="_blank" rel="noopener">HTTPGetAction</a>： 对容器的 IP 地址上指定端口和路径执行 HTTP Get 请求。如果响应的状态码大于等于 200 且小于 400，则诊断被认为是成功的。</li>
+</ul>
+<p>每次探测都将获得以下三种结果之一：</p>
+<ul>
+<li><code>Success</code>（成功）：容器通过了诊断。</li>
+<li><code>Failure</code>（失败）：容器未通过诊断。</li>
+<li><code>Unknown</code>（未知）：诊断失败，因此不会采取任何行动。</li>
+</ul>
+<p>针对运行中的容器，<code>kubelet</code> 可以选择是否执行以下三种探针，以及如何针对探测结果作出反应：</p>
+<ul>
+<li><code>livenessProbe</code>：指示容器是否正在运行。如果存活态探测失败，则 kubelet 会杀死容器， 并且容器将根据其<a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy" target="_blank" rel="noopener">重启策略</a>决定未来。如果容器不提供存活探针， 则默认状态为 <code>Success</code>。</li>
+<li><code>readinessProbe</code>：指示容器是否准备好为请求提供服务。如果就绪态探测失败， 端点控制器将从与 Pod 匹配的所有服务的端点列表中删除该 Pod 的 IP 地址。 初始延迟之前的就绪态的状态值默认为 <code>Failure</code>。 如果容器不提供就绪态探针，则默认状态为 <code>Success</code>。</li>
+<li><code>startupProbe</code>: 指示容器中的应用是否已经启动。如果提供了启动探针，则所有其他探针都会被 禁用，直到此探针成功为止。如果启动探测失败，<code>kubelet</code> 将杀死容器，而容器依其 <a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy" target="_blank" rel="noopener">重启策略</a>进行重启。 如果容器没有提供启动探测，则默认状态为 <code>Success</code>。</li>
+</ul>
+<p>如欲了解如何设置存活态、就绪态和启动探针的进一步细节，可以参阅 <a href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/" target="_blank" rel="noopener">配置存活态、就绪态和启动探针</a>。</p>
+<h3 id="何时该使用存活态探针"><a href="#何时该使用存活态探针" class="headerlink" title="何时该使用存活态探针?"></a>何时该使用存活态探针?</h3><p><strong>FEATURE STATE:</strong> <code>Kubernetes v1.0 [stable]</code></p>
+<p>如果容器中的进程能够在遇到问题或不健康的情况下自行崩溃，则不一定需要存活态探针; <code>kubelet</code> 将根据 Pod 的<code>restartPolicy</code> 自动执行修复操作。</p>
+<p>如果你希望容器在探测失败时被杀死并重新启动，那么请指定一个存活态探针， 并指定<code>restartPolicy</code> 为 “<code>Always</code>“ 或 “<code>OnFailure</code>“。</p>
+<h3 id="何时该使用就绪态探针"><a href="#何时该使用就绪态探针" class="headerlink" title="何时该使用就绪态探针?"></a>何时该使用就绪态探针?</h3><p><strong>FEATURE STATE:</strong> <code>Kubernetes v1.0 [stable]</code></p>
+<p>如果要仅在探测成功时才开始向 Pod 发送请求流量，请指定就绪态探针。 在这种情况下，就绪态探针可能与存活态探针相同，但是规约中的就绪态探针的存在意味着 Pod 将在启动阶段不接收任何数据，并且只有在探针探测成功后才开始接收数据。</p>
+<p>如果你的容器需要加载大规模的数据、配置文件或者在启动期间执行迁移操作，可以添加一个 就绪态探针。</p>
+<p>如果你希望容器能够自行进入维护状态，也可以指定一个就绪态探针，检查某个特定于 就绪态的因此不同于存活态探测的端点。</p>
+<blockquote>
+<p><strong>说明：</strong> 请注意，如果你只是想在 Pod 被删除时能够排空请求，则不一定需要使用就绪态探针； 在删除 Pod 时，Pod 会自动将自身置于未就绪状态，无论就绪态探针是否存在。 等待 Pod 中的容器停止期间，Pod 会一直处于未就绪状态。</p>
+</blockquote>
+<h3 id="何时该使用启动探针？"><a href="#何时该使用启动探针？" class="headerlink" title="何时该使用启动探针？"></a>何时该使用启动探针？</h3><p><strong>FEATURE STATE:</strong> <code>Kubernetes v1.16 [alpha]</code></p>
+<p>对于所包含的容器需要较长时间才能启动就绪的 Pod 而言，启动探针是有用的。 你不再需要配置一个较长的存活态探测时间间隔，只需要设置另一个独立的配置选定， 对启动期间的容器执行探测，从而允许使用远远超出存活态时间间隔所允许的时长。</p>
+<p>如果你的容器启动时间通常超出 <code>initialDelaySeconds + failureThreshold × periodSeconds</code> 总值，你应该设置一个启动探测，对存活态探针所使用的同一端点执行检查。 <code>periodSeconds</code> 的默认值是 30 秒。你应该将其 <code>failureThreshold</code> 设置得足够高， 以便容器有充足的时间完成启动，并且避免更改存活态探针所使用的默认值。 这一设置有助于减少死锁状况的发生。</p>
+<h2 id="Pod-的终止"><a href="#Pod-的终止" class="headerlink" title="Pod 的终止"></a>Pod 的终止</h2><p>由于 Pod 所代表的是在集群中节点上运行的进程，当不再需要这些进程时允许其体面地 终止是很重要的。一般不应武断地使用 <code>KILL</code> 信号终止它们，导致这些进程没有机会 完成清理操作。</p>
+<p>设计的目标是令你能够请求删除进程，并且知道进程何时被终止，同时也能够确保删除 操作终将完成。当你请求删除某个 Pod 时，集群会记录并跟踪 Pod 的体面终止周期， 而不是直接强制地杀死 Pod。在存在强制关闭设施的前提下， <a href="https://kubernetes.io/docs/reference/generated/kubelet" target="_blank" rel="noopener">kubelet</a> 会尝试体面地终止 Pod。</p>
+<p>通常情况下，容器运行时会发送一个 TERM 信号到每个容器中的主进程。 一旦超出了体面终止限期，容器运行时会向所有剩余进程发送 KILL 信号，之后 Pod 就会被从 <a href="https://kubernetes.io/docs/reference/generated/kube-apiserver/" target="_blank" rel="noopener">API 服务器</a> 上移除。如果 <code>kubelet</code> 或者容器运行时的管理服务在等待进程终止期间被重启， 集群会从头开始重试，赋予 Pod 完整的体面终止限期。</p>
+<p>下面是一个例子：</p>
+<ol>
+<li><p>你使用 <code>kubectl</code> 工具手动删除某个特定的 Pod，而该 Pod 的体面终止限期是默认值（30 秒）。</p>
+</li>
+<li><p>API 服务器中的 Pod 对象被更新，记录涵盖体面终止限期在内 Pod 的最终死期，超出所计算时间点则认为 Pod 已死（dead）。 如果你使用 <code>kubectl describe</code> 来查验你正在删除的 Pod，该 Pod 会显示为 “Terminating” （正在终止）。 在 Pod 运行所在的节点上：<code>kubelet</code> 一旦看到 Pod 被标记为正在终止（已经设置了体面终止限期），<code>kubelet</code> 即开始本地的 Pod 关闭过程。</p>
+<ol>
+<li><p>如果 Pod 中的容器之一定义了 <code>preStop</code> <a href="https://kubernetes.io/zh/docs/concepts/containers/container-lifecycle-hooks/#hook-details" target="_blank" rel="noopener">回调</a>， <code>kubelet</code> 开始在容器内运行该回调逻辑。如果超出体面终止限期时，<code>preStop</code> 回调逻辑 仍在运行，<code>kubelet</code> 会请求给予该 Pod 的宽限期一次性增加 2 秒钟。</p>
+<blockquote>
+<p><strong>说明：</strong> 如果 <code>preStop</code> 回调所需要的时间长于默认的体面终止限期，你必须修改 <code>terminationGracePeriodSeconds</code> 属性值来使其正常工作。</p>
+</blockquote>
+</li>
+<li><p><code>kubelet</code> 接下来触发容器运行时发送 TERM 信号给每个容器中的进程 1。</p>
+<blockquote>
+<p><strong>说明：</strong> Pod 中的容器会在不同时刻收到 TERM 信号，接收顺序也是不确定的。 如果关闭的顺序很重要，可以考虑使用 <code>preStop</code> 回调逻辑来协调。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>与此同时，<code>kubelet</code> 启动体面关闭逻辑，控制面会将 Pod 从对应的端点列表（以及端点切片列表， 如果启用了的话）中移除，过滤条件是 Pod 被对应的 <a href="https://kubernetes.io/zh/docs/concepts/services-networking/service/" target="_blank" rel="noopener">服务</a>以某 <a href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/labels/" target="_blank" rel="noopener">选择算符</a>选定。 <a href="https://kubernetes.io/zh/docs/concepts/workloads/controllers/replicaset/" target="_blank" rel="noopener">ReplicaSets</a>和其他工作负载资源 不再将关闭进程中的 Pod 视为合法的、能够提供服务的副本。关闭动作很慢的 Pod 也无法继续处理请求数据，因为负载均衡器（例如服务代理）已经在终止宽限期开始的时候 将其从端点列表中移除。</p>
+</li>
+<li><p>超出终止宽限期线时，<code>kubelet</code> 会触发强制关闭过程。容器运行时会向 Pod 中所有容器内 仍在运行的进程发送 <code>SIGKILL</code> 信号。 <code>kubelet</code> 也会清理隐藏的 <code>pause</code> 容器，如果容器运行时使用了这种容器的话。</p>
+</li>
+<li><p><code>kubelet</code> 触发强制从 API 服务器上删除 Pod 对象的逻辑，并将体面终止限期设置为 0 （这意味着马上删除）。</p>
+</li>
+<li><p>API 服务器删除 Pod 的 API 对象，从任何客户端都无法再看到该对象。</p>
+</li>
+</ol>
+<h3 id="强制终止-Pod"><a href="#强制终止-Pod" class="headerlink" title="强制终止 Pod"></a>强制终止 Pod</h3><blockquote>
+<p><strong>注意：</strong> 对于某些工作负载及其 Pod 而言，强制删除很可能会带来某种破坏。</p>
+</blockquote>
+<p>默认情况下，所有的删除操作都会附有 30 秒钟的宽限期限。 <code>kubectl delete</code> 命令支持 <code>--grace-period=&lt;seconds&gt;</code> 选项，允许你重载默认值， 设定自己希望的期限值。</p>
+<p>将宽限期限强制设置为 <code>0</code> 意味着立即从 API 服务器删除 Pod。 如果 Pod 仍然运行于某节点上，强制删除操作会触发 <code>kubelet</code> 立即执行清理操作。</p>
+<blockquote>
+<p><strong>说明：</strong> 你必须在设置 <code>--grace-period=0</code> 的同时额外设置 <code>--force</code> 参数才能发起强制删除请求。</p>
+</blockquote>
+<p>执行强制删除操作时，API 服务器不再等待来自 <code>kubelet</code> 的、关于 Pod 已经在原来运行的节点上终止执行的确认消息。 API 服务器直接删除 Pod 对象，这样新的与之同名的 Pod 即可以被创建。 在节点侧，被设置为立即终止的 Pod 仍然会在被强行杀死之前获得一点点的宽限时间。</p>
+<p>如果你需要强制删除 StatefulSet 的 Pod，请参阅 <a href="https://kubernetes.io/zh/docs/tasks/run-application/force-delete-stateful-set-pod/" target="_blank" rel="noopener">从 StatefulSet 中删除 Pod</a> 的任务文档。</p>
+<h3 id="失效-Pod-的垃圾收集"><a href="#失效-Pod-的垃圾收集" class="headerlink" title="失效 Pod 的垃圾收集"></a>失效 Pod 的垃圾收集</h3><p>对于已失败的 Pod 而言，对应的 API 对象仍然会保留在集群的 API 服务器上，直到 用户或者<a href="https://kubernetes.io/docs/admin/kube-controller-manager/" target="_blank" rel="noopener">控制器</a>进程显式地 将其删除。</p>
+<p>控制面组件会在 Pod 个数超出所配置的阈值 （根据 <code>kube-controller-manager</code> 的 <code>terminated-pod-gc-threshold</code> 设置）时 删除已终止的 Pod（阶段值为 <code>Succeeded</code> 或 <code>Failed</code>）。 这一行为会避免随着时间演进不断创建和终止 Pod 而引起的资源泄露问题。</p>
+
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Kubernetes/">
+                                    <span class="chip bg-color">Kubernetes</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/10/16/interview/yun-wei-mian-shi-ti-01/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="运维面试题-01">
+                        
+                        <span class="card-title">运维面试题-01</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            PS：以下内容，网友提供    欢迎投稿     cyylog@aliyun.com
+三剑客awk
+统计日志中某个时间范围的 IP 访问量，并进行排序
+
+$ start_dt='10/May/2018:23:47:43
+$ end_dt='
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Interview/" class="post-category">
+                                    Interview
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Kubernetes-Pod-生命周期">
+                        
+                        <span class="card-title">Kubernetes-Pod-生命周期</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Pod 的生命周期本页面讲述 Pod 的生命周期。 Pod 遵循一个预定义的生命周期，起始于 Pending 阶段，如果至少 其中有一个主要容器正常启动，则进入 Running，之后取决于 Pod 中是否有容器以 失败状态结束而进入 Suc
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4, h5, h6'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5, h6').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2018</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
