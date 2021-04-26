@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-04-26T10:51:12.635Z</updated>
+  <updated>2021-04-26T10:55:10.754Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/"/>
     <id>https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/</id>
     <published>2021-04-18T17:20:59.000Z</published>
-    <updated>2021-04-26T10:51:12.635Z</updated>
+    <updated>2021-04-26T10:55:10.754Z</updated>
     
     
       
@@ -149,32 +149,6 @@
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
     <category term="containerd" scheme="https://cyylog.github.io/tags/containerd/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>运维面试题-02</title>
-    <link href="https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/"/>
-    <id>https://cyylog.github.io/2021/02/26/interview/yun-wei-mian-shi-ti-02/</id>
-    <published>2021-02-25T16:59:59.000Z</published>
-    <updated>2021-04-11T02:18:26.484Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;PS：以下内容，网友提供    欢迎投稿     &lt;a href=&quot;mailto:cyylog@aliyun.com&quot;&gt;cyylog@aliyun.com&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&quot;未分类：&quot;&gt;&lt;a href=&quot;#未分类：&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
-    
-    
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
     
   </entry>
   
@@ -517,6 +491,33 @@
     <title>Docker-网络模式</title>
     <link href="https://cyylog.github.io/2020/11/16/container/docker-wang-luo-mo-shi/"/>
     <id>https://cyylog.github.io/2020/11/16/container/docker-wang-luo-mo-shi/</id>
+    <published>2020-11-16T13:26:43.000Z</published>
+    <updated>2020-11-17T06:38:36.240Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;Docker四种网络模式&quot;&gt;&lt;a href=&quot;#Docker四种网络模式&quot; class=&quot;headerlink&quot; title=&quot;Docker四种网络模式&quot;&gt;&lt;/a&gt;Docker四种网络模式&lt;/h3&gt;&lt;h4 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+    <category term="Docker" scheme="https://cyylog.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker-网络模式</title>
+    <link href="https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/"/>
+    <id>https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/</id>
     <published>2020-11-16T13:26:43.000Z</published>
     <updated>2020-11-17T06:38:36.240Z</updated>
     
