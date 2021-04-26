@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://cyylog.github.io/2021/03/27/notes/kubeadm-bi-ji/</loc>
+    <loc>https://cyylog.github.io/2020/10/29/monitor/prometheus/</loc>
     
     <lastmod>2021-04-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/2020/10/29/monitor/prometheus/</loc>
+    <loc>https://cyylog.github.io/2021/03/27/notes/kubeadm-bi-ji/</loc>
     
     <lastmod>2021-04-26</lastmod>
     
@@ -865,20 +865,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
-    <lastmod>2021-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Interview/</loc>
-    <lastmod>2021-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/Nginx/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
@@ -928,7 +914,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Oracle/</loc>
+    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
+    <lastmod>2021-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Interview/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -936,6 +929,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Mongodb/</loc>
+    <lastmod>2021-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Oracle/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -991,14 +991,14 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/KVM/</loc>
+    <loc>https://cyylog.github.io/tags/CRI-O/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/CRI-O/</loc>
+    <loc>https://cyylog.github.io/tags/KVM/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1013,13 +1013,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/docker/</loc>
-    <lastmod>2021-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/containerd/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -1068,6 +1061,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/containerd/</loc>
+    <lastmod>2021-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/traefik/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
@@ -1098,6 +1098,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/categories/Tools/</loc>
+    <lastmod>2021-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/categories/Interview/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
@@ -1106,13 +1113,6 @@
   
   <url>
     <loc>https://cyylog.github.io/categories/Kubernetes/</loc>
-    <lastmod>2021-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/categories/Tools/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
