@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-04-24T22:39:10.276Z</updated>
+  <updated>2021-03-22T06:23:28.924Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,88 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>yaml notes</title>
-    <link href="https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/"/>
-    <id>https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/</id>
-    <published>2021-04-18T17:20:59.000Z</published>
-    <updated>2021-04-24T22:39:10.276Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;Kubernetes&quot;&gt;&lt;a href=&quot;#Kubernetes&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes&quot;&gt;&lt;/a&gt;&lt;code&gt;Kubernetes&lt;/code&gt;&lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;请看文档：&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
-    
-    
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
-    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>traefik notes</title>
-    <link href="https://cyylog.github.io/2021/04/10/notes/traefik-kuai-su-shi-zhan-shang-shou-bi-ji/"/>
-    <id>https://cyylog.github.io/2021/04/10/notes/traefik-kuai-su-shi-zhan-shang-shou-bi-ji/</id>
-    <published>2021-04-09T17:20:59.000Z</published>
-    <updated>2021-04-24T22:39:19.290Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;快速上手traefik速学实战&quot;&gt;&lt;a href=&quot;#快速上手traefik速学实战&quot; class=&quot;headerlink&quot; title=&quot;快速上手traefik速学实战&quot;&gt;&lt;/a&gt;快速上手&lt;code&gt;traefik&lt;/code&gt;速学实战&lt;/h4&gt;&lt;h6</summary>
-        
-      
-    
-    
-    
-    <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
-    
-    
-    <category term="traefik" scheme="https://cyylog.github.io/tags/traefik/"/>
-    
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubernetes notes</title>
-    <link href="https://cyylog.github.io/2021/03/27/notes/kubeadm-bi-ji/"/>
-    <id>https://cyylog.github.io/2021/03/27/notes/kubeadm-bi-ji/</id>
-    <published>2021-03-26T17:59:59.000Z</published>
-    <updated>2021-04-24T22:39:22.117Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;安装Helm、nginx-ingress&quot;&gt;&lt;a href=&quot;#安装Helm、nginx-ingress&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
-    
-    
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
-    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
-    
-  </entry>
   
   <entry>
     <title>kubeadm部署K8S集群并使用containerd做容器运行时</title>
@@ -537,6 +455,83 @@
     <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
     
     <category term="Docker" scheme="https://cyylog.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker-网络模式</title>
+    <link href="https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/"/>
+    <id>https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/</id>
+    <published>2020-11-16T13:26:43.000Z</published>
+    <updated>2020-11-17T06:38:36.240Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;Docker四种网络模式&quot;&gt;&lt;a href=&quot;#Docker四种网络模式&quot; class=&quot;headerlink&quot; title=&quot;Docker四种网络模式&quot;&gt;&lt;/a&gt;Docker四种网络模式&lt;/h3&gt;&lt;h4 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    
+    
+    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    
+    <category term="Docker" scheme="https://cyylog.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-二进制部署</title>
+    <link href="https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/"/>
+    <id>https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/</id>
+    <published>2020-11-15T04:24:13.000Z</published>
+    <updated>2020-12-15T20:01:51.844Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h4&gt;&lt;h5 id=&quot;1-1-生产环境&quot;&gt;&lt;a href=&quot;#1-1-生产环境&quot; class=&quot;headerlink&quot; title=&quot;1.1</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-二进制部署</title>
+    <link href="https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/"/>
+    <id>https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/</id>
+    <published>2020-11-15T04:24:13.000Z</published>
+    <updated>2020-12-15T20:01:51.844Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h4&gt;&lt;h5 id=&quot;1-1-生产环境&quot;&gt;&lt;a href=&quot;#1-1-生产环境&quot; class=&quot;headerlink&quot; title=&quot;1.1</summary>
+        
+      
+    
+    
+    
+    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
   </entry>
   
