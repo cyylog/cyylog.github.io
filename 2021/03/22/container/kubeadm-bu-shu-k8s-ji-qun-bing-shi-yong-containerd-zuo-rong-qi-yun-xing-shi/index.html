@@ -284,6 +284,19 @@
 </header>
 
     
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
 
 
 
@@ -1036,52 +1049,53 @@ echo &quot;source &lt;(kubectl completion bash)&quot; &gt;&gt; ~/.bashrc</code><
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/03/22/container/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/">
+                <a href="/2021/03/27/notes/kubeadm-bi-ji/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="kubeadm部署K8S集群并使用containerd做容器运行时">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="kubernetes notes">
                         
-                        <span class="card-title">kubeadm部署K8S集群并使用containerd做容器运行时</span>
+                        <span class="card-title">kubernetes notes</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            kubeadm部署K8S集群并使用containerd做容器运行时前言去年12月份，当Kubernetes社区宣布1.20版本之后会逐步弃用dockershim，当时也有很多自媒体在宣传Kubernetes弃用Docker。其实，我觉得这是
+                            安装Helm、nginx-ingressHelm
+地址：https://github.com/helm/helm/releases/tag/v3.4.0
+
+nginx-ingress一 、安装报错1、helm repo add ingres
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-22
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-03-27
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/kubernetes/" class="post-category">
+                                    kubernetes
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/kubernetes/">
+                        <span class="chip bg-color">kubernetes</span>
                     </a>
                     
-                    <a href="/tags/containerd/">
-                        <span class="chip bg-color">containerd</span>
+                    <a href="/tags/notes/">
+                        <span class="chip bg-color">notes</span>
                     </a>
                     
                 </div>

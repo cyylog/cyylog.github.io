@@ -1,0 +1,2521 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="kubernetes notes, 运维博客,kubernetes,Docker,shell,nginx,Tomcat,Centos7,Linux,zabbix,Gopher,Ansible,Promethues">
+    <meta name="description" content="精通原创，擅长盗版">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>kubernetes notes | Cyylog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Cyylog" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Cyylog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Cyylog</div>
+        <div class="logo-desc">
+            
+            精通原创，擅长盗版
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/cyylog/Go_status" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/cyylog/Go_status" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = 'a4aa17a2ad2de416874c25b5b1fcbbcbab21545b0d41205a6cb2c8b8378e66dc';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">kubernetes notes</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/kubernetes/">
+                                <span class="chip bg-color">kubernetes</span>
+                            </a>
+                        
+                            <a href="/tags/notes/">
+                                <span class="chip bg-color">notes</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/kubernetes/" class="post-category">
+                                kubernetes
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-03-27
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h4 id="安装Helm、nginx-ingress"><a href="#安装Helm、nginx-ingress" class="headerlink" title="安装Helm、nginx-ingress"></a>安装Helm、nginx-ingress</h4><h5 id="Helm"><a href="#Helm" class="headerlink" title="Helm"></a>Helm</h5><blockquote>
+<p>地址：<a href="https://github.com/helm/helm/releases/tag/v3.4.0" target="_blank" rel="noopener">https://github.com/helm/helm/releases/tag/v3.4.0</a></p>
+</blockquote>
+<h5 id="nginx-ingress"><a href="#nginx-ingress" class="headerlink" title="nginx-ingress"></a>nginx-ingress</h5><h6 id="一-、安装报错"><a href="#一-、安装报错" class="headerlink" title="一 、安装报错"></a>一 、安装报错</h6><pre class=" language-shell"><code class="language-shell">1、helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+2、一定要先随便装下
+     helm install my-nginx ingress-nginx/ingress-nginx 
+
+   然后肯定会报错，然后 两条命令
+  1、kubectl logs  pod名称
+  2、kubectl describe pod 你的pod名称  （这里会看到具体的错误）
+
+  像我这里 就是 k8s.gcr.io/ingress-nginx/controller:v0.41.2  这个镜像无法下载
+
+
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  <unknown>              default-scheduler  Successfully assigned default/my-nginx-ingress-nginx-controller-6f59b94645-28qn4 to node2
+  Normal   Pulling    2m39s (x4 over 4m50s)  kubelet, node2     Pulling image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de"
+  Warning  Failed     2m24s (x4 over 4m35s)  kubelet, node2     Failed to pull image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de": rpc error: code = Unknown desc = Error response from daemon: Get https://k8s.gcr.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+  Warning  Failed     2m24s (x4 over 4m35s)  kubelet, node2     Error: ErrImagePull
+  Normal   BackOff    118s (x6 over 4m34s)   kubelet, node2     Back-off pulling image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de"
+  Warning  Failed     103s (x7 over 4m34s)   kubelet, node2     Error: ImagePullBackOff
+[cyylog@master src]$  helm delete my-nginx 
+</code></pre>
+<h6 id="二-、-解决方法"><a href="#二-、-解决方法" class="headerlink" title="二 、 解决方法"></a>二 、 解决方法</h6><pre class=" language-shell"><code class="language-shell">于是执行：
+  docker pull giantswarm/ingress-nginx-controller:v0.41.2
+然后改tag
+ docker tag giantswarm/ingress-nginx-controller:v0.41.2   k8s.gcr.io/ingress-nginx/controller:v0.41.2
+删之前的tag 
+  docker rmi giantswarm/ingress-nginx-controller:v0.41.2
+
+注意：各个节点都要执行
+然后删掉刚才的安装  helm delete my-nginx ，然后再继续其他内容
+
+
+
+Digest: sha256:8aa4fda472ec83ae59fe0ce9720684d769ed277ff9bdcbb0169178dc9d1f8e85
+Status: Downloaded newer image for giantswarm/ingress-nginx-controller:v0.41.2
+docker.io/giantswarm/ingress-nginx-controller:v0.41.2
+[cyylog@master src]$ 
+
+</code></pre>
+<h6 id="三-、再次安装"><a href="#三-、再次安装" class="headerlink" title="三 、再次安装"></a>三 、再次安装</h6><pre class=" language-shell"><code class="language-shell">清除污点，允许 master 调度
+kubectl taint nodes --all node-role.kubernetes.io/master- 
+
+下载chart到本地
+helm fetch ingress-nginx/ingress-nginx
+修改部分内容后再次安装
+
+helm install my-nginx ingress-nginx    -n my-nginx-ingress
+
+更新用的是如下命令（下面用到）
+helm upgrade my-nginx ingress-nginx    -n my-nginx-ingress
+</code></pre>
+<p>PS: 修改配置<code>values.yaml</code></p>
+<pre class=" language-shell"><code class="language-shell">$ diff 111111.yaml values.yaml
+8c8
+<     digest: sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+---
+>    # digest: sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+47c47
+<   hostNetwork: false
+---
+>   hostNetwork: true
+53c53
+<     enabled: false
+---
+>     enabled: true
+133c133
+<   kind: Deployment
+---
+>   kind: DaemonSet
+379c379
+<     type: LoadBalancer
+---
+>     type: NodePort
+388,389c388,389
+<       http: ""
+<       https: ""
+---
+>       http: "32080"
+>       https: "32443"
+449c449
+<     enabled: true
+---
+>     enabled: false
+</code></pre>
+<h4 id="授权和认证机制"><a href="#授权和认证机制" class="headerlink" title="授权和认证机制"></a>授权和认证机制</h4><blockquote>
+<p>认证会的几个要素<br>1、用户/账号。<br>2、登录时认证账号  cyylog<br>3、查看账号权限<br>     这就涉及到角色、权限、用户和角色绑定— RBAC<br>4、根据权限决定是否可以访问</p>
+</blockquote>
+<h5 id="K8S里两种账户类型"><a href="#K8S里两种账户类型" class="headerlink" title="K8S里两种账户类型"></a>K8S里两种账户类型</h5><blockquote>
+<p>UserCount —– 用户账号</p>
+<p>   也就是集群外部访问时使用的用户。最常见的就是kubectl命令就是作为kubernetes-admin用户来执行，k8s本身不记录这些账号.</p>
+<p>   认证的方式:<br>     今天我们先学习默认认证方式：客户端证书   </p>
+</blockquote>
+<h6 id="创建客户端证书"><a href="#创建客户端证书" class="headerlink" title="创建客户端证书"></a>创建客户端证书</h6><pre class=" language-shell"><code class="language-shell">首先假设你装好了openssl (没装执行 sudo yum install openssl  openssl-devel)
+
+   1、创建一个文件夹叫做 ua/cyylog
+   2、cd 到 ua/cyylog 目录下
+   3、执行
+  1)openssl genrsa -out client.key 2048    (这一步是生成客户端私钥)
+  2)openssl req -new -key client.key -out client.csr -subj "/CN=cyylog"
+  (根据私钥生成csr， /CN指定了用户名cyylog)
+  3、sudo openssl x509 -req -in client.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out client.crt -days 365
+(根据k8s的CA证书生成我们用户的客户端证书)
+</code></pre>
+<h4 id="安装Helm、nginx-ingress-1"><a href="#安装Helm、nginx-ingress-1" class="headerlink" title="安装Helm、nginx-ingress"></a>安装Helm、nginx-ingress</h4><h5 id="Helm-1"><a href="#Helm-1" class="headerlink" title="Helm"></a>Helm</h5><blockquote>
+<p>地址：<a href="https://github.com/helm/helm/releases/tag/v3.4.0" target="_blank" rel="noopener">https://github.com/helm/helm/releases/tag/v3.4.0</a></p>
+</blockquote>
+<h5 id="nginx-ingress-1"><a href="#nginx-ingress-1" class="headerlink" title="nginx-ingress"></a>nginx-ingress</h5><h6 id="一-、安装报错-1"><a href="#一-、安装报错-1" class="headerlink" title="一 、安装报错"></a>一 、安装报错</h6><pre class=" language-shell"><code class="language-shell">1、helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+2、一定要先随便装下
+     helm install my-nginx ingress-nginx/ingress-nginx 
+
+   然后肯定会报错，然后 两条命令
+  1、kubectl logs  pod名称
+  2、kubectl describe pod 你的pod名称  （这里会看到具体的错误）
+
+  像我这里 就是 k8s.gcr.io/ingress-nginx/controller:v0.41.2  这个镜像无法下载
+
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  <unknown>              default-scheduler  Successfully assigned default/my-nginx-ingress-nginx-controller-6f59b94645-28qn4 to node2
+  Normal   Pulling    2m39s (x4 over 4m50s)  kubelet, node2     Pulling image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de"
+  Warning  Failed     2m24s (x4 over 4m35s)  kubelet, node2     Failed to pull image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de": rpc error: code = Unknown desc = Error response from daemon: Get https://k8s.gcr.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+  Warning  Failed     2m24s (x4 over 4m35s)  kubelet, node2     Error: ErrImagePull
+  Normal   BackOff    118s (x6 over 4m34s)   kubelet, node2     Back-off pulling image "k8s.gcr.io/ingress-nginx/controller:v0.41.2@sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de"
+  Warning  Failed     103s (x7 over 4m34s)   kubelet, node2     Error: ImagePullBackOff
+[cyylog@master src]$  helm delete my-nginx 
+</code></pre>
+<h6 id="二-、-解决方法-1"><a href="#二-、-解决方法-1" class="headerlink" title="二 、 解决方法"></a>二 、 解决方法</h6><pre class=" language-shell"><code class="language-shell">于是执行：
+  docker pull giantswarm/ingress-nginx-controller:v0.41.2
+然后改tag
+ docker tag giantswarm/ingress-nginx-controller:v0.41.2   k8s.gcr.io/ingress-nginx/controller:v0.41.2
+删之前的tag 
+  docker rmi giantswarm/ingress-nginx-controller:v0.41.2
+
+注意：各个节点都要执行
+然后删掉刚才的安装  helm delete my-nginx ，然后再继续其他内容
+
+
+
+Digest: sha256:8aa4fda472ec83ae59fe0ce9720684d769ed277ff9bdcbb0169178dc9d1f8e85
+Status: Downloaded newer image for giantswarm/ingress-nginx-controller:v0.41.2
+docker.io/giantswarm/ingress-nginx-controller:v0.41.2
+[cyylog@master src]$ 
+
+</code></pre>
+<h6 id="三-、再次安装-1"><a href="#三-、再次安装-1" class="headerlink" title="三 、再次安装"></a>三 、再次安装</h6><pre class=" language-shell"><code class="language-shell">
+下载chart到本地
+helm fetch ingress-nginx/ingress-nginx
+修改部分内容后再次安装
+
+helm install my-nginx ingress-nginx    -n my-nginx-ingress
+
+更新用的是如下命令（下面用到）
+helm upgrade my-nginx ingress-nginx    -n my-nginx-ingress
+</code></pre>
+<p>PS: 修改配置<code>values.yaml</code></p>
+<pre class=" language-shell"><code class="language-shell">$ diff 111111.yaml values.yaml
+8c8
+<     digest: sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+---
+>    # digest: sha256:1f4f402b9c14f3ae92b11ada1dfe9893a88f0faeb0b2f4b903e2c67a0c3bf0de
+47c47
+<   hostNetwork: false
+---
+>   hostNetwork: true
+53c53
+<     enabled: false
+---
+>     enabled: true
+133c133
+<   kind: Deployment
+---
+>   kind: DaemonSet
+379c379
+<     type: LoadBalancer
+---
+>     type: NodePort
+388,389c388,389
+<       http: ""
+<       https: ""
+---
+>       http: "32080"
+>       https: "32443"
+449c449
+<     enabled: true
+---
+>     enabled: false
+</code></pre>
+<h4 id="授权和认证机制-1"><a href="#授权和认证机制-1" class="headerlink" title="授权和认证机制"></a>授权和认证机制</h4><blockquote>
+<p>认证会的几个要素<br>1、用户/账号。<br>2、登录时认证账号  cyylog<br>3、查看账号权限<br>     这就涉及到角色、权限、用户和角色绑定— RBAC<br>4、根据权限决定是否可以访问</p>
+</blockquote>
+<h5 id="K8S里两种账户类型-1"><a href="#K8S里两种账户类型-1" class="headerlink" title="K8S里两种账户类型"></a>K8S里两种账户类型</h5><blockquote>
+<p>UserCount —– 用户账号</p>
+<p>   也就是集群外部访问时使用的用户。最常见的就是kubectl命令就是作为kubernetes-admin用户来执行，k8s本身不记录这些账号.</p>
+<p>   认证的方式:<br>     今天我们先学习默认认证方式：客户端证书   </p>
+</blockquote>
+<h6 id="创建客户端证书-1"><a href="#创建客户端证书-1" class="headerlink" title="创建客户端证书"></a>创建客户端证书</h6><pre class=" language-shell"><code class="language-shell">首先假设你装好了openssl (没装执行 sudo yum install openssl  openssl-devel)
+
+   1、创建一个文件夹叫做 ua/cyylog
+   2、cd 到 ua/cyylog 目录下
+   3、执行
+  1)openssl genrsa -out client.key 2048    (这一步是生成客户端私钥)
+  2)openssl req -new -key client.key -out client.csr -subj "/CN=cyylog"
+  (根据私钥生成csr， /CN指定了用户名cyylog)
+  3、sudo openssl x509 -req -in client.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out client.crt -days 365
+(根据k8s的CA证书生成我们用户的客户端证书)
+</code></pre>
+<h6 id="用户账号"><a href="#用户账号" class="headerlink" title="用户账号"></a>用户账号</h6><blockquote>
+<p>授权和认证机制</p>
+<p> 用户账号 : 使用证书初步请求API、设置上下文</p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">     上一步 我们生成一个客户端证书   ：用户名是 cyylog 。
+
+    最简单的请求 方式还是：
+1、kubectl get endpoints  查看下endpoint
+2、curl --cert ./client.crt --key ./client.key --cacert /etc/kubernetes/pki/ca.crt -s https://192.168.42.140:6443/api
+
+ 其中 可以用 --insecure 代替 --cacert /etc/kubernetes/pki/ca.crt 从而忽略服务端证书验证
+
+证书反解
+
+如果你忘了证书设置的CN(Common name)是啥 可以用下面的命令搞定
+openssl x509 -noout -subject -in client.crt
+</code></pre>
+<p>接下来我们要干的事</p>
+<pre class=" language-shell"><code class="language-shell"> 把：
+    client.crt加入到~/.kube/config，执行kubectl命令时切换成我们的用户(虽然现在其实没啥权限)
+
+   kubectl config --kubeconfig=/home/cyylog/.kube/config set-credentials cyylog  --client-certificate=/home/cyylog/ua/cyylog/client.crt --client-key=/home/cyylog/ua/cyylog/client.key
+
+   这一步把用户设置进去了
+
+//创建一个context(上下文)
+
+kubectl config --kubeconfig=/home/cyylog/.kube/config set-context user_context --cluster=kubernetes  --user=cyylog
+
+指定当前上下文是：
+ kubectl config --kubeconfig=/home/cyylog/.kube/config use-context user_context
+</code></pre>
+<h5 id="入门Role和RoleBinding"><a href="#入门Role和RoleBinding" class="headerlink" title="入门Role和RoleBinding"></a>入门Role和RoleBinding</h5><blockquote>
+<p>授权和认证机制:  入门Role和RoleBinding、创建一个角色</p>
+<p>Role (角色)<br>    它可以包含一堆权限。用于授予对单个命名空间的资源访问</p>
+<p>RoleBinding<br>   顾名思义，将用户和角色进行绑定</p>
+<p>kubectl get role –all-namespaces</p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">上一段：
+我们把 cyylog 这个用户(usercount)加入到 kubectl config中
+
+并且用了
+ kubectl config  use-context user_context
+来切换上下文。
+
+切回管理员可以这么干：
+ kubectl config  use-context kubernetes-admin@kubernetes
+</code></pre>
+<p>Next</p>
+<pre class=" language-shell"><code class="language-shell">我们希望让 cyylog 这个用户能查看pod 
+我们创建一个文件叫做：mypod_role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: mypod
+rules:
+- apiGroups: ["*"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+</code></pre>
+<h6 id="关于apiversion"><a href="#关于apiversion" class="headerlink" title="关于apiversion"></a>关于apiversion</h6><blockquote>
+<p>文档地址：（不要网上搜到啥就贴啥）<br><a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#role-v1-rbac-authorization-k8s-io" target="_blank" rel="noopener">https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#role-v1-rbac-authorization-k8s-io</a></p>
+</blockquote>
+<h6 id="关于资源"><a href="#关于资源" class="headerlink" title="关于资源"></a>关于资源</h6><pre class=" language-shell"><code class="language-shell">可以用 这个命令查看：
+    kubectl api-resources -o wide
+
+ 譬如role有 对应的操作如下
+create  delete  deletecollection   get     list        patch        update   watch
+创建     删除       批量删除          获取  列表    合并变更    更新     监听
+</code></pre>
+<p>接下来执行</p>
+<pre class=" language-shell"><code class="language-shell">执行下面的内容，则完成角色的创建
+kubectl apply -f mypod_role.yaml
+
+kubectl get role -n default ----查看下
+
+kubectl delete role mypod   (不加-n  默认就是default)
+</code></pre>
+<h6 id="RoleBinding"><a href="#RoleBinding" class="headerlink" title="RoleBinding"></a>RoleBinding</h6><blockquote>
+<p>用户和角色进行绑定</p>
+<p>kubectl get role</p>
+</blockquote>
+<p><strong>第一种方式： 命令行</strong> </p>
+<pre class=" language-shell"><code class="language-shell">
+   kubectl create rolebinding mypodbinding  -n default  --role mypod --user cyylog
+
+ 接下来可以 切换
+1、我们的普通用户是  kubectl config use-context user_context
+2、管理员是: kubectl config use-context  kubernetes-admin@kubernetes
+</code></pre>
+<p>第二种方式：</p>
+<pre class=" language-shell"><code class="language-shell">创建一个文件 譬如叫做mypod_rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: mypodrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mypod
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: cyylog
+</code></pre>
+<h6 id="CluterRole"><a href="#CluterRole" class="headerlink" title="CluterRole"></a>CluterRole</h6><blockquote>
+<p>ClusterRole和ClusterRoleBinding</p>
+<p>​     可以管理集群中多个 namespace,就需要使用到clusterrole<br>​     绑定既可以使用RoleBinding，也可以使用ClusterRoleBinding  ( 两者效果不同)</p>
+</blockquote>
+<p><strong>之前创建<code>Role</code>的文件</strong></p>
+<pre class=" language-shell"><code class="language-shell">kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: mypod
+rules:
+- apiGroups: ["*"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+改一下
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mypod-cluster
+rules:
+- apiGroups: ["*"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+</code></pre>
+<p>然后绑定：</p>
+<pre class=" language-shell"><code class="language-shell">apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mypodrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mypod
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: cyylog
+
+
+改一下：
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mypodrolebinding-cluster
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mypod-cluster
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: cyylog
+</code></pre>
+<h6 id="clusterrole-clusterrolebinding"><a href="#clusterrole-clusterrolebinding" class="headerlink" title="clusterrole+clusterrolebinding"></a>clusterrole+clusterrolebinding</h6><blockquote>
+<p>可以管理集群中多个 namespace,就需要使用到clusterrole<br>     绑定既可以使用RoleBinding，也可以使用ClusterRoleBinding  ( 两者效果不同)</p>
+<p> 1、 上上一段：role+rolebinding<br> 2、 上一段课我们:clusterrole+rolebinding<br> 3、 这节我们学习clusterrole+clusterrolebinding</p>
+<p>首先我们把上一段课的role、rolebinding都删掉</p>
+</blockquote>
+<p><strong>删除命令</strong></p>
+<pre class=" language-shell"><code class="language-shell">
+ 1、 kubectl delete rolebinding mypodrolebinding-cluster -n kube-system
+ 2、 kubectl delete rolebinding mypodrolebinding
+ 3、 kubectl delete role mypod
+
+只保留一个 clusterrole --------mypod-cluster
+</code></pre>
+<p>改一下文件</p>
+<pre class=" language-shell"><code class="language-shell">apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mypod-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mypod-cluster
+subjects:
+ - apiGroup: rbac.authorization.k8s.io
+   kind: User
+   name: cyylog
+</code></pre>
+<h5 id="UserAccount"><a href="#UserAccount" class="headerlink" title="UserAccount"></a>UserAccount</h5><blockquote>
+<p>使用token的方式请求API</p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">1、前面我们学习到了创建UserAccount 。并使用证书的方式请求
+2、role+rolebinding
+3、clusterrole+clusterrolebinding
+
+那么其实 假设我们要请求API， 还可以使用token的方式
+</code></pre>
+<h6 id="首先先试一下"><a href="#首先先试一下" class="headerlink" title="首先先试一下"></a><strong>首先先试一下</strong></h6><pre class=" language-shell"><code class="language-shell">
+ curl https://192.168.42.140:6443   这是不可以访问的
+
+
+接下来我们设置一个 token (现在是我们上面的普通用户cyylog)
+1、用这个命令生成token 
+   head -c 16 /dev/urandom | od -An -t x | tr -d ' '         (' '之间有个空格)
+    kubectl config set-credentials cyylog --token=5bd8fce499b79b23bfdef72afb8d7bda
+</code></pre>
+<h6 id="找个获取pod的API试一试"><a href="#找个获取pod的API试一试" class="headerlink" title="找个获取pod的API试一试"></a><strong>找个获取pod的API试一试</strong></h6><blockquote>
+<p><a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#role-v1-rbac-authorization-k8s-io" target="_blank" rel="noopener">https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#role-v1-rbac-authorization-k8s-io</a></p>
+<p>还是看这个文档</p>
+<p><code>curl -H &quot;Authorization: Bearer 5bd8fce499b79b23bfdef72afb8d7bda&quot; https://192.168.42.140:6443/api/v1/namespaces/default/pods --insecure</code></p>
+<p>对比一下 (默认情况下还是没用的）</p>
+<p><code>curl --cert ./client.crt --key ./client.key --cacert /etc/kubernetes/pki/ca.crt -s https://192.168.42.140:6443/api/v1/namespaces/default/pods</code></p>
+</blockquote>
+<h6 id="修改api-server的启动参数"><a href="#修改api-server的启动参数" class="headerlink" title="修改api-server的启动参数"></a>修改api-server的启动参数</h6><pre class=" language-shell"><code class="language-shell">
+首先创建 
+sudo vi /etc/kubernetes/pki/token_auth 
+塞入如下内容
+5bd8fce499b79b23bfdef72afb8d7bda,cyylog,1001
+
+然后是修改api-server启动参数
+sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+
+加入  --token-auth-file=/etc/kubernetes/pki/token_auth
+</code></pre>
+<h5 id="ServiceAccount"><a href="#ServiceAccount" class="headerlink" title="ServiceAccount"></a>ServiceAccount</h5><h6 id="SA入门-1-创建账号"><a href="#SA入门-1-创建账号" class="headerlink" title="SA入门(1):创建账号"></a>SA入门(1):创建账号</h6><blockquote>
+<p>前面</p>
+<p>1、我们学习到了创建UserAccount 。并使用证书、token的方式请求<br>2、role+rolebinding<br>3、clusterrole+clusterrolebinding</p>
+</blockquote>
+<p><strong>创建一个ServiceAccount</strong></p>
+<pre class=" language-shell"><code class="language-shell">查看 是这样的：
+   kubectl get sa -n xxxx  (不写-n 就是默认default)
+
+用命令创建一个
+  kubectl  create  serviceaccount   mysa
+
+     每个namespace都会有一个默认的 default账号，且sa局限在自己所属的namespace中。而UserAccount是可以跨ns的
+
+
+其他步骤
+
+ kubectl describe sa mysa 
+你还会发现
+
+k8s会在secrets 里面保存一个token
+
+通过kubectl describe secret mysa-token-sk67q （改成你自己的）
+</code></pre>
+<p><strong>第二种方式:</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl  create  serviceaccount  mysa  -o  yaml  --dry-run=client
+
+进阶一下，可以这样
+kubectl  create  serviceaccount  mysa  -o  yaml  --dry-run=client > mysa.yaml
+</code></pre>
+<h6 id="SA入门-2-赋予权限"><a href="#SA入门-2-赋予权限" class="headerlink" title="SA入门(2):赋予权限"></a>SA入门(2):赋予权限</h6><blockquote>
+<p>前面：</p>
+<p>我们创建了一个sa账号，叫做mysa。现在尝试用sa账号访问 api</p>
+<p>装个工具叫做jq<br>   是一个轻量级的json处理命令。可以对json数据进行分片、过滤、映射和转换 jq . 对json数据进行格式化输出</p>
+<pre class=" language-shell"><code class="language-shell">sudo yum install jq -y</code></pre>
+</blockquote>
+<p><strong>绑定角色</strong></p>
+<blockquote>
+<p>在此之前，我们创建一个 clusterrole叫做 mypod-cluster</p>
+<p>此权限 可以查看 pods列表</p>
+<pre class=" language-shell"><code class="language-shell">kubectl create clusterrolebinding mysa-crb --clusterrole=mypod-cluster --serviceaccount=default:mysa</code></pre>
+</blockquote>
+<p><strong>分解命令</strong></p>
+<pre class=" language-shell"><code class="language-shell">分解命令
+1、kubectl get sa  mysa
+2、 kubectl get sa  mysa -o json
+3、kubectl get sa  mysa -o json | jq  '.secrets[0].name'
+4、kubectl get sa  mysa -o json | jq -Mr '.secrets[0].name'
+假设得到的值是 mysa-token-x6ct6
+5、kubectl get secret  mysa-token-x6ct6
+6、kubectl get secret  mysa-token-x6ct6 -o json | jq -Mr '.data.token'
+7、 kubectl get secret  mysa-token-x6ct6 -o json | jq -Mr '.data.token' | base64 -d
+</code></pre>
+<p><strong>连起来</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl get secret  $(kubectl get sa  mysa -o json | jq -Mr '.secrets[0].name'
+) -o json | jq -Mr '.data.token' | base64 -d
+
+设置成一个变量
+mysatoken=$(kubectl get secret  $(kubectl get sa  mysa -o json | jq -Mr '.secrets[0].name'
+) -o json | jq -Mr '.data.token' | base64 -d)
+
+请求:
+curl -H "Authorization: Bearer $mysatoken" --insecure  https://192.168.42.140:6443/api/v1/namespaces/default/pods 
+</code></pre>
+<h6 id="SA入门-3-访问方式一"><a href="#SA入门-3-访问方式一" class="headerlink" title="SA入门(3):访问方式一"></a>SA入门(3):访问方式一</h6><blockquote>
+<p>在POD里访问k8s API(token的方式)</p>
+</blockquote>
+<p><strong>为了简单</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginxtest
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">containerPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
+</code></pre>
+<p><strong>接下来执行</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl get pod 
+
+可以看到pod列表 ，然后我们 进入 该容器
+
+kubectl exec -it  myngx-58bddf9b8d-qmdq7 -- sh
+</code></pre>
+<p><strong>记录几个知识点</strong></p>
+<pre class=" language-shell"><code class="language-shell">echo $KUBERNETES_SERVICE_HOST   
+echo $KUBERNETES_PORT_443_TCP_PORT
+
+于是 
+  echo $KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT
+
+保存到环境变量中：
+
+ 1、TOKEN=`cat /var/run/secrets/kubernetes.io/serviceaccount/token`
+2、APISERVER="https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_PORT_443_TCP_PORT"
+</code></pre>
+<p><strong>请求试一试</strong></p>
+<pre class=" language-shell"><code class="language-shell"> curl --header "Authorization: Bearer $TOKEN" --insecure -s $APISERVER/api
+
+我们可以看到 上面是可以的，但下面不可以，因为default账号没有列出pods的权限
+curl --header "Authorization: Bearer $TOKEN" --insecure -s $APISERVER/api/v1/namespaces/default/pods 
+</code></pre>
+<p><strong>修改我们<code>deployment</code></strong></p>
+<pre class=" language-yaml"><code class="language-yaml"> <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">serviceAccountName</span><span class="token punctuation">:</span> mysa
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginxtest
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+</code></pre>
+<h6 id="SA入门-3-访问方式二"><a href="#SA入门-3-访问方式二" class="headerlink" title="SA入门(3):访问方式二"></a>SA入门(3):访问方式二</h6><blockquote>
+<p>在POD里访问k8s API(token+证书的方式)</p>
+</blockquote>
+<p><strong>更常用的方式是直接用证书</strong></p>
+<pre class=" language-shell"><code class="language-shell">证书的位置在:
+/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+上面讲的token的位置在
+cat /var/run/secrets/kubernetes.io/serviceaccount/token
+
+
+前面
+curl --header "Authorization: Bearer $TOKEN"  -s $APISERVER/api/v1/namespaces/default/pods 
+
+现在
+curl --header "Authorization: Bearer $TOKEN" --cacert  /var/run/secrets/kubernetes.io/serviceaccount/ca.crt   $APISERVER/api/v1/namespaces/default/pods 
+</code></pre>
+<h4 id="Pod-和-Deployment"><a href="#Pod-和-Deployment" class="headerlink" title="Pod 和 Deployment"></a>Pod 和 Deployment</h4><blockquote>
+<p>本章节：Pod入门、看文档的方式、创建Pod</p>
+<p>文档地址：<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#pod-v1-core" target="_blank" rel="noopener">https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#pod-v1-core</a></p>
+</blockquote>
+<h5 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h5><blockquote>
+<p>最小调度单位（pod）好处：<br>1、 方便部署、扩展和收缩、方便调度等，反正各种方便</p>
+<p>2、Pod中的容器共享数据和网络空间，统一的资源管理与分配（想想第二章我们讲的ServiceCount）</p>
+</blockquote>
+<blockquote>
+<p>pause容器作用</p>
+<p>1、扮演Pid=1的，回收僵尸进程</p>
+<p>2、基于Linux的namespace的共享</p>
+</blockquote>
+<p><a href="https://imgchr.com/i/rPuUIA" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/12/09/rPuUIA.png" alt="rPuUIA.png"></a></p>
+<h6 id="Pod基本操作"><a href="#Pod基本操作" class="headerlink" title="Pod基本操作"></a>Pod基本操作</h6><blockquote>
+<p>Pod基本操作、创建一个多容器的Pod(上)</p>
+</blockquote>
+<p><strong>创建第一个Pod</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"nginx:1.18-alpine"</span>
+</code></pre>
+<p><strong>顺手学习几个命令</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl describe pod xxxx  查看pod详细
+
+kubectl logs   xxx 查看日志
+
+kubectl exec -it xxx  -- sh  //进入pod
+</code></pre>
+<p><strong>多容器</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"nginx:1.18-alpine"</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"alpine:3.12"</span>
+</code></pre>
+<p>发现，<code>alpine</code> 容器没有启动，未启动<code>command</code> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"nginx:1.18-alpine"</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sh"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"echo this is second &amp;&amp; sleep 3600"</span><span class="token punctuation">]</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"alpine:3.12"</span>
+</code></pre>
+<h5 id="Volumes-配置数据卷"><a href="#Volumes-配置数据卷" class="headerlink" title="Volumes 配置数据卷"></a>Volumes 配置数据卷</h5><blockquote>
+<p>配置数据卷:挂载主机目录、排坑方式</p>
+<p>文档<br><a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/storage/volumes/</a></p>
+</blockquote>
+<h6 id="基本格式"><a href="#基本格式" class="headerlink" title="基本格式"></a><strong>基本格式</strong></h6><pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">...</span><span class="token punctuation">...</span><span class="token punctuation">...</span>. (略)
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"nginx:1.18-alpine"</span>
+    <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> mydata
+      <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+
+  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> mydata
+      <span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /data
+        <span class="token key atrule">type</span><span class="token punctuation">:</span> Directory</code></pre>
+<h6 id="基本写法"><a href="#基本写法" class="headerlink" title="基本写法"></a><strong>基本写法</strong></h6><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Pod
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"nginx:1.18-alpine"</span>
+    <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> mydata
+      <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sh"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"echo this is second &amp;&amp; sleep 3600"</span><span class="token punctuation">]</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">"alpine:3.12"</span>
+  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> mydata
+    <span class="token key atrule">hostPath</span><span class="token punctuation">:</span>
+      <span class="token key atrule">path</span><span class="token punctuation">:</span> /data/cyylog/data
+      <span class="token key atrule">type</span><span class="token punctuation">:</span> Directory</code></pre>
+<h5 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h5><blockquote>
+<p>本小节讲述 Pod和Deployment基本区别、创建deployment</p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">Pods：
+  1、运行一组容器 、适合一次性开发
+  2、很少直接用于生产
+
+Deployment
+1、运行一组相同的Pod（副本水平扩展）、滚动更新
+2、适合生产
+
+总结为：Deployment通过副本集管理和创建POD。
+</code></pre>
+<p><code>myngx.yaml</code>文件</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent</code></pre>
+<h5 id="两个容器共享文件夹"><a href="#两个容器共享文件夹" class="headerlink" title="两个容器共享文件夹"></a>两个容器共享文件夹</h5><blockquote>
+<p>文档<br><a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/storage/volumes/</a></p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">两个节点分别写入挂载点
+volumeMounts:
+    - name: sharedata
+      mountPath: /data
+</code></pre>
+<p><strong>关键点</strong></p>
+<pre class=" language-shell"><code class="language-shell"> volumes:
+  - name:  sharedata
+    emptyDir: {}
+
+    同一个pod内的容器都能读写EmptyDir中 文件。常用于临时空间、多容器共享，如日志或者tmp文件需要的临时目录
+</code></pre>
+<p><code>myngx.yaml</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> sharedata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> alpine<span class="token punctuation">:</span><span class="token number">3.12</span>
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sh"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"echo this is alpine &amp;&amp; sleep 36000"</span><span class="token punctuation">]</span>
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> sharedata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span>  sharedata
+          <span class="token key atrule">emptyDir</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre>
+<h5 id="init容器"><a href="#init容器" class="headerlink" title="init容器"></a>init容器</h5><blockquote>
+<p>​    Init 容器是一种特殊容器，在 Pod 内的应用容器启动之前运行。Init 容器可以包括一些应用镜像中不存在的实用工具和安装脚本</p>
+<p>  Init 容器与普通的容器非常像，除了如下两点：<br>     它们总是运行到完成。<br>    每个都必须在下一个启动之前成功完成。</p>
+<p>​     如果 Pod 的 Init 容器失败，kubelet 会不断地重启该 Init 容器直到该容器成功为止。 然而，如果 Pod 对应的 restartPolicy 值为 “Never”，Kubernetes 不会重新启动 Pod。<br>文档地址:<br><a href="https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/workloads/pods/init-containers/</a></p>
+</blockquote>
+<h6 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h6><pre class=" language-shell"><code class="language-shell"> initContainers:
+  - name: init-mydb
+    image: alpine:3.12
+    command: ['sh', '-c', 'echo wait for db && sleep 35 && echo done']
+
+具体场景以后我们再演示:
+1、譬如 ping db
+2、譬如控制服务启动顺序
+</code></pre>
+<p><code>myngx.yaml</code>案例文件</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">initContainers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> init<span class="token punctuation">-</span>mydb
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> alpine<span class="token punctuation">:</span><span class="token number">3.12</span>
+          <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'sh'</span><span class="token punctuation">,</span> <span class="token string">'-c'</span><span class="token punctuation">,</span> <span class="token string">'echo wait for db &amp;&amp; sleep 35 &amp;&amp; echo done'</span><span class="token punctuation">]</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> sharedata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> alpine<span class="token punctuation">:</span><span class="token number">3.12</span>
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sh"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"echo this is alpine &amp;&amp; sleep 36000"</span><span class="token punctuation">]</span>
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> sharedata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span>  sharedata
+          <span class="token key atrule">emptyDir</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+</code></pre>
+<h4 id="Deployment和ConfigMap"><a href="#Deployment和ConfigMap" class="headerlink" title="Deployment和ConfigMap"></a><code>Deployment</code>和<code>ConfigMap</code></h4><blockquote>
+<p>本章节讲述 <code>ConfigMap</code> 基本创建、环境变量引用</p>
+</blockquote>
+<h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><blockquote>
+<p>​     ConfigMap 是一种 API 对象，用来将非机密性的数据保存到健值对中。使用时可以用作环境变量、命令行参数或者存储卷中的配置文件。</p>
+<p>​     ConfigMap 将您的环境配置信息和 容器镜像 解耦，便于应用配置的修改。当您需要储存机密信息时可以使用 Secret 对象。</p>
+</blockquote>
+<h6 id="使用的场景"><a href="#使用的场景" class="headerlink" title="使用的场景"></a>使用的场景</h6><pre class=" language-shell"><code class="language-shell">    1、 容器 entrypoint 的命令行参数
+    2、 容器的环境变量
+    3、 映射成文件
+    4、 编写代码在 Pod 中运行，使用 Kubernetes API 来读取 ConfigMap</code></pre>
+<h6 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h6><pre class=" language-shell"><code class="language-shell">获取列表
+  kubectl get cm
+
+ 创建一个cm 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mycm
+data:
+  # 每一个键对应一个简单的值,以字符串的形式体现
+  username: "cyylog"
+  userage: "19"
+
+
+也可以这样 
+。。。。。
+data:
+  username: "cyylog"
+  userage: "19“
+  user.info: |
+    name=cyylog
+    age=19
+</code></pre>
+<p><strong>接下来</strong></p>
+<pre class=" language-yaml"><code class="language-yaml">删掉之前的deployment (myngx)
+
+写入  （和image同级）
+   <span class="token key atrule">env</span><span class="token punctuation">:</span>
+           <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> USER_NAME
+             <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+                <span class="token key atrule">configMapKeyRef</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm           <span class="token comment" spellcheck="true">#  ConfigMap的名称</span>
+                  <span class="token key atrule">key</span><span class="token punctuation">:</span> username <span class="token comment" spellcheck="true"># 需要取值的键</span>
+</code></pre>
+<p><code>mycm.yaml</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ConfigMap
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+<span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true"># 每一个键对应一个简单的值,以字符串的形式体现</span>
+  <span class="token key atrule">username</span><span class="token punctuation">:</span> <span class="token string">"cyylog"</span>
+  <span class="token key atrule">userage</span><span class="token punctuation">:</span> <span class="token string">"19"</span>
+  <span class="token key atrule">user.info</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+    name=cyylog
+    age=19</span>
+</code></pre>
+<p><code>myngx.yaml</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">env</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> TEST
+              <span class="token key atrule">value</span><span class="token punctuation">:</span> testvalue
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> USERNAME
+              <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+                <span class="token key atrule">configMapKeyRef</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm           <span class="token comment" spellcheck="true">#  ConfigMap的名称</span>
+                  <span class="token key atrule">key</span><span class="token punctuation">:</span> username <span class="token comment" spellcheck="true"># 需要取值的键</span>
+</code></pre>
+<h6 id="映射成文件"><a href="#映射成文件" class="headerlink" title="映射成文件"></a>映射成文件</h6><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+
+然后写卷
+ https<span class="token punctuation">:</span>//kubernetes.io/zh/docs/concepts/storage/volumes
+ <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+            <span class="token key atrule">items</span><span class="token punctuation">:</span>
+              <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> user.info
+                <span class="token key atrule">path</span><span class="token punctuation">:</span> user.txt
+</code></pre>
+<p><code>myngx.yaml</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+          <span class="token key atrule">env</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> TEST
+              <span class="token key atrule">value</span><span class="token punctuation">:</span> testvalue
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> USERNAME
+              <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+                <span class="token key atrule">configMapKeyRef</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm           <span class="token comment" spellcheck="true">#  ConfigMap的名称</span>
+                  <span class="token key atrule">key</span><span class="token punctuation">:</span> username <span class="token comment" spellcheck="true"># 需要取值的键</span>
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+            <span class="token key atrule">items</span><span class="token punctuation">:</span>
+              <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> user.info
+                <span class="token key atrule">path</span><span class="token punctuation">:</span> user.txt
+</code></pre>
+<h6 id="subpath"><a href="#subpath" class="headerlink" title="subpath"></a><code>subpath</code></h6><p>上一个节</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data
+
+然后写卷
+ https<span class="token punctuation">:</span>//kubernetes.io/zh/docs/concepts/storage/volumes
+ <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+            <span class="token key atrule">items</span><span class="token punctuation">:</span>
+              <span class="token punctuation">-</span> <span class="token key atrule">key</span><span class="token punctuation">:</span> user.info
+                <span class="token key atrule">path</span><span class="token punctuation">:</span> user.txt
+</code></pre>
+<p>如果我们不指定具体的key</p>
+<pre class=" language-yaml"><code class="language-yaml">  <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+
+这时你会发现，所有文件都被 映射进去了，文件名就是key名
+</code></pre>
+<blockquote>
+<p>如果我希望：<br>     不指定key 。也想挂载其中一个配置</p>
+<p>文档:<br><a href="https://kubernetes.io/zh/docs/concepts/storage/volumes/#using-path" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/storage/volumes/#using-path</a></p>
+<p>用于指定所引用的卷（volumes）内的子路径，而不是其根路径</p>
+</blockquote>
+<p><strong>修改点</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"> <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data/user.txt
+          <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">subPath</span><span class="token punctuation">:</span> user.info
+
+这个不变
+ <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm
+</code></pre>
+<p><code>myngx.yaml</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myngx
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ngx
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> nginx<span class="token punctuation">:</span>1.18<span class="token punctuation">-</span>alpine
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /data/user.txt
+              <span class="token key atrule">subPath</span><span class="token punctuation">:</span> user.info
+          <span class="token key atrule">env</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> TEST
+              <span class="token key atrule">value</span><span class="token punctuation">:</span> testvalue
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> USERNAME
+              <span class="token key atrule">valueFrom</span><span class="token punctuation">:</span>
+                <span class="token key atrule">configMapKeyRef</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm           <span class="token comment" spellcheck="true">#  ConfigMap的名称</span>
+                  <span class="token key atrule">key</span><span class="token punctuation">:</span> username <span class="token comment" spellcheck="true"># 需要取值的键</span>
+      <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> cmdata
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">defaultMode</span><span class="token punctuation">:</span> <span class="token number">0655</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> mycm        
+<span class="token comment" spellcheck="true">#            items:</span>
+<span class="token comment" spellcheck="true">#              - key: user.info</span>
+<span class="token comment" spellcheck="true">#                path: user.txt</span></code></pre>
+<h4 id="Deployment和Secret"><a href="#Deployment和Secret" class="headerlink" title="Deployment和Secret"></a>Deployment和Secret</h4><h5 id="入门和无脑创建（Opaque）"><a href="#入门和无脑创建（Opaque）" class="headerlink" title="入门和无脑创建（Opaque）"></a>入门和无脑创建（Opaque）</h5><p>根据官方定义</p>
+<blockquote>
+<p>​    Secret 对象类型用来保存敏感信息，例如密码、OAuth 令牌和 SSH 密钥。 将这些信息放在 secret 中比放在 Pod 的定义或者 容器镜像 中来说更加安全和灵活。 参阅 Secret 设计文档 获取更多详细信息。</p>
+<p>​     Secret 是一种包含少量敏感信息例如密码、令牌或密钥的对象。 这样的信息可能会被放在 Pod 规约中或者镜像中。 用户可以创建 Secret，同时系统也创建了一些 Secret。</p>
+<p>关键词<br>1、敏感、少量<br>2、安全和灵活</p>
+</blockquote>
+<p>类型</p>
+<p><a href="https://imgtu.com/i/65K9jx" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65K9jx.png" alt="65K9jx.png"></a></p>
+<p>先来一把配置</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Secret
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> mysecret
+<span class="token key atrule">type</span><span class="token punctuation">:</span> Opaque
+<span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">user</span><span class="token punctuation">:</span> <span class="token string">"cyylog"</span>
+  <span class="token key atrule">pass</span><span class="token punctuation">:</span> <span class="token string">"123"</span>
+
+试一下 对还是不对？
+</code></pre>
+<p>根据提示</p>
+<blockquote>
+<p>我们需要 先base64编码</p>
+<p>最简单的方式  使用命令直接搞定</p>
+<p>echo cyylog | base64 &amp;&amp; echo 123 | base64 </p>
+<p>把得到的值替换即可</p>
+</blockquote>
+<h5 id="命令获取secret内容、挂载文件"><a href="#命令获取secret内容、挂载文件" class="headerlink" title="命令获取secret内容、挂载文件"></a>命令获取secret内容、挂载文件</h5><h6 id="查看命令"><a href="#查看命令" class="headerlink" title="查看命令"></a>查看命令</h6><pre class=" language-shell"><code class="language-shell"> 上一步用到了
+    kubectl get secret mysecret -o yaml
+
+其实 还可以
+kubectl get secret mysecret -o json
+</code></pre>
+<h5 id="secret进行basic-auth认证"><a href="#secret进行basic-auth认证" class="headerlink" title="secret进行basic-auth认证"></a>secret进行basic-auth认证</h5><h6 id="1-手工配置"><a href="#1-手工配置" class="headerlink" title="(1):手工配置"></a>(1):手工配置</h6><p>类型</p>
+<p><a href="https://imgtu.com/i/6OVou9" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/25/6OVou9.png" alt="6OVou9.png"></a></p>
+<p><strong>nginx 认证</strong></p>
+<pre class=" language-shell"><code class="language-shell">location / {
+  auth_basic      "xxxxooooo";
+  auth_basic_user_file conf/htpasswd;
+}
+其中密码 我们常用的是 
+    通过apache的工具htpasswd或者openssl passwd命令生成
+
+htpasswd提供了一个变种的MD5加密算法(apr1),这里不深究
+</code></pre>
+<p><strong>安装工具</strong></p>
+<pre class=" language-shell"><code class="language-shell">sudo yum -y install httpd-tools
+Apache的Web服务器内置的工具,用于创建和更新储存用户名和用户基本认证的密码文件
+
+创建一个密码文件  
+htpasswd -c auth cyylog
+这时产生了一个 auth文件
+
+再添加一个  用户(此时不用-c参数)
+htpasswd  auth lisi
+</code></pre>
+<p>我们做成一个<strong>ConfigMap</strong></p>
+<pre class=" language-shell"><code class="language-shell">名称叫做bauth
+然后把刚才的内容 拷贝进去
+
+注意点：我们课程使用的镜像是 nginx:1.18-alpine
+
+它的 默认配置文件在/etc/nginx/nginx.conf
+
+其中 主配置文件引用了 /etc/nginx/conf.d/default.conf 文件 
+</code></pre>
+<p>拷贝并修改</p>
+<pre class=" language-shell"><code class="language-shell">server {
+    listen       80;
+    server_name  localhost;
+    location / {
+       auth_basic      "test auth";
+       auth_basic_user_file /etc/nginx/basicauth;
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+</code></pre>
+<p><strong>挂载</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"> <span class="token key atrule">volumeMounts</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginxconf
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /etc/nginx/conf.d/default.conf
+              <span class="token key atrule">subPath</span><span class="token punctuation">:</span> ngx
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> basicauth
+              <span class="token key atrule">mountPath</span><span class="token punctuation">:</span> /etc/nginx/basicauth
+              <span class="token key atrule">subPath</span><span class="token punctuation">:</span> auth
+</code></pre>
+<p><strong>卷</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> nginxconf
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+            <span class="token key atrule">defaultMode</span><span class="token punctuation">:</span> <span class="token number">0655</span>
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> nginxconfig
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> basicauth
+          <span class="token key atrule">configMap</span><span class="token punctuation">:</span>
+              <span class="token key atrule">defaultMode</span><span class="token punctuation">:</span> <span class="token number">0655</span>
+              <span class="token key atrule">name</span><span class="token punctuation">:</span> bauth
+</code></pre>
+<blockquote>
+<p>访问测试</p>
+<pre class=" language-shell"><code class="language-shell">curl --basic -u cyylog:123456  http://10.42.2.52
+</code></pre>
+</blockquote>
+<h6 id="2-使用secret挂载"><a href="#2-使用secret挂载" class="headerlink" title="(2):使用secret挂载"></a>(2):使用secret挂载</h6><p><strong>前面</strong>：</p>
+<pre class=" language-shell"><code class="language-shell">location / {
+  auth_basic      "xxxxooooo";
+  auth_basic_user_file conf/htpasswd;
+}    
+
+其中我们映射了 一个configMap来 实现 。
+</code></pre>
+<p><strong>用文件的方式导入</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl  create secret generic secret-basic-auth  --from-file=auth
+</code></pre>
+<p><strong>访问测试</strong></p>
+<pre class=" language-shell"><code class="language-shell">curl --basic -u cyylog:123456  http://10.42.2.52</code></pre>
+<h6 id="拉取私有镜像、创建Docker-Secret"><a href="#拉取私有镜像、创建Docker-Secret" class="headerlink" title="拉取私有镜像、创建Docker Secret"></a>拉取私有镜像、创建Docker Secret</h6><blockquote>
+<p><strong>首先去</strong><br><a href="https://hub.docker.com/signup" target="_blank" rel="noopener">https://hub.docker.com/signup</a></p>
+<p>注册 并且登录  。 这个过程自行搞定</p>
+<p>然后 随便</p>
+<pre class=" language-shell"><code class="language-shell">1、docker pull alpine:3.12 
+
+2、docker login --username=cyylog  (输入密码)
+
+3、docker tag alpine:3.12 cyylog/myalpine:3.12</code></pre>
+</blockquote>
+<p><strong>创建私有镜像库</strong></p>
+<p><a href="https://hub.docker.com/repository/create" target="_blank" rel="noopener">https://hub.docker.com/repository/create</a></p>
+<p><a href="https://imgtu.com/i/6OqYU1" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/25/6OqYU1.png" alt="6OqYU1.png"></a></p>
+<p><strong>发布</strong></p>
+<pre class=" language-shell"><code class="language-shell">docker push cyylog/myalpine:3.12 
+
+
+稍等片刻 后 我们一个 简单的私有镜像就好了 
+
+接下来 把我们刚才打标签的tag给删掉 
+docker rmi cyylog/myalpine:3.12
+</code></pre>
+<p><strong>写个<code>deployment</code></strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> myalpine
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">matchLabels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">app</span><span class="token punctuation">:</span> myalpine
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">template</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+        <span class="token key atrule">app</span><span class="token punctuation">:</span> myalpine
+    <span class="token key atrule">spec</span><span class="token punctuation">:</span>
+      <span class="token key atrule">containers</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> alpine
+          <span class="token key atrule">image</span><span class="token punctuation">:</span> cyylog/myalpine<span class="token punctuation">:</span><span class="token number">3.12</span>
+          <span class="token key atrule">imagePullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+          <span class="token key atrule">command</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sh"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span><span class="token string">"echo this is alpine &amp;&amp; sleep 36000"</span><span class="token punctuation">]</span>
+</code></pre>
+<p><strong>接下来就要创建<code>secret</code>了</strong></p>
+<pre class=" language-shell"><code class="language-shell">kubectl create secret docker-registry dockerreg \
+  --docker-server=https://index.docker.io/v1/\
+  --docker-username=cyylog \
+  --docker-password=pass123 \
+  --docker-email=cyylog@test.com
+</code></pre>
+<p><strong>内容解码后</strong></p>
+<p><a href="https://imgtu.com/i/6XSVh9" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/25/6XSVh9.png" alt="6XSVh9.png"></a></p>
+<pre class=" language-shell"><code class="language-shell">kubectl get secret  dockerreg -o jsonpath={.data.*} | base64 -d
+</code></pre>
+<p><strong>加入配置</strong> </p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">imagePullSecrets</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> dockerreg
+</code></pre>
+<h4 id="Deployment和Service"><a href="#Deployment和Service" class="headerlink" title="Deployment和Service"></a>Deployment和Service</h4><h5 id="创建一个最基本的Service、ClusterIP"><a href="#创建一个最基本的Service、ClusterIP" class="headerlink" title="创建一个最基本的Service、ClusterIP"></a>创建一个最基本的Service、ClusterIP</h5><h6 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h6><blockquote>
+<p>作用：<br>     一句话：提供负载均衡和服务自动发现</p>
+</blockquote>
+<p><strong>我们先弄个一个</strong><code>ConfigMap</code></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">h1</span><span class="token punctuation">:</span> this is h1
+  <span class="token key atrule">h2</span><span class="token punctuation">:</span> this is h2
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ConfigMap
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> html
+</code></pre>
+<p><strong>写个**</strong><code>deployment</code>**</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>svc
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> ClusterIP
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+      <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true">#service通过selector和pod建立关联</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+</code></pre>
+<p>**服务类型—<code>ClusterIP</code></p>
+<blockquote>
+<p>ClusterIP：通过集群的内部 IP 暴露服务，选择该值时服务只能够在集群内部  访问。 这也是默认的 ServiceType。</p>
+</blockquote>
+<h6 id="宿主机访问k8s的Service的基本方法"><a href="#宿主机访问k8s的Service的基本方法" class="headerlink" title="宿主机访问k8s的Service的基本方法"></a>宿主机访问k8s的Service的基本方法</h6><p><strong>安装一个工具</strong></p>
+<pre class=" language-shell"><code class="language-shell">sudo yum install  bind-utils  -y
+
+记下来我们执行
+nslookup nginx-svc
+</code></pre>
+<p><strong>处理办法</strong> </p>
+<pre class=" language-shell"><code class="language-shell"># kubectl get svc -n kube-system
+
+10.43.0.10 
+
+# sudo vi /etc/resolv.conf
+
+nameserver 10.43.0.10
+search default.svc.cluster.local svc.cluster.local
+</code></pre>
+<blockquote>
+<p><code>/etc/resolv.conf</code></p>
+<p>用于设置DNS服务器IP地址、DNS域名和设置主机的域名搜索顺序</p>
+<p>我们加一个进去</p>
+<p>然后执行 nslookup nginx-svc.default.svc.cluster.local</p>
+</blockquote>
+<h6 id="无头Service初步入门"><a href="#无头Service初步入门" class="headerlink" title="无头Service初步入门"></a>无头Service初步入门</h6><p><strong>无头服务</strong></p>
+<blockquote>
+<p>所谓的无头服务<br>   通过指定 ClusterIP的值为“None”来创建 Headless Service</p>
+</blockquote>
+<p><strong>具体配置</strong></p>
+<pre class=" language-yaml"><code class="language-yaml">先删掉  nginx<span class="token punctuation">-</span>svc 这个service
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> nginx<span class="token punctuation">-</span>svc
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">clusterIP</span><span class="token punctuation">:</span> <span class="token string">"None"</span>
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">80</span>
+      <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">80</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true">#service通过selector和pod建立关联</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> nginx
+</code></pre>
+<blockquote>
+<p><strong>作用</strong></p>
+<p>有些程序 需要自己来决定到底 使用哪个IP<br>  譬如golang  可以使用  net.LookupIP(“服务名”)，来获取 IP ,然后自己来决定到底使用哪个</p>
+<p> StatefulSet 状态下。POD互相访问#### PV和PVC</p>
+</blockquote>
+<h5 id="创建PV、Local方式、基本设置"><a href="#创建PV、Local方式、基本设置" class="headerlink" title="创建PV、Local方式、基本设置"></a>创建PV、Local方式、基本设置</h5><h6 id="PV"><a href="#PV" class="headerlink" title="PV"></a>PV</h6><blockquote>
+<p>全称是：PersistentVolume（持久化卷），是对底层的共享存储的一种抽象，  由管理员进行创建和配置。</p>
+<p>然后由 卷插件  如local、NFS 等具体的底层技术来实现</p>
+<p>官网地址：<a href="https://kubernetes.io/zh/docs/concepts/storage/persistent-volumes/#types-of-persistent-volumes" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/storage/persistent-volumes/#types-of-persistent-volumes</a></p>
+</blockquote>
+<p><strong>创建一个</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> local<span class="token punctuation">-</span>pv
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">capacity</span><span class="token punctuation">:</span>
+    <span class="token key atrule">storage</span><span class="token punctuation">:</span> 1Gi
+  <span class="token key atrule">volumeMode</span><span class="token punctuation">:</span> Filesystem
+  <span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> ReadWriteOnce
+  <span class="token key atrule">persistentVolumeReclaimPolicy</span><span class="token punctuation">:</span> Delete
+  <span class="token key atrule">storageClassName</span><span class="token punctuation">:</span> local<span class="token punctuation">-</span>storage
+  <span class="token key atrule">local</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /mnt/disks/ssd1
+</code></pre>
+<p><strong><code>capacity</code></strong></p>
+<pre class=" language-shell"><code class="language-shell">它的单位有:
+     P,T,G,M,K或 Pi,Ti,Gi,Mi,Ki 区别
+   加i的是以1024为换算单位 
+
+如 (1Mi)
+1M=1024K=1024×1024byte
+
+1M 则是1000*1000
+</code></pre>
+<p> <strong><code>accessModes</code></strong></p>
+<pre class=" language-shell"><code class="language-shell">访问模式有：
+
+ReadWriteOnce -- 卷可以被一个节点以读写方式挂载；
+ReadOnlyMany -- 卷可以被多个节点以只读方式挂载；
+ReadWriteMany -- 卷可以被多个节点以读写方式挂载。
+</code></pre>
+<p><strong><code>PersistentVolume</code> 对象的回收策略</strong></p>
+<blockquote>
+<p> Retained（保留）、Recycled（回收）或 Deleted（删除）</p>
+</blockquote>
+<p><strong>节点亲和性</strong></p>
+<blockquote>
+<p>   之前我们调度节点时用过nodeSelector  ，设定标签进行匹配。这种方式过于”粗暴简单”。使用NodeAffinity来进行控制颗粒度更小（对于local模式 ，我们必须要设置）<br>   软策略 (有最好，没有也无所谓)<br>  如果没有满足调度要求的节点的话，就会忽略按正常调度<br>  preferredDuringSchedulingIgnoredDuringExecution<br>  preferredDuringSchedulingRequiredDuringExecution (一旦后面标签改了，有满足条件的节点了，就会重新调度到该节点上)</p>
+</blockquote>
+<p><strong>硬策略</strong> </p>
+<blockquote>
+<p>硬策略<br>    如果没有满足条件的节点的话，就不断重试直到满足条件为止 </p>
+<p>requiredDuringSchedulingIgnoredDuringExecution  （如果一开始满足的，后面node标签发生变化了，也无妨，继续运行）</p>
+<p>requiredDuringSchedulingRequiredDuringExecution（一旦变了，不符合条件了。则重新选择）</p>
+</blockquote>
+<p><strong>查看标签</strong> </p>
+<pre class=" language-shell"><code class="language-shell">kubectl get node --show-labels=true
+
+打标签语法：
+kubectl label nodes <node-name> <label-key>=<label-value>
+
+kubectl label nodes cyylog2 pv=local
+
+删除语法
+kubectl label nodes <node-name> <label-key>-
+kubectl label nodes cyylog2 pv-
+</code></pre>
+<p><strong><code>matchExpressions</code></strong></p>
+<pre class=" language-shell"><code class="language-shell">In: label的值在某个列表中
+NotIn：label的值不在某个列表中
+Exists：某个label存在
+DoesNotExist：某个label不存在
+Gt：label的值大于某个值（字符串比较）
+Lt：label的值小于某个值（字符串比较） 
+</code></pre>
+<h5 id="创建PVC、初步绑定PV-、POD挂载"><a href="#创建PVC、初步绑定PV-、POD挂载" class="headerlink" title="创建PVC、初步绑定PV 、POD挂载"></a>创建PVC、初步绑定PV 、POD挂载</h5><p><strong>复习</strong><code>PV</code>：</p>
+<blockquote>
+<p>全称是：PersistentVolume（持久化卷），是对底层的共享存储的一种抽象，  由管理员进行创建和配置。</p>
+<p>然后由 卷插件  如local、NFS 等具体的底层技术来实现 </p>
+<p>(运维 或管理员  )   PVC</p>
+</blockquote>
+<h6 id="PVC-Persistent-Volume-Claim"><a href="#PVC-Persistent-Volume-Claim" class="headerlink" title="PVC(Persistent Volume Claim)"></a><strong><code>PVC</code>(Persistent Volume Claim)</strong></h6><blockquote>
+<p>Persistent Volume提供存储资源(并实现)<br>Persistent Volume Claim 描述需要的存储标准，然后从现有PV中匹配或者动态建立新的资源，最后将两者进行绑定。</p>
+<p>好比<br>   PV是提供者，提供存储方式和容量  ( 销售费用1万)</p>
+<p>   PVC是消费者，消费容量  （它不需要关注用什么技术实现，绑定即可）</p>
+</blockquote>
+<p><strong>绑定方式</strong></p>
+<blockquote>
+<p>PV和PVC中<br>   spec关键字段要匹配 。<br>   storageClassName字段必须一致  </p>
+</blockquote>
+<p><strong><code>PersistentVolume</code> 对象的回收策略</strong></p>
+<pre class=" language-shell"><code class="language-shell"> Retained（保留）、Recycled（回收）或 Deleted（删除）
+</code></pre>
+<h5 id="StorageClass简单入门和创建"><a href="#StorageClass简单入门和创建" class="headerlink" title="StorageClass简单入门和创建"></a><code>StorageClass</code>简单入门和创建</h5><h6 id="StorageClass"><a href="#StorageClass" class="headerlink" title="StorageClass"></a><code>StorageClass</code></h6><blockquote>
+<p>理解为创建PV的模板   </p>
+<p>文档</p>
+<p><a href="https://kubernetes.io/zh/docs/concepts/storage/storage-classes/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/storage/storage-classes/</a></p>
+</blockquote>
+<p><strong>例子</strong></p>
+<pre class=" language-shell"><code class="language-shell">provisioner:指的是卷插件  (如NFS，local)
+reclaimPolicy:  回收策略。 
+volumeBindingMode ：绑定模式
+    Immediate :一旦创建PVC 就绑定
+    WaitForFirstConsumer：就是延迟绑定，直到使用该 PVC 的 Pod 被创建
+parameters：参数（不同的存储方式有N多个不同参数，这里不讲了。大家自行看文档）
+</code></pre>
+<h4 id="POD自动伸缩（HPA）"><a href="#POD自动伸缩（HPA）" class="headerlink" title="POD自动伸缩（HPA）"></a><code>POD</code>自动伸缩（<code>HPA</code>）</h4><h5 id="HPA入门、部署metrics-server"><a href="#HPA入门、部署metrics-server" class="headerlink" title="HPA入门、部署metrics-server"></a><code>HPA</code>入门、部署<code>metrics-server</code></h5><h6 id="HPA"><a href="#HPA" class="headerlink" title="HPA"></a>HPA</h6><blockquote>
+<p><code>Pod</code> 水平自动扩缩（<code>Horizontal Pod Autoscaler</code>） 可以</p>
+<p>1、基于 <code>CPU</code> 利用率自动扩缩 <code>ReplicationController</code>、<code>Deployment</code>、<code>ReplicaSet</code> 和 <code>StatefulSet</code> 中的 Pod 数量。</p>
+<p>2、 除了 <code>CPU</code> 利用率，也可以基于其他应程序提供的自定义度量指标 来执行自动扩缩。</p>
+<p>3、 <code>Pod</code> 自动扩缩不适用于无法扩缩的对象，比如 <code>DaemonSet</code>。</p>
+</blockquote>
+<h6 id="metrics-server"><a href="#metrics-server" class="headerlink" title="metrics-server"></a><code>metrics-server</code></h6><blockquote>
+<p>   k8s里。可以通过<code>Metrics-Server</code>服务采集节点和Pod的内存、磁盘、CPU和网络的使用率等</p>
+<p>注意：<br>    <code>Metrics API</code> 只可以查询当前的度量数据，并不保存历史数据<br>    <code>Metrics API URI</code> 为 <code>/apis/metrics.k8s.io/</code><br>    必须部署 <code>metrics-server</code> 才能使用该 API，<code>metrics-server</code> 通过调用 <code>Kubelet Summary API</code> 获取数据</p>
+</blockquote>
+<h6 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h6><blockquote>
+<p>官方告诉我们<br>kubectl apply -f <a href="https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml" target="_blank" rel="noopener">https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml</a></p>
+<p>这里面有个镜像干不下来,一些配置也需要修改。 </p>
+<p>具体附件</p>
+</blockquote>
+<pre class=" language-shell"><code class="language-shell">### 查看
+kubectl top pod    (还可以写node)
+
+### 创建一个
+最简单是 使用命令直接创建
+kubectl autoscale deployment ngx1 --min=2 --max=5 --cpu-percent=20
+</code></pre>
+<h5 id="限制POD资源、创建HPA"><a href="#限制POD资源、创建HPA" class="headerlink" title="限制POD资源、创建HPA"></a>限制<code>POD</code>资源、创建<code>HPA</code></h5><blockquote>
+<p>看一段配置</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">resources</span><span class="token punctuation">:</span>
+        <span class="token key atrule">requests</span><span class="token punctuation">:</span>
+            <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"200m"</span>
+            <span class="token key atrule">memory</span><span class="token punctuation">:</span> <span class="token string">"256Mi"</span>
+        <span class="token key atrule">limits</span><span class="token punctuation">:</span>
+           <span class="token key atrule">cpu</span><span class="token punctuation">:</span> <span class="token string">"400m"</span>
+            <span class="token key atrule">memory</span><span class="token punctuation">:</span> "512Mi“
+
+ requests来设置各容器需要的最小资源
+ limits用于限制运行时容器占用的资源
+ 1物理核=1000个微核(millicores)      1000m=1CPU
+</code></pre>
+</blockquote>
+<p><strong>装个工具</strong></p>
+<pre class=" language-shell"><code class="language-shell">sudo yum -y install httpd-tools
+
+里面包含了一个 apache ab 工具  做简单压测
+
+ab -n 10000 -c 10  http://web1/
+</code></pre>
+<p>创建一个</p>
+<pre class=" language-shell"><code class="language-shell">最简单是 使用命令直接创建
+kubectl autoscale deployment web1 --min=1 --max=5 --cpu-percent=20
+</code></pre>
+<h5 id="yaml的方式创建HPA"><a href="#yaml的方式创建HPA" class="headerlink" title="yaml的方式创建HPA"></a><code>yaml</code>的方式创建<code>HPA</code></h5><h6 id="几个API版本"><a href="#几个API版本" class="headerlink" title="几个API版本"></a>几个API版本</h6><blockquote>
+<p><code>kubectl api-versions | grep autoscaling</code></p>
+<p><code>autoscaling/v1</code>         #只支持通过cpu伸缩<br><code>autoscaling/v2beta1</code>    #支持通过cpu、内存 和自定义数据来进行伸缩。<br><code>autoscaling/v2beta2</code>     #beta1的进一步 （一般用它）</p>
+</blockquote>
+<h6 id="yaml配置方式"><a href="#yaml配置方式" class="headerlink" title="yaml配置方式"></a><code>yaml</code>配置方式</h6><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> autoscaling/v2beta2
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> HorizontalPodAutoscaler
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> web1hpa
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> default
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">minReplicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token key atrule">maxReplicas</span><span class="token punctuation">:</span> <span class="token number">5</span>
+  <span class="token key atrule">scaleTargetRef</span><span class="token punctuation">:</span>
+    <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> apps/v1
+    <span class="token key atrule">kind</span><span class="token punctuation">:</span> Deployment
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> web1
+  <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+      <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> cpu
+        <span class="token key atrule">target</span><span class="token punctuation">:</span>
+          <span class="token key atrule">type</span><span class="token punctuation">:</span> Utilization
+          <span class="token key atrule">averageUtilization</span><span class="token punctuation">:</span> <span class="token number">50   </span><span class="token comment" spellcheck="true">#使用率</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+      <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> memory
+        <span class="token key atrule">target</span><span class="token punctuation">:</span>
+          <span class="token key atrule">type</span><span class="token punctuation">:</span> Utilization
+          <span class="token key atrule">averageUtilization</span><span class="token punctuation">:</span> <span class="token number">50   </span><span class="token comment" spellcheck="true">#使用率</span>
+</code></pre>
+<p><strong>使用量</strong></p>
+<pre class=" language-yaml"><code class="language-yaml"> <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+      <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> cpu
+        <span class="token key atrule">target</span><span class="token punctuation">:</span>
+          <span class="token key atrule">type</span><span class="token punctuation">:</span> AverageValue
+          <span class="token key atrule">averageValue</span><span class="token punctuation">:</span> 230m   <span class="token comment" spellcheck="true">#使用量</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">type</span><span class="token punctuation">:</span> Resource
+      <span class="token key atrule">resource</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> memory
+        <span class="token key atrule">target</span><span class="token punctuation">:</span>
+          <span class="token key atrule">type</span><span class="token punctuation">:</span> AverageValue
+          <span class="token key atrule">averageValue</span><span class="token punctuation">:</span> 400m   <span class="token comment" spellcheck="true">#使用量</span>
+</code></pre>
+<h6 id="关于自定义指标"><a href="#关于自定义指标" class="headerlink" title="关于自定义指标"></a>关于自定义指标</h6><blockquote>
+<p>自定义指标 比较主流的方式是使用<code>prometheus</code></p>
+<p>大概有几项需要安装:<br><code>node-exporter</code>：<code>prometheus</code>的<code>export</code>，收集Node级别的监控数据<br><code>prometheus</code>：监控服务端，从<code>node-exporter</code>拉数据并存储为时序数据。<br><code>kube-state-metrics</code>：将<code>prometheus</code>中可以用<code>PromQL</code>查询到的指标数据转换成<code>k8s</code>对应的数据<br><code>k8s-prometheus-adpater</code>：聚合进<code>apiserver</code>，即<code>custom-metrics-apiserver</code>实现(也可以用自定义<code>CRD</code>来实现)#### <code>CRD</code>和<code>Controller</code></p>
+</blockquote>
+<h6 id="什么是CRD"><a href="#什么是CRD" class="headerlink" title="什么是CRD"></a>什么是CRD</h6><blockquote>
+<p>​    CRD  是 Kubernetes 的一种资源(CustomResourceDefinition )，允许我们基于它自定义新的资源类型.</p>
+<p>  值得注意的是：k8s所有的东西都叫做资源（Resource）</p>
+<p>  CRD就是 我们对自定义资源的定义</p>
+</blockquote>
+
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/kubernetes/">
+                                    <span class="chip bg-color">kubernetes</span>
+                                </a>
+                            
+                                <a href="/tags/notes/">
+                                    <span class="chip bg-color">notes</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter, facebook, google, qq, qzone, wechat, weibo, douban, linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f6c14e435568e1f"></script>
+    <div class="addthis_inline_share_toolbox"></div>
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/04/10/notes/traefik-kuai-su-shi-zhan-shang-shou-bi-ji/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="traefik notes">
+                        
+                        <span class="card-title">traefik notes</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            快速上手traefik速学实战traefik是什么
+ Træfɪk 是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。 它支持多种后台 (Docker, Swarm, Kubernetes, Marathon, Me
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-04-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/kubernetes/" class="post-category">
+                                    kubernetes
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/notes/">
+                        <span class="chip bg-color">notes</span>
+                    </a>
+                    
+                    <a href="/tags/traefik/">
+                        <span class="chip bg-color">traefik</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/03/22/container/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="kubeadm部署K8S集群并使用containerd做容器运行时">
+                        
+                        <span class="card-title">kubeadm部署K8S集群并使用containerd做容器运行时</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            kubeadm部署K8S集群并使用containerd做容器运行时前言去年12月份，当Kubernetes社区宣布1.20版本之后会逐步弃用dockershim，当时也有很多自媒体在宣传Kubernetes弃用Docker。其实，我觉得这是
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-03-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
+                                    容器
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kubernetes/">
+                        <span class="chip bg-color">Kubernetes</span>
+                    </a>
+                    
+                    <a href="/tags/containerd/">
+                        <span class="chip bg-color">containerd</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4, h5, h6'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5, h6').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2018</span>
+            <a href="/about" target="_blank">Cyylog</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/cyylog" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:504246035@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=504246035" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 504246035" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="/libs/background/canvas-nest.js"></script>
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
