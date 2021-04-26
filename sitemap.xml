@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/</loc>
+    <loc>https://cyylog.github.io/2020/10/29/monitor/prometheus/</loc>
     
     <lastmod>2021-04-26</lastmod>
     
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/2020/10/29/monitor/prometheus/</loc>
+    <loc>https://cyylog.github.io/2021/04/19/notes/yaml-bi-ji/</loc>
     
     <lastmod>2021-04-26</lastmod>
     
@@ -963,6 +963,13 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
+    <lastmod>2021-04-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
@@ -971,13 +978,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/kafka/</loc>
-    <lastmod>2021-04-26</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2021-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
