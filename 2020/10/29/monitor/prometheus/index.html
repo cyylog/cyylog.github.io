@@ -287,7 +287,7 @@
 <script src="/libs/cryptojs/crypto-js.min.js"></script>
 <script>
     (function() {
-        let pwd = 'c1b52e0e64a33deadd3ae5c09421ace2330ef1e1feff9f3dbc3ba9e06f05f92f';
+        let pwd = 'c36b4792cdd2e6f62d042df454ab90f8cd82e99e17cedb342102589581790254';
         if (pwd && pwd.length > 0) {
             if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
                 alert('密码错误，将返回主页！');
@@ -434,8 +434,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                监控
+                            <a href="/categories/monitor/" class="post-category">
+                                monitor
                             </a>
                         
                     </div>
@@ -1346,36 +1346,34 @@ prometheu 13847 root    6u  IPv6  63543      0t0  TCP *:8060 (LISTEN)
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/">
+                <a href="/2020/11/10/sql/sql-yu-ju-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Kubernetes--Controller Manager + Scheduler 异常">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="SQL语句优化">
                         
-                        <span class="card-title">Kubernetes--Controller Manager + Scheduler 异常</span>
+                        <span class="card-title">SQL语句优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-在加入集群后，Controller Manager  和   Scheduler  提示异常
+                            1、注意通配符中Like的使用以下写法会造成全表的扫描，例如：
+select id,name from userinfo where name like '%name%'
 
-检查后发现：
-master初始化完成后，以下两个组件状态显示依然为Unhealthy
-root@master1:~$ sudo kubectl
+select id,name from userinfo wher
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-08
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category">
-                                    容器
+                            <a href="/categories/SQL/" class="post-category">
+                                    SQL
                                 </a>
                             
                             
@@ -1385,12 +1383,12 @@ root@master1:~$ sudo kubectl
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Kubernetes/">
-                        <span class="chip bg-color">Kubernetes</span>
+                    <a href="/tags/Interview/">
+                        <span class="chip bg-color">Interview</span>
                     </a>
                     
-                    <a href="/tags/Kubernetes-err/">
-                        <span class="chip bg-color">Kubernetes-err</span>
+                    <a href="/tags/Mysql/">
+                        <span class="chip bg-color">Mysql</span>
                     </a>
                     
                 </div>
@@ -1404,34 +1402,32 @@ root@master1:~$ sudo kubectl
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/29/jian-kong/prometheus-1/">
+                <a href="/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Prometheus（1）">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="influxdb+grafana监控网络情况">
                         
-                        <span class="card-title">Prometheus（1）</span>
+                        <span class="card-title">influxdb+grafana监控网络情况</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            什么是 PrometheusPrometheus是由SoundCloud开发的开源监控报警系统和时序列数据库(TSDB)。Prometheus使用Go语言开发，是 
-Google BorgMon监控系统的开源版本 
-
-官网：https://
+                            influxdb+grafana监控网络情况一、 部署InfluxDBdocker run -d -p 8086:8086 --name=influxdb influxdb
+以上命令dcoker会自动从仓库下载最新版本的influxdb镜像
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-26
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
+                            <a href="/categories/monitor/" class="post-category">
+                                    monitor
                                 </a>
                             
                             
@@ -1441,8 +1437,12 @@ Google BorgMon监控系统的开源版本
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Prometheus/">
-                        <span class="chip bg-color">Prometheus</span>
+                    <a href="/tags/influxdb/">
+                        <span class="chip bg-color">influxdb</span>
+                    </a>
+                    
+                    <a href="/tags/grafana/">
+                        <span class="chip bg-color">grafana</span>
                     </a>
                     
                 </div>

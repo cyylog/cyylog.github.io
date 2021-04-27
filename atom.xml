@@ -99,65 +99,11 @@
   </entry>
   
   <entry>
-    <title>kubeadm部署K8S集群并使用containerd做容器运行时</title>
-    <link href="https://cyylog.github.io/2021/03/22/container/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/"/>
-    <id>https://cyylog.github.io/2021/03/22/container/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</id>
-    <published>2021-03-22T13:21:16.000Z</published>
-    <updated>2021-03-22T06:23:28.924Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;kubeadm部署K8S集群并使用containerd做容器运行时&quot;&gt;&lt;a href=&quot;#kubeadm部署K8S集群并使用containerd做容器运行时&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-    <category term="containerd" scheme="https://cyylog.github.io/tags/containerd/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubeadm部署K8S集群并使用containerd做容器运行时</title>
-    <link href="https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/"/>
-    <id>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</id>
-    <published>2021-03-22T13:21:16.000Z</published>
-    <updated>2021-03-22T06:23:28.924Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;kubeadm部署K8S集群并使用containerd做容器运行时&quot;&gt;&lt;a href=&quot;#kubeadm部署K8S集群并使用containerd做容器运行时&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-    <category term="containerd" scheme="https://cyylog.github.io/tags/containerd/"/>
-    
-  </entry>
-  
-  <entry>
     <title>kubectl 命令自动补全</title>
     <link href="https://cyylog.github.io/2021/01/01/container/kubectl-ming-ling-zi-dong-bu-quan/"/>
     <id>https://cyylog.github.io/2021/01/01/container/kubectl-ming-ling-zi-dong-bu-quan/</id>
     <published>2021-01-01T03:21:16.000Z</published>
-    <updated>2021-01-19T16:28:00.138Z</updated>
+    <updated>2021-04-27T09:08:54.164Z</updated>
     
     
       
@@ -171,33 +117,7 @@
     
     
     
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubectl 命令自动补全</title>
-    <link href="https://cyylog.github.io/2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/"/>
-    <id>https://cyylog.github.io/2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/</id>
-    <published>2021-01-01T03:21:16.000Z</published>
-    <updated>2021-01-19T16:28:00.138Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;&lt;strong&gt;kubectl 命令自动补全&lt;/strong&gt;&lt;/p&gt;
-&lt;h5 id=&quot;一-简介&quot;&gt;&lt;a href=&quot;#一-简介&quot; class=&quot;headerlink&quot; title=&quot;一.简介&quot;&gt;&lt;/a&gt;一.简介&lt;/h5&gt;&lt;p&gt;在k8s</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    <category term="container" scheme="https://cyylog.github.io/categories/container/"/>
     
     
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
@@ -259,7 +179,7 @@
     <link href="https://cyylog.github.io/2020/12/15/container/kubernetes-on-cri-o-centos/"/>
     <id>https://cyylog.github.io/2020/12/15/container/kubernetes-on-cri-o-centos/</id>
     <published>2020-12-14T18:14:19.000Z</published>
-    <updated>2021-03-22T06:04:33.265Z</updated>
+    <updated>2021-04-27T09:08:50.284Z</updated>
     
     
       
@@ -272,34 +192,7 @@
     
     
     
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-    <category term="CRI-O" scheme="https://cyylog.github.io/tags/CRI-O/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kubernetes on CRI-O (CentOS)</title>
-    <link href="https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/"/>
-    <id>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</id>
-    <published>2020-12-14T18:14:19.000Z</published>
-    <updated>2021-03-22T06:04:33.265Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;Kubernetes-on-CRI-O-CentOS&quot;&gt;&lt;a href=&quot;#Kubernetes-on-CRI-O-CentOS&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes on CRI-O</summary>
-        
-      
-    
-    
-    
-    <category term="容器" scheme="https://cyylog.github.io/categories/%E5%AE%B9%E5%99%A8/"/>
+    <category term="container" scheme="https://cyylog.github.io/categories/container/"/>
     
     
     <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
@@ -463,31 +356,6 @@
   </entry>
   
   <entry>
-    <title>Kubernetes-network</title>
-    <link href="https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/"/>
-    <id>https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/</id>
-    <published>2020-11-20T17:21:16.000Z</published>
-    <updated>2020-11-23T12:41:40.968Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;Kubernetes-network&quot;&gt;&lt;a href=&quot;#Kubernetes-network&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes-network&quot;&gt;&lt;/a&gt;Kubernetes-network&lt;/h4&gt;&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/categories/Kubernetes/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Docker-网络模式</title>
     <link href="https://cyylog.github.io/2020/11/16/container/docker-wang-luo-mo-shi/"/>
     <id>https://cyylog.github.io/2020/11/16/container/docker-wang-luo-mo-shi/</id>
@@ -515,29 +383,158 @@
   </entry>
   
   <entry>
-    <title>Docker-网络模式</title>
-    <link href="https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/"/>
-    <id>https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/</id>
-    <published>2020-11-16T13:26:43.000Z</published>
-    <updated>2020-11-17T06:38:36.240Z</updated>
+    <title>Kubernetes-二进制部署</title>
+    <link href="https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/"/>
+    <id>https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/</id>
+    <published>2020-11-15T04:24:13.000Z</published>
+    <updated>2021-04-27T09:09:24.366Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h3 id=&quot;Docker四种网络模式&quot;&gt;&lt;a href=&quot;#Docker四种网络模式&quot; class=&quot;headerlink&quot; title=&quot;Docker四种网络模式&quot;&gt;&lt;/a&gt;Docker四种网络模式&lt;/h3&gt;&lt;h4 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot;</summary>
+    <summary type="html">&lt;h4 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h4&gt;&lt;h5 id=&quot;1-1-生产环境&quot;&gt;&lt;a href=&quot;#1-1-生产环境&quot; class=&quot;headerlink&quot; title=&quot;1.1</summary>
         
       
     
     
     
-    <category term="Interview" scheme="https://cyylog.github.io/categories/Interview/"/>
+    <category term="container" scheme="https://cyylog.github.io/categories/container/"/>
     
     
-    <category term="Linux" scheme="https://cyylog.github.io/tags/Linux/"/>
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
     
-    <category term="Docker" scheme="https://cyylog.github.io/tags/Docker/"/>
+  </entry>
+  
+  <entry>
+    <title>k8s资源监控</title>
+    <link href="https://cyylog.github.io/2020/11/14/monitor/prometheus-k8s-zi-yuan-jian-kong/"/>
+    <id>https://cyylog.github.io/2020/11/14/monitor/prometheus-k8s-zi-yuan-jian-kong/</id>
+    <published>2020-11-14T08:48:56.000Z</published>
+    <updated>2021-04-27T09:06:15.116Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;k8s-资源监控&quot;&gt;&lt;a href=&quot;#k8s-资源监控&quot; class=&quot;headerlink&quot; title=&quot;k8s 资源监控&quot;&gt;&lt;/a&gt;k8s</summary>
+        
+      
+    
+    
+    
+    <category term="monitor" scheme="https://cyylog.github.io/categories/monitor/"/>
+    
+    
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SQL语句优化</title>
+    <link href="https://cyylog.github.io/2020/11/10/sql/sql-yu-ju-you-hua/"/>
+    <id>https://cyylog.github.io/2020/11/10/sql/sql-yu-ju-you-hua/</id>
+    <published>2020-11-10T13:06:46.000Z</published>
+    <updated>2020-11-10T13:48:49.066Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;1、注意通配符中Like的使用&quot;&gt;&lt;a href=&quot;#1、注意通配符中Like的使用&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
+    
+    
+    <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Prometheus</title>
+    <link href="https://cyylog.github.io/2020/10/29/monitor/prometheus/"/>
+    <id>https://cyylog.github.io/2020/10/29/monitor/prometheus/</id>
+    <published>2020-10-29T05:48:56.000Z</published>
+    <updated>2021-04-27T09:06:09.512Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;Prometheus&quot;&gt;&lt;a href=&quot;#Prometheus&quot; class=&quot;headerlink&quot; title=&quot;Prometheus&quot;&gt;&lt;/a&gt;&lt;code&gt;Prometheus&lt;/code&gt;&lt;/h4&gt;&lt;h5 id=&quot;架构介绍&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="monitor" scheme="https://cyylog.github.io/categories/monitor/"/>
+    
+    
+    <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>influxdb+grafana监控网络情况</title>
+    <link href="https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
+    <id>https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
+    <published>2020-10-26T06:55:39.000Z</published>
+    <updated>2021-04-27T09:06:23.930Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;influxdb-grafana监控网络情况&quot;&gt;&lt;a href=&quot;#influxdb-grafana监控网络情况&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="monitor" scheme="https://cyylog.github.io/categories/monitor/"/>
+    
+    
+    <category term="influxdb" scheme="https://cyylog.github.io/tags/influxdb/"/>
+    
+    <category term="grafana" scheme="https://cyylog.github.io/tags/grafana/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>K8S 原理</title>
+    <link href="https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/"/>
+    <id>https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/</id>
+    <published>2020-10-24T16:24:11.000Z</published>
+    <updated>2021-04-15T08:15:19.314Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot;&gt;&lt;a href=&quot;#面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
+    
+    <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
     
   </entry>
   

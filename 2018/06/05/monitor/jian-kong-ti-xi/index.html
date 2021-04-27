@@ -434,8 +434,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                监控
+                            <a href="/categories/monitor/" class="post-category">
+                                monitor
                             </a>
                         
                     </div>
@@ -463,7 +463,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h6 id="监控对象："><a href="#监控对象：" class="headerlink" title="监控对象："></a>监控对象：</h6><p>　　　　1. 监控对象的理解：CPU是怎么工作的，原理<br>　　　　2. 监控对象的指标：CPU使用率 CPU负载 CPU个数 上下文切换<br>　　　　3. 确定性能基准线：怎么样才算故障？CPU负载多上才算高<br>监控范围：<br>　　　　1.硬件监控服务器的硬件故障<br>　　　　2.操作系统监控 CPU、内存、硬盘、IO、进程<br>　　　　3.应用服务监控 nginx、MySQL、等服务<br>　　　　4.业务监控</p>
+                <h6 id="监控对象："><a href="#监控对象：" class="headerlink" title="监控对象："></a>监控对象：</h6><p>　　　　1. 监控对象的理解：CPU是怎么工作的，原理<br>　　　　2. 监控对象的指标：CPU使用率 CPU负载 CPU个数 上下文切换<br>　　　　　　　　3. 确定性能基准线：怎么样才算故障？CPU负载多上才算高<br>　　　　监控范围：<br>　　　　　　　　1.硬件监控服务器的硬件故障<br>　　　　　　　　2.操作系统监控 CPU、内存、硬盘、IO、进程<br>　　　　　　　　3.应用服务监控 nginx、MySQL、等服务<br>　　　　　　　　4.业务监控</p>
 <hr>
 <h3 id="硬件监控："><a href="#硬件监控：" class="headerlink" title="硬件监控："></a>硬件监控：</h3><p>　　1.使用IPMI<br>　　2.机房巡检<br>远程控制卡：<br>　　　　DELL服务器：iDRAC<br>　　　　HP服务器：ILO ————-Linux就可以使用IPMI（依赖于BMC控制器）<br>　　　　IBM服务器：IMM |<br>　　　　Linux是管理IPMI工具<br>　　　　‘ipmitool’（监控和控制）</p>
 <h4 id="1-硬件要支持"><a href="#1-硬件要支持" class="headerlink" title="1.硬件要支持"></a>1.硬件要支持</h4><h4 id="2-操作系统-‘Linux-IPMI’"><a href="#2-操作系统-‘Linux-IPMI’" class="headerlink" title="2.操作系统 ‘Linux IPMI’"></a>2.操作系统 ‘Linux IPMI’</h4><p>ipmitool安装:</p>
@@ -985,31 +985,36 @@ Reading: 0 Writing: 1 Waiting: 0</code></pre><p>Active connections: 当前活跃
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/06/05/jian-kong/jian-kong-ti-xi/">
+                <a href="/2018/04/05/linux/linux-ri-zhi-qie-ge-gong-ju-logrotate-pei-zhi-xiang-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="监控体系">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Linux日志切割工具Logrotate配置详解">
                         
-                        <span class="card-title">监控体系</span>
+                        <span class="card-title">Linux日志切割工具Logrotate配置详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            监控对象：　　　　1. 监控对象的理解：CPU是怎么工作的，原理　　　　2. 监控对象的指标：CPU使用率 CPU负载 CPU个数 上下文切换　　　　3. 确定性能基准线：怎么样才算故障？CPU负载多上才算高监控范围：　　　　1.硬件监控服
+                            
+
+[Linux日志切割工具Logrotate配置详解]文章目录
+[TOC]
+Logrotate 程序是一个日志文件管理工具。用于分割日志文件，压缩转存、删除旧的日志文件，并创建新的日志文件，下面就对logrotate日志轮转的记录：
+1.
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-05
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-04-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%9B%91%E6%8E%A7/" class="post-category">
-                                    监控
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             

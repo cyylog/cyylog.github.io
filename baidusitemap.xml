@@ -1,8 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/01/19/container/docker-shu-ju-gong-xiang-yu-chi-jiu-hua/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/11/15/container/dockerfilee-000/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/11/17/container/dockerfilee-001/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/11/19/container/dockerfilee-002/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/03/17/container/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2021/01/01/container/kubectl-ming-ling-zi-dong-bu-quan/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/12/15/container/kubernetes-on-cri-o-centos/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/03/29/container/kubernetes-chang-yong-ming-ling/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/06/container/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/06/container/kubernetes-gong-zuo-fu-zai-pods/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-jie-dian/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-kong-zhi-qi/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-zu-jian/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/04/01/container/kubernetes-ru-men-wei-ming-ming-kong-jian-pei-zhi-mo-ren-de-nei-cun-qing-qiu-he-xian-zhi/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/03/14/container/kubernetes-ru-men/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/03/14/container/kvm-bi-ji/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2018/06/05/monitor/jian-kong-ti-xi/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/05/26/monitor/prometheus-ru-men/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/11/14/monitor/prometheus-k8s-zi-yuan-jian-kong/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
     <loc>https://cyylog.github.io/2020/10/29/monitor/prometheus/</loc>
-    <lastmod>2021-04-26</lastmod>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/10/24/monitor/zabbix-yuan-li/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2020/01/05/monitor/zabbix-jian-kong-xiang/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/11/05/monitor/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/07/05/monitor/zabbix-you-jian-bao-jing/</loc>
+    <lastmod>2021-04-27</lastmod>
+  </url>
+  <url>
+    <loc>https://cyylog.github.io/2019/08/05/monitor/zabbix-yuan-ma-an-zhuang/</loc>
+    <lastmod>2021-04-27</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2021/03/27/notes/kubeadm-bi-ji/</loc>
@@ -25,48 +129,8 @@
     <lastmod>2021-04-11</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2021/03/22/container/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2021/03/22/rong-qi/kubeadm-bu-shu-k8s-ji-qun-bing-shi-yong-containerd-zuo-rong-qi-yun-xing-shi/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/12/15/container/kubernetes-on-cri-o-centos/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/12/15/rong-qi/kubernetes-on-cri-o-centos/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/17/container/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/17/rong-qi/kubeadm-kuai-su-bu-shu-kubernetes-ji-qun/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/04/01/container/kubernetes-ru-men-wei-ming-ming-kong-jian-pei-zhi-mo-ren-de-nei-cun-qing-qiu-he-xian-zhi/</loc>
-    <lastmod>2021-03-14</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/04/01/rong-qi/kubernetes-ru-men-wei-ming-ming-kong-jian-pei-zhi-mo-ren-de-nei-cun-qing-qiu-he-xian-zhi/</loc>
-    <lastmod>2021-03-14</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2019/08/09/linux/nginx-ya-ce-he-bing-fa-yu-gu/</loc>
     <lastmod>2021-03-02</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2021/01/01/container/kubectl-ming-ling-zi-dong-bu-quan/</loc>
-    <lastmod>2021-01-19</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2021/01/01/rong-qi/kubectl-ming-ling-zi-dong-bu-quan/</loc>
-    <lastmod>2021-01-19</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/</loc>
@@ -75,14 +139,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/</loc>
     <lastmod>2020-12-16</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/15/container/er-jin-zhi-an-zhuang-k8s-2020-11-15/</loc>
-    <lastmod>2020-12-15</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/15/rong-qi/er-jin-zhi-an-zhuang-k8s-2020-11-15/</loc>
-    <lastmod>2020-12-15</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/12/09/devops/go-liao-jie-sync.pool/</loc>
@@ -109,52 +165,12 @@
     <lastmod>2020-11-23</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/11/21/rong-qi/kubernetes-network/</loc>
-    <lastmod>2020-11-23</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/29/container/kubernetes-chang-yong-ming-ling/</loc>
-    <lastmod>2020-11-19</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/29/rong-qi/kubernetes-chang-yong-ming-ling/</loc>
-    <lastmod>2020-11-19</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/14/monitor/prometheus-k8s-zi-yuan-jian-kong/</loc>
-    <lastmod>2020-11-17</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/14/jian-kong/prometheus-k8s-zi-yuan-jian-kong/</loc>
-    <lastmod>2020-11-17</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2020/11/16/container/docker-wang-luo-mo-shi/</loc>
     <lastmod>2020-11-17</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/11/16/rong-qi/docker-wang-luo-mo-shi/</loc>
-    <lastmod>2020-11-17</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/03/14/container/kvm-bi-ji/</loc>
-    <lastmod>2020-11-11</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/03/14/rong-qi/kvm-bi-ji/</loc>
-    <lastmod>2020-11-11</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2020/11/10/sql/sql-yu-ju-you-hua/</loc>
     <lastmod>2020-11-10</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/08/container/kubernetes-controller-manager-scheduler-yi-chang/</loc>
-    <lastmod>2020-11-08</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/11/08/rong-qi/kubernetes-controller-manager-scheduler-yi-chang/</loc>
-    <lastmod>2020-11-08</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/10/01/linux/shell-jiao-ben-jia-mi-jing-yan-fen-xiang/</loc>
@@ -169,10 +185,6 @@
     <lastmod>2020-10-31</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/10/29/jian-kong/prometheus-1/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2020/07/16/sql/mysql-you-biao/</loc>
     <lastmod>2020-10-30</lastmod>
   </url>
@@ -183,126 +195,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/10/05/sql/redis-shao-bing/</loc>
     <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/14/container/kubernetes-ru-men/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/03/14/rong-qi/kubernetes-ru-men/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/container/kubernetes-gong-zuo-fu-zai-pods/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pods/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/container/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/06/rong-qi/kubernetes-gong-zuo-fu-zai-pod-de-sheng-ming-zhou-qi/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-kong-zhi-qi/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-kong-zhi-qi/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-jie-dian/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-jie-dian/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/07/05/monitor/zabbix-you-jian-bao-jing/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/07/05/jian-kong/zabbix-you-jian-bao-jing/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/05/monitor/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/05/jian-kong/zabbix-pei-zhi-qi-ye-wei-xin-bao-jing/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/08/05/monitor/zabbix-yuan-ma-an-zhuang/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/08/05/jian-kong/zabbix-yuan-ma-an-zhuang/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/01/05/monitor/zabbix-jian-kong-xiang/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/01/05/jian-kong/zabbix-jian-kong-xiang/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/05/26/monitor/prometheus-ru-men/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/05/26/jian-kong/prometheus-ru-men/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/24/monitor/zabbix-yuan-li/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/24/jian-kong/zabbix-yuan-li/</loc>
-    <lastmod>2020-10-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</loc>
-    <lastmod>2020-10-26</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/26/jian-kong/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</loc>
-    <lastmod>2020-10-26</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/15/container/dockerfilee-000/</loc>
-    <lastmod>2020-10-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/15/rong-qi/dockerfilee-000/</loc>
-    <lastmod>2020-10-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2018/06/05/monitor/jian-kong-ti-xi/</loc>
-    <lastmod>2020-10-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2018/06/05/jian-kong/jian-kong-ti-xi/</loc>
-    <lastmod>2020-10-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/container/kubernetes-jia-gou-zu-jian/</loc>
-    <lastmod>2020-10-03</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/10/03/rong-qi/kubernetes-jia-gou-zu-jian/</loc>
-    <lastmod>2020-10-03</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/05/21/network/wang-luo-jie-xi-yu-zhua-bao-gong-ju/</loc>
@@ -345,14 +237,6 @@
     <lastmod>2020-09-28</lastmod>
   </url>
   <url>
-    <loc>https://cyylog.github.io/2020/01/19/container/docker-shu-ju-gong-xiang-yu-chi-jiu-hua/</loc>
-    <lastmod>2020-06-19</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2020/01/19/rong-qi/docker-shu-ju-gong-xiang-yu-chi-jiu-hua/</loc>
-    <lastmod>2020-06-19</lastmod>
-  </url>
-  <url>
     <loc>https://cyylog.github.io/2020/05/30/linux/ji-hua-ren-wu-ji-ri-zhi-guan-li/</loc>
     <lastmod>2020-05-30</lastmod>
   </url>
@@ -363,22 +247,6 @@
   <url>
     <loc>https://cyylog.github.io/2020/05/28/devops/jenkins-liu-shui-xian-yu-fa-001/</loc>
     <lastmod>2020-05-30</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/19/container/dockerfilee-002/</loc>
-    <lastmod>2020-05-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/19/rong-qi/dockerfilee-002/</loc>
-    <lastmod>2020-05-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/17/container/dockerfilee-001/</loc>
-    <lastmod>2020-05-25</lastmod>
-  </url>
-  <url>
-    <loc>https://cyylog.github.io/2019/11/17/rong-qi/dockerfilee-001/</loc>
-    <lastmod>2020-05-25</lastmod>
   </url>
   <url>
     <loc>https://cyylog.github.io/2020/04/02/linux/tomcat-05/</loc>
