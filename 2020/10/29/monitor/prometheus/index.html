@@ -466,20 +466,32 @@
                 <h4 id="Prometheus"><a href="#Prometheus" class="headerlink" title="Prometheus"></a><code>Prometheus</code></h4><h5 id="架构介绍"><a href="#架构介绍" class="headerlink" title="架构介绍"></a>架构介绍</h5><h6 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h6><blockquote>
 <p>1.一套开源的系统监控报警框架。</p>
 <ol start="2">
-<li><code>Prometheus</code>基于<code>Golang</code>编写，不存在任何的第三方依赖。</li>
-<li>由 <code>SoundCloud</code> 开源监控告警解决方案。</li>
-<li>单一节点就可以存储百万的监控指标，每秒处理数十万的数据点。</li>
-<li>简单的可扩展性，<code>Prometheus</code>对于联邦集群的支持，可以让多个<code>Prometheus</code>实例产生一个逻辑集群，当单实例<code>Prometheus Server</code>处理的任务量过大时，通过使用功能分区(<code>sharding</code>)+联邦集群(<code>federation</code>)可以对其进行扩展。</li>
-<li>开放性，使用<code>Prometheus</code>的<code>client library</code>的输出格式不止支持<code>Prometheus</code>的格式化数据，也可以输出支持其它监控系统的格式化数据，比如<code>Graphite</code>。<br> <a href="https://prometheus.io/docs/instrumenting/clientlibs/" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/clientlibs/</a></li>
+<li><p><code>Prometheus</code>基于<code>Golang</code>编写，不存在任何的第三方依赖。</p>
+</li>
+<li><p>由 <code>SoundCloud</code> 开源监控告警解决方案。</p>
+</li>
+<li><p>单一节点就可以存储百万的监控指标，每秒处理数十万的数据点。</p>
+</li>
+<li><p>简单的可扩展性，<code>Prometheus</code>对于联邦集群的支持，可以让多个<code>Prometheus</code>实例产生一个逻辑集群，当单实例<code>Prometheus Server</code>处理的任务量过大时，</p>
+<p>通过使用功能分区(<code>sharding</code>)+联邦集群(<code>federation</code>)可以对其进行扩展。</p>
+</li>
+<li><p>开放性，使用<code>Prometheus</code>的<code>client library</code>的输出格式不止支持<code>Prometheus</code>的格式化数据，也可以输出支持其它监控系统的格式化数据，</p>
+<p>比如<code>Graphite</code>。<br><a href="https://prometheus.io/docs/instrumenting/clientlibs/" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/clientlibs/</a></p>
+</li>
 </ol>
 </blockquote>
 <h6 id="优劣势"><a href="#优劣势" class="headerlink" title="优劣势"></a>优劣势</h6><blockquote>
 <p>易管理性:</p>
 <p><code>Prometheus</code>核心部分只有一个单独的二进制文件，可直接在本地工作，不依赖于分布式存储。<br><code>Nagios/zabbix</code>: 需要有专业的人员进行安装，配置和管理，并且过程很复杂。</p>
-<p>业务数据相关性:<br>监控服务的运行状态，基于<code>Prometheus</code>丰富的Client库，用户可以轻松的在应用程序中添加对Prometheus的支持，从而让用户可以获取服务和应用内部真正的运行状态。<a href="https://prometheus.io/docs/instrumenting/clientlibs/" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/clientlibs/</a><br>Nagios/zabbix:大部分的监控能力都是围绕系统的一些边缘性的问题，主要针对系统服务和资源的状态以及应用程序的可用性。</p>
-<p>高效：单一<code>Prometheus</code>可以处理数以百万的监控指标；每秒处理数十万的数据点。<br>易于伸缩：通过使用功能分区（<code>sharing</code>）+联邦集群（<code>federation</code>）可以对<code>Prometheus</code>进行扩展，形成一个逻辑集群；<code>Prometheus</code>提供多种语言的客户端<code>SDK</code>，这些<code>SDK</code>可以快速让应用程序纳入到<code>Prometheus</code>的监控当中。</p>
-<p>良好的可视化：<code>Prometheus</code>除了自带有<code>Prometheus UI</code>，<code>Prometheus</code>还提供了一个独立的基于<code>Ruby On Rails的Dashboard</code>解决方案<code>Promdash</code>。另外最新的<code>Grafana</code>可视化工具也提供了完整的<code>Proetheus</code>支持，基于<code>Prometheus</code>提供的<code>API</code>还可以实现自己的监控可视化<code>UI</code>。</p>
-<p>由于数据采集可能会有丢失，所以 Prometheus 不适用对采集数据要 100% 准确的情形。但如果用于记录时间序列数据，Prometheus 具有很大的查询优势，此外，Prometheus 适用于微服务的体系架构。</p>
+<p>业务数据相关性:<br>监控服务的运行状态，基于<code>Prometheus</code>丰富的Client库，用户可以轻松的在应用程序中添加对Prometheus的支持，</p>
+<p>从而让用户可以获取服务和应用内部真正的运行状态。<a href="https://prometheus.io/docs/instrumenting/clientlibs/" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/clientlibs/</a></p>
+<p>Nagios/zabbix:大部分的监控能力都是围绕系统的一些边缘性的问题，主要针对系统服务和资源的状态以及应用程序的可用性。</p>
+<p>高效：单一<code>Prometheus</code>可以处理数以百万的监控指标；每秒处理数十万的数据点。<br>易于伸缩：通过使用功能分区（<code>sharing</code>）+联邦集群（<code>federation</code>）可以对<code>Prometheus</code>进行扩展，形成一个逻辑集群；</p>
+<p><code>Prometheus</code>提供多种语言的客户端<code>SDK</code>，这些<code>SDK</code>可以快速让应用程序纳入到<code>Prometheus</code>的监控当中。</p>
+<p>良好的可视化：<code>Prometheus</code>除了自带有<code>Prometheus UI</code>，<code>Prometheus</code>还提供了一个独立的基于<code>Ruby On Rails的Dashboard</code>解决方案<code>Promdash</code>。</p>
+<p>另外最新的<code>Grafana</code>可视化工具也提供了完整的<code>Proetheus</code>支持，基于<code>Prometheus</code>提供的<code>API</code>还可以实现自己的监控可视化<code>UI</code>。</p>
+<p>由于数据采集可能会有丢失，所以 Prometheus 不适用对采集数据要 100% 准确的情形。</p>
+<p>但如果用于记录时间序列数据，Prometheus 具有很大的查询优势，此外，Prometheus 适用于微服务的体系架构。</p>
 </blockquote>
 <h6 id="工作过程："><a href="#工作过程：" class="headerlink" title="工作过程："></a>工作过程：</h6><blockquote>
 <ol>
@@ -580,7 +592,9 @@ http://192.168.204.132:9090/graph
 <p>其他</p>
 <blockquote>
 <p><a href="https://prometheus.io/docs/instrumenting/exporters/#exporters-and-integrations" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/exporters/#exporters-and-integrations</a></p>
-<p>用户自定义：<br>         除了直接使用社区提供的Exporter程序以外，用户还可以基于Prometheus提供的Client Library创建自己的Exporter程序，目前Promthues社区官方提供了对以下编程语言的支持：Go、Java/Scala、Python、Ruby。同时还有第三方实现的如：Bash、C++、Common Lisp、Erlang,、Haskeel、Lua、Node.js、PHP、Rust等。</p>
+<p>用户自定义：<br>      除了直接使用社区提供的Exporter程序以外，用户还可以基于Prometheus提供的Client Library创建自己的Exporter程序，</p>
+<p>目前Promthues社区官方提供了对以下编程语言的支持：Go、Java/Scala、Python、Ruby。</p>
+<p>同时还有第三方实现的如：Bash、C++、Common Lisp、Erlang,、Haskeel、Lua、Node.js、PHP、Rust等。</p>
 </blockquote>
 <h5 id="mysqld-exporter安装"><a href="#mysqld-exporter安装" class="headerlink" title="mysqld_exporter安装"></a><code>mysqld_exporter</code>安装</h5><h6 id="架构-1"><a href="#架构-1" class="headerlink" title="架构"></a>架构</h6><blockquote>
 <p>负责数据的汇报，不同的Exporter负责不同的业务。<br>是一个独立运行的进程，对外暴露一个用于获取监控数据的HTTP服务。<br>其统一命名格式：xx_exporter。系统：node_exporter，MySQL：mysqld_exporter</p>
@@ -627,11 +641,6 @@ http://192.168.204.132:9090/graph
 </code></pre>
 <h6 id="Grafana数据展示-1"><a href="#Grafana数据展示-1" class="headerlink" title="Grafana数据展示"></a><code>Grafana</code>数据展示</h6><blockquote>
 <p><a href="https://github.com/percona/grafana-dashboards" target="_blank" rel="noopener">https://github.com/percona/grafana-dashboards</a></p>
-</blockquote>
-<p>其他</p>
-<blockquote>
-<p><a href="https://prometheus.io/docs/instrumenting/exporters/#exporters-and-integrations" target="_blank" rel="noopener">https://prometheus.io/docs/instrumenting/exporters/#exporters-and-integrations</a></p>
-<p>用户自定义：<br>         除了直接使用社区提供的Exporter程序以外，用户还可以基于Prometheus提供的Client Library创建自己的Exporter程序，目前Promthues社区官方提供了对以下编程语言的支持：Go、Java/Scala、Python、Ruby。同时还有第三方实现的如：Bash、C++、Common Lisp、Erlang,、Haskeel、Lua、Node.js、PHP、Rust等。</p>
 </blockquote>
 <h5 id="pushgateway"><a href="#pushgateway" class="headerlink" title="pushgateway"></a><code>pushgateway</code></h5><h6 id="架构-2"><a href="#架构-2" class="headerlink" title="架构"></a>架构</h6><blockquote>
 <p>prometheus还是采用pull方式来采集pushgateway的数据，采集端通过push方式把数据push给pushgateway，来完成数据的上报。<br>主要解决：<br>         1. prometheus无法直接连接采集节点。<br>                  2. 采集节点执行太快，prometheus可能拉取不及时。</p>
@@ -726,15 +735,22 @@ node_load15 0.05
 node_filesystem_avail_bytes{device="/dev/sda1",fstype="xfs",mountpoint="/boot"} 7.927808e+07 node_filesystem_avail_bytes{device="/dev/sda3",fstype="xfs",mountpoint="/"} 3.5899379712e+10 node_filesystem_avail_bytes{device="rootfs",fstype="rootfs",mountpoint="/"} 3.5899379712e+10 node_filesystem_avail_bytes{device="tmpfs",fstype="tmpfs",mountpoint="/run"} 1.4524416e+09 node_filesystem_avail_bytes{device="tmpfs",fstype="tmpfs",mountpoint="/run/user/0"} 2.9749248e+08
 </code></pre>
 <h6 id="Metric类型-四种"><a href="#Metric类型-四种" class="headerlink" title="Metric类型-四种"></a>Metric类型-四种</h6><blockquote>
-<p>Counter(计数器类型)<br>Counter类型的指标的工作方式和计数器一样，只增不减（除非系统发生了重置）。Counter一般用于累计值，例如记录请求次数、任务完成数、错误发生次数。<br>例如：node_network_receive_bytes_total{device=”ens33”} 2.873766021e+09</p>
-<p>Gauge(仪表盘类型)<br>Gauge是可增可减的指标类，可以用于反应当前应用的状态。比如在监控主机时，主机当前的内容大小(node_memory_MemFree)，可用内存大小（node_memory_MemAvailable）。或者时容器当前的cpu使用率，内存使用率。<br>例如：node_load1 0.05</p>
-<p>Histogram(直方图类型)<br>主要用于表示一段时间范围内对数据进行采样（通常是请求持续时间或响应大小），并能够对其指定区间以及总数进行统计，通常它采集的数据展示为直方图。<br>例如：# TYPE prometheus_tsdb_compaction_chunk_range_seconds histogram </p>
-<p>Summary(摘要类型)<br>Summary类型和Histogram类型相似，主要用于表示一段时间内数据采样结果（通常时请求持续时间或响应大小），它直接存储了quantile（分位数）数据，而不是根据统计区间计算出来的。<br>例如：# TYPE go_gc_duration_seconds summary</p>
+<p>Counter(计数器类型)<br>Counter类型的指标的工作方式和计数器一样，只增不减（除非系统发生了重置）。</p>
+<p>Counter一般用于累计值，例如记录请求次数、任务完成数、错误发生次数。<br>例如：node_network_receive_bytes_total{device=”ens33”} 2.873766021e+09</p>
+<p>Gauge(仪表盘类型)<br>Gauge是可增可减的指标类，可以用于反应当前应用的状态。比如在监控主机时，主机当前的内容大小(node_memory_MemFree)，</p>
+<p>可用内存大小（node_memory_MemAvailable）。或者时容器当前的cpu使用率，内存使用率。<br>例如：node_load1 0.05</p>
+<p>Histogram(直方图类型)<br>主要用于表示一段时间范围内对数据进行采样（通常是请求持续时间或响应大小），</p>
+<p>并能够对其指定区间以及总数进行统计，通常它采集的数据展示为直方图。<br>例如：# TYPE prometheus_tsdb_compaction_chunk_range_seconds histogram </p>
+<p>Summary(摘要类型)<br>Summary类型和Histogram类型相似，主要用于表示一段时间内数据采样结果（通常时请求持续时间或响应大小），</p>
+<p>它直接存储了quantile（分位数）数据，而不是根据统计区间计算出来的。<br>例如：# TYPE go_gc_duration_seconds summary</p>
 </blockquote>
 <h6 id="Histogram与Summary存在价值"><a href="#Histogram与Summary存在价值" class="headerlink" title="Histogram与Summary存在价值"></a>Histogram与Summary存在价值</h6><blockquote>
 <p>一般情况下人们都倾向于使用某些量化指标的平均值，例如CPU的平均使用率、页面的平均响应时间。</p>
-<p>我们以系统API调用的平均响应时间为例：如果大多数API请求都维持在100ms的响应时间范围内，而个别请求的响应时间需要5s，那么就会导致某些WEB页面的响应时间落到中位数的情况，而这种现象被称为长尾问题。</p>
-<p>为了区分是平均的慢还是长尾的慢，最简单的方式就是按照请求延迟的范围进行分组。<br>例如，统计延迟在0<del>10ms之间的请求数有多少，而10</del>20ms之间的请求数又有多少。通过这种方式可以快速分析系统慢的原因。Histogram和Summary都是为了能够解决这样问题的存在，通过Histogram和Summary类型的监控指标，我们可以快速了解监控样本的分布情况。</p>
+<p>我们以系统API调用的平均响应时间为例：如果大多数API请求都维持在100ms的响应时间范围内，</p>
+<p>而个别请求的响应时间需要5s，那么就会导致某些WEB页面的响应时间落到中位数的情况，而这种现象被称为长尾问题。</p>
+<p>为了区分是平均的慢还是长尾的慢，最简单的方式就是按照请求延迟的范围进行分组。<br>例如，统计延迟在0<del>10ms之间的请求数有多少，而10</del>20ms之间的请求数又有多少。</p>
+<p>通过这种方式可以快速分析系统慢的原因。Histogram和Summary都是为了能够解决这样问题的存在，</p>
+<p>通过Histogram和Summary类型的监控指标，我们可以快速了解监控样本的分布情况。</p>
 </blockquote>
 <h6 id="Histogram与Summary联系"><a href="#Histogram与Summary联系" class="headerlink" title="Histogram与Summary联系"></a>Histogram与Summary联系</h6><pre class=" language-shell"><code class="language-shell">Histogram转换Summary：通过histogram_quantile()函数计算出其值的分位数。
 例如： histogram_quantile(0.5, prometheus_tsdb_compaction_chunk_range_seconds_bucket)
@@ -856,8 +872,10 @@ quantile：计算分位数quantile(φ, express)其中0 ≤ φ ≤ 1
             quantile(0.9, prometheus_http_requests_total)
 </code></pre>
 <h6 id="增长率-counter类型"><a href="#增长率-counter类型" class="headerlink" title="增长率-counter类型"></a>增长率-counter类型</h6><blockquote>
-<p>增长量：increase(v range-vector)<br>      increase(prometheus_http_requests_total{handler=”/metrics”}[1m])</p>
-<p>增长率：rate(v range-vector)<br>      increase(prometheus_http_requests_total{handler=”/metrics”}[1m]) / 60<br>      rate(prometheus_http_requests_total{handler=“/metrics”}[1m])  – 长尾问题<br>      irate(prometheus_http_requests_total{handler=“/metrics”}[1m])  – 瞬时增长率<br>      – irate函数是通过区间向量中最后两个样本数据来计算区间向量的增长速率。这种方式可以避免在时间窗口范围内的“长尾问题”，并且体现出更好的灵敏度，通过irate函数绘制的图标能够更好的反应样本数据的瞬时变化状态。<br>      – irate函数相比于rate函数提供了更高的灵敏度，不过当需要分析长期趋势或者在告警规则中，irate的这种灵敏度反而容器造成干扰。因此在长期趋势分析或者告警中更推荐使用rate函数。</p>
+<p>增长量：increase(v range-vector)<br>   increase(prometheus_http_requests_total{handler=”/metrics”}[1m])</p>
+<p>增长率：rate(v range-vector)<br>   increase(prometheus_http_requests_total{handler=”/metrics”}[1m]) / 60<br>   rate(prometheus_http_requests_total{handler=“/metrics”}[1m])  – 长尾问题<br>   irate(prometheus_http_requests_total{handler=“/metrics”}[1m])  – 瞬时增长率<br>   – irate函数是通过区间向量中最后两个样本数据来计算区间向量的增长速率。这种方式可以避免在时间窗口范围内的“长尾问题”，</p>
+<p>并且体现出更好的灵敏度，通过irate函数绘制的图标能够更好的反应样本数据的瞬时变化状态。<br>   – irate函数相比于rate函数提供了更高的灵敏度，不过当需要分析长期趋势或者在告警规则中，irate的这种灵敏度反而容器造成干扰。</p>
+<p>因此在长期趋势分析或者告警中更推荐使用rate函数。</p>
 </blockquote>
 <h6 id="预测-gauge类型"><a href="#预测-gauge类型" class="headerlink" title="预测-gauge类型"></a>预测-gauge类型</h6><blockquote>
 <p>​        在告警中，如果业务是线性增长，那么告警可以起到作用。告警出现，相关人员进行处理。<br>​        比如监控文件系统剩余情况，但是有可能某些情况增长不是线性的，当你设置&lt;10GB告警，有可能突然就满了，造成系统不可用。</p>
@@ -1010,11 +1028,12 @@ receivers:
 </code></pre>
 <blockquote>
 <p>Prometheus关联alertmanager</p>
-<p>Prometheus负责产生告警，而Alertmanager负责告警产生后的后续处理。因此Alertmanager部署完成后，需要在Prometheus中设置Alertmanager相关的信息。</p>
+<p>Prometheus负责产生告警，而Alertmanager负责告警产生后的后续处理。因此Alertmanager部署完成后，</p>
+<p>需要在Prometheus中设置Alertmanager相关的信息。</p>
 <p>配置prometheus：<br>[root@node2 prometheus-2.17.2.linux-amd64]# vim prometheus.yml </p>
 <pre class=" language-shell"><code class="language-shell"># Alertmanager configuration
 alerting: 
-  alertmanagers:
+alertmanagers:
   - static_configs:
     - targets:
       - localhost:9093</code></pre>
@@ -1024,7 +1043,8 @@ alerting:
 <p>作用场景：<br>          将告警信息合并成一个通知。由于系统宕机可能导致大量的告警被同时触发，这时就利用分组机制，将所有告警合并成一个。</p>
 </blockquote>
 <h6 id="Route路由特性"><a href="#Route路由特性" class="headerlink" title="Route路由特性"></a>Route路由特性</h6><blockquote>
-<p>用来设置报警的分发策略，它是一个基于标签匹配规则的树状结构，按照深度优先从左向右的顺序进行匹配。<br>每一个告警都会从配置中的顶级路由(route)进入路由树，根据标签匹配规则进入到不同的子路由，并且根据子路由设置的接收器发送告警。如果未设置，将从父节点继承。<br>系统告警发给系统管理员、数据库告警发给数据库管理员：</p>
+<p>用来设置报警的分发策略，它是一个基于标签匹配规则的树状结构，按照深度优先从左向右的顺序进行匹配。<br>每一个告警都会从配置中的顶级路由(route)进入路由树，根据标签匹配规则进入到不同的子路由，并且根据子路由设置的接收器发送告警。</p>
+<p>如果未设置，将从父节点继承。<br>系统告警发给系统管理员、数据库告警发给数据库管理员：</p>
 </blockquote>
 <p><a href="https://imgtu.com/i/gpCnYD" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/04/26/gpCnYD.png" alt="gpCnYD.png"></a></p>
 <h6 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h6><blockquote>
@@ -1041,8 +1061,9 @@ alerting:
 </ol>
 </blockquote>
 <h6 id="抑制规则"><a href="#抑制规则" class="headerlink" title="抑制规则"></a>抑制规则</h6><blockquote>
-<p>作用场景：<br>          Alertmanager的抑制机制可以避免当某种问题告警产生之后用户接收到大量由此问题导致的一系列的其它告警通知。<br>         例如当集群不可用时，用户可能只希望接收到一条告警（不是一组），目的是告诉我们这时候是集群出现了问题，而不要再发大量其他告警（如集群中的应用异常、中间件服务异常的告警通知了）</p>
-<p>注意，与分组不同，分组是将多个告警合并成一个发送（根据标签，一个邮件告警中包含10个告警信息）<br>             抑制，发一个告警（邮件中只有一个告警信息）可以是不同标签<br>                      优势，间接的帮你定位了问题根源。</p>
+<p>作用场景：<br>       Alertmanager的抑制机制可以避免当某种问题告警产生之后用户接收到大量由此问题导致的一系列的其它告警通知。<br>      例如当集群不可用时，用户可能只希望接收到一条告警（不是一组），目的是告诉我们这时候是集群出现了问题，</p>
+<p>而不要再发大量其他告警（如集群中的应用异常、中间件服务异常的告警通知了）</p>
+<p>注意，与分组不同，分组是将多个告警合并成一个发送（根据标签，一个邮件告警中包含10个告警信息）<br>          抑制，发一个告警（邮件中只有一个告警信息）可以是不同标签<br>                   优势，间接的帮你定位了问题根源。</p>
 </blockquote>
 <blockquote>
 <h6 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h6><p>两个告警，一个cpu负载，一个gc相关。假设cpu告警了，gc就不报警了。</p>
@@ -1112,7 +1133,8 @@ prometheu 13847 root    6u  IPv6  63543      0t0  TCP *:8060 (LISTEN)
 <p>重启alertmanager<br>[root@node2 alertmanager-0.20.0.linux-amd64]# ./alertmanager –config.file=alertmanager.yml </p>
 </blockquote>
 <h6 id="基于文件的自动发现"><a href="#基于文件的自动发现" class="headerlink" title="基于文件的自动发现"></a>基于文件的自动发现</h6><blockquote>
-<p>我们之前都是通过static_configs（静态）的方式，来让prometheus来pull（拉取）监控指标的。如果我们再新增一个exporter监控程序，那么还得重启prometheus server。</p>
+<p>我们之前都是通过static_configs（静态）的方式，来让prometheus来pull（拉取）监控指标的。</p>
+<p>如果我们再新增一个exporter监控程序，那么还得重启prometheus server。</p>
 <p>那么现在我们需要一种不重启的，可以通过服务发现的方式，可以配置到file_sd<br>中。Prometheus server定时去扫这个文件，看看是否有新的exporter程序，就不需要进行重启server了。</p>
 </blockquote>
 <h6 id="编辑自动发现文件"><a href="#编辑自动发现文件" class="headerlink" title="编辑自动发现文件"></a>编辑自动发现文件</h6><pre class=" language-shell"><code class="language-shell">[root@node2 prometheus-2.17.2.linux-amd64]# vim targets.json 

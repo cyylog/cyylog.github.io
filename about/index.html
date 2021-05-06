@@ -511,7 +511,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ["2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01","2021-02","2021-03","2021-04"]
+            data: ["2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01","2021-02","2021-03","2021-04","2021-05"]
         },
         yAxis: {
             type: 'value',
@@ -521,7 +521,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [2,7,0,1,0,1,12,8,5,1,0,1,2],
+                data: [7,0,1,0,1,12,8,5,1,0,1,2,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -563,7 +563,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"Linux","value":21},{"name":"Golang","value":2},{"name":"DevOps","value":4},{"name":"Interview","value":3},{"name":"Kubernetes","value":2},{"name":"Tools","value":2},{"name":"SQL","value":13},{"name":"container","value":17},{"name":"monitor","value":10},{"name":"kubernetes","value":3}],
+                data: [{"name":"Linux","value":21},{"name":"Golang","value":2},{"name":"DevOps","value":4},{"name":"Interview","value":3},{"name":"monitor","value":10},{"name":"Kubernetes","value":2},{"name":"SQL","value":13},{"name":"Tools","value":2},{"name":"kubernetes","value":3},{"name":"container","value":17}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -587,7 +587,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["Kubernetes","Linux","Tomcat","Docker","zabbix","Nginx","Tools","Interview","Mysql","Prometheus"]
+                data: ["Kubernetes","Linux","zabbix","Tomcat","Docker","Nginx","Tools","Prometheus","Interview","Mysql"]
             }
         ],
         yAxis: [
@@ -762,8 +762,20 @@
             
             
             
-            <a href="/tags/Python/">
-                <span class="chip center-align waves-effect waves-light chip-default">Python</span>
+            <a href="/tags/Linux/">
+                <span class="chip center-align waves-effect waves-light chip-default">Linux</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Prometheus/">
+                <span class="chip center-align waves-effect waves-light chip-default">Prometheus</span>
+            </a>
+            
+            
+            
+            <a href="/tags/zabbix/">
+                <span class="chip center-align waves-effect waves-light chip-default">zabbix</span>
             </a>
             
             
@@ -774,8 +786,20 @@
             
             
             
-            <a href="/tags/Linux/">
-                <span class="chip center-align waves-effect waves-light chip-default">Linux</span>
+            <a href="/tags/influxdb/">
+                <span class="chip center-align waves-effect waves-light chip-default">influxdb</span>
+            </a>
+            
+            
+            
+            <a href="/tags/grafana/">
+                <span class="chip center-align waves-effect waves-light chip-default">grafana</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Python/">
+                <span class="chip center-align waves-effect waves-light chip-default">Python</span>
             </a>
             
             
@@ -792,50 +816,8 @@
             
             
             
-            <a href="/tags/Nginx/">
-                <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Tomcat/">
-                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
-            </a>
-            
-            
-            
-            <a href="/tags/shell/">
-                <span class="chip center-align waves-effect waves-light chip-default">shell</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Ansible/">
-                <span class="chip center-align waves-effect waves-light chip-default">Ansible</span>
-            </a>
-            
-            
-            
-            <a href="/tags/iptables/">
-                <span class="chip center-align waves-effect waves-light chip-default">iptables</span>
-            </a>
-            
-            
-            
-            <a href="/tags/keepalived/">
-                <span class="chip center-align waves-effect waves-light chip-default">keepalived</span>
-            </a>
-            
-            
-            
-            <a href="/tags/NFS/">
-                <span class="chip center-align waves-effect waves-light chip-default">NFS</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Oracle/">
-                <span class="chip center-align waves-effect waves-light chip-default">Oracle</span>
+            <a href="/tags/MySQL/">
+                <span class="chip center-align waves-effect waves-light chip-default">MySQL</span>
             </a>
             
             
@@ -858,14 +840,8 @@
             
             
             
-            <a href="/tags/MySQL/">
-                <span class="chip center-align waves-effect waves-light chip-default">MySQL</span>
-            </a>
-            
-            
-            
-            <a href="/tags/RabbitMQ/">
-                <span class="chip center-align waves-effect waves-light chip-default">RabbitMQ</span>
+            <a href="/tags/Oracle/">
+                <span class="chip center-align waves-effect waves-light chip-default">Oracle</span>
             </a>
             
             
@@ -876,62 +852,56 @@
             
             
             
+            <a href="/tags/RabbitMQ/">
+                <span class="chip center-align waves-effect waves-light chip-default">RabbitMQ</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Nginx/">
+                <span class="chip center-align waves-effect waves-light chip-default">Nginx</span>
+            </a>
+            
+            
+            
             <a href="/tags/kafka/">
                 <span class="chip center-align waves-effect waves-light chip-default">kafka</span>
             </a>
             
             
             
-            <a href="/tags/Docker/">
-                <span class="chip center-align waves-effect waves-light chip-default">Docker</span>
+            <a href="/tags/shell/">
+                <span class="chip center-align waves-effect waves-light chip-default">shell</span>
             </a>
             
             
             
-            <a href="/tags/KVM/">
-                <span class="chip center-align waves-effect waves-light chip-default">KVM</span>
+            <a href="/tags/Tomcat/">
+                <span class="chip center-align waves-effect waves-light chip-default">Tomcat</span>
             </a>
             
             
             
-            <a href="/tags/CRI-O/">
-                <span class="chip center-align waves-effect waves-light chip-default">CRI-O</span>
+            <a href="/tags/keepalived/">
+                <span class="chip center-align waves-effect waves-light chip-default">keepalived</span>
             </a>
             
             
             
-            <a href="/tags/docker/">
-                <span class="chip center-align waves-effect waves-light chip-default">docker</span>
+            <a href="/tags/NFS/">
+                <span class="chip center-align waves-effect waves-light chip-default">NFS</span>
             </a>
             
             
             
-            <a href="/tags/Prometheus/">
-                <span class="chip center-align waves-effect waves-light chip-default">Prometheus</span>
+            <a href="/tags/Ansible/">
+                <span class="chip center-align waves-effect waves-light chip-default">Ansible</span>
             </a>
             
             
             
-            <a href="/tags/zabbix/">
-                <span class="chip center-align waves-effect waves-light chip-default">zabbix</span>
-            </a>
-            
-            
-            
-            <a href="/tags/influxdb/">
-                <span class="chip center-align waves-effect waves-light chip-default">influxdb</span>
-            </a>
-            
-            
-            
-            <a href="/tags/grafana/">
-                <span class="chip center-align waves-effect waves-light chip-default">grafana</span>
-            </a>
-            
-            
-            
-            <a href="/tags/kubernetes/">
-                <span class="chip center-align waves-effect waves-light chip-default">kubernetes</span>
+            <a href="/tags/traefik/">
+                <span class="chip center-align waves-effect waves-light chip-default">traefik</span>
             </a>
             
             
@@ -942,8 +912,38 @@
             
             
             
-            <a href="/tags/traefik/">
-                <span class="chip center-align waves-effect waves-light chip-default">traefik</span>
+            <a href="/tags/kubernetes/">
+                <span class="chip center-align waves-effect waves-light chip-default">kubernetes</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Docker/">
+                <span class="chip center-align waves-effect waves-light chip-default">Docker</span>
+            </a>
+            
+            
+            
+            <a href="/tags/iptables/">
+                <span class="chip center-align waves-effect waves-light chip-default">iptables</span>
+            </a>
+            
+            
+            
+            <a href="/tags/CRI-O/">
+                <span class="chip center-align waves-effect waves-light chip-default">CRI-O</span>
+            </a>
+            
+            
+            
+            <a href="/tags/KVM/">
+                <span class="chip center-align waves-effect waves-light chip-default">KVM</span>
+            </a>
+            
+            
+            
+            <a href="/tags/docker/">
+                <span class="chip center-align waves-effect waves-light chip-default">docker</span>
             </a>
             
             

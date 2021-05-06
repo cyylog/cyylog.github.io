@@ -38,9 +38,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
-    
     <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
+    
+    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
     
   </entry>
   
@@ -65,9 +65,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
     <category term="traefik" scheme="https://cyylog.github.io/tags/traefik/"/>
+    
+    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
     
   </entry>
   
@@ -92,9 +92,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
-    
     <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
+    
+    <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
     
   </entry>
   
@@ -464,7 +464,7 @@
     <link href="https://cyylog.github.io/2020/10/29/monitor/prometheus/"/>
     <id>https://cyylog.github.io/2020/10/29/monitor/prometheus/</id>
     <published>2020-10-29T05:48:56.000Z</published>
-    <updated>2021-04-27T09:06:09.512Z</updated>
+    <updated>2021-05-06T07:28:22.064Z</updated>
     
     
       
