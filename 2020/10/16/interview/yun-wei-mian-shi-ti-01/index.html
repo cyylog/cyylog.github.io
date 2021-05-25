@@ -492,6 +492,10 @@ awk -F\" '($2 ~ "/phpmyadmin/index.php"){print $1}' access.log | awk '{print $1}
 <li>查看http的并发请求数与其TCP连接状态**</li>
 </ol>
 <pre class=" language-shell"><code class="language-shell">netstat -n |awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</code></pre>
+<ol start="4">
+<li><pre class=" language-shell"><code class="language-shell">uptime | awk '{print $11}' | tr -d ,</code></pre>
+</li>
+</ol>
 <h4 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h4><ol>
 <li><p>关闭selinux</p>
 <pre class=" language-shell"><code class="language-shell">sed -ri s/SELINUX=enforcing/SELINUX=disabled/g /etc/selinux/config
