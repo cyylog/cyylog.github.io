@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-04-26T11:13:18.153Z</updated>
+  <updated>2021-07-14T00:39:26.920Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>学习方法论-转载</title>
+    <link href="https://cyylog.github.io/2021/07/14/interview/xue-xi-fang-fa-lun/"/>
+    <id>https://cyylog.github.io/2021/07/14/interview/xue-xi-fang-fa-lun/</id>
+    <published>2021-07-13T17:59:59.000Z</published>
+    <updated>2021-07-14T00:39:26.920Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Tools" scheme="https://cyylog.github.io/categories/Tools/"/>
+    
+    
+    <category term="Tools" scheme="https://cyylog.github.io/tags/Tools/"/>
+    
+  </entry>
   
   <entry>
     <title>yaml notes</title>
@@ -508,33 +533,6 @@
     <category term="influxdb" scheme="https://cyylog.github.io/tags/influxdb/"/>
     
     <category term="grafana" scheme="https://cyylog.github.io/tags/grafana/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>K8S 原理</title>
-    <link href="https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/"/>
-    <id>https://cyylog.github.io/2020/10/25/interview/mian-shi-wen-dao-liao-k8s-yuan-li-hua-5-fen-zhong-lai-zong-jie-xia-yi-hou-zai-ye-bu-pa-liao/</id>
-    <published>2020-10-24T16:24:11.000Z</published>
-    <updated>2021-04-15T08:15:19.314Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h4 id=&quot;面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot;&gt;&lt;a href=&quot;#面试问到了K8S原理，花5分钟来总结下，以后再也不怕了&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/categories/Kubernetes/"/>
-    
-    
-    <category term="Kubernetes" scheme="https://cyylog.github.io/tags/Kubernetes/"/>
-    
-    <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
     
   </entry>
   
