@@ -63,9 +63,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
     <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
+    
+    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
     
   </entry>
   
@@ -90,9 +90,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="traefik" scheme="https://cyylog.github.io/tags/traefik/"/>
-    
     <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
+    
+    <category term="traefik" scheme="https://cyylog.github.io/tags/traefik/"/>
     
   </entry>
   
@@ -117,9 +117,9 @@
     <category term="kubernetes" scheme="https://cyylog.github.io/categories/kubernetes/"/>
     
     
-    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
-    
     <category term="kubernetes" scheme="https://cyylog.github.io/tags/kubernetes/"/>
+    
+    <category term="notes" scheme="https://cyylog.github.io/tags/notes/"/>
     
   </entry>
   
