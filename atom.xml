@@ -6,7 +6,7 @@
   <link href="https://cyylog.github.io/atom.xml" rel="self"/>
   
   <link href="https://cyylog.github.io/"/>
-  <updated>2021-07-14T00:39:26.920Z</updated>
+  <updated>2022-03-05T14:37:08.047Z</updated>
   <id>https://cyylog.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WSL Golang vscode</title>
+    <link href="https://cyylog.github.io/2022/03/05/devops/golang-vscode/"/>
+    <id>https://cyylog.github.io/2022/03/05/devops/golang-vscode/</id>
+    <published>2022-03-05T14:23:39.000Z</published>
+    <updated>2022-03-05T14:37:08.047Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;WSL-Golang-vscode&quot;&gt;&lt;a href=&quot;#WSL-Golang-vscode&quot; class=&quot;headerlink&quot; title=&quot;WSL Golang vscode&quot;&gt;&lt;/a&gt;WSL Golang vscode&lt;/h1&gt;&lt;h5</summary>
+        
+      
+    
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/categories/Golang/"/>
+    
+    
+    <category term="Golang" scheme="https://cyylog.github.io/tags/Golang/"/>
+    
+  </entry>
   
   <entry>
     <title>学习方法论-转载</title>
@@ -179,7 +204,7 @@
     <link href="https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/"/>
     <id>https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/</id>
     <published>2020-12-16T14:23:39.000Z</published>
-    <updated>2020-12-16T14:36:09.694Z</updated>
+    <updated>2022-03-05T14:36:22.946Z</updated>
     
     
       
@@ -297,9 +322,9 @@
     <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
     
     
-    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
-    
     <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
     
   </entry>
   
@@ -478,9 +503,9 @@
     <category term="SQL" scheme="https://cyylog.github.io/categories/SQL/"/>
     
     
-    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
-    
     <category term="Interview" scheme="https://cyylog.github.io/tags/Interview/"/>
+    
+    <category term="Mysql" scheme="https://cyylog.github.io/tags/Mysql/"/>
     
   </entry>
   
@@ -506,33 +531,6 @@
     
     
     <category term="Prometheus" scheme="https://cyylog.github.io/tags/Prometheus/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>influxdb+grafana监控网络情况</title>
-    <link href="https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/"/>
-    <id>https://cyylog.github.io/2020/10/26/monitor/influxdb-grafana-jian-kong-wang-luo-qing-kuang/</id>
-    <published>2020-10-26T06:55:39.000Z</published>
-    <updated>2021-04-27T09:06:23.930Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h3 id=&quot;influxdb-grafana监控网络情况&quot;&gt;&lt;a href=&quot;#influxdb-grafana监控网络情况&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="monitor" scheme="https://cyylog.github.io/categories/monitor/"/>
-    
-    
-    <category term="influxdb" scheme="https://cyylog.github.io/tags/influxdb/"/>
-    
-    <category term="grafana" scheme="https://cyylog.github.io/tags/grafana/"/>
     
   </entry>
   

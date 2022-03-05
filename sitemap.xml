@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://cyylog.github.io/2022/03/05/devops/golang-vscode/</loc>
+    
+    <lastmod>2022-03-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/</loc>
+    
+    <lastmod>2022-03-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/2020/03/05/monitor/jin-cheng-jian-kong-process-exporte/</loc>
     
     <lastmod>2022-03-05</lastmod>
@@ -257,13 +271,6 @@
     <loc>https://cyylog.github.io/2020/12/27/linux/jie-jue-keepalived-nao-lie-wen-ti/</loc>
     
     <lastmod>2020-12-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/2020/12/16/devops/go-nil-in-go/</loc>
-    
-    <lastmod>2020-12-16</lastmod>
     
   </url>
   
@@ -620,6 +627,20 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/tags/Golang/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/tags/maven/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
@@ -634,14 +655,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Golang/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/Jenkins/</loc>
+    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -669,7 +683,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Gitlab/</loc>
+    <loc>https://cyylog.github.io/tags/shell/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -677,13 +691,6 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/Tomcat/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/shell/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -712,6 +719,20 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/iptables/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/Interview/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -753,13 +774,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Redis/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/tags/RabbitMQ/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
@@ -767,14 +781,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Interview/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/kafka/</loc>
+    <loc>https://cyylog.github.io/tags/Redis/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -788,14 +795,7 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/tags/Kubernetes/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/tags/CRI-O/</loc>
+    <loc>https://cyylog.github.io/tags/kafka/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -803,6 +803,13 @@
   
   <url>
     <loc>https://cyylog.github.io/tags/KVM/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/tags/CRI-O/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -874,13 +881,6 @@
   </url>
   
   <url>
-    <loc>https://cyylog.github.io/categories/DevOps/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://cyylog.github.io/categories/Golang/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
@@ -888,7 +888,21 @@
   </url>
   
   <url>
+    <loc>https://cyylog.github.io/categories/DevOps/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://cyylog.github.io/categories/Tools/</loc>
+    <lastmod>2022-03-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://cyylog.github.io/categories/Kubernetes/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -910,13 +924,6 @@
   
   <url>
     <loc>https://cyylog.github.io/categories/container/</loc>
-    <lastmod>2022-03-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://cyylog.github.io/categories/Kubernetes/</loc>
     <lastmod>2022-03-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
