@@ -4,31 +4,6 @@
   
     
     <entry>
-      <title>WSL Golang vscode</title>
-      <link href="2022/03/05/devops/golang-vscode/"/>
-      <url>2022/03/05/devops/golang-vscode/</url>
-      
-        <content type="html"><![CDATA[<h1 id="WSL-Golang-vscode"><a href="#WSL-Golang-vscode" class="headerlink" title="WSL Golang vscode"></a>WSL Golang vscode</h1><h5 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h5><pre class=" language-shell"><code class="language-shell">vi /etc/apt/sources.listdeb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</code></pre><pre class=" language-shell"><code class="language-shell">sudo apt-get updatesudo apt-get upgrade</code></pre><h5 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h5><pre class=" language-shell"><code class="language-shell">http://www.manongjc.com/detail/18-hvfwjiigheuznnd.html</code></pre><h4 id="sshd"><a href="#sshd" class="headerlink" title="sshd"></a>sshd</h4><pre class=" language-shell"><code class="language-shell">sudo apt-get remove openssh-serversudo apt-get install openssh-serversudo vim /etc/ssh/sshd_configPort 22PasswordAuthentication yes # 允许用户名密码方式登录sudo service ssh restart</code></pre><h4 id="on-my-zsh"><a href="#on-my-zsh" class="headerlink" title="on my zsh"></a>on my zsh</h4><pre class=" language-zsh"><code class="language-zsh"> sudo apt install -y zsh $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"设置随机主题vim ~/.zshrcZSH_THEME="random"好看的：wedisagreemusekphoennebirhosalanpeabodytonotdo</code></pre><h4 id="gvn-管理工具"><a href="#gvn-管理工具" class="headerlink" title="gvn 管理工具"></a>gvn 管理工具</h4><pre class=" language-shell"><code class="language-shell">https://github.com/voidint/g</code></pre><h4 id="nvm-管理工具"><a href="#nvm-管理工具" class="headerlink" title="nvm 管理工具"></a>nvm 管理工具</h4><pre class=" language-shell"><code class="language-shell">https://github.com/nvm-sh/nvm#installing-and-updating</code></pre><h4 id="goporxy"><a href="#goporxy" class="headerlink" title="goporxy"></a>goporxy</h4><pre class=" language-shell"><code class="language-shell">go env -w GOPROXY="https://goproxy.io,direct"</code></pre><h4 id="vscode-配置"><a href="#vscode-配置" class="headerlink" title="vscode 配置"></a>vscode 配置</h4><h5 id="golangci-lint"><a href="#golangci-lint" class="headerlink" title="golangci-lint"></a>golangci-lint</h5><pre class=" language-shell"><code class="language-shell">https://golangci-lint.run/usage/install/</code></pre><p>安装 tools</p><pre class=" language-shell"><code class="language-shell">go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.40.1</code></pre><h5 id="settings-json-配置"><a href="#settings-json-配置" class="headerlink" title="settings.json 配置"></a>settings.json 配置</h5><pre class=" language-shell"><code class="language-shell">"go.lintTool": "golangci-lint","go.lintFlags": [    "--fast"],"go.useLanguageServer": true,"go.lintTool": "golint","go.inferGopath": true,"go.autocompleteUnimportedPackages": true,"go.gocodePackageLookupMode": "go","go.gotoSymbol.includeImports": true,"go.useCodeSnippetsOnFunctionSuggest": true,"go.useCodeSnippetsOnFunctionSuggestWithoutType": true,"go.docsTool": "gogetdoc","go.buildOnSave": "workspace","go.lintOnSave": "package","go.vetOnSave": "package","go.coverOnSave": false,"[go]": {    "editor.formatOnSave": true,    "editor.codeActionsOnSave": {        "source.organizeImports": true,        "source.fixAll": true,    },    // Optional: Disable snippets, as they conflict with completion ranking.    "editor.snippetSuggestions": "none",},"[go.mod]": {    "editor.formatOnSave": true,    "editor.codeActionsOnSave": {        "source.organizeImports": true,    },},"gopls": {    // Add parameter placeholders when completing a function.    "usePlaceholders": false,    // If true, enable additional analyses with staticcheck.    // Warning: This will significantly increase memory usage.    "staticcheck": false,    "completeUnimported": true, // 自动完成未导入的包    "deepCompletion": true,    // 启用深度完成},// 关闭 golint 错误提示"go.lintFlags": [    "--disable=all",    "--enable=errcheck"],"go.testOnSave": false,"go.languageServerExperimentalFeatures": {},</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> Golang </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Golang </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>学习方法论-转载</title>
       <link href="2021/07/14/interview/xue-xi-fang-fa-lun/"/>
       <url>2021/07/14/interview/xue-xi-fang-fa-lun/</url>
