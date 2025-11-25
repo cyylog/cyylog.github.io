@@ -1,0 +1,1353 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Cyy健身营养智能工具 - 专业碳循环与增肌计算</title>
+    <meta name="description" content="专业健身营养计算工具，包含碳循环、增肌计划及碳水渐降法。帮助健身爱好者科学规划饮食。">
+    <meta name="author" content="Cyy健身">
+    
+    <!-- 引入 XLSX 库 (用于导出 Excel) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- 引入 Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入 Chart.js (用于曲线图) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 配置 Tailwind 主题颜色 -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0ea5e9',
+                        secondary: '#64748b',
+                        accent: '#f59e0b',
+                        dark: {
+                            bg: '#0f172a',      // slate-900
+                            card: '#1e293b',    // slate-800
+                            input: '#334155',   // slate-700
+                            text: '#f1f5f9',    // slate-100
+                            muted: '#94a3b8'    // slate-400
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 移动端适配与基础样式 */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom); 
+            overscroll-behavior-y: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 隐藏滚动条 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* iOS 输入框防缩放 */
+        input, select, textarea { font-size: 16px !important; }
+
+        /* 卡片选中特效 */
+        .card-selected {
+            border-color: #0ea5e9 !important;
+            background-color: #f0f9ff !important;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1);
+        }
+        .dark .card-selected {
+            background-color: #0c4a6e !important; 
+            border-color: #38bdf8 !important; 
+        }
+        .card-selected::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 6px; right: 6px;
+            color: #0ea5e9;
+            font-size: 12px;
+        }
+        .dark .card-selected::after { color: #38bdf8; }
+
+        /* 表格样式 */
+        .custom-table th {
+            background-color: #f1f5f9;
+            color: #0ea5e9;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 8px 4px;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+        .dark .custom-table th {
+            background-color: #1e293b;
+            color: #38bdf8;
+            border-color: #334155;
+        }
+        .custom-table td {
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            padding: 8px 4px;
+            font-size: 0.8rem;
+            white-space: nowrap; 
+        }
+        .dark .custom-table td {
+             border-color: #334155;
+             color: #cbd5e1;
+        }
+        .custom-table tr:nth-child(even) { background-color: #f8fafc; }
+        .dark .custom-table tr:nth-child(even) { background-color: #1e293b; }
+        .dark .custom-table tr:nth-child(odd) { background-color: #0f172a; }
+        
+        /* 标签颜色 */
+        .tag-high { background-color: #bae6fd; color: #0369a1; }
+        .dark .tag-high { background-color: #075985; color: #bae6fd; }
+        .tag-med { background-color: #e0f2fe; color: #0369a1; }
+        .dark .tag-med { background-color: #0369a1; color: #e0f2fe; }
+        .tag-low { background-color: #fef3c7; color: #92400e; }
+        .dark .tag-low { background-color: #78350f; color: #fef3c7; }
+
+        /* 滑块 */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px; width: 20px;
+            border-radius: 50%;
+            background: #0ea5e9;
+            cursor: pointer;
+            margin-top: -8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #475569; }
+
+        /* 动画 */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 底部版权栏 */
+        #copyright-bar {
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            height: calc(32px + env(safe-area-inset-bottom));
+            padding-bottom: env(safe-area-inset-bottom);
+            background: linear-gradient(to right, #0ea5e9, #0284c7);
+            color: #fff;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .dark #copyright-bar {
+            background: linear-gradient(to right, #0f172a, #1e293b);
+            border-top: 1px solid #334155;
+        }
+        
+        /* 列表样式 */
+        .notes-list li {
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 0.5em;
+            line-height: 1.6;
+        }
+        .notes-list li::before {
+            content: "•";
+            color: #f59e0b;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .hidden-el { display: none !important; }
+    </style>
+    <base target="_blank">
+</head>
+<body class="text-slate-700 dark:text-slate-200 select-none font-sans antialiased bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+
+    <!-- 全局容器 -->
+    <div id="app-container" class="min-h-screen pb-16">
+        
+        <!-- 首页 -->
+        <div id="home-page" class="container mx-auto px-4 py-6 max-w-4xl fade-in">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm p-6 text-center mb-6 relative overflow-hidden border border-slate-100 dark:border-slate-700">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500"></div>
+                
+                <!-- 主题切换按钮 -->
+                <button onclick="toggleTheme()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-yellow-400 flex items-center justify-center transition-colors shadow-sm">
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                    <i class="fa-solid fa-moon block dark:hidden"></i>
+                </button>
+
+                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white mb-2 tracking-tight mt-2">
+                    Cyy健身<span class="text-sky-500">营养智能工具</span>
+                </h1>
+                
+                <div class="my-4 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-100 dark:border-slate-600">
+                    <p class="text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
+                        <i class="fa-brands fa-tiktok text-slate-800 dark:text-white"></i> 抖音或者视频号搜索【Cyy健身】
+                    </p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        橱窗有各种减脂必备好物，感谢各位捧场
+                    </p>
+                </div>
+
+                <p class="text-slate-500 font-medium mb-5 text-sm">
+                    <span class="inline-flex items-center bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 py-0.5 rounded text-xs mr-2">
+                        <i class="fa-solid fa-check mr-1"></i> 免费
+                    </span>
+                    <span class="inline-flex items-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded text-xs">
+                        <i class="fa-solid fa-bolt mr-1"></i> 科学计算
+                    </span>
+                </p>
+
+                <div class="mt-2 text-center">
+                   <button type="button" onclick="toggleBodyFatImage()" class="inline-flex items-center text-rose-500 hover:text-rose-600 text-sm font-bold transition-colors cursor-pointer outline-none">
+                        <i class="fa-solid fa-image mr-1"></i> 📌 点击查看体脂率参考图
+                   </button>
+                   <div id="bodyfat-container" class="hidden-el mt-4 animate-fade-in">
+                        <img src="https://s21.ax1x.com/2025/11/18/pZi0KXT.md.jpg" alt="体脂率参考" class="mx-auto rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 max-w-full h-auto w-full md:w-3/4">
+                        <p class="mt-2 text-xs text-slate-400">常见体脂率外观对照，仅供参考</p>
+                   </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-500 hover:shadow-md transition-all cursor-pointer relative group" onclick="selectTool('orange-carb')">
+                    <span class="absolute top-3 right-3 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 text-xs font-bold px-3 py-1 rounded-full">新手推荐</span>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-500 transition-colors">
+                        <i class="fa-solid fa-leaf text-green-500 mr-2"></i>橙子碳水渐降
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+                        通过逐步降低碳水化合物摄入量，温和实现减脂目标。适合大基数或训练强度较低的人群。
+                    </p>
+                    <button class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 rounded-xl text-sm transition-transform active:scale-95 shadow-sky-200 dark:shadow-none shadow-lg">立即使用 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-500 hover:shadow-md transition-all cursor-pointer relative group" onclick="selectTool('kings-cycle')">
+                     <span class="absolute top-3 right-3 bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300 text-xs font-bold px-3 py-1 rounded-full">进阶/平台期</span>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-500 transition-colors">
+                        <i class="fa-solid fa-rotate text-amber-500 mr-2"></i>凯圣王碳循环
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+                        高低碳日交替，欺骗身体代谢。适合平台期突破及追求高效减脂增肌的训练者。
+                    </p>
+                    <button class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 rounded-xl text-sm transition-transform active:scale-95 shadow-sky-200 dark:shadow-none shadow-lg">立即使用 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-500 hover:shadow-md transition-all cursor-pointer relative group" onclick="selectTool('bulk-plan')">
+                    <span class="absolute top-3 right-3 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full">肌肉拼图</span>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-500 transition-colors">
+                        <i class="fa-solid fa-dumbbell text-purple-500 mr-2"></i>增肌计划
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                        科学计算热量盈余，确保正氮平衡。训练日与休息日动态调整营养素，只长肌肉不长膘。
+                    </p>
+                    <button class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 rounded-xl text-sm transition-transform active:scale-95 shadow-sky-200 dark:shadow-none shadow-lg">立即使用 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-2 border-slate-100 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-500 hover:shadow-md transition-all cursor-pointer relative group" onclick="selectTool('water-plan')">
+                    <span class="absolute top-3 right-3 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full">生活习惯</span>
+                    <h2 class="text-xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-sky-500 transition-colors">
+                        <i class="fa-solid fa-glass-water text-blue-500 mr-2"></i>喝水建议
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                        水是脂肪代谢的媒介，缺水会降低基础代谢。根据体重科学计算每日饮水量，提供最佳喝水时间表。
+                    </p>
+                    <button class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2.5 rounded-xl text-sm transition-transform active:scale-95 shadow-sky-200 dark:shadow-none shadow-lg">立即使用 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+            </div>
+
+             <div class="mt-8">
+                <h3 class="text-lg font-bold text-slate-700 dark:text-slate-200 mb-4 flex items-center">
+                    <i class="fa-solid fa-book-open text-sky-500 mr-2"></i> 健身硬核知识库
+                </h3>
+                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+                    <details class="group border-b border-slate-100 dark:border-slate-700 last:border-0">
+                        <summary class="flex justify-between items-center p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                            <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">💡 减脂期为什么会掉肌肉？</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i></span>
+                        </summary>
+                        <div class="p-4 pt-0 text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50">
+                            热量缺口过大、蛋白质摄入不足或缺乏力量训练，身体会分解肌肉供能。保持 1.5-2g/kg 蛋白质摄入并坚持抗阻训练是关键。
+                        </div>
+                    </details>
+                    <details class="group border-b border-slate-100 dark:border-slate-700 last:border-0">
+                        <summary class="flex justify-between items-center p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                            <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">💡 什么是“欺骗餐”？怎么吃？</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i></span>
+                        </summary>
+                        <div class="p-4 pt-0 text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50">
+                            欺骗餐（Cheat Meal）用于刺激代谢。建议放在高强度腿部训练日，以高碳水低脂肪为主（如寿司、意面），而非高油高糖的炸鸡蛋糕。
+                        </div>
+                    </details>
+                    <details class="group border-b border-slate-100 dark:border-slate-700 last:border-0">
+                        <summary class="flex justify-between items-center p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                            <span class="font-medium text-slate-700 dark:text-slate-200 text-sm">💡 健身人每天该睡多久？</span>
+                            <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i></span>
+                        </summary>
+                        <div class="p-4 pt-0 text-sm text-slate-500 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50">
+                            睡眠是肌肉生长的黄金时间！睡眠不足会升高皮质醇（压力激素），导致肌肉分解和脂肪堆积。建议每天保证 7-9 小时高质量睡眠，尽量在 23:00 前入睡，以最大化生长激素的分泌。
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工具主界面 -->
+        <div id="tool-container" class="hidden-el container mx-auto px-0 md:px-4 py-4 max-w-5xl fade-in pb-20">
+            <div class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between shadow-sm md:rounded-b-xl">
+                <button onclick="backToHome()" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors flex items-center text-sm font-medium">
+                    <i class="fa-solid fa-chevron-left mr-1"></i> 返回
+                </button>
+                <div class="flex space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg overflow-x-auto no-scrollbar max-w-[220px] md:max-w-none">
+                    <button class="tool-tab-btn px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 whitespace-nowrap" data-tab="kings-cycle" onclick="switchTab('kings-cycle')">碳循环</button>
+                    <button class="tool-tab-btn px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 whitespace-nowrap" data-tab="orange-carb" onclick="switchTab('orange-carb')">碳水渐降</button>
+                    <button class="tool-tab-btn px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 whitespace-nowrap" data-tab="bulk-plan" onclick="switchTab('bulk-plan')">增肌</button>
+                    <button class="tool-tab-btn px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-500 whitespace-nowrap" data-tab="water-plan" onclick="switchTab('water-plan')">💧喝水</button>
+                </div>
+                <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-yellow-400 flex items-center justify-center transition-colors flex-shrink-0 ml-2">
+                     <i class="fa-solid fa-sun hidden dark:block text-xs"></i>
+                     <i class="fa-solid fa-moon block dark:hidden text-xs"></i>
+                </button>
+            </div>
+
+            <div class="p-4 md:p-6 space-y-6">
+                
+                <!-- 1. 凯圣王碳循环 -->
+                <div id="kings-cycle" class="tool-content hidden-el space-y-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第一步：基础信息
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">体重 (kg)</label>
+                                <input type="number" id="weight" value="75" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-500 outline-none transition-colors dark:text-white" oninput="calcKingsCycle()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">目标体重</label>
+                                <div class="flex items-center space-x-1">
+                                    <button onclick="adjustVal('targetWeight', -1)" class="w-8 h-9 bg-slate-100 dark:bg-slate-600 rounded-lg text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-500">-</button>
+                                    <input type="number" id="targetWeight" value="70" class="flex-1 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-1 py-2 text-center text-sm focus:ring-2 focus:ring-sky-500 outline-none dark:text-white" oninput="calcKingsCycle()">
+                                    <button onclick="adjustVal('targetWeight', 1)" class="w-8 h-9 bg-slate-100 dark:bg-slate-600 rounded-lg text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-500">+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">身高 (cm)</label>
+                                <input type="number" id="height" value="178" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcKingsCycle()">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">年龄</label>
+                                <input type="number" id="age" value="30" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcKingsCycle()">
+                            </div>
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">性别</label>
+                                <select id="gender" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" onchange="calcKingsCycle()">
+                                    <option value="male">男</option>
+                                    <option value="female">女</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-sm font-bold text-sky-500 uppercase tracking-wider flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第二步：选择胚型
+                                </h3>
+                                <button type="button" onclick="toggleBodyTypeRef()" class="text-xs text-rose-500 underline cursor-pointer outline-none">查看参考图</button>
+                            </div>
+                            <div id="bodytype-ref" class="hidden-el mb-4">
+                                <img src="https://s21.ax1x.com/2025/11/18/pZiceVf.md.jpg" class="rounded-lg w-full max-w-sm mx-auto shadow-md">
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="body-type-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-all card-selected" data-type="ectomorph" onclick="selectBodyType('ectomorph', this)">
+                                    <div class="text-sm font-bold text-slate-700 dark:text-white">外胚型</div>
+                                    <div class="text-xs text-slate-400 mt-1">易瘦体质</div>
+                                </div>
+                                <div class="body-type-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-all" data-type="mesomorph" onclick="selectBodyType('mesomorph', this)">
+                                    <div class="text-sm font-bold text-slate-700 dark:text-white">中胚型</div>
+                                    <div class="text-xs text-slate-400 mt-1">肌肉体质</div>
+                                </div>
+                                <div class="body-type-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-all" data-type="endomorph" onclick="selectBodyType('endomorph', this)">
+                                    <div class="text-sm font-bold text-slate-700 dark:text-white">内胚型</div>
+                                    <div class="text-xs text-slate-400 mt-1">易胖体质</div>
+                                </div>
+                            </div>
+                            <div class="hidden-el"><input id="carbsPerKg" value="3.0"><input id="proteinPerKg" value="1.3"><input id="fatPerKg" value="1.1"></div>
+                        </div>
+
+                        <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center">
+                                <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第三步：训练计划
+                            </h3>
+                            <div class="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-3">
+                                <div class="plan-card p-2 md:p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-plan="1" onclick="selectPlan('1', this)">
+                                    <div class="text-xs md:text-sm font-bold text-slate-700 dark:text-white">练1休1</div>
+                                </div>
+                                <div class="plan-card p-2 md:p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="2" onclick="selectPlan('2', this)">
+                                    <div class="text-xs md:text-sm font-bold text-slate-700 dark:text-white">练2休1</div>
+                                </div>
+                                <div class="plan-card p-2 md:p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="3" onclick="selectPlan('3', this)">
+                                    <div class="text-xs md:text-sm font-bold text-slate-700 dark:text-white">练3休1</div>
+                                </div>
+                                <div class="plan-card p-2 md:p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="4" onclick="selectPlan('4', this)">
+                                    <div class="text-xs md:text-sm font-bold text-slate-700 dark:text-white">练4休1</div>
+                                </div>
+                                <div class="plan-card p-2 md:p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="custom" onclick="selectPlan('custom', this)">
+                                    <div class="text-xs md:text-sm font-bold text-slate-700 dark:text-white">自定义</div>
+                                </div>
+                            </div>
+                            <div id="customPlan" class="hidden-el grid grid-cols-4 md:grid-cols-7 gap-2 mt-3">
+                                <input id="cus-mon" placeholder="周一" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-tue" placeholder="周二" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-wed" placeholder="周三" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-thu" placeholder="周四" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-fri" placeholder="周五" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-sat" placeholder="周六" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                                <input id="cus-sun" placeholder="周日" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcKingsCycle()">
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex flex-col md:flex-row gap-3">
+                            <button onclick="calcKingsCycle()" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-sky-200 dark:shadow-none transition-transform active:scale-95">生成完整计划 (28天)</button>
+                            <button onclick="dlKingsCycle()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-emerald-200 dark:shadow-none transition-transform active:scale-95"><i class="fa-solid fa-file-excel mr-1"></i> 下载 Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">基础代谢 (BMR)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="bmrValue">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日总消耗 (TDEE)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="tdeeValue">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日蛋白 (g)</div><div class="text-lg font-bold text-sky-600 dark:text-sky-400" id="proteinValue">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每周总碳水 (g)</div><div class="text-lg font-bold text-sky-600 dark:text-sky-400" id="carbsValue">0</div></div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-wrap justify-between items-center text-sm">
+                        <div class="w-1/2 md:w-auto p-2 text-center"><div class="text-slate-400 text-xs">体重差</div><div id="weightDiffValue" class="font-bold text-lg">0</div></div>
+                        <div class="w-1/2 md:w-auto p-2 text-center"><div class="text-slate-400 text-xs">周热量差</div><div id="weeklyCalorieDiffValue" class="font-bold text-lg">0</div></div>
+                        <div class="w-1/2 md:w-auto p-2 text-center"><div class="text-slate-400 text-xs">预计天数</div><div id="daysNeededValue" class="font-bold text-lg">0</div></div>
+                        <div class="w-1/2 md:w-auto p-2 text-center"><div class="text-slate-400 text-xs">预计日期</div><div id="targetDate" class="font-bold text-sky-500">--</div></div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 chart-container" onclick="openChartModal('cycleChart')">
+                        <h4 class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2">🔥 热量/碳水波动曲线 (28天)</h4>
+                        <div class="w-full h-64"><canvas id="cycleChart"></canvas></div>
+                        <p class="text-center text-xs text-slate-400 mt-2"><i class="fa-solid fa-hand-pointer mr-1"></i> 点击图表查看全屏大图</p>
+                    </div>
+
+                    <div id="weekTables" class="space-y-6"></div>
+                    <table id="planTable" class="hidden-el"><thead><tr id="dayRow"><th></th></tr><tr id="carbLevelRow"></tr></thead><tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody></table>
+
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 rounded-r-lg text-sm text-slate-600 dark:text-slate-300">
+                        <h4 class="font-bold text-amber-600 dark:text-amber-500 mb-2"><i class="fa-solid fa-note-sticky mr-1"></i> 碳循环计划说明</h4>
+                        <ul class="space-y-1 notes-list text-xs">
+                             <li>如果你骨架小、肩窄、吃不胖、增肌慢：<strong>→ 偏外胚型</strong></li>
+                             <li>如果你肩宽腰窄、肌肉容易长：<strong>→ 偏中胚型</strong></li>
+                             <li>如果你骨架大、腰腹易囤肉：<strong>→ 偏内胚型</strong></li>
+                             <li><span class="tag-high px-1 rounded">高碳日</span>：碳水占周总碳水的50%，建议摄入精制碳水（如白米、白面包）</li>
+                             <li><span class="tag-med px-1 rounded">中碳日</span>：碳水占周总碳水的35%，建议混合精碳和粗碳</li>
+                             <li><span class="tag-low px-1 rounded">低碳日</span>：碳水占周总碳水的15%，建议摄入粗碳（如糙米、燕麦）</li>
+                             <li><strong>热量换算：</strong> 碳/蛋白 4 kcal/g，脂肪 9 kcal/g。</li>
+                             <li><strong>体重变化估算：</strong> 每减少7700 kcal热量约减少1 kg体重，每增加7700 kcal热量约增加1 kg体重。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. 橙子碳水渐降 -->
+                <div id="orange-carb" class="tool-content hidden-el space-y-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>基础设置
+                        </h3>
+                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">体重 (kg)</label><input type="number" id="orange-weight" value="80" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcOrangeCarb()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">身高 (cm)</label><input type="number" id="orange-height" value="175" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcOrangeCarb()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">年龄</label><input type="number" id="orange-age" value="32" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcOrangeCarb()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">性别</label><select id="orange-gender" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" onchange="calcOrangeCarb()"><option value="male">男</option><option value="female">女</option></select></div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-4">
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">训练时长 (分钟)</label><input type="number" id="train-time" value="60" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcOrangeCarb()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">强度系数</label><select id="train-intensity" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" onchange="calcOrangeCarb()"><option value="5">新手/女生 (5)</option><option value="8" selected>普通健身爱好者 (8)</option><option value="10">高强度训练者 (10)</option></select></div>
+                        </div>
+
+                         <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center">
+                                <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>营养素分配 & 减重速度
+                            </h3>
+                             <div class="grid grid-cols-3 gap-3 mb-4">
+                                <div class="orange-ratio-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-ratio="532" onclick="selectOrangeRatio('532', this)"><div class="text-sm font-bold text-slate-700 dark:text-white">532比例</div><div class="text-xs text-slate-400 mt-1">碳水50% 蛋白30% 脂肪20%</div></div>
+                                <div class="orange-ratio-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-ratio="442" onclick="selectOrangeRatio('442', this)"><div class="text-sm font-bold text-slate-700 dark:text-white">442比例</div><div class="text-xs text-slate-400 mt-1">碳水40% 蛋白40% 脂肪20%</div></div>
+                                <div class="orange-ratio-card p-3 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-ratio="custom" onclick="selectOrangeRatio('custom', this)"><div class="text-sm font-bold text-slate-700 dark:text-white">自定义比例</div><div class="text-xs text-slate-400 mt-1">自定义营养素比例</div></div>
+                            </div>
+                            <div id="custom-ratio-inputs" class="hidden-el grid grid-cols-3 gap-2 mb-4">
+                                <input id="custom-carb" placeholder="碳水%" value="50" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcOrangeCarb()">
+                                <input id="custom-protein" placeholder="蛋白%" value="30" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcOrangeCarb()">
+                                <input id="custom-fat" placeholder="脂肪%" value="20" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcOrangeCarb()">
+                                <div id="ratio-sum" class="col-span-3 text-center text-xs text-slate-400">总和: 100%</div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 flex justify-between"><span>每月减重百分比 (3-5%)</span><span id="weight-loss-value" class="text-sky-500 font-bold">3.5%</span></label>
+                                <input type="range" id="weight-loss-percent" min="1" max="8" step="0.1" value="3.5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" oninput="calcOrangeCarb()">
+                            </div>
+                         </div>
+
+                        <div class="mt-6 flex flex-col md:flex-row gap-3">
+                            <button onclick="calcOrangeCarb()" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-sky-200 dark:shadow-none transition-transform active:scale-95">计算计划</button>
+                            <button onclick="dlOrangeCarb()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-emerald-200 dark:shadow-none transition-transform active:scale-95"><i class="fa-solid fa-file-excel mr-1"></i> 下载 Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">基础代谢 (BMR)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="orange-bmrValue">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">训练消耗热量</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="orange-trainCalories">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日总消耗(TDEE)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="orange-tdeeValue">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">初始碳水(g)</div><div class="text-lg font-bold text-sky-600 dark:text-sky-400" id="orange-initialCarbs">0</div></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">蛋白质(g)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="orange-protein">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">脂肪(g)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="orange-fat">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">周减重目标(kg)</div><div class="text-lg font-bold text-emerald-500" id="orange-weeklyLoss">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">碳水调整量(g)</div><div class="text-lg font-bold text-rose-500" id="orange-adjustment">15</div></div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 chart-container" onclick="openChartModal('weightChart')">
+                        <h4 class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-2">📉 理想体重下降趋势</h4>
+                        <div class="w-full h-64"><canvas id="weightChart"></canvas></div>
+                        <p class="text-center text-xs text-slate-400 mt-2"><i class="fa-solid fa-hand-pointer mr-1"></i> 点击图表查看全屏大图</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 overflow-x-auto no-scrollbar">
+                        <h4 class="font-bold text-slate-700 dark:text-slate-200 mb-3 text-sm">碳水渐降计划表</h4>
+                        <table class="w-full custom-table text-sm" id="orange-planTable">
+                            <thead><tr><th>周数</th><th>每日碳水(g)</th><th>每日蛋白质(g)</th><th>每日脂肪(g)</th><th>预期体重(kg)</th><th>周减重目标(kg)</th><th>调整说明</th></tr></thead>
+                            <tbody id="orange-planBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 rounded-r-lg text-sm text-slate-600 dark:text-slate-300">
+                        <h4 class="font-bold text-amber-600 dark:text-amber-500 mb-2"><i class="fa-solid fa-lightbulb mr-1"></i> 碳水渐降计划说明</h4>
+                        <ul class="space-y-1 notes-list text-xs">
+                             <li><strong>计算基础代谢(BMR)：</strong> 使用 Mifflin-St Jeor 公式计算</li>
+                             <li><strong>训练消耗热量：</strong> 训练时长(分钟) × 强度系数</li>
+                             <li><strong>每日总消耗(TDEE)：</strong> BMR + 训练消耗热量</li>
+                             <li><strong>初始碳水计算：</strong> TDEE × 碳水比例 ÷ 4</li>
+                             <li><strong>周减重目标：</strong> 每月减重3-5%，平均到每周</li>
+                             <li><strong>碳水调整：</strong> 每周如未达到减重目标，减少碳水15-30g</li>
+                             <li><strong>停止调整：</strong> 当碳水降至100g左右或达到理想体脂率时停止</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. 增肌计划 -->
+                <div id="bulk-plan" class="tool-content hidden-el space-y-6">
+                     <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
+                        <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第一步：基础信息
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">体重 (kg)</label><input type="number" id="bulk-weight" value="70" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcBulk()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">身高 (cm)</label><input type="number" id="bulk-height" value="175" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcBulk()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">年龄 (岁)</label><input type="number" id="bulk-age" value="25" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" oninput="calcBulk()"></div>
+                            <div><label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">性别</label><select id="bulk-gender" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none dark:text-white" onchange="calcBulk()"><option value="male">男</option><option value="female">女</option></select></div>
+                        </div>
+
+                        <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center"><span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第二步：日常活动强度</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="pal-cards">
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-pal="1.2" onclick="selectBulkOpt('pal-cards', this)"><div class="text-sm font-bold dark:text-white">久坐</div><div class="text-xs text-slate-400">办公室/几乎无运动</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-pal="1.375" onclick="selectBulkOpt('pal-cards', this)"><div class="text-sm font-bold dark:text-white">轻度活跃</div><div class="text-xs text-slate-400">每周轻度1-3天</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-pal="1.55" onclick="selectBulkOpt('pal-cards', this)"><div class="text-sm font-bold dark:text-white">中度活跃</div><div class="text-xs text-slate-400">每周中度3-5天</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-pal="1.725" onclick="selectBulkOpt('pal-cards', this)"><div class="text-sm font-bold dark:text-white">非常活跃</div><div class="text-xs text-slate-400">每周高强度6-7天</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer hidden md:block" data-pal="1.9" onclick="selectBulkOpt('pal-cards', this)"><div class="text-sm font-bold dark:text-white">职业运动员</div><div class="text-xs text-slate-400">每天高强度</div></div>
+                            </div>
+                            
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center"><span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第三步：训练经验</h3>
+                             <div class="grid grid-cols-3 gap-3" id="exp-cards">
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-exp="novice" onclick="selectBulkOpt('exp-cards', this)"><div class="text-sm font-bold dark:text-white">新手</div><div class="text-xs text-slate-400">系统训练 &lt;1 年</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-exp="intermediate" onclick="selectBulkOpt('exp-cards', this)"><div class="text-sm font-bold dark:text-white">中级</div><div class="text-xs text-slate-400">系统训练 1-3 年</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-exp="advanced" onclick="selectBulkOpt('exp-cards', this)"><div class="text-sm font-bold dark:text-white">高级</div><div class="text-xs text-slate-400">系统训练 &gt;3 年</div></div>
+                            </div>
+                        </div>
+
+                         <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center"><span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第四步：热量盈余</h3>
+                             <div class="grid grid-cols-3 gap-3" id="surplus-cards">
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-surplus="200" onclick="selectBulkOpt('surplus-cards', this)"><div class="text-sm font-bold dark:text-white text-emerald-600">减脂人增肌</div><div class="text-xs text-slate-400">+200 kcal/日</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-surplus="350" onclick="selectBulkOpt('surplus-cards', this)"><div class="text-sm font-bold dark:text-white text-sky-600">力量型增肌</div><div class="text-xs text-slate-400">+350 kcal/日</div></div>
+                                <div class="bulk-level-card p-2 rounded-lg border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-surplus="550" onclick="selectBulkOpt('surplus-cards', this)"><div class="text-sm font-bold dark:text-white text-rose-600">瘦子脏增肌</div><div class="text-xs text-slate-400">+550 kcal/日</div></div>
+                            </div>
+                         </div>
+                         
+                         <div class="mt-6 border-t border-slate-100 dark:border-slate-700 pt-4">
+                            <h3 class="text-sm font-bold text-sky-500 mb-4 uppercase tracking-wider flex items-center"><span class="w-2 h-2 rounded-full bg-sky-500 mr-2"></span>第五步：选择训练计划</h3>
+                             <div class="grid grid-cols-3 md:grid-cols-5 gap-2" id="bulk-plan-cards">
+                                <div class="plan-card p-2 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer card-selected" data-plan="1" onclick="selectPlan('1', this, true)"><div class="text-xs font-bold dark:text-white">练1休1</div></div>
+                                <div class="plan-card p-2 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="2" onclick="selectPlan('2', this, true)"><div class="text-xs font-bold dark:text-white">练2休1</div></div>
+                                <div class="plan-card p-2 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="3" onclick="selectPlan('3', this, true)"><div class="text-xs font-bold dark:text-white">练3休1</div></div>
+                                <div class="plan-card p-2 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="4" onclick="selectPlan('4', this, true)"><div class="text-xs font-bold dark:text-white">练4休1</div></div>
+                                <div class="plan-card p-2 rounded-xl border border-slate-200 dark:border-slate-600 text-center cursor-pointer" data-plan="custom" onclick="selectPlan('custom', this, true)"><div class="text-xs font-bold dark:text-white">自定义</div></div>
+                            </div>
+                             <div id="bulk-custom-plan" class="hidden-el grid grid-cols-4 md:grid-cols-7 gap-2 mt-3">
+                                <input id="bulk-cus-mon" placeholder="周一" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-tue" placeholder="周二" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-wed" placeholder="周三" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-thu" placeholder="周四" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-fri" placeholder="周五" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-sat" placeholder="周六" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                                <input id="bulk-cus-sun" placeholder="周日" class="text-center text-xs p-2 border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white" oninput="calcBulk()">
+                            </div>
+                         </div>
+
+                        <div class="mt-6 flex flex-col md:flex-row gap-3">
+                            <button onclick="calcBulk()" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-sky-200 dark:shadow-none transition-transform active:scale-95">计算计划</button>
+                            <button onclick="dlBulk()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm shadow-lg shadow-emerald-200 dark:shadow-none transition-transform active:scale-95"><i class="fa-solid fa-file-excel mr-1"></i> 下载 Excel</button>
+                        </div>
+                     </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">基础代谢(BMR)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="bulk-bmr">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日消耗(TDEE)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="bulk-tdee">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">训练日摄入热量</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="bulk-target">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日摄入蛋白质(g)</div><div class="text-lg font-bold text-sky-600 dark:text-sky-400" id="bulk-protein">0</div></div>
+                         <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">训练日碳水(g)</div><div class="text-lg font-bold text-rose-500" id="bulk-carb-display">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">休息日碳水(g)</div><div class="text-lg font-bold text-emerald-500" id="bulk-rest-carb-display">0</div></div>
+                        <div class="bg-blue-50 dark:bg-slate-700/50 p-3 rounded-xl text-center"><div class="text-xs text-slate-500 dark:text-slate-400 mb-1">每日脂肪(g)</div><div class="text-lg font-bold text-slate-800 dark:text-white" id="bulk-fat-display">0</div></div>
+                         <div class="bg-emerald-50 dark:bg-emerald-900/20 p-2 rounded text-center flex flex-col justify-center"><div class="text-xs text-slate-500 dark:text-slate-400">预计每周增重(kg)</div><span class="font-bold text-emerald-600 dark:text-emerald-400 text-lg" id="bulk-weekly-gain">0</span></div>
+                    </div>
+
+                     <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 overflow-x-auto no-scrollbar">
+                        <table class="w-full custom-table text-sm" id="bulk-week-table">
+                            <thead><tr><th>项目</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr></thead>
+                            <tbody>
+                                 <tr><td>训练部位<br>(可双击自定义)</td><td class="editable" data-day="0">胸+三头</td><td class="editable" data-day="1">背+二头</td><td class="editable" data-day="2">休息</td><td class="editable" data-day="3">腿+肩</td><td class="editable" data-day="4">休息</td><td class="editable" data-day="5">胸+三头</td><td class="editable" data-day="6">休息</td></tr>
+                                <tr><td>碳水(g)</td><td id="bulk-carb-0">0</td><td id="bulk-carb-1">0</td><td id="bulk-carb-2">0</td><td id="bulk-carb-3">0</td><td id="bulk-carb-4">0</td><td id="bulk-carb-5">0</td><td id="bulk-carb-6">0</td></tr>
+                                <tr><td>蛋白质(g)</td><td id="bulk-pro-0">0</td><td id="bulk-pro-1">0</td><td id="bulk-pro-2">0</td><td id="bulk-pro-3">0</td><td id="bulk-pro-4">0</td><td id="bulk-pro-5">0</td><td id="bulk-pro-6">0</td></tr>
+                                <tr><td>脂肪(g)</td><td id="bulk-fat-0">0</td><td id="bulk-fat-1">0</td><td id="bulk-fat-2">0</td><td id="bulk-fat-3">0</td><td id="bulk-fat-4">0</td><td id="bulk-fat-5">0</td><td id="bulk-fat-6">0</td></tr>
+                                <tr><td>热量(kcal)</td><td id="bulk-cal-0">0</td><td id="bulk-cal-1">0</td><td id="bulk-cal-2">0</td><td id="bulk-cal-3">0</td><td id="bulk-cal-4">0</td><td id="bulk-cal-5">0</td><td id="bulk-cal-6">0</td></tr>
+                                <tr><td>盈余/缺口</td><td id="bulk-diff-0">0</td><td id="bulk-diff-1">0</td><td id="bulk-diff-2">0</td><td id="bulk-diff-3">0</td><td id="bulk-diff-4">0</td><td id="bulk-diff-5">0</td><td id="bulk-diff-6">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 rounded-r-lg text-sm text-slate-600 dark:text-slate-300">
+                        <h4 class="font-bold text-amber-600 dark:text-amber-500 mb-2"><i class="fa-solid fa-note-sticky mr-1"></i> 增肌计划说明</h4>
+                        <ul class="space-y-1 notes-list text-xs">
+                             <li>蛋白质按训练经验分级：新手 1.6 g/kg、中级 1.8 g/kg、高级 2 g/kg。</li>
+                             <li>脂肪按训练经验分级：新手 0.9 g/kg、中级 1.0g/kg、高级 1.2 g/kg。</li>
+                             <li>碳水按训练经验分级：新手 3.5 g/kg、中级 4.5g/kg、高级 5 g/kg。</li>
+                             <li>剩余热量全部给碳水，休息日 -15% 碳水。</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 4. 喝水建议 -->
+                <div id="water-plan" class="tool-content hidden-el space-y-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 text-center">
+                        <i class="fa-solid fa-glass-water text-4xl text-blue-400 mb-4"></i>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-2">科学喝水计算器</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">水是脂肪代谢的媒介，缺水会降低基础代谢。</p>
+                        <div class="max-w-xs mx-auto mb-6">
+                            <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">你的体重 (kg)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="number" id="water-weight" value="70" class="flex-1 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 text-center text-lg focus:ring-2 focus:ring-blue-500 outline-none dark:text-white" oninput="calcWater()">
+                                <span class="text-slate-500 font-bold">KG</span>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 mb-6">
+                            <div class="text-sm text-blue-600 dark:text-blue-300 font-bold mb-1">建议每日饮水量</div>
+                            <div class="text-3xl font-extrabold text-blue-500" id="water-result">2100 - 2800 ml</div>
+                            <div class="text-xs text-blue-400 mt-1">(体重 × 30~40ml)</div>
+                        </div>
+                        <div class="text-left bg-slate-50 dark:bg-slate-700/50 rounded-xl p-4">
+                            <h4 class="font-bold text-slate-700 dark:text-slate-200 mb-3 text-sm"><i class="fa-regular fa-clock mr-2"></i> 最佳喝水时间表</h4>
+                            <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                                <li class="flex items-start"><span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">07:00</span><span>起床一杯温水 (300ml)，激活代谢，帮助排便。</span></li>
+                                <li class="flex items-start"><span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">11:30</span><span>午餐前半小时 (300ml)，增加饱腹感。</span></li>
+                                <li class="flex items-start"><span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">15:00</span><span>下午茶时间 (300ml)，缓解疲劳，代替饮料。</span></li>
+                                <li class="flex items-start"><span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">17:30</span><span>晚餐前半小时 (300ml)，减少晚餐摄入。</span></li>
+                                <li class="flex items-start"><span class="bg-purple-100 text-purple-600 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">训练中</span><span>每组间歇小口抿水，总计约 500-800ml。</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全屏图表 Modal -->
+    <div id="chartModal" class="fixed inset-0 z-[100] bg-black/90 hidden-el flex items-center justify-center p-4 opacity-0 pointer-events-none" onclick="closeChartModal(event)">
+        <div class="relative w-full max-w-4xl h-[80vh] bg-white dark:bg-slate-800 rounded-xl p-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
+            <button class="absolute top-2 right-2 text-slate-500 dark:text-slate-300 hover:text-red-500 p-2 text-2xl" onclick="closeChartModal(event, true)"><i class="fa-solid fa-times"></i></button>
+            <h3 class="text-center font-bold text-lg mb-4 text-slate-800 dark:text-white" id="modalTitle">全屏图表</h3>
+            <div class="w-full h-[calc(100%-40px)]"><canvas id="largeChart"></canvas></div>
+        </div>
+    </div>
+
+    <div id="copyright-bar">© 2025 Cyy健身 | 仅限个人使用 | 禁止转载、商用 | 违者必究</div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        let chartInstances = {};
+        let modalChartInstance = null;
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        function initTheme() {
+            if (currentTheme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                currentTheme = 'dark';
+            } else {
+                document.documentElement.classList.remove('dark');
+                currentTheme = 'light';
+            }
+            updateChartTheme();
+            updateWatermark();
+        }
+
+        function toggleTheme() {
+            if (currentTheme === 'light') {
+                document.documentElement.classList.add('dark');
+                currentTheme = 'dark';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                currentTheme = 'light';
+                localStorage.setItem('theme', 'light');
+            }
+            updateChartTheme();
+            updateWatermark();
+        }
+        
+        function updateChartTheme() {
+            if(chartInstances['cycleChart']) calcKingsCycle();
+            if(chartInstances['weightChart']) calcOrangeCarb();
+        }
+
+        function updateWatermark() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 320;
+            canvas.height = 320;
+            ctx.font = 'bold 18px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // 智能变色：深色模式用白字，浅色模式用黑字
+            if (currentTheme === 'dark') {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.06)'; 
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+            }
+
+            ctx.translate(160, 160);
+            ctx.rotate(-Math.PI / 6);
+            ctx.fillText('Cyy健身 仅供个人使用', 0, 0);
+
+            let overlay = document.getElementById('watermark-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'watermark-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.pointerEvents = 'none';
+                overlay.style.zIndex = '9999';
+                document.body.appendChild(overlay);
+            }
+            overlay.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        }
+
+        function selectTool(toolId) {
+            $('home-page').classList.add('hidden-el');
+            $('tool-container').classList.remove('hidden-el');
+            switchTab(toolId);
+        }
+
+        function backToHome() {
+            $('tool-container').classList.add('hidden-el');
+            $('home-page').classList.remove('hidden-el');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden-el'));
+            document.querySelectorAll('.tool-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-500', 'text-white');
+                btn.classList.add('text-slate-500');
+            });
+            $(tabId).classList.remove('hidden-el');
+            const activeBtn = document.querySelector(`.tool-tab-btn[data-tab="${tabId}"]`);
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('bg-sky-500', 'text-white');
+            
+            if (tabId === 'kings-cycle') setTimeout(calcKingsCycle, 50);
+            if (tabId === 'orange-carb') setTimeout(calcOrangeCarb, 50);
+            if (tabId === 'bulk-plan') setTimeout(calcBulk, 50);
+            if (tabId === 'water-plan') setTimeout(calcWater, 50);
+        }
+
+        /* 1. 凯圣王碳循环 */
+        function selectBodyType(type, el) {
+            document.querySelectorAll('.body-type-card').forEach(c => c.classList.remove('card-selected'));
+            el.classList.add('card-selected');
+            const map = {ectomorph:{c:3,p:1.3,f:1.1},mesomorph:{c:2.5,p:1.3,f:0.9},endomorph:{c:2,p:1.3,f:0.8}};
+            $('carbsPerKg').value = map[type].c; $('proteinPerKg').value = map[type].p; $('fatPerKg').value = map[type].f;
+            calcKingsCycle();
+        }
+
+        function selectPlan(plan, el, isBulk = false) {
+            const selector = isBulk ? '#bulk-plan-cards .plan-card' : '.plan-card:not(#bulk-plan-cards .plan-card)';
+            document.querySelectorAll(selector).forEach(c => c.classList.remove('card-selected'));
+            el.classList.add('card-selected');
+            const customDiv = isBulk ? $('bulk-custom-plan') : $('customPlan');
+            customDiv.classList.toggle('hidden-el', plan !== 'custom');
+            if(isBulk) calcBulk(); else calcKingsCycle();
+        }
+
+        function adjustVal(id, delta) {
+            const input = $(id);
+            let val = parseFloat(input.value) + delta;
+            input.value = val;
+            if(id === 'targetWeight') clipTargetWeight();
+        }
+
+        function clipTargetWeight() {
+            const w = parseFloat($('weight').value);
+            const t = $('targetWeight');
+            let val = parseFloat(t.value);
+            if (val > w + 10) t.value = w + 10;
+            if (val < w - 10) t.value = w - 10;
+        }
+        
+        let cycleDataCache = null;
+
+        function calcKingsCycle() {
+            const w = +$('weight').value, targetW = +$('targetWeight').value;
+            const h = +$('height').value, a = +$('age').value;
+            if(!w || !targetW) return;
+            const gender = $('gender').value;
+            
+            const bmr = gender === 'male' ? (10*w + 6.25*h - 5*a + 5) : (10*w + 6.25*h - 5*a - 161);
+            const tdee = Math.round(bmr + 500); // 使用原始代码逻辑
+
+            const cp = +$('carbsPerKg').value, pp = +$('proteinPerKg').value, fp = +$('fatPerKg').value;
+            const pro = Math.round(pp * targetW);
+            const weekC = Math.round(cp * targetW * 7);
+            const weekF = Math.round(fp * targetW * 7);
+
+            const hc = Math.round(weekC * 0.50 / 2);
+            const mc = Math.round(weekC * 0.35 / 3);
+            const lc = Math.round(weekC * 0.15 / 2);
+            const hf = Math.round(weekF * 0.15 / 2); 
+            const mf = Math.round(weekF * 0.35 / 3);
+            const lf = Math.round(weekF * 0.50 / 2); 
+
+            $('bmrValue').textContent = Math.round(bmr);
+            $('tdeeValue').textContent = tdee;
+            $('proteinValue').textContent = pro;
+            $('carbsValue').textContent = weekC;
+
+            const planEl = document.querySelector('.plan-card.card-selected:not(#bulk-plan-cards .plan-card)');
+            const planType = planEl ? planEl.dataset.plan : '1';
+            const parts28 = get28DayParts(planType);
+            const carbMap28 = get28DayCarbMap(planType, parts28);
+
+            const weekTables = $('weekTables');
+            weekTables.innerHTML = '';
+            
+            cycleDataCache = { days: [], carbs: [], cals: [], diffs: [], levels: [], parts: [] };
+            let totalDiff = 0;
+
+            for(let w=0; w<4; w++) {
+                let html = `
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-3 shadow-sm border border-slate-100 dark:border-slate-700 overflow-x-auto no-scrollbar">
+                    <h4 class="font-bold text-sky-500 mb-2 text-sm">第 ${w+1} 周计划</h4>
+                    <table class="w-full custom-table">
+                        <thead><tr><th>项目</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr></thead>
+                        <tbody><tr><td>碳日</td>`;
+                for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    const level = carbMap28[idx];
+                    const cls = level === '高' ? 'tag-high' : (level === '中' ? 'tag-med' : 'tag-low');
+                    html += `<th><span class="px-2 py-0.5 rounded ${cls}">${level}</span></th>`;
+                    cycleDataCache.levels.push(level);
+                }
+                html += `</tr><tr><td>部位</td>`;
+                for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    html += `<td class="editable">${parts28[idx]}</td>`;
+                    cycleDataCache.parts.push(parts28[idx]);
+                }
+                html += `</tr><tr><td>碳水(g)</td>`;
+                for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    const level = carbMap28[idx];
+                    const c = level==='高'?hc:(level==='中'?mc:lc);
+                    const f = level==='高'?hf:(level==='中'?mf:lf);
+                    const cal = c*4 + pro*4 + f*9;
+                    const diff = cal - tdee;
+                    totalDiff += diff;
+                    html += `<td>${c}</td>`;
+                    cycleDataCache.days.push(`Day ${idx+1}`);
+                    cycleDataCache.carbs.push(c);
+                    cycleDataCache.cals.push(cal);
+                    cycleDataCache.diffs.push(diff);
+                }
+                html += `</tr><tr><td>蛋白质(g)</td>`;
+                for(let d=0; d<7; d++) html += `<td>${pro}</td>`;
+                html += `</tr><tr><td>脂肪(g)</td>`;
+                for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    const level = carbMap28[idx];
+                    const f = level==='高'?hf:(level==='中'?mf:lf);
+                    html += `<td>${f}</td>`;
+                }
+                html += `</tr><tr><td>热量(kcal)</td>`;
+                 for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    html += `<td>${cycleDataCache.cals[idx]}</td>`;
+                 }
+                html += `</tr><tr><td>盈余/缺口</td>`;
+                for(let d=0; d<7; d++) {
+                    const idx = w*7 + d;
+                    const diff = cycleDataCache.diffs[idx];
+                    const colorClass = diff > 0 ? 'text-emerald-500' : 'text-rose-500';
+                    html += `<td class="${colorClass}">${diff > 0 ? '+'+diff : diff}</td>`;
+                }
+                html += `</tr></tbody></table></div>`;
+                weekTables.insertAdjacentHTML('beforeend', html);
+            }
+            
+            const avgDiff = Math.round(totalDiff / 4);
+            const wDiff = targetW - w;
+            $('weightDiffValue').textContent = (wDiff > 0 ? '+' : '') + wDiff;
+            $('weeklyCalorieDiffValue').textContent = avgDiff;
+            if(avgDiff !== 0) {
+                 const days = Math.abs(Math.round((wDiff * 7700) / (avgDiff / 7)));
+                 if(days > 0 && days < 999) {
+                     $('daysNeededValue').textContent = days;
+                     const d = new Date(); d.setDate(d.getDate() + days);
+                     $('targetDate').textContent = `${d.getMonth()+1}/${d.getDate()}`;
+                 } else {
+                      $('daysNeededValue').textContent = '-';
+                      $('targetDate').textContent = '无法达成';
+                 }
+            }
+            renderCycleChart();
+        }
+
+        function get28DayParts(plan) {
+            const map = {
+                '1': ['胸+三头','休息','背+二头','休息','腿+肩','休息','胸+三头','休息','背+二头','休息','腿+肩','休息','胸+三头','休息','背+二头','休息','腿+肩','休息','胸+三头','休息','背+二头','休息','腿+肩','休息','胸+三头','休息','背+二头','休息'],
+                '2': ['胸+三头','背+二头','休息','腿+肩','胸+三头','休息','背+二头','腿+肩','休息','胸+三头','背+二头','休息','腿+肩','胸+三头','休息','背+二头','腿+肩','休息','胸+三头','背+二头','休息','腿+肩','胸+三头','休息','背+二头','腿+肩','休息','胸+三头'],
+                '3': ['胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','休息'],
+                '4': ['胸+三头','背+二头','腿+肩','胸+三头','休息','背+二头','腿+肩','胸+三头','背+二头','休息','腿+肩','胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩','胸+三头','休息','背+二头','腿+肩','胸+三头','背+二头','休息','腿+肩','胸+三头','背+二头']
+            };
+            if(plan === 'custom') {
+                const arr = ['mon','tue','wed','thu','fri','sat','sun'].map(d=>$(`cus-${d}`).value || '休息');
+                return Array(4).fill(arr).flat();
+            }
+            return map[plan] || map['1'];
+        }
+
+        function get28DayCarbMap(plan, parts) {
+             const map = {
+                '1': ['高','低','中','低','高','中','中','低','中','中','高','中','高','低','中','低','高','中','高','低','中','低','高','中','高','低','中','中'],
+                '2': ['高','中','低','高','中','低','中','高','低','中','中','低','高','中','低','中','高','低','高','中','中','高','中','低','中','高','低','中'],
+                '3': ['中','低','高','低','中','中','高','低','高','中','高','低','中','中','高','低','中','中','高','低','中','中','高','低','中','中','高','低'],
+                '4': ['中','低','高','中','低','中','高','中','中','低','高','中','低','高','低','高','中','高','中','低','中','高','中','中','低','高','中','低']
+            };
+            if(plan === 'custom') return parts.map(p => p.includes('休息') ? '低' : (Math.random()>0.5?'高':'中'));
+            return map[plan] || map['1'];
+        }
+
+        function dlKingsCycle() {
+            if(!cycleDataCache) return alert('请先生成计划');
+            const ws = XLSX.utils.aoa_to_sheet([
+                ['碳循环计划导出', new Date().toLocaleDateString()],
+                ['基础数据', `体重:${$('weight').value}kg`, `目标:${$('targetWeight').value}kg`, `BMR:${$('bmrValue').textContent}`],
+                [],
+                ['天数', '碳日', '训练部位', '碳水(g)', '热量(kcal)', '盈余']
+            ]);
+            const rows = cycleDataCache.days.map((d, i) => [d, cycleDataCache.levels[i], cycleDataCache.parts[i], cycleDataCache.carbs[i], cycleDataCache.cals[i], cycleDataCache.diffs[i]]);
+            XLSX.utils.sheet_add_aoa(ws, rows, {origin: 'A5'});
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, '计划表');
+            XLSX.writeFile(wb, '碳循环计划.xlsx');
+        }
+
+        /* 2. 橙子碳水渐降 */
+        function selectOrangeRatio(ratio, el) {
+            document.querySelectorAll('.orange-ratio-card').forEach(c => c.classList.remove('card-selected'));
+            el.classList.add('card-selected');
+            $('custom-ratio-inputs').classList.toggle('hidden-el', ratio !== 'custom');
+            calcOrangeCarb();
+        }
+
+        function calcOrangeCarb() {
+             const w = +$('orange-weight').value, h = +$('orange-height').value, a = +$('orange-age').value;
+             if(!w) return;
+             const gender = $('orange-gender').value;
+             
+             const bmr = gender === 'male' ? (10*w + 6.25*h - 5*a + 5) : (10*w + 6.25*h - 5*a - 161);
+             const intensity = +$('train-intensity').value;
+             const time = +$('train-time').value;
+             const trainCal = time * intensity;
+             const tdee = Math.round(bmr + trainCal);
+             
+             const ratioEl = document.querySelector('.orange-ratio-card.card-selected');
+             const ratioType = ratioEl ? ratioEl.dataset.ratio : '532';
+             let cR=0.5, pR=0.3, fR=0.2;
+             
+             if(ratioType === '442') { cR=0.4; pR=0.4; fR=0.2; }
+             if(ratioType === 'custom') {
+                 cR = (+$('custom-carb').value)/100; pR = (+$('custom-protein').value)/100; fR = (+$('custom-fat').value)/100;
+                 $('ratio-sum').textContent = `总和: ${Math.round((cR+pR+fR)*100)}%`;
+                 $('ratio-sum').classList.toggle('text-red-500', Math.abs(cR+pR+fR - 1) > 0.01);
+             }
+             
+             const initCarb = Math.round(tdee * cR / 4);
+             const protein = Math.round(tdee * pR / 4);
+             const fat = Math.round(tdee * fR / 9);
+             
+             const lossPct = +$('weight-loss-percent').value;
+             $('weight-loss-value').textContent = lossPct + '%';
+             const weeklyLoss = ((w * (lossPct/100)) / 4.33).toFixed(2); // 修正周减重公式
+             
+             $('orange-bmrValue').textContent = Math.round(bmr);
+             $('orange-trainCalories').textContent = Math.round(trainCal);
+             $('orange-tdeeValue').textContent = tdee;
+             $('orange-initialCarbs').textContent = initCarb;
+             $('orange-protein').textContent = protein;
+             $('orange-fat').textContent = fat;
+             $('orange-weeklyLoss').textContent = weeklyLoss;
+             
+             const tbody = $('orange-planBody');
+             tbody.innerHTML = '';
+             let curC = initCarb;
+             let curW = w;
+             let weightData = [w];
+
+             for(let i=1; i<=12; i++) {
+                 curW -= weeklyLoss;
+                 weightData.push(curW.toFixed(1));
+                 
+                 const row = `<tr>
+                    <td>Week ${i}</td>
+                    <td>${curC}</td>
+                    <td>${protein}</td>
+                    <td>${fat}</td>
+                    <td>${curW.toFixed(1)}</td>
+                    <td>${weeklyLoss}</td>
+                    <td>${i===1 ? '初始碳水摄入' : '如未达目标,减少15g碳水'}</td>
+                 </tr>`;
+                 tbody.insertAdjacentHTML('beforeend', row);
+                 
+                 if(curC > 100) curC -= 15;
+             }
+             renderWeightChart(weightData);
+        }
+        
+        function dlOrangeCarb() {
+             const wb = XLSX.utils.table_to_book($('orange-planTable'));
+             XLSX.writeFile(wb, '碳水渐降计划.xlsx');
+        }
+
+        /* 3. 增肌计划 (完全重写逻辑) */
+        function selectBulkOpt(groupId, el) {
+            document.querySelectorAll(`#${groupId} .bulk-level-card`).forEach(c => c.classList.remove('card-selected'));
+            el.classList.add('card-selected');
+            calcBulk();
+        }
+
+        function calcBulk() {
+            const w = +$('bulk-weight').value, h = +$('bulk-height').value, a = +$('bulk-age').value;
+            if(!w) return;
+            
+            const palEl = document.querySelector('#pal-cards .card-selected');
+            const expEl = document.querySelector('#exp-cards .card-selected');
+            const surEl = document.querySelector('#surplus-cards .card-selected');
+            
+            if(!palEl || !expEl || !surEl) return;
+
+            const pal = +palEl.dataset.pal;
+            const exp = expEl.dataset.exp;
+            const sur = +surEl.dataset.surplus;
+            const gender = $('bulk-gender').value;
+
+            const bmr = gender === 'male' ? (10*w + 6.25*h - 5*a + 5) : (10*w + 6.25*h - 5*a - 161);
+            const tdee = Math.round(bmr * pal);
+            const target = tdee + sur;
+
+            // 恢复原始逻辑：根据经验系数计算宏量
+            const proMap = {novice: 1.6, intermediate: 1.8, advanced: 2.0};
+            const fatMap = {novice: 0.9, intermediate: 1.0, advanced: 1.0};
+            const carbMap = {novice: 3.5, intermediate: 4.5, advanced: 5.0};
+            
+            const pro = Math.round(w * proMap[exp]);
+            const fat = Math.round(w * fatMap[exp]);
+            let carb = Math.round(w * carbMap[exp]);
+            
+            // 盈余热量分配给碳水
+            const currentCal = (pro * 4) + (fat * 9) + (carb * 4);
+            const remaining = target - currentCal;
+            if(remaining > 0) {
+                carb += Math.round(remaining / 4);
+            }
+
+            const trainCarb = carb;
+            const restCarb = Math.round(carb * 0.85);
+
+            $('bulk-bmr').textContent = Math.round(bmr);
+            $('bulk-tdee').textContent = tdee;
+            $('bulk-target').textContent = target;
+            $('bulk-protein').textContent = pro;
+            $('bulk-fat-display').textContent = fat;
+            $('bulk-carb-display').textContent = trainCarb;
+            $('bulk-rest-carb-display').textContent = restCarb;
+            $('bulk-weekly-gain').textContent = ((sur*7)/7700).toFixed(2);
+
+            const planEl = document.querySelector('#bulk-plan-cards .card-selected');
+            const plan = planEl ? planEl.dataset.plan : '1';
+            const parts = getBulkParts(plan);
+
+            for(let i=0; i<7; i++) {
+                const isRest = parts[i].includes('休息');
+                const c = isRest ? restCarb : trainCarb;
+                const cal = c*4 + pro*4 + fat*9;
+                
+                $(`bulk-carb-${i}`).textContent = c;
+                $(`bulk-pro-${i}`).textContent = pro;
+                $(`bulk-fat-${i}`).textContent = fat;
+                $(`bulk-cal-${i}`).textContent = cal;
+                
+                const diff = cal - tdee;
+                const diffEl = $(`bulk-diff-${i}`);
+                diffEl.textContent = (diff > 0 ? '+' : '') + diff;
+                diffEl.className = diff > 0 ? 'text-emerald-500' : 'text-rose-500';
+                
+                document.querySelector(`.editable[data-day="${i}"]`).textContent = parts[i];
+            }
+        }
+
+        function getBulkParts(plan) {
+             const map = {
+                '1': ['胸+三头','休息','背+二头','休息','腿+肩','休息','胸+三头'],
+                '2': ['胸+三头','背+二头','休息','腿+肩','胸+三头','休息','背+二头'],
+                '3': ['胸+三头','背+二头','腿+肩','休息','胸+三头','背+二头','腿+肩'],
+                '4': ['胸+三头','背+二头','腿+肩','胸+三头','休息','背+二头','腿+肩']
+            };
+            if(plan === 'custom') {
+                 return ['mon','tue','wed','thu','fri','sat','sun'].map(d=>$(`bulk-cus-${d}`).value || '休息');
+            }
+            return map[plan] || map['1'];
+        }
+        
+        function dlBulk() {
+            const wb = XLSX.utils.table_to_book($('bulk-week-table'));
+            XLSX.writeFile(wb, '增肌计划.xlsx');
+        }
+        
+        /* 4. 喝水建议 */
+        function calcWater() {
+            const w = +$('water-weight').value;
+            if(!w) return;
+            const min = Math.round(w * 30);
+            const max = Math.round(w * 40);
+            $('water-result').textContent = `${min} - ${max} ml`;
+        }
+
+        /* Chart.js */
+        function getChartColors() {
+            return currentTheme === 'dark' ? {
+                text: '#e2e8f0', grid: '#334155', high: '#f43f5e', med: '#3b82f6', low: '#10b981'
+            } : {
+                text: '#64748b', grid: '#f1f5f9', high: '#ef4444', med: '#0ea5e9', low: '#10b981'
+            };
+        }
+
+        function renderCycleChart() {
+            if(!cycleDataCache) return;
+            const ctx = $('cycleChart').getContext('2d');
+            const colors = getChartColors();
+            const pointColors = cycleDataCache.levels.map(l => l === '高' ? colors.high : (l === '中' ? colors.med : colors.low));
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(14, 165, 233, 0.4)');
+            gradient.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
+
+            const config = {
+                type: 'line',
+                data: {
+                    labels: cycleDataCache.days,
+                    datasets: [{
+                        label: '每日碳水 (g)',
+                        data: cycleDataCache.carbs,
+                        borderColor: '#0ea5e9',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: pointColors,
+                        pointBorderColor: '#fff',
+                        pointRadius: 5,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: currentTheme==='dark'?'rgba(0,0,0,0.8)':'rgba(255,255,255,0.9)',
+                            titleColor: currentTheme==='dark'?'#fff':'#333',
+                            bodyColor: currentTheme==='dark'?'#ddd':'#666',
+                            borderColor: '#e2e8f0', borderWidth: 1, padding: 10,
+                            callbacks: {
+                                title: (ctx) => `第 ${ctx[0].dataIndex+1} 天 [${cycleDataCache.levels[ctx[0].dataIndex]}碳]`,
+                                label: (ctx) => [`🔥 碳水: ${ctx.formattedValue} g`, `💪 部位: ${cycleDataCache.parts[ctx.dataIndex]}`]
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: colors.text, maxTicksLimit: 10, autoSkip: true, font: { size: 10 } }, grid: { display: false } },
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text, font: { size: 10 } } }
+                    }
+                }
+            };
+            if(chartInstances['cycleChart']) chartInstances['cycleChart'].destroy();
+            chartInstances['cycleChart'] = new Chart(ctx, config);
+        }
+
+        function renderWeightChart(weightData) {
+            const ctx = $('weightChart').getContext('2d');
+            const colors = getChartColors();
+            const labels = weightData.map((_, i) => `W${i}`);
+            const goalData = weightData.map((_, i) => weightData[0] - (weightData[0] - weightData[weightData.length-1]) * (i / (weightData.length-1)));
+
+            const config = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '预测体重', data: weightData, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 6
+                        },
+                        {
+                            label: '理想线性', data: goalData, borderColor: colors.text, borderDash: [5, 5], borderWidth: 1, pointRadius: 0, fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                         legend: { labels: { color: colors.text, font: {size: 10} }, position: 'top', align: 'end' },
+                         tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.formattedValue} kg` } }
+                    },
+                    scales: {
+                        x: { ticks: { color: colors.text, autoSkip: true, maxTicksLimit: 8 }, grid: { display: false } },
+                        y: { grid: { color: colors.grid }, ticks: { color: colors.text } }
+                    }
+                }
+            };
+            if(chartInstances['weightChart']) chartInstances['weightChart'].destroy();
+            chartInstances['weightChart'] = new Chart(ctx, config);
+        }
+        
+        function openChartModal(canvasId) {
+            const originalChart = chartInstances[canvasId];
+            if (!originalChart) return;
+            const modal = $('chartModal');
+            modal.classList.remove('hidden-el');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                $('modalContent').classList.remove('scale-95');
+                $('modalContent').classList.add('scale-100');
+            }, 10);
+            $('modalTitle').textContent = canvasId === 'cycleChart' ? '🔥 28天热量波动全览' : '📉 12周体重趋势预测';
+            const ctx = $('largeChart').getContext('2d');
+            const newConfig = JSON.parse(JSON.stringify(originalChart.config));
+            newConfig.options.scales.x.ticks.font.size = 14;
+            newConfig.options.scales.y.ticks.font.size = 14;
+            newConfig.options.plugins.legend.display = true; 
+            
+            if(canvasId === 'cycleChart') {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 600);
+                gradient.addColorStop(0, 'rgba(14, 165, 233, 0.5)');
+                gradient.addColorStop(1, 'rgba(14, 165, 233, 0.0)');
+                newConfig.data.datasets[0].backgroundColor = gradient;
+            }
+            if (modalChartInstance) modalChartInstance.destroy();
+            modalChartInstance = new Chart(ctx, newConfig);
+        }
+
+        function closeChartModal(e, force = false) {
+            if (force || e.target.id === 'chartModal') {
+                const modal = $('chartModal');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                $('modalContent').classList.add('scale-95');
+                $('modalContent').classList.remove('scale-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden-el');
+                    if (modalChartInstance) { modalChartInstance.destroy(); modalChartInstance = null; }
+                }, 300);
+            }
+        }
+
+        document.addEventListener('dblclick', function(e) {
+            if(e.target.classList.contains('editable')) {
+                const cell = e.target;
+                const oldVal = cell.textContent;
+                const input = document.createElement('input');
+                input.value = oldVal;
+                input.className = 'w-full bg-white dark:bg-slate-700 text-center border border-sky-500 outline-none text-xs';
+                cell.textContent = '';
+                cell.appendChild(input);
+                input.focus();
+                const save = () => { cell.textContent = input.value || oldVal; };
+                input.onblur = save;
+                input.onkeydown = (ev) => { if(ev.key === 'Enter') save(); };
+            }
+        });
+        
+        function toggleBodyFatImage() { $('bodyfat-container').classList.toggle('hidden-el'); }
+        function toggleBodyTypeRef() { $('bodytype-ref').classList.toggle('hidden-el'); }
+
+        window.onload = function() {
+            initTheme();
+            selectBodyType('ectomorph', document.querySelector('[data-type="ectomorph"]'));
+            selectBulkOpt('pal-cards', document.querySelector('#pal-cards .card-selected'));
+            selectBulkOpt('exp-cards', document.querySelector('#exp-cards .card-selected'));
+            selectBulkOpt('surplus-cards', document.querySelector('#surplus-cards .card-selected'));
+            selectOrangeRatio('532', document.querySelector('.orange-ratio-card[data-ratio="532"]'));
+            calcWater();
+        };
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) e.preventDefault();
+        });
+    </script>
+</body>
+</html>
