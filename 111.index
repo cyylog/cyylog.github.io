@@ -2,3 +2,10 @@ spring.rabbitmq.primary.virtual-host=HN_HNGF_MAILL
 spring.rabbitmq.primary.username=HNGFMALL
 spring.rabbitmq.primary.password=HNGFMALL@#HUda6rq2
 spring.rabbitmq.primary.queue.name=HN_HNGF_MAILL
+
+
+
+
+
+
+curl -X POST "http://127.0.0.1/verifysvr/api/verify/QueryVerificationStatus" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"income_num\":\"12345678\"}"
