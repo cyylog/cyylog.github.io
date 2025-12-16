@@ -1,9 +1,26 @@
-spring.rabbitmq.primary.virtual-host=HN_HNGF_MAILL
-spring.rabbitmq.primary.username=HNGFMALL
-spring.rabbitmq.primary.password=HNGFMALL@#HUda6rq2
-spring.rabbitmq.primary.queue.name=HN_HNGF_MAILL
+rabbitmqctl add_vhost HN_HNGF_MAILL
+rabbitmqctl list_vhosts | grep HN_HNGF_MAILL
+rabbitmqctl add_user HNGFMALL 'HNGFMALL@#HUda6rq2'
+rabbitmqctl set_user_tags HNGFMALL administrator
+rabbitmqctl list_users | grep HNGFMALL
+rabbitmqctl set_permissions -p HN_HNGF_MAILL HNGFMALL ".*" ".*" ".*"
+rabbitmqctl list_permissions -p HN_HNGF_MAILL | grep HNGFMALL
+rabbitmqadmin -u admin -p 'qVD93057&w%rCy' -V HN_HNGF_MAILL declare queue name=HN_HNGF_MAILL durable=true
+rabbitmqctl list_queues -p HN_HNGF_MAILL | grep HN_HNGF_MAILL
+rabbitmqadmin -u admin -p 'qVD93057&w%rCy' -V HN_HNGF_MAILL declare exchange name=HN_HNGF_EXCHANGE type=topic durable=true
+rabbitmqadmin -u admin -p 'qVD93057&w%rCy' -V HN_HNGF_MAILL declare binding source=HN_HNGF_EXCHANGE destination=HN_HNGF_MAILL destination_type=queue routing_key=hn.hngf.maill
+rabbitmqctl list_bindings -p HN_HNGF_MAILL | grep HN_HNGF_MAILL
+echo "=== 虚拟主机列表 ==="
+rabbitmqctl list_vhosts | grep HN_HNGF_MAILL
 
+echo -e "\n=== 用户列表 ==="
+rabbitmqctl list_users | grep HNGFMALL
 
+echo -e "\n=== 队列列表 ==="
+rabbitmqctl list_queues -p HN_HNGF_MAILL
+
+echo -e "\n=== 权限列表 ==="
+rabbitmqctl list_permissions -p HN_HNGF_MAILL
 
 
 
