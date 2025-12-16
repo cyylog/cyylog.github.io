@@ -1,0 +1,4 @@
+spring.rabbitmq.primary.virtual-host=HN_HNGF_MAILL
+spring.rabbitmq.primary.username=HNGFMALL
+spring.rabbitmq.primary.password=HNGFMALL@#HUda6rq2
+spring.rabbitmq.primary.queue.name=HN_HNGF_MAILL
