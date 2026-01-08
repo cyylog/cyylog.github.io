@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>薄肌训练法 - 完整重量计算器</title>
+    <!-- 在 SheetJS 库后面添加 -->
+<script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+<!-- 新增：HTML2Canvas 库 -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.4;
+            padding: 10px;
+        }
+        /* 在现有的CSS中添加（可以放在.button-group样式附近） */
+.return-btn {
+    background-color: #7f8c8d !important;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.return-btn:hover {
+    background-color: #6c7b7d !important;
+}
+
+/* 或者修改现有的返回按钮样式 */
+.back-home-btn {
+    background-color: #7f8c8d;
+    color: white;
+   position: static !important;
+    margin: 0 !important;
+    padding: 4px 6px !important; /* 减小内边距 */
+    font-size: 10px !important;
+    width: 40px !important; /* 减小宽度 */
+    min-width: unset !important;
+    left: auto;
+    transform: none;
+    flex-shrink: 0;
+}
+
+.back-home-btn:hover {
+    background-color: #6c7b7d;
+    transform: translateY(-2px);
+}
+
+/* 标题区域样式调整 */
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px; /* 减少间距 */
+    margin-bottom: 15px;
+    padding: 0 5px;
+    position: relative;
+    min-width: 0;
+}
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+        }
+        
+        h1 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+       .input-section {
+    display: flex;
+    flex-wrap: wrap; /* 改为不换行 */
+    gap: 10px; /* 减小间距 */
+    margin-bottom: 5px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    align-items: center; /* 垂直居中 */
+}
+        
+        .input-group {
+            flex: 1;
+            min-width: 150px;
+            max-width: 200px; /* 设置最大宽度 */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #444;
+        }
+        
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+.button-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 0;
+    flex-wrap: wrap;
+    flex: 1 1 100%; /* 让按钮组占据整行 */
+    justify-content: flex-start; /* 左对齐 */
+}
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button.reset-btn {
+            background-color: #7f8c8d;
+        }
+        
+        button.reset-btn:hover {
+            background-color: #6c7b7d;
+        }
+        
+        button.excel-btn {
+            background-color: #27ae60;
+        }
+        
+        button.excel-btn:hover {
+            background-color: #219653;
+        }
+        
+        button.screenshot-btn {
+            background-color: #9b59b6;
+        }
+        
+        button.screenshot-btn:hover {
+            background-color: #8e44ad;
+        }
+        
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+        
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            font-size: 13px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .tab-content {
+            display: none;
+            overflow-x: auto;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .phase-header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border-radius: 4px;
+        }
+        
+        .phase-description {
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #3498db;
+            font-size: 12px;
+        }
+        
+        .week-section {
+            margin-bottom: 25px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .week-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .week-type {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        
+        .week-type.deload {
+            background-color: #f39c12;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            padding: 8px 5px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        td {
+            padding: 6px 5px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .exercises-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1px; /* 控制动作之间的间距 */
+}
+
+.exercise-item {
+    min-height: 20px; /* 设置最小高度，保持行高一致 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+        .day-header {
+            background-color: #e8f4fc;
+            font-weight: bold;
+            width: 15%;
+        }
+        
+        .exercise-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+        
+        .exercise-details {
+            min-height: 20px; /* 与左边的动作名称保持相同高度 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0; /* 移除底部边距 */
+        }
+        
+        .calculated-weight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .formula-info {
+color: #7f8c8d;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.2;
+    margin-top: 2px;
+        }
+        
+        .note {
+            color: #e67e22;
+            font-size: 11px;
+            font-style: italic;
+        }
+        
+        .rest-day {
+            text-align: center;
+            font-style: italic;
+            color: #7f8c8d;
+            background-color: #f9f9f9;
+        }
+        
+        .day-notes {
+            margin-top: 5px;
+            color: #e67e22;
+            font-size: 11px;
+            font-style: italic;
+        }
+        
+        /* 截图相关样式 */
+        .screenshot-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .screenshot-preview {
+            max-width: 90%;
+            max-height: 90%;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .screenshot-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-buttons {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .screenshot-btn-small {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .screenshot-btn-small.save {
+            background-color: #27ae60;
+        }
+        
+        .screenshot-btn-small.cancel {
+            background-color: #e74c3c;
+        }
+        
+        .screenshot-loading {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 11px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .excel-info {
+            background-color: #e8f6f3;
+            border: 1px solid #a3e4d7;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        /* ============ 统一标题样式 ============ */
+.title-container h1 {
+    color: #0ea5e9;
+    margin: 0;
+    font-weight: 700;
+    text-align: center;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.6rem; /* 统一字体大小 */
+}
+
+/* 占位div样式 */
+.placeholder-btn {
+    flex-shrink: 0;
+    width: 60px;
+}
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+.title-container h1 {
+        font-size: 1.4rem !important; /* 移动端字体稍小 */
+        margin: 0 8px !important;
+    }
+    
+   .back-home-btn {
+    background-color: #94A3B8; /* 统一的灰色 */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 32px;
+    min-width: 60px;
+}
+
+.back-home-btn:hover {
+    background-color: #7f8c8d;
+}
+    
+    /* 将现有的 h1 和标题相关样式改为文件二中的 header 样式 */
+.title-container h1 {
+color: #0ea5e9 !important;
+    margin-bottom: 4px !important;
+    font-weight: 700 !important;
+    font-size: 1.8rem !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 0 0 15px; /* 左对齐，左边距15px */
+}
+    
+    .title-container div {
+        width: 10px; /* 调整占位宽度，与按钮对称 */
+        flex-shrink: 0;
+    }
+            .container {
+                padding: 10px;
+            }
+            
+            .input-section {
+                flex-wrap: wrap; /* 在小屏幕时换行 */
+                gap: 10px;
+            }
+             .input-group {
+        min-width: calc(50% - 8px); /* 两列布局 */
+        max-width: none;
+    }
+             .button-group {
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+            
+             button {
+        flex: 1;
+        min-width: 100px;
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+            
+            table {
+                font-size: 11px;
+            }
+            
+            th, td {
+                padding: 4px 3px;
+            }
+            
+            .screenshot-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .screenshot-btn-small {
+                width: 80%;
+            }
+            
+        }
+    </style>
+    <!-- 引入SheetJS库用于Excel导出 -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 替换原有的 <h1>橙子薄肌训练计划</h1> -->
+<div class="title-container">
+    <!-- 返回按钮 -->
+    <button class="back-home-btn" onclick="goBackToHome()">
+        返回
+    </button>
+    
+    <!-- 标题 -->
+    <h1>橙子薄肌训练计划</h1>
+    
+    <!-- 占位div使标题居中 -->
+    <div class="placeholder-btn" style="width: 30px; opacity: 0; pointer-events: none;"></div>
+</div>
+        <div class="input-section">
+            <div class="input-group">
+                <label for="wotui">平板卧推极限重量 (kg):</label>
+                <input type="number" id="wotui" value="100" min="0" step="0.5">
+            </div>
+            
+            <div class="input-group">
+                <label for="shendun">深蹲极限重量 (kg):</label>
+                <input type="number" id="shendun" value="100" min="0" step="0.5">
+            </div>
+            
+            <div class="input-group">
+                <label for="yingla">硬拉极限重量 (kg):</label>
+                <input type="number" id="yingla" value="100" min="0" step="0.5">
+            </div>
+            
+            <div class="button-group">
+                <button id="calculate-btn">计算所有重量</button>
+                <button class="reset-btn" id="reset-btn">重置</button>
+                <button class="excel-btn" id="excel-btn">下载Excel文件</button>
+                <button class="screenshot-btn" id="screenshot-btn">保存长截图</button>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="phase1"> 肌肥大阶段</div>
+            <div class="tab" data-tab="phase2">增肌增力阶段</div>
+            <div class="tab" data-tab="phase3">冲击阶段</div>
+        </div>
+        
+        <div id="phase1" class="tab-content active">
+            <div class="phase-header">第一阶段: 肌肥大训练 (8周)</div>
+            <div class="phase-description">
+                本阶段注重肌肉肥大，使用中等重量高次数训练。减载周（第8周）重量为正常周的90%，组数减少。
+            </div>
+            <div id="phase1-content">
+                <!-- 内容将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="phase2" class="tab-content">
+            <div class="phase-header">第二阶段: 增肌增力训练 (8周)</div>
+            <div class="phase-description">
+                本阶段结合肌肉生长和力量提升，使用金字塔式加重方法。包含减载周（第4周和第8周），重量为正常周的90%。
+            </div>
+            <div id="phase2-content">
+                <!-- 内容将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div id="phase3" class="tab-content">
+            <div class="phase-header">第三阶段: 冲击期 (8周)</div>
+            <div class="phase-description">
+                本阶段专注于提升极限力量，使用高强度低次数训练。包含减载周（第4周和第8周），重量为正常周的90%。
+            </div>
+            <div id="phase3-content">
+                <!-- 内容将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #2c3e50;"></div>
+                <span>正常训练周</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f39c12;"></div>
+                <span>减载周 (重量减少10%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e74c3c;"></div>
+                <span>高强度周</span>
+            </div>
+            <div class="legend-item">
+                <span class="calculated-weight">红色数字</span>
+                <span>为计算后的实际重量</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 截图预览弹窗 -->
+    <div class="screenshot-overlay" id="screenshot-overlay">
+        <div class="screenshot-preview" id="screenshot-preview">
+            <div class="screenshot-loading" id="screenshot-loading">
+                正在生成截图...
+            </div>
+        </div>
+        <div class="screenshot-buttons" id="screenshot-buttons" style="display: none;">
+            <button class="screenshot-btn-small save" id="save-screenshot-btn">保存到手机</button>
+            <button class="screenshot-btn-small cancel" id="cancel-screenshot-btn">取消</button>
+        </div>
+    </div>
+
+    <script>
+        // 完整训练计划数据
+        const fullTrainingPlan = {
+            phase1: [
+                {
+                    week: "第1-7周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸",
+                            
+                            exercises: [
+                                { name: "直腿杠铃平板卧推", formula: "wotui*0.7", sets: "4", reps: "8" },
+                                { name: "杠铃上斜卧推", formula: "", sets: "4", reps: "8" },
+                                { name: "哑铃上斜卧推", formula: "", sets: "4", reps: "8" },
+                                { name: "蝴蝶机夹胸", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背",
+                            exercises: [
+                                { name: "海豹划船", formula: "", sets: "4", reps: "10" },
+                                { name: "夹肘反手划船", formula: "", sets: "4", reps: "8" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "反手高位下拉", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天: 肩",
+                            
+                            exercises: [
+                                { name: "俯身哑铃飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机反式飞鸟", formula: "", sets: "4", reps: "10-12" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "12-15" }
+                            ]
+                        },
+                        {
+                            day: "第四天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第五天: 胸+手臂",
+                            
+                            exercises: [
+                                { name: "直腿杠铃平板卧推", formula: "wotui*0.725", sets: "4", reps: "8" },
+                                { name: "锤式哑铃双手弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "杠铃弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "绳索下压", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第六天: 腿+腹部",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.7", sets: "4", reps: "8" },
+                                { name: "罗马尼亚硬拉", formula: "", sets: "4", reps: "8" },
+                                { name: "绳索卷腹", formula: "", sets: "4", reps: "12" },
+                                { name: "杠铃片卷腹", formula: "", sets: "4", reps: "12-15" }
+                            ]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第8周 (减载周)",
+                    type: "deload",
+                    days: [
+                        {
+                            day: "第一天: 胸",
+                            
+                            exercises: [
+                                { name: "无腿平板卧推", formula: "wotui*0.7*0.9", sets: "2", reps: "8" },
+                                { name: "杠铃上斜卧推", formula: "", sets: "2", reps: "8" },
+                                { name: "哑铃上斜卧推", formula: "", sets: "2", reps: "8" },
+                                { name: "蝴蝶机夹胸", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背",
+                            exercises: [
+                                { name: "海豹划船", formula: "", sets: "2", reps: "10" },
+                                { name: "夹肘反手划船", formula: "", sets: "4", reps: "8" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "反手高位下拉", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天: 肩",
+                            
+                            exercises: [
+                                { name: "俯身哑铃飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机反式飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第四天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第五天: 胸+手臂",
+                            
+                            exercises: [
+                                { name: "直腿杠铃卧推", formula: "wotui*0.725*0.9", sets: "2", reps: "8" },
+                                { name: "锤式哑铃双手弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "杠铃弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "绳索下压", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第六天: 腿+腹部",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.7*0.9", sets: "2", reps: "8" },
+                                { name: "罗马尼亚硬拉", formula: "", sets: "2", reps: "8" },
+                                { name: "绳索卷腹", formula: "", sets: "4", reps: "12" },
+                                { name: "杠铃片卷腹", formula: "", sets: "4", reps: "12-15" }
+                            ]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                }
+            ],
+            
+            phase2: [
+                {
+                    week: "第1周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.83", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.725", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.65", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.84", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.725", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.83", sets: "3", reps: "4" },
+                                { name: "深蹲", formula: "shendun*0.725", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第2周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.85", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.75", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.7", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.86", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.75", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.85", sets: "3", reps: "4" },
+                                { name: "深蹲", formula: "shendun*0.75", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第3周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.87", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.775", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.75", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.88", sets: "3", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.775", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.85", sets: "3", reps: "4" },
+                                { name: "深蹲", formula: "shendun*0.75", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第4周 (减载周)",
+                    type: "deload",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.87*0.9", sets: "2", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.775*0.9", sets: "2", reps: "4" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.75*0.9", sets: "2", reps: "4"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.88*0.9", sets: "2", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.775*0.9", sets: "2", reps: "4" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.85*0.9", sets: "2", reps: "4" },
+                                { name: "深蹲", formula: "shendun*0.75*0.9", sets: "2", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第5周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.9", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.80", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.9", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.91", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.80", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.9", sets: "3", reps: "3" },
+                                { name: "深蹲", formula: "shendun*0.85", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第6周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.92", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.825", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.92", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.93", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.825", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.93", sets: "3", reps: "3" },
+                                { name: "深蹲", formula: "shendun*0.825", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第7周",
+                    type: "high",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.94", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.835", sets: "3", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.94", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.95", sets: "3", reps: "3" },
+                                { name: "平板卧推", formula: "wotui*0.835", sets: "3", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.95", sets: "3", reps: "3" },
+                                { name: "深蹲", formula: "shendun*0.835", sets: "3", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第8周 (减载周)",
+                    type: "deload",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.94*0.9", sets: "2", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.835*0.9", sets: "2", reps: "7" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.94*0.9", sets: "2", reps: "4"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.95*0.9", sets: "2", reps: "4" },
+                                { name: "平板卧推", formula: "wotui*0.835*0.9", sets: "2", reps: "7" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.95*0.9", sets: "2", reps: "4" },
+                                { name: "深蹲", formula: "shendun*0.835*0.9", sets: "2", reps: "7" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                }
+            ],
+            
+            phase3: [
+                {
+                    week: "第1周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.87", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.78", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.87", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.885", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.78", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.87", sets: "3", reps: "2" },
+                                { name: "深蹲", formula: "shendun*0.78", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第2周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.9", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.80", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.885", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.915", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.80", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.885", sets: "3", reps: "2" },
+                                { name: "深蹲", formula: "shendun*0.80", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第3周",
+                    type: "normal",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.93", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.81", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.9", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.945", sets: "3", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.825", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.9", sets: "3", reps: "2" },
+                                { name: "深蹲", formula: "shendun*0.85", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第4周 (减载周)",
+                    type: "deload",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.93*0.9", sets: "2", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.81*0.9", sets: "2", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.9*0.9", sets: "2", reps: "2"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.945*0.9", sets: "2", reps: "2" },
+                                { name: "平板卧推", formula: "wotui*0.825*0.9", sets: "2", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.9*0.9", sets: "2", reps: "2" },
+                                { name: "深蹲", formula: "shendun*0.85*0.9", sets: "2", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第5周",
+                    type: "high",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.975", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.855", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.975", sets: "3", reps: "3"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*0.985", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.865", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.915", sets: "3", reps: "3" },
+                                { name: "深蹲", formula: "shendun*0.865", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第6周",
+                    type: "high",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*0.995", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.875", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*0.99", sets: "3", reps: "1"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*1.005", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.885", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*0.995", sets: "3", reps: "1" },
+                                { name: "深蹲", formula: "shendun*0.945", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第7周",
+                    type: "high",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*1.015", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.895", sets: "3", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*1.015", sets: "3", reps: "1"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*1.025", sets: "3", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.905", sets: "3", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*1.025", sets: "3", reps: "1" },
+                                { name: "深蹲", formula: "shendun*0.975", sets: "3", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                },
+                {
+                    week: "第8周 (减载周)",
+                    type: "deload",
+                    days: [
+                        {
+                            day: "第一天: 胸+中束",
+                            
+                            exercises: [
+                                { name: "平板卧推", formula: "wotui*1.015*0.9", sets: "2", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.895*0.9", sets: "2", reps: "5" },
+                                { name: "站姿上斜凳侧平举", formula: "", sets: "4", reps: "10" },
+                                { name: "坐姿侧平举", formula: "", sets: "4", reps: "15" }
+                            ]
+                        },
+                        {
+                            day: "第二天: 背+肩后束",
+                            exercises: [
+                                { name: "超程硬拉", formula: "yingla*1.015*0.9", sets: "2", reps: "1"},
+                                { name: "T杆划船", formula: "", sets: "4", reps: "10" },
+                                { name: "对握高位下拉", formula: "", sets: "4", reps: "10" },
+                                { name: "俯身后束飞鸟", formula: "", sets: "4", reps: "12" },
+                                { name: "蝴蝶机后束飞鸟", formula: "", sets: "4", reps: "10" }
+                            ]
+                        },
+                        {
+                            day: "第三天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第四天: 胸+手臂",
+                            exercises: [
+                                { name: "杠铃卧推", formula: "wotui*1.025*0.9", sets: "2", reps: "1" },
+                                { name: "平板卧推", formula: "wotui*0.905*0.9", sets: "2", reps: "5" },
+                                { name: "锤式弯举", formula: "", sets: "4", reps: "10" },
+                                { name: "上斜杠铃臂屈伸", formula: "", sets: "4", reps: "10" },
+                                { name: "三头绳索下压", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第五天: 腿+腹",
+                            exercises: [
+                                { name: "深蹲", formula: "shendun*1.025*0.9", sets: "2", reps: "1" },
+                                { name: "深蹲", formula: "shendun*0.975*0.9", sets: "2", reps: "5" },
+                                { name: "绳索跪姿卷腹", formula: "", sets: "4", reps: "15" },
+                                { name: "侧身高位下拉", formula: "", sets: "4", reps: "12" }
+                            ]
+                        },
+                        {
+                            day: "第六天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        },
+                        {
+                            day: "第七天",
+                            exercises: [{ name: "休息日", isRest: true }]
+                        }
+                    ]
+                }
+            ]
+        };
+        
+        // DOM元素
+        const wotuiInput = document.getElementById('wotui');
+        const shendunInput = document.getElementById('shendun');
+        const yinglaInput = document.getElementById('yingla');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const excelBtn = document.getElementById('excel-btn');
+        const screenshotBtn = document.getElementById('screenshot-btn');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const phase1Content = document.getElementById('phase1-content');
+        const phase2Content = document.getElementById('phase2-content');
+        const phase3Content = document.getElementById('phase3-content');
+        
+        // 截图相关DOM元素
+        const screenshotOverlay = document.getElementById('screenshot-overlay');
+        const screenshotPreview = document.getElementById('screenshot-preview');
+        const screenshotLoading = document.getElementById('screenshot-loading');
+        const screenshotButtons = document.getElementById('screenshot-buttons');
+        const saveScreenshotBtn = document.getElementById('save-screenshot-btn');
+        const cancelScreenshotBtn = document.getElementById('cancel-screenshot-btn');
+        
+        // 当前重量变量
+        let currentWotui = 100;
+        let currentShendun = 120;
+        let currentYingla = 140;
+        
+        // 计算重量函数
+        function calculateWeight(formula, wotui, shendun, yingla) {
+            if (!formula) return null;
+            
+            let expression = formula;
+            expression = expression.replace(/wotui/g, wotui);
+            expression = expression.replace(/shendun/g, shendun);
+            expression = expression.replace(/yingla/g, yingla);
+            
+            try {
+                // 简单的表达式求值
+                const result = eval(expression);
+                return Math.round(result * 10) / 10; // 保留一位小数
+            } catch (e) {
+                console.error("计算错误:", e);
+                return null;
+            }
+        }
+        
+        // 生成训练计划表格
+        function generateTrainingSection(phaseData, wotui, shendun, yingla) {
+            let html = '';
+            
+            phaseData.forEach(weekPlan => {
+                // 周标题
+                let weekTypeClass = "";
+                let weekTypeText = "";
+                
+                if (weekPlan.type === "deload") {
+                    weekTypeClass = "deload";
+                    weekTypeText = "减载周";
+                } else if (weekPlan.type === "high") {
+                    weekTypeClass = "";
+                    weekTypeText = "高强度周";
+                } else {
+                    weekTypeClass = "";
+                    weekTypeText = "正常周";
+                }
+                
+                html += `<div class="week-section">`;
+                html += `<div class="week-header">`;
+                html += `<span>${weekPlan.week}</span>`;
+                html += `<span class="week-type ${weekTypeClass}">${weekTypeText}</span>`;
+                html += `</div>`;
+                
+                html += `<table>`;
+                html += `<thead>`;
+                html += `<tr>`;
+                html += `<th width="15%">训练日</th>`;
+                html += `<th width="45%">训练内容</th>`;
+                html += `<th width="40%">重量/次数/组数</th>`;
+                html += `</tr>`;
+                html += `</thead>`;
+                html += `<tbody>`;
+                
+                // 每天的训练内容
+                weekPlan.days.forEach(dayPlan => {
+                    // 如果是休息日
+                    if (dayPlan.exercises[0].isRest) {
+                        html += `<tr>`;
+                        html += `<td class="day-header">${dayPlan.day}</td>`;
+                        html += `<td colspan="2" class="rest-day">${dayPlan.exercises[0].name}</td>`;
+                        html += `</tr>`;
+                    } else {
+                        // 生成左边训练动作列表
+                        const exerciseItems = dayPlan.exercises.map(exercise => {
+                            if (exercise.formula) {
+                                let item = `<div class="exercise-item">`;
+                                item += `<div class="exercise-name">${exercise.name}</div>`;
+                                
+                                if (exercise.note) {
+                                    item += `<div class="formula-info">${exercise.note}</div>`;
+                                }
+                                
+                                item += `</div>`;
+                                return item;
+                            } else {
+                                return `<div class="exercise-item">
+                                    <div class="exercise-name">${exercise.name}</div>
+                                </div>`;
+                            }
+                        }).join('');
+                        
+                        // 生成右边重量信息
+                        const weightItems = dayPlan.exercises.map(exercise => {
+                            if (exercise.formula) {
+                                const weight = calculateWeight(exercise.formula, wotui, shendun, yingla);
+                                return `<div class="exercise-details">
+                                    <span><span class="calculated-weight">${weight}kg</span> × ${exercise.reps}次 × ${exercise.sets}组</span>
+                                </div>`;
+                            } else {
+                                return `<div class="exercise-details">
+                                    <span>${exercise.reps}次 × ${exercise.sets}组</span>
+                                </div>`;
+                            }
+                        }).join('');
+                        
+                        html += `<tr>`;
+                        html += `<td class="day-header">${dayPlan.day}</td>`;
+                        html += `<td><div class="exercises-list">${exerciseItems}</div></td>`;
+                        html += `<td><div class="exercises-list">${weightItems}`;
+                        
+                        if (dayPlan.note) {
+                            html += `<div class="day-notes">${dayPlan.note}</div>`;
+                        }
+                        
+                        html += `</div></td>`;
+                        html += `</tr>`;
+                    }
+                });
+                
+                html += `</tbody>`;
+                html += `</table>`;
+                html += `</div>`;
+            });
+            
+            return html;
+        }
+        
+        // 更新所有训练计划
+        function updateAllTrainingPlans() {
+            currentWotui = parseFloat(wotuiInput.value) || 100;
+            currentShendun = parseFloat(shendunInput.value) || 120;
+            currentYingla = parseFloat(yinglaInput.value) || 140;
+            
+            // 更新第一阶段
+            phase1Content.innerHTML = generateTrainingSection(fullTrainingPlan.phase1, currentWotui, currentShendun, currentYingla);
+            
+            // 更新第二阶段
+            phase2Content.innerHTML = generateTrainingSection(fullTrainingPlan.phase2, currentWotui, currentShendun, currentYingla);
+            
+            // 更新第三阶段
+            phase3Content.innerHTML = generateTrainingSection(fullTrainingPlan.phase3, currentWotui, currentShendun, currentYingla);
+        }
+        
+        // 重置输入值为默认值
+        function resetInputs() {
+            wotuiInput.value = 100;
+            shendunInput.value = 120;
+            yinglaInput.value = 140;
+            updateAllTrainingPlans();
+        }
+        
+        // 导出Excel文件
+        function exportToExcel() {
+            // 创建Excel工作簿
+            const wb = XLSX.utils.book_new();
+            
+            // 为每个阶段创建工作表
+            createPhaseSheet(wb, "第一阶段-肌肥大训练", fullTrainingPlan.phase1, 1);
+            createPhaseSheet(wb, "第二阶段-增肌增力训练", fullTrainingPlan.phase2, 2);
+            createPhaseSheet(wb, "第三阶段-冲击期", fullTrainingPlan.phase3, 3);
+            
+            // 创建汇总工作表
+            createSummarySheet(wb);
+            
+            // 生成文件名
+            const fileName = `薄肌训练计划_卧推${currentWotui}kg_深蹲${currentShendun}kg_硬拉${currentYingla}kg.xlsx`;
+            
+            // 导出Excel文件
+            XLSX.writeFile(wb, fileName);
+        }
+        
+        // 创建阶段工作表
+        function createPhaseSheet(wb, sheetName, phaseData, phaseNum) {
+            const data = [];
+            
+            // 添加标题行
+            data.push(["薄肌训练法 - " + sheetName]);
+            data.push([]);
+            data.push(["个人极限重量", `卧推: ${currentWotui}kg`, `深蹲: ${currentShendun}kg`, `硬拉: ${currentYingla}kg`]);
+            data.push([]);
+            
+            // 遍历每一周
+            phaseData.forEach(weekPlan => {
+                // 添加周标题
+                let weekType = "";
+                if (weekPlan.type === "deload") {
+                    weekType = " (减载周)";
+                } else if (weekPlan.type === "high") {
+                    weekType = " (高强度周)";
+                }
+                
+                data.push([weekPlan.week + weekType]);
+                data.push(["训练日", "训练动作", "重量(kg)", "次数", "组数", "备注"]);
+                
+                // 遍历每一天
+                weekPlan.days.forEach(dayPlan => {
+                    // 如果是休息日
+                    if (dayPlan.exercises[0].isRest) {
+                        data.push([dayPlan.day, "休息日", "", "", "", ""]);
+                    } else {
+                        // 遍历每个动作
+                        dayPlan.exercises.forEach((exercise, index) => {
+                            const row = [
+                                index === 0 ? dayPlan.day : "", // 只在第一个动作显示日期
+                                exercise.name,
+                                exercise.formula ? calculateWeight(exercise.formula, currentWotui, currentShendun, currentYingla) : "",
+                                exercise.reps,
+                                exercise.sets,
+                                exercise.note || (dayPlan.note && index === 0 ? dayPlan.note : "")
+                            ];
+                            data.push(row);
+                        });
+                    }
+                    data.push([]); // 每天之间加空行
+                });
+                data.push([]); // 每周之间加空行
+            });
+            
+            // 创建工作表
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            // 设置列宽
+            const colWidths = [
+                {wch: 15}, // 训练日
+                {wch: 25}, // 训练动作
+                {wch: 12}, // 重量
+                {wch: 8},  // 次数
+                {wch: 8},  // 组数
+                {wch: 25}  // 备注
+            ];
+            ws['!cols'] = colWidths;
+            
+            // 添加到工作簿
+            XLSX.utils.book_append_sheet(wb, ws, sheetName);
+        }
+        
+        // 创建汇总工作表
+        function createSummarySheet(wb) {
+            const data = [];
+            
+            // 添加标题
+            data.push(["薄肌训练法 - 训练计划汇总"]);
+            data.push([]);
+            data.push(["个人信息"]);
+            data.push(["平板卧推极限重量(kg):", currentWotui]);
+            data.push(["深蹲极限重量(kg):", currentShendun]);
+            data.push(["硬拉极限重量(kg):", currentYingla]);
+            data.push([]);
+            
+            // 训练阶段概览
+            data.push(["训练阶段概览"]);
+            data.push(["阶段", "周数", "主要内容", "减载周"]);
+            data.push(["第一阶段: 肌肥大训练", "8周", "中等重量高次数，注重肌肉生长", "第8周"]);
+            data.push(["第二阶段: 增肌增力训练", "8周", "金字塔式加重，结合肌肉生长和力量提升", "第4周, 第8周"]);
+            data.push(["第三阶段: 冲击期", "8周", "高强度低次数，提升极限力量", "第4周, 第8周"]);
+            data.push([]);
+            
+            // 重要说明
+            data.push(["重要说明"]);
+            data.push(["1. 减载周重量为正常周的90%"]);
+            data.push(["2. 超程硬拉每次增加5公斤"]);
+            data.push(["3. 注意离心控制，特别是在胸部和肩部训练日"]);
+            data.push(["4. 根据自身情况适当调整重量和次数"]);
+            data.push(["5. 确保充分热身和恢复"]);
+            
+            // 创建工作表
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            // 设置列宽
+            const colWidths = [
+                {wch: 30}, // 第一列
+                {wch: 15}, // 第二列
+                {wch: 30}, // 第三列
+                {wch: 20}  // 第四列
+            ];
+            ws['!cols'] = colWidths;
+            
+            // 添加到工作簿
+            XLSX.utils.book_append_sheet(wb, ws, "汇总");
+        }
+        
+        // 生成训练计划截图
+        function generateScreenshot() {
+            // 显示截图弹窗
+            screenshotOverlay.style.display = 'flex';
+            screenshotLoading.style.display = 'block';
+            screenshotButtons.style.display = 'none';
+            screenshotPreview.innerHTML = '<div class="screenshot-loading" id="screenshot-loading">正在生成截图...</div>';
+            
+            // 获取当前激活的标签页
+            const activeTab = document.querySelector('.tab.active');
+            const activeTabId = activeTab.getAttribute('data-tab');
+            const activeTabContent = document.getElementById(activeTabId);
+            
+            // 获取当前阶段名称
+            let phaseName = '';
+            switch(activeTabId) {
+                case 'phase1':
+                    phaseName = '肌肥大阶段';
+                    break;
+                case 'phase2':
+                    phaseName = '增肌增力阶段';
+                    break;
+                case 'phase3':
+                    phaseName = '冲击阶段';
+                    break;
+            }
+            
+            // 获取完整的容器
+            const container = document.querySelector('.container');
+            
+            // 使用html2canvas生成截图
+            html2canvas(container, {
+                scale: 2, // 提高截图质量
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#ffffff',
+                scrollY: -window.scrollY, // 处理滚动
+                onclone: function(clonedDoc) {
+                    // 确保只显示当前激活的标签页
+                    const clonedTabs = clonedDoc.querySelectorAll('.tab-content');
+                    clonedTabs.forEach(tab => {
+                        if (tab.id === activeTabId) {
+                            tab.style.display = 'block';
+                            tab.classList.add('active');
+                        } else {
+                            tab.style.display = 'none';
+                            tab.classList.remove('active');
+                        }
+                    });
+                    
+                    // 更新标签页标题以显示当前阶段
+                    const clonedTitle = clonedDoc.querySelector('h1');
+                    clonedTitle.textContent = `橙子薄肌训练计划 - ${phaseName}`;
+                }
+            }).then(canvas => {
+                // 创建图片元素
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png', 1.0);
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                
+                // 清空预览区域并添加图片
+                screenshotPreview.innerHTML = '';
+                screenshotPreview.appendChild(img);
+                
+                // 隐藏加载提示，显示按钮
+                screenshotLoading.style.display = 'none';
+                screenshotButtons.style.display = 'flex';
+                
+                // 设置保存图片的函数
+                saveScreenshotBtn.onclick = function() {
+                    saveImageToDevice(img.src, `薄肌训练计划_${phaseName}_${currentWotui}kg卧推_${currentShendun}kg深蹲_${currentYingla}kg硬拉.png`);
+                };
+            }).catch(error => {
+                console.error('截图生成失败:', error);
+                screenshotPreview.innerHTML = '<div class="screenshot-loading">截图生成失败，请重试</div>';
+                setTimeout(() => {
+                    screenshotOverlay.style.display = 'none';
+                }, 2000);
+            });
+        }
+        
+        // 保存图片到设备
+        function saveImageToDevice(dataUrl, filename) {
+            // 创建一个临时的a标签用于下载
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = filename;
+            
+            // 触发点击事件下载图片
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 关闭截图预览
+            screenshotOverlay.style.display = 'none';
+         
+        }
+        // 返回首页函数
+function goBackToHome() {
+    // 方法1：直接返回上一页（如果是从首页跳转过来的）
+    // window.history.back();
+    
+    // 方法2：跳转到指定的首页URL
+    // 注意：根据你的实际部署路径修改
+    window.location.href = "index.html";
+    
+    // 方法3：如果使用相对路径
+    // window.location.href = "../index.html";
+    
+    // 方法4：如果部署在子目录
+    // window.location.href = "/index.html";
+}
+        // 初始化
+        function init() {
+            // 初始计算
+            updateAllTrainingPlans();
+            
+            // 计算按钮事件
+            calculateBtn.addEventListener('click', updateAllTrainingPlans);
+            
+            // 重置按钮事件
+            resetBtn.addEventListener('click', resetInputs);
+            
+            // Excel导出按钮事件
+            excelBtn.addEventListener('click', exportToExcel);
+            
+            // 截图按钮事件
+            screenshotBtn.addEventListener('click', generateScreenshot);
+            
+            // 取消截图按钮事件
+            cancelScreenshotBtn.addEventListener('click', function() {
+                screenshotOverlay.style.display = 'none';
+            });
+            
+            // 点击弹窗背景关闭
+            screenshotOverlay.addEventListener('click', function(e) {
+                if (e.target === screenshotOverlay) {
+                    screenshotOverlay.style.display = 'none';
+                }
+            });
+            
+            // 输入框改变时自动计算
+            wotuiInput.addEventListener('input', updateAllTrainingPlans);
+            shendunInput.addEventListener('input', updateAllTrainingPlans);
+            yinglaInput.addEventListener('input', updateAllTrainingPlans);
+            
+            // 标签页切换
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // 移除所有active类
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // 添加active类到当前标签
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
